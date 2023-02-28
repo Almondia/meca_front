@@ -1,5 +1,11 @@
 import type { AppProps } from 'next/app';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+import { RecoilRoot } from 'recoil';
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <RecoilRoot>
+      <Component {...pageProps} />
+    </RecoilRoot>
+  );
 }
