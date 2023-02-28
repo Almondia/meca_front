@@ -14,7 +14,7 @@
     "node": true,
     "es2021": true
   },
-  "ignorePatterns": ["node_modules/", "public"],
+  "ignorePatterns": ["node_modules/", "public", ".next", "next.config.js"],
   "extends": [
     "next/core-web-vitals",
     "airbnb",
