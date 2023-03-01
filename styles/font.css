@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'SCDream4';
+  font-weight: 400;
+  src: url('/fonts/SCDream4.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Sahitya';
+  font-weight: 700;
+  src: url('/fonts/Sahitya-Bold.otf') format('truetype');
+}
