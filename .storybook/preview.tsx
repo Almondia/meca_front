@@ -5,6 +5,7 @@ import ThemeProvider from '../styles/ThemeProvider';
 import themeState from '../atoms/common';
 import { DecoratorFn } from '@storybook/react';
 import React from 'react';
+import '../styles/font.css';
 
 const customViewports = {
   mobile: {
