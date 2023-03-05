@@ -19,17 +19,52 @@ export const COLOR = {
 };
 
 export const MEDIA = {
+  /**
+   * media: (max-width: 576px)
+   */
   mobile: '(max-width: 576px)',
+  /**
+   * media: (max-width: 992px)
+   */
   tablet: '(max-width: 992px)',
 };
 
 export const FONT_SIZE = {
+  /**
+   * size: 1.5rem : 24px;
+   */
   huge: '1.5rem',
+  /**
+   * size: 1.125rem : 18px;
+   */
   large: '1.125rem',
+  /**
+   * size: 1rem : 16px;
+   */
   main: '1rem',
+  /**
+   * size: 0.875rem : 14px;
+   */
   sub: '0.875rem',
+  /**
+   * size: 0.75rem : 12px;
+   */
   caption: '0.75rem',
+  /**
+   * size: 0.625rem : 10px;
+   */
   overline: '0.625rem',
+};
+
+export const FONT_WEIGHT = {
+  /**
+   * weight: 400
+   */
+  regular: 400,
+  /**
+   * weight: 600
+   */
+  bold: 600,
 };
 
 export const SHADOW = {

@@ -1,15 +1,14 @@
-import { DefaultTheme } from 'styled-components';
+import { BORDER, COLOR, FONT_SIZE, FONT_WEIGHT, MEDIA, SHADOW } from './constants';
 
-import { BORDER, COLOR, FONT_SIZE, MEDIA, SHADOW } from './constants';
-
-export interface Theme extends DefaultTheme {
+export interface Theme {
   backgroundColor: string;
   textColor: string;
   brandColor: string;
-  grey: string;
-  lightGrey: string;
+  gray: string;
+  lightGray: string;
   media: typeof MEDIA;
   fontSize: typeof FONT_SIZE;
+  fontWeight: typeof FONT_WEIGHT;
   border: typeof BORDER;
   shadow: {
     normal: string;
@@ -17,9 +16,10 @@ export interface Theme extends DefaultTheme {
   };
 }
 
-const commonTheme: Pick<Theme, 'media' | 'fontSize' | 'border'> = {
+const commonTheme: Pick<Theme, 'media' | 'fontSize' | 'fontWeight' | 'border'> = {
   media: MEDIA,
   fontSize: FONT_SIZE,
+  fontWeight: FONT_WEIGHT,
   border: BORDER,
 };
 
@@ -27,8 +27,8 @@ const lightTheme: Theme = {
   backgroundColor: COLOR.bgLight,
   textColor: COLOR.txtDark,
   brandColor: COLOR.brand1,
-  grey: COLOR.gray600,
-  lightGrey: COLOR.gray100,
+  gray: COLOR.gray600,
+  lightGray: COLOR.gray100,
   shadow: {
     normal: SHADOW.normalDark,
     bold: SHADOW.boldDark,
@@ -40,8 +40,8 @@ const darkTheme: Theme = {
   backgroundColor: COLOR.bgDark,
   textColor: COLOR.txtLight,
   brandColor: COLOR.brand2,
-  grey: COLOR.gray200,
-  lightGrey: COLOR.gray800,
+  gray: COLOR.gray200,
+  lightGray: COLOR.gray800,
   shadow: {
     normal: SHADOW.normalLight,
     bold: SHADOW.boldLight,
