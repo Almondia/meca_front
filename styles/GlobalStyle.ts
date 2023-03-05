@@ -40,13 +40,13 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     a {
-        color: ${({ grey }) => grey};
+        color: ${({ gray }) => gray};
         text-decoration: none;
         outline: none
     }
 
     a:hover, a:active {
-        color: ${({ grey }) => grey};
+        color: ${({ gray }) => gray};
         text-decoration: none;
         background-color: transparent;
     }
@@ -67,19 +67,19 @@ const GlobalStyle = createGlobalStyle<Theme>`
 
     h2 {
         font-size: 3.625rem;
-        font-weight: 600;
+        font-weight: ${({ fontWeight }) => fontWeight.bold};
         line-height: 4.31rem;
     }
 
     h4 {
         font-size: 2rem;
-        font-weight: 600;
+        font-weight: ${({ fontWeight }) => fontWeight.bold};
         line-height: 2.375rem;
     }
 
     h5 {
         font-size: 1.5rem;
-        font-weight: 600;
+        font-weight: ${({ fontWeight }) => fontWeight.bold};
     }
 `;
 export default GlobalStyle;
