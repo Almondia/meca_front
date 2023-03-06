@@ -26,6 +26,8 @@
   ],
   "rules": {
     "no-console": "off",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
     "no-unused-expressions": "warn",
     "no-unused-vars": "warn",
     "react/react-in-jsx-scope": "off",
