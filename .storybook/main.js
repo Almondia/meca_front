@@ -7,14 +7,18 @@ module.exports = {
   core: {
     builder: '@storybook/builder-webpack5',
   },
+  staticDirs: ['../public'],
   webpackFinal: async (config) => {
     config.resolve.plugins = [
       new TsconfigPathsPlugin({
         configFile: path.resolve(__dirname, '../tsconfig.json'),
       }),
     ];
-    config.module.rules.unshift({
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test && rule.test.test('.svg'));
+    fileLoaderRule.exclude = /\.svg$/;
+    config.module.rules.push({
       test: /\.svg$/,
+      enforce: 'pre',
       use: ['@svgr/webpack'],
     });
     return config;
