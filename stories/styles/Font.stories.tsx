@@ -42,7 +42,9 @@ const fontWeights = Object.keys(FONT_WEIGHT) as FontWeightType[];
 const FontWeight: React.ReactNode = (
   <>
     {fontWeights.map((weight) => (
-      <p style={{ fontWeight: FONT_WEIGHT[weight], fontSize: '20px' }}>hello - {weight}</p>
+      <p key={weight} style={{ fontWeight: FONT_WEIGHT[weight], fontSize: '20px' }}>
+        hello - {weight}
+      </p>
     ))}
   </>
 );

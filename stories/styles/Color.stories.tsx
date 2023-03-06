@@ -22,7 +22,7 @@ const colors = Object.keys(COLOR) as ColorType[];
 const Colors: React.ReactNode = (
   <>
     {colors.map((color) => (
-      <div style={{ width: '80px' }}>
+      <div key={color} style={{ width: '80px' }}>
         <p style={{ backgroundColor: COLOR[color], width: '60px', height: '60px', borderRadius: '6px' }} />
         <p>{color}</p>
         <p>{COLOR[color]}</p>
