@@ -1,32 +1,37 @@
-import styled from 'styled-components';
+import { css } from 'styled-components';
 
-export const Flex = styled.div`
+export const Flex = css`
   display: flex;
 `;
 
-export const FlexCenter = styled(Flex)`
+export const FlexCenter = css`
+  ${Flex};
   justify-content: center;
   align-items: center;
 `;
 
-export const FlexColumn = styled(Flex)`
+export const FlexColumn = css`
+  ${Flex};
   flex-direction: column;
 `;
 
-export const FlexSpaceBetween = styled(Flex)`
-  display: flex;
+export const FlexSpaceBetween = css`
+  ${Flex};
   justify-content: space-between;
 `;
 
-export const FlexColumnCenter = styled(FlexColumn)`
+export const FlexColumnCenter = css`
+  ${FlexColumn};
   justify-content: center;
   align-items: center;
 `;
 
-export const FlexColumnSpaceBetween = styled(FlexColumn)`
+export const FlexColumnSpaceBetween = css`
+  ${FlexColumn}
   justify-content: space-between;
 `;
 
-export const FlexColumnAlignCenter = styled(FlexColumn)`
+export const FlexColumnAlignCenter = css`
+  ${FlexColumn};
   align-items: center;
 `;
