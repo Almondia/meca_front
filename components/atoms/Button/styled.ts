@@ -1,7 +1,8 @@
+import styled from 'styled-components';
+
 import { COLOR } from '@/styles/constants';
 import { FlexCenter } from '@/styles/layout';
 import { ElementSizeType } from '@/types/common';
-import styled from 'styled-components';
 
 const buttonTheme = {
   primary: [COLOR.brand1, COLOR.txtLight],

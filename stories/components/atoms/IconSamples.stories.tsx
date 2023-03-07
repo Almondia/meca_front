@@ -1,5 +1,6 @@
-import Icon, { iconTypes } from '@/components/atoms/Icon';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import Icon, { iconTypes } from '@/components/atoms/Icon';
 
 const IconWrapper = ({ children }: { children: React.ReactNode }) => (
   <div

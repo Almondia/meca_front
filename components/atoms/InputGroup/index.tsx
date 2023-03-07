@@ -1,5 +1,5 @@
 import Input from './Input';
-import { DescriptionWrapper, LabelWrapper, InputGroupWrapper, ValidationWrapper } from './styled';
+import { DescriptionWrapper, InputGroupWrapper, LabelWrapper, ValidationWrapper } from './styled';
 
 export interface ValidationProps {
   children: React.ReactNode;

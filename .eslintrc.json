@@ -39,6 +39,13 @@
     "@typescript-eslint/no-unused-vars": "warn",
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "no-useless-catch": "off",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
     "import/order": [
       "error",
       {
@@ -63,7 +70,8 @@
           },
           {
             "pattern": "@/**",
-            "group": "internal"
+            "group": "internal",
+            "position": "after"
           }
         ],
         "newlines-between": "always"

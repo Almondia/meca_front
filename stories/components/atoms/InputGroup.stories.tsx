@@ -1,6 +1,7 @@
-import InputGroup from '@/components/atoms/InputGroup';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import InputGroup from '@/components/atoms/InputGroup';
 
 export default {
   title: 'components/atoms/InputGroup',

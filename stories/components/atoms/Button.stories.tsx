@@ -1,6 +1,7 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import Button, { ButtonProps } from '@/components/atoms/Button';
 import Icon from '@/components/atoms/Icon';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
   title: 'components/atoms/Button',

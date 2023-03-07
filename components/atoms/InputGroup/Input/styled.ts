@@ -1,6 +1,7 @@
+import styled from 'styled-components';
+
 import { FlexCenter, FlexColumn } from '@/styles/layout';
 import Icon from '@/components/atoms/Icon';
-import styled from 'styled-components';
 
 export const InputWrapper = styled.div``;
 

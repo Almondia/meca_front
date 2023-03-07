@@ -1,4 +1,4 @@
-import { RadioGroupWrapper, RadioBox } from './styled';
+import { RadioBox, RadioGroupWrapper } from './styled';
 import { InputProps } from './type';
 
 export interface RadioProps extends InputProps {

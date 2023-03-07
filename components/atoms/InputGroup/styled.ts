@@ -1,6 +1,7 @@
+import styled from 'styled-components';
+
 import { TextBodySubtitle } from '@/styles/common';
 import { FlexColumn } from '@/styles/layout';
-import styled from 'styled-components';
 
 export const DescriptionWrapper = styled.ul`
   font-size: ${({ theme }) => theme.fontSize.caption};

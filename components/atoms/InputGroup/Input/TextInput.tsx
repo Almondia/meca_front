@@ -1,6 +1,6 @@
-import { IconType } from '@/components/atoms/Icon';
+import { IconType } from '@/components/icons/type';
 
-import { TextInputWrapper, TextInputBox, TextInputLeftIconBox, TextInputRightIconBox } from './styled';
+import { TextInputBox, TextInputLeftIconBox, TextInputRightIconBox, TextInputWrapper } from './styled';
 import { InputProps } from './type';
 
 export interface TextInputProps extends InputProps {
