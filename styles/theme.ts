@@ -4,7 +4,9 @@ export interface Theme {
   backgroundColor: string;
   textColor: string;
   brandColor: string;
+  /** light: 600 / dark: 200 */
   gray: string;
+  /** light: 100 / dark: 800 */
   lightGray: string;
   media: typeof MEDIA;
   fontSize: typeof FONT_SIZE;

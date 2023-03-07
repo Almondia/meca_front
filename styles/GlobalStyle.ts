@@ -56,7 +56,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         border: none;
         outline: none;
         background-color: transparent;
-        border: ${({ border }) => border.card};
+        border-radius: ${({ border }) => border.button};
     }
 
     ul {
