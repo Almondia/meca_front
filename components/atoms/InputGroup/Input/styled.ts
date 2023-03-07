@@ -74,3 +74,15 @@ export const RadioBox = styled.label`
     }
   }
 `;
+
+export const TextAreaWrapper = styled(TextInputWrapper)``;
+
+export const TextAreaBox = styled(TextInputBox.withComponent('textarea'))`
+  min-height: 120px;
+  resize: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
