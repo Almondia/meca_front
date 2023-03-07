@@ -1,4 +1,4 @@
-import { FlexCenter } from '@/styles/layout';
+import { FlexCenter, FlexColumn } from '@/styles/layout';
 import Icon from '@/components/atoms/Icon';
 import styled from 'styled-components';
 
@@ -39,4 +39,38 @@ export const TextInputLeftIconBox = styled(TextInputIconBox)`
 `;
 export const TextInputRightIconBox = styled(TextInputIconBox)`
   margin-left: 10px;
+`;
+
+export const RadioGroupWrapper = styled.fieldset`
+  display: flex;
+  column-gap: 40px;
+  @media ${({ theme }) => theme.media.tablet} {
+    ${FlexColumn};
+    row-gap: 16px;
+  }
+`;
+
+export const RadioBox = styled.label`
+  color: ${({ theme }) => theme.gray};
+  :hover {
+    cursor: pointer;
+  }
+  & > input {
+    vertical-align: bottom;
+    appearance: none;
+    width: ${({ theme }) => theme.fontSize.large};
+    height: ${({ theme }) => theme.fontSize.large};
+    border: max(1px, 0.1em) solid ${({ theme }) => theme.gray};
+    border-radius: 50%;
+    :checked {
+      border: 0.35rem solid ${({ theme }) => theme.brandColor};
+    }
+    :focus-visible {
+      outline-offset: max(2px, 0.1em);
+      outline: max(2px, 0.1em) dotted ${({ theme }) => theme.gray};
+    }
+    :hover {
+      box-shadow: 0 0 0 max(4px, 0.2em) ${({ theme }) => theme.lightGray};
+    }
+  }
 `;
