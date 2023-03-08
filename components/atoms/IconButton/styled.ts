@@ -1,0 +1,18 @@
+import styled from 'styled-components';
+
+// eslint-disable-next-line import/prefer-default-export
+export const IconButtonWrapper = styled.button`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  margin-top: 2px;
+  border-radius: 50%;
+  :hover {
+    background-color: ${({ theme }) => theme.lightGray};
+  }
+  & > *:hover {
+    opacity: 0.6;
+  }
+`;
