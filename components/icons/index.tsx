@@ -14,6 +14,8 @@ import Triangle from '@/public/icons/triangle.svg';
 import Naver from '@/public/icons/naver.svg';
 import Kakao from '@/public/icons/kakao.svg';
 import Google from '@/public/icons/google.svg';
+import Clock from '@/public/icons/clock.svg';
+import Play from '@/public/icons/play.svg';
 
 const Icons = {
   Lightmode,
@@ -32,6 +34,8 @@ const Icons = {
   Naver,
   Kakao,
   Google,
+  Clock,
+  Play,
 };
 
 export default Icons;
