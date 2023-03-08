@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 
-import Input from '@/components/atoms/InputGroup/Input';
-import RadioGroup from '@/components/atoms/InputGroup/Input/Radio';
+import Input from '@/components/atoms/Input';
+import RadioGroup from '@/components/atoms/Input/Radio';
 
 export default {
   title: 'components/atoms/Input',
