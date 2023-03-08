@@ -26,7 +26,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     html {
-        font-family: 'SCDream4', sans-serif;
+        font-family: 'Pretendard', sans-serif;
         box-sizing: border-box;
         font-size: 16px;
     }

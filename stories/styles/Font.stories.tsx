@@ -1,6 +1,7 @@
-import { TextBody, TextBodySubtitle, TextBodyTitle, TextSubBody, TextCaption, TextOverline } from '@/styles/common';
-import { FONT_WEIGHT } from '@/styles/constants';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import { TextBody, TextBodySubtitle, TextBodyTitle, TextCaption, TextOverline, TextSubBody } from '@/styles/common';
+import { FONT_WEIGHT } from '@/styles/constants';
 
 const FontWrapper = ({ children }: { children: React.ReactNode }) => (
   <div

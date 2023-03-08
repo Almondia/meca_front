@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'SCDream4';
+  font-family: 'Pretendard';
   font-weight: 400;
-  src: url('../public/fonts/SCDream4.otf') format('opentype');
+  src: url('../public/fonts/Pretendard-Regular.woff') format('woff');
 }
 
 @font-face {
