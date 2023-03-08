@@ -1,5 +1,6 @@
-import { COLOR } from '@/styles/constants';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import { COLOR } from '@/styles/constants';
 
 const ColorWrapper = ({ children }: { children: React.ReactNode }) => (
   <div
