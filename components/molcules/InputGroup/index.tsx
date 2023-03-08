@@ -1,4 +1,5 @@
-import Input from './Input';
+import Input from '@/components/atoms/Input';
+
 import { DescriptionWrapper, InputGroupWrapper, LabelWrapper, ValidationWrapper } from './styled';
 
 export interface ValidationProps {

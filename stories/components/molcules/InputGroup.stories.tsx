@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import InputGroup from '@/components/atoms/InputGroup';
+import InputGroup from '@/components/molcules/InputGroup';
 
 export default {
-  title: 'components/atoms/InputGroup',
+  title: 'components/molcules/InputGroup',
   component: InputGroup,
 } as ComponentMeta<typeof InputGroup>;
 
