@@ -1,4 +1,4 @@
-export const hasBrowser = () => typeof window !== 'undefined';
+import { hasBrowser } from './common';
 
 const storage = {
   getItem: <T>(key: string, defaultValue?: T): T | undefined => {
