@@ -13,3 +13,8 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 // Clean up after the tests are finished.
 afterAll(() => server.close());
+
+jest.mock('./components/atoms/Icon', () => {
+  const MockedIcon = () => <div>Icon</div>;
+  return MockedIcon;
+});
