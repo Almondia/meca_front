@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const baseURL = `${process.env.API_ENDPOINT}/api/v1`;
-
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const unauthInstance = axios.create({ baseURL });
 const authInstance = axios.create({ baseURL });
 
@@ -20,7 +19,7 @@ authInstance.interceptors.response.use(
   (response) => response.data,
   (error) => {
     // TODO add token refresh logic
-    if (error?.response.status === 401) {
+    if (error.status === 401) {
       localStorage.removeItem('accessToken');
     }
     return Promise.reject(error);
