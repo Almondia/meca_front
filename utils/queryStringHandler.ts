@@ -1,11 +1,18 @@
-import { hasBrowser } from './common';
-
-const getParam = (key: string) => {
-  if (!hasBrowser()) {
-    return '';
+const parseQueryString = (url?: string): { [key: string]: string } => {
+  if (!url) {
+    return {};
   }
-  const params = new URLSearchParams(window.location.search);
-  return params.get(key) ?? '';
+  const queryString = url.split('?')[1];
+  if (!queryString) {
+    return {};
+  }
+  const keyValuePairs = queryString.split('&');
+  const params: { [key: string]: string } = {};
+  keyValuePairs.forEach((pair) => {
+    const [key, value] = pair.split('=');
+    params[key] = decodeURIComponent(value);
+  });
+  return params;
 };
 
-export default getParam;
+export default parseQueryString;
