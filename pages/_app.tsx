@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import ThemeProvider from '@/styles/ThemeProvider';
 import { generateQueryClient } from '@/query/queryClient';
+import Layout from '@/components/layout/Layout';
 import '@/styles/font.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
               newestOnTop={false}
               hideProgressBar
             />
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} />
