@@ -9,8 +9,11 @@ export interface TokenType {
 }
 
 export interface MyProfile {
-  id: number;
+  memberId: number;
+  role: string;
   email: string;
+  name: string;
   oauthType: SocialType;
   createdAt: string;
+  profile?: string;
 }
