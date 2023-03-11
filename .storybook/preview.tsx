@@ -2,7 +2,7 @@ import * as NextImage from 'next/image';
 
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 import ThemeProvider from '../styles/ThemeProvider';
-import themeState from '../atoms/common';
+import { themeState } from '../atoms/common';
 import { DecoratorFn } from '@storybook/react';
 import React from 'react';
 import '../styles/font.css';
