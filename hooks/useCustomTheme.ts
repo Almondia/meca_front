@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
-import themeState, { ThemeType } from '@/atoms/common';
+import { themeState, ThemeType } from '@/atoms/common';
 import storage from '@/utils/storageHandler';
 
 const useCustomTheme = () => {
