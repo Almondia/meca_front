@@ -20,8 +20,11 @@ const useUser = () => {
   });
 
   useEffect(() => {
+    if (!hasToken && user === undefined) {
+      return;
+    }
     if (!hasToken) {
-      queryClient.removeQueries([queryKey.me]);
+      queryClient.setQueryData([queryKey.me], null);
       return;
     }
     isStale && refetch();
