@@ -6,12 +6,13 @@ export const LoginCardWrapper = styled.div`
   ${FlexColumnCenter};
   row-gap: 14px;
   width: 358px;
-  height: 400px;
+  height: 350px;
 `;
 
 export const SocialButtonContainer = styled.div`
   ${FlexColumnCenter};
-  row-gap: 4px;
+  row-gap: 8px;
+  margin-top: 20px;
 `;
 
 const SocialButton = styled.button`

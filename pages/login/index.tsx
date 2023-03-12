@@ -13,9 +13,6 @@ const isSocialType = (value: any): value is SocialType => SOCIAL_TYPES.includes(
 const Login = () => {
   const router = useRouter();
   useEffect(() => {
-    if (!router) {
-      return;
-    }
     const { asPath } = router;
     const { auth, code } = parseQueryString(asPath);
     if (!isSocialType(auth) || !code) {
@@ -28,7 +25,8 @@ const Login = () => {
       alertToast('로그인 성공', 'success');
       router.replace('/');
     })();
-  }, [router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     // TODO: 로딩 화면 구성할 것
     <div>please wait...</div>
