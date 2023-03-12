@@ -6,6 +6,9 @@ const nextConfig = {
     styledComponents: true,
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  env: {
+    BASE_URL: process.env.BASE_URL,
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

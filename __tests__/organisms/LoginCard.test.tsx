@@ -17,7 +17,7 @@ describe('LoginCard', () => {
     delete (window as any).location;
     (window as any).location = { ...window.location, assign: assignMock };
     fireEvent.click(kakaoButton);
-    expect(assignMock).toHaveBeenCalledWith(process.env.KAKAO_LOGIN);
+    expect(assignMock).toHaveBeenCalledWith(process.env.NEXT_PUBLIC_KAKAO_LOGIN);
   });
 
   it('google 로그인 버튼을 클릭하면 지정된 경로로 이동한다', () => {
@@ -33,6 +33,6 @@ describe('LoginCard', () => {
     delete (window as any).location;
     (window as any).location = { ...window.location, assign: assignMock };
     fireEvent.click(googleLogin);
-    expect(assignMock).toHaveBeenCalledWith(process.env.GOOGLE_LOGIN);
+    expect(assignMock).toHaveBeenCalledWith(process.env.NEXT_PUBLIC_GOOGLE_LOGIN);
   });
 });

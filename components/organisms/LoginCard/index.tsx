@@ -4,23 +4,23 @@ import { TextCaption } from '@/styles/common';
 import { GoogleButton, KakaoButton, LoginCardWrapper, NaverButton, SocialButtonContainer } from './styled';
 
 const LoginCard = () => {
-  const handleKakaoLogin = (envValue: 'KAKAO_LOGIN' | 'NAVER_LOGIN' | 'GOOGLE_LOGIN') => {
-    window.location.assign(process.env[envValue] ?? '');
+  const handleKakaoLogin = (envValue?: string) => {
+    window.location.assign(envValue ?? '');
   };
   return (
     <LoginCardWrapper>
       {/* TODO: 로고 추가하기 */}
       <h4>MecaLogo</h4>
       <SocialButtonContainer>
-        <KakaoButton onClick={() => handleKakaoLogin('KAKAO_LOGIN')}>
+        <KakaoButton onClick={() => handleKakaoLogin(process.env.NEXT_PUBLIC_KAKAO_LOGIN)}>
           <Icon icon="Kakao" size="20px" />
           <p>카카오로 로그인</p>
         </KakaoButton>
-        <NaverButton onClick={() => handleKakaoLogin('NAVER_LOGIN')}>
+        <NaverButton onClick={() => handleKakaoLogin(process.env.NEXT_PUBLIC_NAVER_LOGIN)}>
           <Icon icon="Naver" size="20px" />
           <p>네이버로 로그인</p>
         </NaverButton>
-        <GoogleButton onClick={() => handleKakaoLogin('GOOGLE_LOGIN')}>
+        <GoogleButton onClick={() => handleKakaoLogin(process.env.NEXT_PUBLIC_GOOGLE_LOGIN)}>
           <Icon icon="Google" size="22px" />
           <p>google로 로그인</p>
         </GoogleButton>

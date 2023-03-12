@@ -1,12 +1,14 @@
 import axios from 'axios';
 
+import storage from '@/utils/storageHandler';
+
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const unauthInstance = axios.create({ baseURL });
 const authInstance = axios.create({ baseURL });
 
 authInstance.interceptors.request.use((config) => {
   // eslint-disable-next-line no-param-reassign
-  config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+  config.headers.Authorization = `Bearer ${storage.getItem('accessToken')}`;
   return config;
 });
 
@@ -20,7 +22,7 @@ authInstance.interceptors.response.use(
   (error) => {
     // TODO add token refresh logic
     if (error.status === 401) {
-      localStorage.removeItem('accessToken');
+      storage.removeItem('accessToken');
     }
     return Promise.reject(error);
   },

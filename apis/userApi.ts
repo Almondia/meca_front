@@ -6,7 +6,7 @@ const userApi = {
   getMe: () => authInstance.get<never, MyProfile>('/api/v1/members/me'),
   kakaoLogin: (code: string) =>
     authInstance.post<never, TokenType>(
-      `/api/v1/oauth/kakao/login`,
+      `/api/v1/oauth/login/kakao`,
       {},
       {
         params: {
@@ -16,7 +16,7 @@ const userApi = {
     ),
   googleLogin: (code: string) =>
     authInstance.post<never, TokenType>(
-      `/api/v1/oauth/google/login?code=${code}`,
+      `/api/v1/oauth/login/google`,
       {},
       {
         params: {
@@ -26,7 +26,7 @@ const userApi = {
     ),
   naverLogin: (code: string) =>
     authInstance.post<never, TokenType>(
-      `/api/v1/oauth/naver/login?code=${code}`,
+      `/api/v1/oauth/login/naver`,
       {},
       {
         params: {

@@ -1,11 +1,15 @@
-import storage from '@/utils/storageHandler';
 import { atom } from 'recoil';
+
+import storage from '@/utils/storageHandler';
 
 export type ThemeType = 'light' | 'dark';
 
-const themeState = atom<ThemeType>({
+export const themeState = atom<ThemeType>({
   key: 'themeState',
   default: storage.getItem('theme', 'light'),
 });
 
-export default themeState;
+export const hasTokenState = atom<boolean>({
+  key: 'hasTokenState',
+  default: storage.getItem('token'),
+});

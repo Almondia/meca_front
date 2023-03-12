@@ -16,6 +16,7 @@ import Kakao from '@/public/icons/kakao.svg';
 import Google from '@/public/icons/google.svg';
 import Clock from '@/public/icons/clock.svg';
 import Play from '@/public/icons/play.svg';
+import CompactDown from '@/public/icons/compactdown.svg';
 
 const Icons = {
   Lightmode,
@@ -36,6 +37,7 @@ const Icons = {
   Google,
   Clock,
   Play,
+  CompactDown,
 };
 
 export default Icons;
