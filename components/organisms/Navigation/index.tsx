@@ -2,10 +2,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useCallback, useRef, useState } from 'react';
+
 import IconButton from '@/components/atoms/IconButton';
 import useCustomTheme from '@/hooks/useCustomTheme';
+import Icon from '@/components/atoms/Icon';
+import useClickAway from '@/hooks/useClickAway';
 
 import { Logo, NavBar, NavigationWrapper, Profile } from './styled';
+import NavSelection from './NavSelection';
 
 export interface NavigationProps {
   profileImage?: string;
@@ -14,6 +19,12 @@ export interface NavigationProps {
 
 const Navigation = ({ loginUserName, profileImage }: NavigationProps) => {
   const { theme, toggleTheme } = useCustomTheme();
+  const [isNavSelectionVisible, setIsNavSelectionVisible] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const closeSelection = useCallback(() => {
+    setIsNavSelectionVisible(false);
+  }, []);
+  useClickAway(ref, closeSelection);
   return (
     <NavigationWrapper>
       {/* TODO: add LOGO */}
@@ -23,14 +34,20 @@ const Navigation = ({ loginUserName, profileImage }: NavigationProps) => {
           <IconButton icon={theme === 'light' ? 'Lightmode' : 'Darkmode'} iconSize="20px" onClick={toggleTheme} />
         </div>
         {loginUserName ? (
-          <Profile>
+          <Profile
+            ref={ref}
+            onClick={() => {
+              setIsNavSelectionVisible((prev) => !prev);
+            }}
+          >
             <Image
               src={profileImage ?? '/images/noprofile.png'}
               alt={profileImage ?? 'profile-image'}
               width={30}
               height={30}
             />
-            <p>{loginUserName}</p>
+            <Icon icon="CompactDown" size="12px" />
+            {isNavSelectionVisible && <NavSelection />}
           </Profile>
         ) : (
           <div>

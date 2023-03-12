@@ -30,12 +30,14 @@ export const NavBar = styled.nav`
 `;
 
 export const Profile = styled.div`
+  position: relative;
   ${FlexCenter};
   column-gap: 6px;
   cursor: pointer;
-  @media ${({ theme }) => theme.media.mobile} {
-    & > p {
-      display: none;
+  & > div:nth-child(2) {
+    padding-top: 3px;
+    :hover {
+      opacity: 0.8;
     }
   }
 `;

@@ -68,10 +68,10 @@ export const FONT_WEIGHT = {
 };
 
 export const SHADOW = {
-  normalLight: 'drop-shadow(0px 0px 6px rgba(0, 0, 0, 0.25))',
-  normalDark: 'drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.45))',
-  boldLight: 'drop-shadow(0px 4px 10px 4px rgba(0, 0, 0, 0.27))',
-  boldDark: 'drop-shadow(0px 4px 10px 4px rgba(255, 255, 255, 0.45))',
+  normalDark: '0px 0px 6px rgba(0, 0, 0, 0.25)',
+  normalLight: '0px 0px 8px rgba(255, 255, 255, 0.35)',
+  boldDark: '0px 4px 10px 4px rgba(0, 0, 0, 0.25)',
+  boldLight: '0px 4px 10px 4px rgba(255, 255, 255, 0.35)',
 };
 
 export const BORDER = {
