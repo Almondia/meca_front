@@ -12,19 +12,21 @@ export default {
 } as ComponentMeta<typeof DropdownMenu>;
 
 const Template: ComponentStory<typeof DropdownMenu> = () => (
-  <div style={{ width: '500px', height: '30px', position: 'relative', backgroundColor: 'yellow' }}>
-    relative div
-    <DropdownMenu>
-      <DropdownMenu.Contents href="" onClick={() => alert('MENU1')}>
-        메뉴1
-      </DropdownMenu.Contents>
-      <DropdownMenu.Contents href="" onClick={() => alert('MENU2')}>
-        메뉴2
-      </DropdownMenu.Contents>
-      <DropdownMenu.Contents href="" onClick={() => alert('MENU3')}>
-        Menu3
-      </DropdownMenu.Contents>
-    </DropdownMenu>
+  <div style={{ height: '500px' }}>
+    <div style={{ width: '500px', position: 'relative', backgroundColor: 'yellow' }}>
+      relative div
+      <DropdownMenu>
+        <DropdownMenu.Contents href="" onClick={() => alert('MENU1')}>
+          메뉴1
+        </DropdownMenu.Contents>
+        <DropdownMenu.Contents href="" onClick={() => alert('MENU2')}>
+          메뉴2
+        </DropdownMenu.Contents>
+        <DropdownMenu.Contents href="" onClick={() => alert('MENU3')}>
+          Menu3
+        </DropdownMenu.Contents>
+      </DropdownMenu>
+    </div>
   </div>
 );
 
