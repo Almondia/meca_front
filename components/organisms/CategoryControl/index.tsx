@@ -28,7 +28,7 @@ const CategoryControl = () => {
         </Button>
         <Button colorTheme="success" onClick={() => console.log('HI')}>
           <Button.RightIcon icon="Play" />
-          <Button.InnerText>플레이</Button.InnerText>
+          <Button.InnerText>랜덤 플레이</Button.InnerText>
         </Button>
       </CategoryControlComponentsContainer>
     </CategoryControlWrapper>
