@@ -1,4 +1,5 @@
 import { IconType } from '@/components/icons/type';
+import { ElementSizeType } from '@/types/common';
 
 import { TextInputBox, TextInputLeftIconBox, TextInputRightIconBox, TextInputWrapper } from './styled';
 import { InputProps } from './type';
@@ -14,6 +15,7 @@ export interface TextInputProps extends InputProps {
   iconLeft?: IconType;
   /** [선택] 존재하는 svg 아이콘 컴포넌트를 사용해 오른쪽에 삽입 */
   iconRight?: IconType;
+  width?: ElementSizeType;
 }
 
 /**
@@ -31,8 +33,9 @@ const TextInput = ({
   disabled,
   iconLeft,
   iconRight,
+  width,
 }: TextInputProps) => (
-  <TextInputWrapper>
+  <TextInputWrapper width={width}>
     {iconLeft && <TextInputLeftIconBox icon={iconLeft} size="1rem" />}
     <TextInputBox
       name={name}
