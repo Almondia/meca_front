@@ -17,3 +17,9 @@ export interface MyProfile {
   createdAt: string;
   profile?: string;
 }
+
+// TODO: 백엔드 응답 데이터에 맞게 추가할 것
+export interface CategoryType {
+  categoryId: string;
+  title: string;
+}

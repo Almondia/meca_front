@@ -1,7 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import Button, { ButtonProps } from '@/components/atoms/Button';
-import Icon from '@/components/atoms/Icon';
 
 export default {
   title: 'components/atoms/Button',
@@ -33,12 +32,9 @@ export const CustomWidthButton = () => (
   </div>
 );
 
-export const WithIconButton = Template.bind({});
-WithIconButton.args = {
-  children: (
-    <div>
-      hello <Icon icon="Dice" size="16px" />
-    </div>
-  ),
-  colorTheme: 'error',
-};
+export const WithIconButton = () => (
+  <Button colorTheme="success">
+    <Button.RightIcon icon="Play" />
+    <Button.InnerText>플레이하기</Button.InnerText>
+  </Button>
+);
