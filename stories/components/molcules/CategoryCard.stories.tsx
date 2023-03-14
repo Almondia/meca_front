@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import CategoryCard, { CategoryCardProps } from '@/components/organisms/CategoryCard';
+import CategoryCard, { CategoryCardProps } from '@/components/molcules/CategoryCard';
 
 export default {
-  title: 'components/organisms/CategoryCard',
+  title: 'components/molcules/CategoryCard',
   component: CategoryCard,
   parameters: {
     componentSubtitle: '카테고리 카드',
