@@ -5,10 +5,10 @@ import { useRef } from 'react';
 import IconButton from '@/components/atoms/IconButton';
 import useClickAway from '@/hooks/useClickAway';
 import { hasBrowser } from '@/utils/common';
+import getInnerComponents from '@/utils/getInnerComponent.s';
 
 import { Background, CloseIconButton, ModalButtonGroup, ModalContainer, ModalWrapper } from './styled';
 import ModalTitle, { modalTitleComponentType } from './inner/ModalTitle';
-import { getModalInnerComponents } from './inner/utils';
 import ModalBody, { modalBodyComponentType } from './inner/ModalBody';
 import ModalCloseButton, { modalCloseButtonComponentType } from './inner/ModalCloseButton';
 import ModalConfirmButton, { modalConfirmButtonComponentType } from './inner/ModalConfirmButton';
@@ -50,10 +50,10 @@ const Modal = ({ children, visible = false, hasCloseIcon = true, isClickAwayable
   if (!modalPortalDiv) {
     return null;
   }
-  const titles = getModalInnerComponents(children, modalTitleComponentType);
-  const body = getModalInnerComponents(children, modalBodyComponentType);
-  const closeButton = getModalInnerComponents(children, modalCloseButtonComponentType);
-  const confirmButton = getModalInnerComponents(children, modalConfirmButtonComponentType);
+  const titles = getInnerComponents(children, modalTitleComponentType);
+  const body = getInnerComponents(children, modalBodyComponentType);
+  const closeButton = getInnerComponents(children, modalCloseButtonComponentType);
+  const confirmButton = getInnerComponents(children, modalConfirmButtonComponentType);
   return (
     <>
       {visible &&
