@@ -38,3 +38,8 @@ export const ButtonWrapper = styled.button<ButtonStyleProp>`
     opacity: 0.9;
   }
 `;
+
+export const ButtonIconGroup = styled.div`
+  ${FlexCenter};
+  column-gap: 6px;
+`;
