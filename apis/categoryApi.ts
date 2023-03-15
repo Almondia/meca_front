@@ -18,6 +18,10 @@ const categoryApi = {
         title: query,
       },
     }),
+  addCategory: ({ title }: { title: string }) =>
+    authInstance.post<never, { categoryId: string }>('/api/v1/categories', {
+      title,
+    }),
 };
 
 export default categoryApi;

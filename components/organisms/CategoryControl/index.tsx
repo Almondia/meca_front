@@ -3,6 +3,7 @@ import React from 'react';
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import useInput from '@/hooks/useInput';
+import AddCategoryButtonDialog from '@/components/molcules/AddCategoryButtonDialog';
 
 import { CategoryControlComponentsContainer, CategoryControlWrapper } from './styled';
 
@@ -32,9 +33,7 @@ const CategoryControl = ({ onChangeQuery }: { onChangeQuery: (query: string) => 
         </Button>
       </CategoryControlComponentsContainer>
       <CategoryControlComponentsContainer>
-        <Button colorTheme="primary" onClick={() => console.log('HI')}>
-          추가하기 +
-        </Button>
+        <AddCategoryButtonDialog />
         <Button colorTheme="success" onClick={() => console.log('HI')}>
           <Button.RightIcon icon="Play" />
           <Button.InnerText>랜덤 플레이</Button.InnerText>
