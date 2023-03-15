@@ -10,6 +10,10 @@ export default {
   },
 } as ComponentMeta<typeof CategoryControl>;
 
-const Template: ComponentStory<typeof CategoryControl> = () => <CategoryControl />;
+const Template: ComponentStory<typeof CategoryControl> = ({
+  onChangeQuery,
+}: {
+  onChangeQuery: (query: string) => void;
+}) => <CategoryControl onChangeQuery={onChangeQuery} />;
 
 export const Default = Template.bind({});

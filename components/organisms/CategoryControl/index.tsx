@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import useInput from '@/hooks/useInput';
@@ -5,9 +7,16 @@ import useInput from '@/hooks/useInput';
 import { CategoryControlComponentsContainer, CategoryControlWrapper } from './styled';
 
 /** 카테고리 목록 페이지 상단 컨트롤 레이아웃 */
-const CategoryControl = () => {
+const CategoryControl = ({ onChangeQuery }: { onChangeQuery: (query: string) => void }) => {
   // TODO: 로직 추가
   const { input: searchKeyword, onInputChange: handleSearchKeywordChange } = useInput('');
+  const handleSearchQuery = () => {
+    if (searchKeyword.length >= 100) {
+      return;
+    }
+    onChangeQuery(searchKeyword);
+  };
+
   return (
     <CategoryControlWrapper>
       <CategoryControlComponentsContainer>
@@ -16,9 +25,9 @@ const CategoryControl = () => {
           name="search"
           value={searchKeyword}
           onChange={handleSearchKeywordChange}
-          placeholder="제목+내용 카드 검색"
+          placeholder="제목으로 카테고리 검색"
         />
-        <Button colorTheme="primary" width="100px" onClick={() => console.log('HI')}>
+        <Button colorTheme="primary" width="100px" onClick={handleSearchQuery}>
           검색
         </Button>
       </CategoryControlComponentsContainer>
@@ -35,4 +44,4 @@ const CategoryControl = () => {
   );
 };
 
-export default CategoryControl;
+export default React.memo(CategoryControl);
