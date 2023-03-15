@@ -6,7 +6,6 @@ import { Devide, ListSection } from '@/styles/layout';
 
 const MyCategory = () => {
   const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
-  console.log(categoires);
   return (
     <ListSection>
       <PageTitle>카테고리 목록</PageTitle>

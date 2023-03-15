@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import useInput from '@/hooks/useInput';
@@ -14,6 +16,7 @@ const CategoryControl = ({ onChangeQuery }: { onChangeQuery: (query: string) => 
     }
     onChangeQuery(searchKeyword);
   };
+
   return (
     <CategoryControlWrapper>
       <CategoryControlComponentsContainer>
@@ -41,4 +44,4 @@ const CategoryControl = ({ onChangeQuery }: { onChangeQuery: (query: string) => 
   );
 };
 
-export default CategoryControl;
+export default React.memo(CategoryControl);

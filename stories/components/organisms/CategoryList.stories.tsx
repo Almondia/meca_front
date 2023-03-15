@@ -22,34 +22,38 @@ const Template: ComponentStory<typeof CategoryList> = (args: CategoryListProps) 
 export const Default = Template.bind({});
 Default.args = {
   categoryList: {
-    pageParams: [],
+    pageParams: [undefined],
     pages: [
-      [
-        {
-          categoryId: '1',
-          title: 'title1',
-        },
-        {
-          categoryId: '2',
-          title: 'title2',
-        },
-        {
-          categoryId: '3',
-          title: 'title3',
-        },
-        {
-          categoryId: '4',
-          title: 'title4',
-        },
-        {
-          categoryId: '5',
-          title: 'title5',
-        },
-        {
-          categoryId: '6',
-          title: 'title6',
-        },
-      ],
+      {
+        contents: [
+          {
+            categoryId: '1',
+            title: 'title1',
+          },
+          {
+            categoryId: '2',
+            title: 'title2',
+          },
+          {
+            categoryId: '3',
+            title: 'title3',
+          },
+          {
+            categoryId: '4',
+            title: 'title4',
+          },
+          {
+            categoryId: '5',
+            title: 'title5',
+          },
+          {
+            categoryId: '6',
+            title: 'title6',
+          },
+        ],
+        pageNumber: 0,
+        totalPages: 1,
+      },
     ],
   },
 };
