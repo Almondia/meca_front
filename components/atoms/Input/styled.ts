@@ -12,6 +12,7 @@ export const TextInputWrapper = styled.div<{ width?: ElementSizeType }>`
   padding: 10px 15px;
   border: 1px solid ${({ theme }) => theme.gray};
   border-radius: ${({ theme }) => theme.border.button};
+  color: ${({ theme }) => theme.textColor};
 `;
 
 export const TextInputBox = styled.input`
