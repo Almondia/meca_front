@@ -23,3 +23,9 @@ export interface CategoryType {
   categoryId: string;
   title: string;
 }
+
+export interface PaginationType {
+  pageSize?: number;
+  offset: number;
+  query: string;
+}
