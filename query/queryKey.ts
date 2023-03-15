@@ -1,6 +1,6 @@
 const queryKey = {
   me: 'currentUser',
-  category: 'category',
+  categories: 'categories',
 };
 
 export default queryKey;

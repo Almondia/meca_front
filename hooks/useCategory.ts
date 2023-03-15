@@ -16,7 +16,7 @@ const useCategory = () => {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery(
-    [queryKey.category, 'me'],
+    [queryKey.categories, 'me'],
     async ({ pageParam = offset }) => {
       const response = await categoryApi.getMyCategoryList({
         offset: pageParam,
