@@ -19,7 +19,11 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
   }
   return (
     <CategoryListWrapper
-      loader={<div key={Number(categoryList.pageParams[1]) ?? 0}>...loading</div>}
+      loader={
+        <div data-testid="id-scroll-load-spinner" key={Number(categoryList.pageParams[1]) ?? 0}>
+          ...loading
+        </div>
+      }
       loadMore={fetchNextPage}
       hasMore={hasNextPage}
     >
