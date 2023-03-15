@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import categoryApi from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
@@ -15,6 +15,7 @@ const useCategory = () => {
     isError,
     hasNextPage,
     fetchNextPage,
+    refetch,
   } = useInfiniteQuery(
     [queryKey.categories, 'me'],
     async ({ pageParam = offset }) => {
@@ -37,7 +38,13 @@ const useCategory = () => {
       return;
     }
     setQuery(newQuery);
+    setOffset(0);
   };
+
+  useEffect(() => {
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   return { categoires, isLoading, isError, fetchNextPage, hasNextPage, changeSearchQuery };
 };

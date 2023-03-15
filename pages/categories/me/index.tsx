@@ -5,12 +5,12 @@ import useCategory from '@/hooks/useCategory';
 import { Devide, ListSection } from '@/styles/layout';
 
 const MyCategory = () => {
-  const { categoires, hasNextPage, fetchNextPage } = useCategory();
+  const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
   console.log(categoires);
   return (
     <ListSection>
       <PageTitle>카테고리 목록</PageTitle>
-      <CategoryControl />
+      <CategoryControl onChangeQuery={changeSearchQuery} />
       <Devide />
       <CategoryList categoryList={categoires} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
     </ListSection>
