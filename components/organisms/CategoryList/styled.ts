@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import { FlexCenter } from '@/styles/layout';
 
-export const CategoryListWrapper = styled.div`
+export const CategoryListWrapper = styled(InfiniteScroll)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, max-content));
   grid-column-gap: 30px;
