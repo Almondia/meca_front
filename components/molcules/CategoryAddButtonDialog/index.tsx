@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Button from '@/components/atoms/Button';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
-import useCategoryUpdate from '@/hooks/useCategoryUpdate';
+import useCategoryPost from '@/hooks/useCategoryPost';
 
 import Modal from '../Modal';
 import InputGroup from '../InputGroup';
@@ -11,7 +11,7 @@ import InputGroup from '../InputGroup';
 const CategoryAddButtonDialog = () => {
   const { visible, open, close } = useModal();
   const { input, onInputChange, inputReset, changed } = useInput('');
-  const { addCategory } = useCategoryUpdate();
+  const { addCategory } = useCategoryPost(close);
   useEffect(() => {
     if (!visible) {
       inputReset();
@@ -20,12 +20,12 @@ const CategoryAddButtonDialog = () => {
   }, [visible]);
 
   const handleCategoryAddButtonClick = async () => {
-    // TODO: add validation logic
-    // TODO: add react query logic
-    const result = await addCategory(input);
-    if (result) {
-      close();
+    if (input === '') {
+      return;
     }
+    addCategory({
+      title: input,
+    });
   };
 
   return (
@@ -39,7 +39,6 @@ const CategoryAddButtonDialog = () => {
           <Modal.Body>
             <InputGroup>
               <InputGroup.Label>카테고리 제목 입력</InputGroup.Label>
-              {/* TODO: validation 유효성 추가할 것 */}
               <InputGroup.Validation visible={changed && input === ''}>제목을 입력하세요</InputGroup.Validation>
               <InputGroup.Input.Text name="title" value={input} onChange={onInputChange} placeholder="" />
             </InputGroup>
