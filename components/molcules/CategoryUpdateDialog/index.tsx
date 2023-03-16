@@ -14,7 +14,7 @@ export interface CategoryUpdateDialogProps extends DefaultModalOptions {
 
 const CategoryUpdateDialog = ({ visible, onClose, categoryId, categoryTitle }: CategoryUpdateDialogProps) => {
   const { input: title, onInputChange: onTitleChange } = useInput(categoryTitle);
-  const { updateCategory } = useCategoryUpdate();
+  const { updateCategory } = useCategoryUpdate(onClose);
   const handleUpdateClick = () => {
     if (title === '' || title === categoryTitle) {
       return;
@@ -23,7 +23,6 @@ const CategoryUpdateDialog = ({ visible, onClose, categoryId, categoryTitle }: C
       categoryId,
       title,
     });
-    onClose();
   };
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false}>
@@ -36,6 +35,7 @@ const CategoryUpdateDialog = ({ visible, onClose, categoryId, categoryTitle }: C
             value={title}
             onChange={onTitleChange}
             placeholder="카테고리 제목 입력"
+            ariaLabel="input-category-update"
           />
         </InputGroup>
       </Modal.Body>
