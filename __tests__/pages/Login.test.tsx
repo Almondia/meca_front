@@ -26,7 +26,6 @@ describe('LoginPage', () => {
     expect(replaceMock).toHaveBeenCalledWith('/');
   });
 
-  // TODO: toastify assertion 추가
   it('Login Page에 지정된 kakao oauth로 접근할 경우 로그인 성공 알림이 뜨며 메인페이지로 이동된다..', async () => {
     const replaceMock = jest.fn();
     useRouterMock.mockImplementation(() => ({

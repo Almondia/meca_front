@@ -9,7 +9,6 @@ import { CategoryControlComponentsContainer, CategoryControlWrapper } from './st
 
 /** 카테고리 목록 페이지 상단 컨트롤 레이아웃 */
 const CategoryControl = ({ onChangeQuery }: { onChangeQuery: (query: string) => void }) => {
-  // TODO: 로직 추가
   const { input: searchKeyword, onInputChange: handleSearchKeywordChange } = useInput('');
   const handleSearchQuery = () => {
     if (searchKeyword.length >= 100) {
