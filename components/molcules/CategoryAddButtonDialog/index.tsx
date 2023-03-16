@@ -8,7 +8,7 @@ import useCategoryUpdate from '@/hooks/useCategoryUpdate';
 import Modal from '../Modal';
 import InputGroup from '../InputGroup';
 
-const AddCategoryButtonDialog = () => {
+const CategoryAddButtonDialog = () => {
   const { visible, open, close } = useModal();
   const { input, onInputChange, inputReset, changed } = useInput('');
   const { addCategory } = useCategoryUpdate();
@@ -52,4 +52,4 @@ const AddCategoryButtonDialog = () => {
   );
 };
 
-export default AddCategoryButtonDialog;
+export default CategoryAddButtonDialog;
