@@ -4,6 +4,13 @@ import { render } from '@testing-library/react';
 import themeMode from '../styles/theme';
 import { ToastContainer } from 'react-toastify';
 import { RecoilRoot } from 'recoil';
+import { generateQueryClient } from '@/query/queryClient';
+import { QueryClientProvider } from '@tanstack/react-query';
+
+export const createQueryClientWrapper = () => {
+  const queryClient = generateQueryClient();
+  return ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+};
 
 const Wrapper = ({ children }) => (
   <RecoilRoot>
@@ -14,8 +21,14 @@ const Wrapper = ({ children }) => (
   </RecoilRoot>
 );
 
+function renderWithQueryClient(ui, options, client) {
+  const queryClient = client ?? generateQueryClient();
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>, { wrapper: Wrapper, ...options });
+}
+
 const renderWithUIComponents = (ui, options) => render(ui, { wrapper: Wrapper, ...options });
 
 export * from '@testing-library/react';
 
 export { renderWithUIComponents as render };
+export { renderWithQueryClient as renderQuery };
