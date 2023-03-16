@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import LoginCard from '@/components/organisms/LoginCard';
 import HomeMainSection from '@/components/layout/HomeMainSection';
 import { FlexColumn } from '@/styles/layout';
+import useUser from '@/hooks/useUser';
+
+import MyCategory from './categories/me';
 
 const IntroduceContainer = styled.div`
   ${FlexColumn};
@@ -18,6 +21,13 @@ const LoginCardContainer = styled.div`
 `;
 
 export default function Home() {
+  const { user, isLoading } = useUser();
+  if (isLoading) {
+    return <div>...loading</div>;
+  }
+  if (user) {
+    return <MyCategory />;
+  }
   return (
     <HomeMainSection>
       <IntroduceContainer>
