@@ -1,4 +1,4 @@
-import useCategoryDelete from '@/hooks/useCategoryDelete';
+import useCategoryDelete from '@/hooks/category/useCategoryDelete';
 import { DefaultModalOptions } from '@/types/common';
 
 import Modal from '../Modal';

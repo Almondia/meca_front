@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DefaultModalOptions } from '@/types/common';
 import useInput from '@/hooks/useInput';
-import useCategoryUpdate from '@/hooks/useCategoryUpdate';
+import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
 
 import Modal from '../Modal';
 import InputGroup from '../InputGroup';

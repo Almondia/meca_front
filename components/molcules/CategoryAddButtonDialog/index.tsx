@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Button from '@/components/atoms/Button';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
-import useCategoryPost from '@/hooks/useCategoryPost';
+import useCategoryPost from '@/hooks/category/useCategoryPost';
 
 import Modal from '../Modal';
 import InputGroup from '../InputGroup';
