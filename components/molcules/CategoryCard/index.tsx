@@ -28,7 +28,7 @@ const CategoryCard = ({
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
   return (
-    <CategoryCardWrapper>
+    <CategoryCardWrapper data-testid="id-category-card">
       <CardTitle link={`/category/${categoryId}`}>{title}</CardTitle>
       <DotMenuOpener top="14px" right="14px">
         <DropdownMenu>

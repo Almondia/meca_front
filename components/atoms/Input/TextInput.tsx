@@ -34,6 +34,7 @@ const TextInput = ({
   iconLeft,
   iconRight,
   width,
+  ariaLabel,
 }: TextInputProps) => (
   <TextInputWrapper width={width}>
     {iconLeft && <TextInputLeftIconBox icon={iconLeft} size="1rem" />}
@@ -45,6 +46,7 @@ const TextInput = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
+      aria-label={ariaLabel}
     />
     {iconRight && <TextInputRightIconBox icon={iconRight} size="1rem" />}
   </TextInputWrapper>

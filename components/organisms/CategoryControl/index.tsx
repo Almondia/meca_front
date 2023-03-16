@@ -27,6 +27,7 @@ const CategoryControl = ({ onChangeQuery }: { onChangeQuery: (query: string) => 
           value={searchKeyword}
           onChange={handleSearchKeywordChange}
           placeholder="제목으로 카테고리 검색"
+          ariaLabel="input-category-search"
         />
         <Button colorTheme="primary" width="100px" onClick={handleSearchQuery}>
           검색

@@ -35,15 +35,21 @@ const CategoryAddButtonDialog = () => {
       </Button>
       {visible && (
         <Modal visible={visible} onClose={close} hasCloseIcon={false} isClickAwayable={false}>
-          <Modal.Title>카테고리 추가하기</Modal.Title>
+          <Modal.Title>카테고리 등록하기</Modal.Title>
           <Modal.Body>
             <InputGroup>
               <InputGroup.Label>카테고리 제목 입력</InputGroup.Label>
               <InputGroup.Validation visible={changed && input === ''}>제목을 입력하세요</InputGroup.Validation>
-              <InputGroup.Input.Text name="title" value={input} onChange={onInputChange} placeholder="" />
+              <InputGroup.Input.Text
+                name="title"
+                value={input}
+                onChange={onInputChange}
+                placeholder=""
+                ariaLabel="input-category-title"
+              />
             </InputGroup>
           </Modal.Body>
-          <Modal.ConfirmButton onClick={handleCategoryAddButtonClick}>추가하기</Modal.ConfirmButton>
+          <Modal.ConfirmButton onClick={handleCategoryAddButtonClick}>등록하기</Modal.ConfirmButton>
           <Modal.CloseButton onClick={close}>취소</Modal.CloseButton>
         </Modal>
       )}

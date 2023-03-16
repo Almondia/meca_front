@@ -4,4 +4,5 @@ export interface InputProps {
   /** [필수] input 값 */
   value: string;
   disabled?: boolean;
+  ariaLabel?: string;
 }
