@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Button from '@/components/atoms/Button';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
-import categoryApi from '@/apis/categoryApi';
+import useCategoryUpdate from '@/hooks/useCategoryUpdate';
 
 import Modal from '../Modal';
 import InputGroup from '../InputGroup';
@@ -11,7 +11,7 @@ import InputGroup from '../InputGroup';
 const AddCategoryButtonDialog = () => {
   const { visible, open, close } = useModal();
   const { input, onInputChange, inputReset, changed } = useInput('');
-
+  const { addCategory } = useCategoryUpdate();
   useEffect(() => {
     if (!visible) {
       inputReset();
@@ -22,8 +22,10 @@ const AddCategoryButtonDialog = () => {
   const handleCategoryAddButtonClick = async () => {
     // TODO: add validation logic
     // TODO: add react query logic
-    await categoryApi.addCategory({ title: input });
-    close();
+    const result = await addCategory(input);
+    if (result) {
+      close();
+    }
   };
 
   return (
