@@ -1,24 +1,30 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import categoryApi from '@/apis/categoryApi';
-import axiosErrorHandler from '@/apis/config/errorHandler';
+import categoryApi, { CategoriesResponse } from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
 
 const useCategoryUpdate = () => {
   const queryClient = useQueryClient();
 
-  const addCategory = async (title: string) => {
-    try {
-      await categoryApi.addCategory({ title });
-      queryClient.invalidateQueries([queryKey.categories, 'me']);
-      return true;
-    } catch (e) {
-      axiosErrorHandler(e);
-      return false;
-    }
-  };
-
-  return { addCategory };
+  const { mutate: updateCategory } = useMutation(categoryApi.updateCategory, {
+    onSuccess: (data) => {
+      queryClient.setQueriesData<InfiniteData<CategoriesResponse>>([queryKey.categories, 'me'], (prev) => {
+        if (!prev) {
+          return prev;
+        }
+        return {
+          ...prev,
+          pages: [...prev.pages].map((page) => ({
+            ...page,
+            contents: page.contents.map((content) =>
+              content.categoryId === data.categoryId ? { ...content, title: data.title } : content,
+            ),
+          })),
+        };
+      });
+    },
+  });
+  return { updateCategory };
 };
 
 export default useCategoryUpdate;

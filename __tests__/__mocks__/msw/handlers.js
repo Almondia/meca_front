@@ -73,6 +73,20 @@ export const handlers = [
     const category = CATEGORIES[idx];
     CATEGORIES.splice(idx, 1);
     CATEGORIES.push({ ...category, title: title });
-    return res(ctx.status(200));
+    if (title.length >= 20) {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          message: '제목 오류',
+        }),
+      );
+    }
+    return res(
+      ctx.status(200),
+      ctx.json({
+        title: title,
+        categoryId: id,
+      }),
+    );
   }),
 ];

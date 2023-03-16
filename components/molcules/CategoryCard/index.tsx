@@ -8,6 +8,7 @@ import useModal from '@/hooks/useModal';
 import { CategoryCardWrapper, ProgressesInfoContainer } from './styled';
 
 import CategoryDeleteDialog from '../CategoryDeleteDialog';
+import CategoryUpdateDialog from '../CategoryUpdateDialog';
 
 export interface CategoryCardProps {
   categoryId: string;
@@ -25,12 +26,15 @@ const CategoryCard = ({
   solvedCardCount = 0,
 }: CategoryCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
+  const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
   return (
     <CategoryCardWrapper>
       <CardTitle link={`/category/${categoryId}`}>{title}</CardTitle>
       <DotMenuOpener top="14px" right="14px">
         <DropdownMenu>
-          <DropdownMenu.Contents href="">수정하기</DropdownMenu.Contents>
+          <DropdownMenu.Contents href="" onClick={updateModalOpen}>
+            수정하기
+          </DropdownMenu.Contents>
           <DropdownMenu.Contents href="" onClick={deleteModalOpen}>
             삭제하기
           </DropdownMenu.Contents>
@@ -40,6 +44,14 @@ const CategoryCard = ({
               categoryTitle={title}
               visible={isDeleteModalVisible}
               onClose={deleteModalClose}
+            />
+          )}
+          {isUpdateModalVisible && (
+            <CategoryUpdateDialog
+              categoryId={categoryId}
+              categoryTitle={title}
+              visible={isUpdateModalVisible}
+              onClose={updateModalClose}
             />
           )}
         </DropdownMenu>

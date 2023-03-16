@@ -15,11 +15,16 @@ const categoryApi = {
       params: {
         offset,
         pageSize,
-        title: query,
+        startTitle: query,
       },
     }),
   addCategory: ({ title }: { title: string }) =>
     authInstance.post<never, { categoryId: string }>('/api/v1/categories', {
+      title,
+    }),
+  deleteCategory: (id: string) => authInstance.delete<never, never>(`/api/v1/categories/${id}`),
+  updateCategory: ({ categoryId, title }: Pick<CategoryType, 'categoryId' | 'title'>) =>
+    authInstance.put<never, CategoryType>(`/api/v1/categories/${categoryId}`, {
       title,
     }),
 };
