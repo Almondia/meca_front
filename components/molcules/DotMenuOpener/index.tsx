@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -28,7 +30,14 @@ export const DotMenuOpenerWrapper = styled.div<Pick<DotMenuOpenerProps, 'right' 
 const DotMenuOpener = ({ children, top = '0px', right = '0px' }: DotMenuOpenerProps) => {
   const [isDotMenuVisible, setIsDotMenuVisible] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
-  useClickAway(ref, () => setIsDotMenuVisible(false));
+  useClickAway(
+    ref,
+    () => {
+      setIsDotMenuVisible(false);
+    },
+    isDotMenuVisible,
+  );
+
   return (
     <DotMenuOpenerWrapper ref={ref} top={top} right={right}>
       <IconButton icon="VerticalDot" iconSize="21px" onClick={() => setIsDotMenuVisible((prev) => !prev)} />

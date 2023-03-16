@@ -40,9 +40,14 @@ export interface ModalProps {
  */
 const Modal = ({ children, visible = false, hasCloseIcon = true, isClickAwayable = false, onClose }: ModalProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  useClickAway(ref, () => {
-    isClickAwayable && onClose();
-  });
+  useClickAway(
+    ref,
+    () => {
+      isClickAwayable && onClose();
+    },
+    true,
+    true,
+  );
   if (!hasBrowser()) {
     return null;
   }
