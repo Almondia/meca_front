@@ -28,17 +28,51 @@ export const handlers = [
   rest.get(`${ENDPOINT}/categories/me`, (req, res, ctx) => {
     const offset = req.url.searchParams.get('offset');
     const pageSize = req.url.searchParams.get('pageSize');
-    const title = req.url.searchParams.get('title');
+    const title = req.url.searchParams.get('startTitle');
     const totalPages = parseInt(CATEGORIES.length / pageSize) + 1;
     const pageNumber = parseInt(offset);
     const result = {
       totalPages,
       pageNumber,
-      contents: CATEGORIES.filter((category) => category.title.indexOf(title) !== -1).slice(
-        offset * pageSize,
-        (parseInt(offset) + 1) * pageSize,
-      ),
+      contents: CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt)
+        .filter((category) => category.title.indexOf(title) !== -1)
+        .slice(offset * pageSize, (parseInt(offset) + 1) * pageSize),
     };
     return res(ctx.json(result));
+  }),
+
+  rest.post(`${ENDPOINT}/categories`, async (req, res, ctx) => {
+    const { title } = await req.json();
+    if (title.length >= 20) {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          message: '제목 오류',
+        }),
+      );
+    }
+    CATEGORIES.push({
+      title: title,
+      createdAt: CATEGORIES.length,
+      id: 'c' + CATEGORIES.length,
+    });
+    return res(ctx.status(200));
+  }),
+
+  rest.delete(`${ENDPOINT}/categories/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    const idx = CATEGORIES.findIndex((v) => v.categoryId === id);
+    CATEGORIES.splice(idx, 1);
+    return res(ctx.status(200));
+  }),
+
+  rest.put(`${ENDPOINT}/categories/:id`, async (req, res, ctx) => {
+    const { id } = req.params;
+    const { title } = await req.json();
+    const idx = CATEGORIES.findIndex((v) => v.categoryId === id);
+    const category = CATEGORIES[idx];
+    CATEGORIES.splice(idx, 1);
+    CATEGORIES.push({ ...category, title: title });
+    return res(ctx.status(200));
   }),
 ];
