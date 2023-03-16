@@ -1,10 +1,9 @@
 import useCategoryDelete from '@/hooks/useCategoryDelete';
+import { DefaultModalOptions } from '@/types/common';
 
 import Modal from '../Modal';
 
-export interface CategoryDeleteDialogProps {
-  onClose: () => void;
-  visible: boolean;
+export interface CategoryDeleteDialogProps extends DefaultModalOptions {
   categoryId: string;
   categoryTitle: string;
 }

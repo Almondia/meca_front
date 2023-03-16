@@ -6,6 +6,7 @@ import IconButton from '@/components/atoms/IconButton';
 import useClickAway from '@/hooks/useClickAway';
 import { hasBrowser } from '@/utils/common';
 import getInnerComponents from '@/utils/getInnerComponent.s';
+import { DefaultModalOptions } from '@/types/common';
 
 import { Background, CloseIconButton, ModalButtonGroup, ModalContainer, ModalWrapper } from './styled';
 import ModalTitle, { modalTitleComponentType } from './inner/ModalTitle';
@@ -13,7 +14,7 @@ import ModalBody, { modalBodyComponentType } from './inner/ModalBody';
 import ModalCloseButton, { modalCloseButtonComponentType } from './inner/ModalCloseButton';
 import ModalConfirmButton, { modalConfirmButtonComponentType } from './inner/ModalConfirmButton';
 
-export interface ModalProps {
+export interface ModalProps extends DefaultModalOptions {
   /**
    * [필수] 내부에 `ReactNode`를 규칙에 맞게 선언해 UI에 표시합니다.
    * - `<Modal.Title>`: 타이틀을 표시합니다.
@@ -23,14 +24,10 @@ export interface ModalProps {
    * 규격 이외의 컴포넌트는 식별되지 않습니다.
    */
   children: React.ReactNode;
-  /** [필수] 모달이 보여지는지 여부입니다. */
-  visible: boolean;
   /** [선택] 닫기 아이콘이 존재하는지 여부입니다. */
   hasCloseIcon?: boolean;
   /** [선택] 외부를 클릭했을 때 모달창을 닫을지 여부입니다. */
   isClickAwayable?: boolean;
-  /** [필수] 모달을 닫는 함수입니다. */
-  onClose: () => void;
 }
 
 /**
