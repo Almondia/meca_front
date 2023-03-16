@@ -21,8 +21,8 @@ const LoginCardContainer = styled.div`
 `;
 
 export default function Home() {
-  const { user, isLoading } = useUser();
-  if (isLoading) {
+  const { user, isFetching } = useUser();
+  if (isFetching) {
     return <div>...loading</div>;
   }
   if (user) {
