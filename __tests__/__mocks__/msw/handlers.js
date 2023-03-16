@@ -2,7 +2,7 @@ import storage from '@/utils/storageHandler';
 import { rest } from 'msw';
 import { authInstance } from '../../../apis/config/instance';
 import CATEGORIES from './data';
-const ENDPOINT = authInstance.defaults.baseURL + '/api/v1';
+export const ENDPOINT = authInstance.defaults.baseURL + '/api/v1';
 
 export const handlers = [
   rest.post(`${ENDPOINT}/oauth/login/kakao`, (req, res, ctx) => {

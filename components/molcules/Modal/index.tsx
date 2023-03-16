@@ -48,7 +48,7 @@ const Modal = ({ children, visible = false, hasCloseIcon = true, isClickAwayable
   if (!hasBrowser()) {
     return null;
   }
-  const modalPortalDiv = document.querySelector('#modal-root');
+  const modalPortalDiv = document.querySelector('#modal-root') ?? document.body;
   if (!modalPortalDiv) {
     return null;
   }
