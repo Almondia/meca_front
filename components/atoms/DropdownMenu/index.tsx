@@ -10,7 +10,15 @@ export interface DropdownContentsProps {
 
 /** 드롭다운 내용 */
 const DropdownContents = ({ href, children, onClick }: DropdownContentsProps) => (
-  <DropdownContentsWrapper href={href} onClick={onClick}>
+  <DropdownContentsWrapper
+    href={href}
+    onClick={(e) => {
+      if (onClick) {
+        e.preventDefault();
+        onClick();
+      }
+    }}
+  >
     {children}
   </DropdownContentsWrapper>
 );

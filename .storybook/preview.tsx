@@ -6,6 +6,9 @@ import { DecoratorFn } from '@storybook/react';
 import React from 'react';
 import '../styles/font.css';
 import { RouterContext } from 'next/dist/shared/lib/router-context'; // next 12
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const customViewports = {
   mobile: {
@@ -80,12 +83,14 @@ const ThemeChanger = ({ theme }) => {
 const withDecorator: DecoratorFn = (StoryFn, context) => {
   const theme = context.parameters.theme || context.globals.theme;
   return (
-    <RecoilRoot>
-      <ThemeChanger theme={theme} />
-      <ThemeProvider>
-        <StoryFn />
-      </ThemeProvider>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <ThemeChanger theme={theme} />
+        <ThemeProvider>
+          <StoryFn />
+        </ThemeProvider>{' '}
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 };
 

@@ -14,6 +14,7 @@ const useUser = () => {
     refetch,
     isStale,
     isLoading,
+    isFetching,
   } = useQuery([queryKey.me], userApi.getMe, {
     enabled: false,
     staleTime: 30000,
@@ -32,7 +33,7 @@ const useUser = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasToken, user]);
 
-  return { user, isLoading };
+  return { user, isLoading, isFetching };
 };
 
 export default useUser;

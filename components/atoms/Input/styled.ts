@@ -2,15 +2,17 @@ import styled from 'styled-components';
 
 import { FlexCenter, FlexColumn } from '@/styles/layout';
 import Icon from '@/components/atoms/Icon';
+import { ElementSizeType } from '@/types/common';
 
 export const InputWrapper = styled.div``;
 
-export const TextInputWrapper = styled.div`
+export const TextInputWrapper = styled.div<{ width?: ElementSizeType }>`
   ${FlexCenter};
-  width: 100%;
+  width: ${(props) => props.width ?? 'auto'};
   padding: 10px 15px;
   border: 1px solid ${({ theme }) => theme.gray};
   border-radius: ${({ theme }) => theme.border.button};
+  color: ${({ theme }) => theme.textColor};
 `;
 
 export const TextInputBox = styled.input`

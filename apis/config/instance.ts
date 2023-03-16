@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import storage from '@/utils/storageHandler';
 import { TokenType } from '@/types/domain';
@@ -13,6 +13,14 @@ function getObject(response: AxiosResponse) {
   return data !== null && typeof data === 'object' ? snakeToCamel(response.data) : {};
 }
 
+function genErrorResponse(error: any) {
+  const errorResponse = {
+    ...error.response.data,
+    status: error.response.status,
+  };
+  return Promise.reject(errorResponse);
+}
+
 authInstance.interceptors.request.use((config) => {
   // eslint-disable-next-line no-param-reassign
   config.headers.Authorization = `Bearer ${storage.getItem<TokenType>('token')?.accessToken}`;
@@ -21,7 +29,7 @@ authInstance.interceptors.request.use((config) => {
 
 unauthInstance.interceptors.response.use(
   (response): any => getObject(response),
-  (error) => Promise.reject(error),
+  (error) => genErrorResponse(error),
 );
 
 authInstance.interceptors.response.use(
@@ -31,7 +39,7 @@ authInstance.interceptors.response.use(
     if (error.status === 401) {
       storage.removeItem('token');
     }
-    return Promise.reject(error);
+    return genErrorResponse(error);
   },
 );
 export { unauthInstance, authInstance };

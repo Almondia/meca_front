@@ -1,7 +1,7 @@
 import PageTitle from '@/components/layout/PageTitle';
 import CategoryControl from '@/components/organisms/CategoryControl';
 import CategoryList from '@/components/organisms/CategoryList';
-import useCategory from '@/hooks/useCategory';
+import useCategory from '@/hooks/category/useCategory';
 import { Devide, ListSection } from '@/styles/layout';
 
 const MyCategory = () => {
