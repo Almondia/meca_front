@@ -1,4 +1,12 @@
 export type MecaTagType = 'ox' | 'desc' | 'keyword' | 'select';
+export type MecaType = 'OX_QUIZ' | 'KEYWORD' | 'MULTI_CHOICE' | 'DESCRIPTION';
+
+export const MECA_TYPES: Record<MecaTagType, MecaType> = {
+  ox: 'OX_QUIZ',
+  keyword: 'KEYWORD',
+  select: 'MULTI_CHOICE',
+  desc: 'DESCRIPTION',
+};
 
 export const SOCIAL_TYPES = ['kakao', 'naver', 'google'] as const;
 export type SocialType = (typeof SOCIAL_TYPES)[number];
