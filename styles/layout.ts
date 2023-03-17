@@ -36,7 +36,8 @@ export const FlexColumnAlignCenter = css`
   align-items: center;
 `;
 
-export const ListSection = styled.div`
+const Section = styled.div`
+  margin: 0 auto;
   padding: 100px 140px;
   @media ${({ theme }) => theme.media.tablet} {
     padding: 60px 60px;
@@ -44,6 +45,14 @@ export const ListSection = styled.div`
   @media ${({ theme }) => theme.media.mobile} {
     padding: 60px 30px;
   }
+`;
+
+export const ListSection = styled(Section)`
+  max-width: 1440px;
+`;
+
+export const PostSection = styled(Section)`
+  max-width: 1080px;
 `;
 
 export const Devide = styled.div`
