@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FlexCenter, FlexColumn } from '@/styles/layout';
 import Icon from '@/components/atoms/Icon';
 import { ElementSizeType } from '@/types/common';
+import { COLOR } from '@/styles/constants';
 
 export const InputWrapper = styled.div``;
 
@@ -88,4 +89,20 @@ export const TextAreaBox = styled(TextInputBox.withComponent('textarea'))`
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
+`;
+
+export const TitleInputWrapper = styled.div`
+  width: 100%;
+`;
+
+export const TitleInputBox = styled(TextInputBox)<{ isValid: boolean }>`
+  font-size: 2rem;
+  color: ${({ theme }) => theme.gray};
+  border-bottom: 1px solid ${({ theme }) => theme.gray};
+  :focus {
+    border-bottom: 2px solid ${(props) => (props.isValid ? props.theme.brandColor : COLOR.error)};
+  }
+  @media ${({ theme }) => theme.media.mobile} {
+    font-size: 1.5rem;
+  }
 `;
