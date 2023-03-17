@@ -97,10 +97,11 @@ export const TitleInputWrapper = styled.div`
 
 export const TitleInputBox = styled(TextInputBox)<{ isValid: boolean }>`
   font-size: 2rem;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.gray};
-  border-bottom: 1px solid ${({ theme }) => theme.gray};
+  box-shadow: 0 4px 0 -3px ${({ theme }) => theme.gray};
   :focus {
-    border-bottom: 2px solid ${(props) => (props.isValid ? props.theme.brandColor : COLOR.error)};
+    box-shadow: 0 4px 0 -2px ${(props) => (props.isValid ? props.theme.brandColor : COLOR.error)};
   }
   @media ${({ theme }) => theme.media.mobile} {
     font-size: 1.5rem;

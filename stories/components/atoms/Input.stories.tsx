@@ -88,3 +88,22 @@ export const TextAreaInput = () => {
     </div>
   );
 };
+
+export const TitleInput = () => {
+  const [value, setValue] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean>(true);
+  return (
+    <Template>
+      <Input.Title
+        name="title-input"
+        value={value}
+        onChange={(e) => {
+          setIsValid(e.target.value.length <= 20);
+          setValue(e.target.value);
+        }}
+        placeholder="20글자를 넘으면 안됩니다"
+        isValid={isValid}
+      />
+    </Template>
+  );
+};
