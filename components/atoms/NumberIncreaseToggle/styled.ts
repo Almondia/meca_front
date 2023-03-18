@@ -4,7 +4,6 @@ import { FlexCenter } from '@/styles/layout';
 
 export const NumberIncreaseToggleWrapper = styled.div`
   display: inline-flex;
-  justify-content: center;
   align-items: center;
 `;
 
