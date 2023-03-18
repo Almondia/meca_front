@@ -17,7 +17,6 @@ export const ValidationWrapper = styled.div`
 `;
 
 export const LabelWrapper = styled(TextBodySubtitle)`
-  margin-bottom: -6px;
   color: ${({ theme }) => theme.gray};
 `;
 
