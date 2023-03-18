@@ -48,7 +48,7 @@ export const TextInputRightIconBox = styled(TextInputIconBox)`
 export const RadioGroupWrapper = styled.fieldset`
   display: flex;
   column-gap: 40px;
-  @media ${({ theme }) => theme.media.tablet} {
+  @media ${({ theme }) => theme.media.mobile} {
     ${FlexColumn};
     row-gap: 16px;
   }

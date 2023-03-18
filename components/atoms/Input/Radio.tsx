@@ -4,12 +4,20 @@ import { InputProps } from './type';
 export interface RadioProps extends InputProps {
   defaultChecked?: boolean;
   children: React.ReactNode;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Radio = ({ children, name, value, defaultChecked, disabled }: RadioProps) => (
+const Radio = ({ children, name, value, onChange, defaultChecked, disabled }: RadioProps) => (
   <RadioBox>
     {children}
-    <input type="radio" name={name} value={value} defaultChecked={defaultChecked} disabled={disabled} />
+    <input
+      type="radio"
+      name={name}
+      value={value}
+      onChange={onChange}
+      defaultChecked={defaultChecked}
+      disabled={disabled}
+    />
   </RadioBox>
 );
 
