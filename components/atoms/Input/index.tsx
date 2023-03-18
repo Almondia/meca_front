@@ -1,4 +1,4 @@
-import RadioGroup from './Radio';
+import RadioGroup, { ForwardRadioGroup } from './Radio';
 import { InputWrapper } from './styled';
 import TextArea from './TextArea';
 import TextInput from './TextInput';
@@ -23,6 +23,7 @@ const Input = ({ children }: { children: React.ReactNode }) => <InputWrapper>{ch
 
 Input.Text = TextInput;
 Input.RadioGroup = RadioGroup;
+Input.ForwardRadioGroup = ForwardRadioGroup;
 Input.TextArea = TextArea;
 Input.Title = TitleInput;
 

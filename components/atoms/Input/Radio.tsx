@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 import { RadioBox, RadioGroupWrapper } from './styled';
 import { InputProps } from './type';
 
@@ -23,5 +25,11 @@ const Radio = ({ children, name, value, onChange, defaultChecked, disabled }: Ra
 
 const RadioGroup = ({ children }: { children: React.ReactNode }) => <RadioGroupWrapper>{children}</RadioGroupWrapper>;
 RadioGroup.Radio = Radio;
+
+export const ForwardRadioGroup = forwardRef(
+  ({ children }: { children: React.ReactNode }, ref: React.Ref<HTMLFieldSetElement>) => (
+    <RadioGroupWrapper ref={ref}>{children}</RadioGroupWrapper>
+  ),
+);
 
 export default RadioGroup;
