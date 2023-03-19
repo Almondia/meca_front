@@ -5,8 +5,13 @@ import styled from 'styled-components';
 import { TextBodyTitle } from '@/styles/common';
 
 const CardTitleWrapper = styled(TextBodyTitle)`
-  display: inline;
+  display: -webkit-box;
+  width: 90%;
   margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   :hover {
     cursor: pointer;
     color: ${({ theme }) => theme.brandColor};
