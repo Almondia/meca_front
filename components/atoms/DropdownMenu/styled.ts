@@ -9,6 +9,7 @@ export const DropdownMenuWrapper = styled.div`
   width: 140px;
   border-radius: 2px;
   box-shadow: ${({ theme }) => theme.shadow.normal};
+  background-color: ${({ theme }) => theme.backgroundColor};
 `;
 
 export const DropdownContentsWrapper = styled(Link)`
