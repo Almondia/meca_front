@@ -97,7 +97,6 @@ export const handlers = [
   }),
 
   rest.put(`${ENDPOINT}/cards/:id`, async (req, res, ctx) => {
-    console.log('HELLO');
     const { id } = req.params;
     const request = await req.json();
     const newCard = { ...request };
