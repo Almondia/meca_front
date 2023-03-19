@@ -38,7 +38,7 @@ export interface MecaWriteFormProps extends Partial<MecaType> {
 }
 
 const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answer, question }: MecaWriteFormProps) => {
-  const { createMeca } = useMecaWrite();
+  const { createMeca, updateMeca } = useMecaWrite();
   const { input: titleInput, onInputChange: onTitleChange } = useInput(title ?? '');
   const {
     input: questionInput,
@@ -78,7 +78,7 @@ const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answe
       question: questionInput,
       cardType: MECA_TAG_TO_RESPONSE[mecaTagType],
     };
-    createMeca(body);
+    cardId ? updateMeca({ ...body, cardId }) : createMeca(body);
   };
 
   return (

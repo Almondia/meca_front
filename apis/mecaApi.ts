@@ -17,7 +17,7 @@ const mecaApi = {
       ...props,
     }),
   updateMeca: (props: Omit<MecaWriteRequest, 'cardType'>) =>
-    authInstance.put<never, MecaWriteResponse>(`/api/v1/cards${props.cardId}`, {
+    authInstance.put<never, MecaWriteResponse>(`/api/v1/cards/${props.cardId}`, {
       ...props,
     }),
 };

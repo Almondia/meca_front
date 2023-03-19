@@ -26,7 +26,12 @@ const MecaWrite = ({ cardId, title, cardType, answer, categoryId, question }: Me
       <InputGroup>
         <InputGroup.Label>문제 유형 한가지를 선택하세요</InputGroup.Label>
         <br />
-        <MecaTagToggleGroup options={MECA_TAGS} selected={selectedMecaTag} onToggle={handleMecaTagToggle} />
+        <MecaTagToggleGroup
+          options={MECA_TAGS}
+          selected={selectedMecaTag}
+          onToggle={handleMecaTagToggle}
+          onlySelected={!!cardId}
+        />
         <Devide />
       </InputGroup>
       <MecaWriteForm
