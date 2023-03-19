@@ -1,4 +1,4 @@
-const CATEGORIES = [...Array(100)].map((v, i) => {
+export const CATEGORIES = [...Array(100)].map((v, i) => {
   const obj = {};
   obj.categoryId = 'cid' + i;
   obj.title = 'title' + i;
@@ -6,4 +6,15 @@ const CATEGORIES = [...Array(100)].map((v, i) => {
   return obj;
 });
 
-export default CATEGORIES;
+export const MOCK_CATEGORY_ID = 'cid24';
+
+export const MECAS = [...Array(24)].map((v, i) => {
+  const obj = {};
+  obj.categoryId = MOCK_CATEGORY_ID;
+  obj.cardId = 'cid' + i;
+  obj.title = 'title' + i;
+  obj.cardType = 'KEYWORD';
+  obj.answer = 'answer' + i;
+  obj.question = 'question' + i;
+  return obj;
+});

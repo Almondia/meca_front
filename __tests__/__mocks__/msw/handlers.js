@@ -1,7 +1,7 @@
 import storage from '@/utils/storageHandler';
 import { rest } from 'msw';
 import { authInstance } from '../../../apis/config/instance';
-import CATEGORIES from './data';
+import { CATEGORIES, MECAS } from './data';
 export const ENDPOINT = authInstance.defaults.baseURL + '/api/v1';
 
 export const handlers = [
@@ -78,6 +78,37 @@ export const handlers = [
       ctx.json({
         title: title,
         categoryId: id,
+      }),
+    );
+  }),
+
+  rest.post(`${ENDPOINT}/cards`, async (req, res, ctx) => {
+    const request = await req.json();
+    const cardId = 'cid' + MECAS.length;
+    const newCard = { ...request, cardId };
+    MECAS.push({ ...newCard });
+    return res(
+      ctx.status(201),
+      ctx.json({
+        cardId: cardId,
+        categoryId: request.categoryId,
+      }),
+    );
+  }),
+
+  rest.put(`${ENDPOINT}/cards/:id`, async (req, res, ctx) => {
+    const { id } = req.params;
+    const request = await req.json();
+    const newCard = { ...request };
+    const idx = MECAS.findIndex((v) => v.cardId === id);
+    const meca = MECAS[idx];
+    MECAS.splice(idx, 1);
+    MECAS.push({ ...meca, ...newCard });
+    return res(
+      ctx.status(200),
+      ctx.json({
+        cardId: id,
+        categoryId: newCard.categoryId,
       }),
     );
   }),

@@ -1,6 +1,6 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent, findByText, waitFor, act } from '@testing-library/react';
-import CATEGORIES from '../__mocks__/msw/data';
+import { CATEGORIES } from '../__mocks__/msw/data';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { rest } from 'msw';
 import { server } from '../__mocks__/msw/server';

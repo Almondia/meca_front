@@ -1,4 +1,19 @@
 export type MecaTagType = 'ox' | 'desc' | 'keyword' | 'select';
+export type MecaTagResponseType = 'OX_QUIZ' | 'KEYWORD' | 'MULTI_CHOICE' | 'DESCRIPTION';
+
+export const MECA_TAG_TO_RESPONSE: Record<MecaTagType, MecaTagResponseType> = {
+  ox: 'OX_QUIZ',
+  keyword: 'KEYWORD',
+  select: 'MULTI_CHOICE',
+  desc: 'DESCRIPTION',
+};
+
+export const MECA_RESPONE_TO_TAG: Record<MecaTagResponseType, MecaTagType> = {
+  OX_QUIZ: 'ox',
+  KEYWORD: 'keyword',
+  MULTI_CHOICE: 'select',
+  DESCRIPTION: 'desc',
+};
 
 export const SOCIAL_TYPES = ['kakao', 'naver', 'google'] as const;
 export type SocialType = (typeof SOCIAL_TYPES)[number];
@@ -28,4 +43,15 @@ export interface PaginationType {
   pageSize?: number;
   offset: number;
   query: string;
+}
+
+export interface MecaType {
+  cardId: string;
+  categoryId: string;
+  cardType: MecaTagResponseType;
+  title: string;
+  question: string;
+  answer: string;
+  createdAt: string;
+  images?: string[];
 }

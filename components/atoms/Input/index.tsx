@@ -1,7 +1,8 @@
-import RadioGroup from './Radio';
+import RadioGroup, { ForwardRadioGroup } from './Radio';
 import { InputWrapper } from './styled';
 import TextArea from './TextArea';
 import TextInput from './TextInput';
+import TitleInput from './TitleInput';
 
 /**
  * Input 처리 합성 컴포넌트
@@ -22,6 +23,8 @@ const Input = ({ children }: { children: React.ReactNode }) => <InputWrapper>{ch
 
 Input.Text = TextInput;
 Input.RadioGroup = RadioGroup;
+Input.ForwardRadioGroup = ForwardRadioGroup;
 Input.TextArea = TextArea;
+Input.Title = TitleInput;
 
 export default Input;

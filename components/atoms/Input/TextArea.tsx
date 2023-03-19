@@ -7,7 +7,7 @@ export interface TextAreaProps extends InputProps {
   onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
 }
 
-const TextArea = ({ name, value, placeholder = '', onChange, onBlur, disabled }: TextAreaProps) => (
+const TextArea = ({ name, value, placeholder = '', onChange, onBlur, disabled, ariaLabel }: TextAreaProps) => (
   <TextAreaWrapper>
     <TextAreaBox
       name={name}
@@ -16,6 +16,7 @@ const TextArea = ({ name, value, placeholder = '', onChange, onBlur, disabled }:
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled ?? false}
+      aria-label={ariaLabel}
     />
   </TextAreaWrapper>
 );

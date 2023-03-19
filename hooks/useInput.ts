@@ -4,8 +4,8 @@ function useInput(initialInput: string) {
   const [input, setInput] = useState(initialInput);
   const [changed, setChange] = useState<boolean>(false);
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value.trim());
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.target instanceof HTMLInputElement ? setInput(e.target.value.trim()) : setInput(e.target.value);
     !changed && setChange(true);
   };
 
