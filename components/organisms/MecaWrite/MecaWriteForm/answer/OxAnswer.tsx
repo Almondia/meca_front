@@ -9,7 +9,7 @@ const OxAnswer = ({ value, onChange }: MecaWriteFormInputProps) => {
   const { fieldSet: fieldSetRef, forceClick } = useRadio();
 
   useEffect(() => {
-    forceClick(value ?? 'O', onChange);
+    forceClick(value || 'O', onChange);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

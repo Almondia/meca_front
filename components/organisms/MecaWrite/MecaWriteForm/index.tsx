@@ -1,11 +1,13 @@
-import { RefObject, useLayoutEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import InputGroup from '@/components/molcules/InputGroup';
 import useInput from '@/hooks/useInput';
-import { MecaTagType, MecaType } from '@/types/domain';
+import { MECA_TAG_TO_RESPONSE, MecaTagType, MecaType } from '@/types/domain';
 import useIncrease from '@/hooks/useCount';
 import NumberIncreaseToggle from '@/components/atoms/NumberIncreaseToggle';
+import ButtonGroup from '@/components/molcules/ButtonGroup';
+import useMecaWrite from '@/hooks/meca/useMecaWrite';
 
 import OxQuestion from './question/OxQuestion';
 import { MecaWriteInputComponentType } from './type';
@@ -36,6 +38,7 @@ export interface MecaWriteFormProps extends Partial<MecaType> {
 }
 
 const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answer, question }: MecaWriteFormProps) => {
+  const { createMeca } = useMecaWrite();
   const { input: titleInput, onInputChange: onTitleChange } = useInput(title ?? '');
   const {
     input: questionInput,
@@ -51,7 +54,7 @@ const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answe
   const [Question, setQuestion] = useState<MecaWriteInputComponentType | undefined>(undefined);
   const [Answer, setAnswer] = useState<MecaWriteInputComponentType | undefined>(undefined);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setQuestion(() => QUESTION_COMPONENTS[mecaTagType]);
     setAnswer(() => ANSWER_COMPONENTS[mecaTagType]);
 
@@ -65,6 +68,19 @@ const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answe
   if (!titleRef.current) {
     return null;
   }
+
+  const handleCreateButtonClick = () => {
+    // TODO: validation 로직 추가
+    const body = {
+      title: titleInput,
+      answer: answerInput,
+      categoryId,
+      question: questionInput,
+      cardType: MECA_TAG_TO_RESPONSE[mecaTagType],
+    };
+    createMeca(body);
+  };
+
   return (
     <div>
       {createPortal(
@@ -88,6 +104,15 @@ const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answe
         </InputGroup>
       )}
       {Answer && <Answer value={answerInput} onChange={onAnswerChange} selectionNum={caseNum} />}
+      <br />
+      <br />
+      <ButtonGroup
+        onSuccess={handleCreateButtonClick}
+        successText="작성 완료"
+        cancelText="취소"
+        hasCancelWarning
+        cancelWarningText="작성한 내용이 모두 사라집니다?"
+      />
     </div>
   );
 };
