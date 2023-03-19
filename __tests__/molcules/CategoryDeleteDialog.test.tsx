@@ -1,7 +1,7 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent, findByText } from '@testing-library/react';
 import CategoryDeleteDialog from '@/components/molcules/CategoryDeleteDialog';
-import CATEGORIES from '../__mocks__/msw/data';
+import { CATEGORIES } from '../__mocks__/msw/data';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { rest } from 'msw';
 import { server } from '../__mocks__/msw/server';
