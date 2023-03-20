@@ -11,6 +11,7 @@ import { generateQueryClient } from '@/query/queryClient';
 import Layout from '@/components/layout/Layout';
 import '@/styles/font.css';
 import 'react-toastify/dist/ReactToastify.css';
+import commonTheme from '@/styles/theme';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => generateQueryClient());
@@ -18,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <RecoilRoot>
-          <ThemeProvider>
+          <ThemeProvider theme={commonTheme}>
             <ToastContainer
               closeOnClick
               autoClose={2000}
