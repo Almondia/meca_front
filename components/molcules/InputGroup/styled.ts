@@ -5,7 +5,7 @@ import { FlexColumn } from '@/styles/layout';
 
 export const DescriptionWrapper = styled.ul`
   font-size: ${({ theme }) => theme.fontSize.caption};
-  color: ${({ theme }) => theme.gray};
+  color: var(--color-gray);
   & > li {
     margin: 0 0 8px 4px;
   }
@@ -17,7 +17,7 @@ export const ValidationWrapper = styled.div`
 `;
 
 export const LabelWrapper = styled(TextBodySubtitle)`
-  color: ${({ theme }) => theme.gray};
+  color: var(--color-gray);
 `;
 
 export const InputGroupWrapper = styled.div`

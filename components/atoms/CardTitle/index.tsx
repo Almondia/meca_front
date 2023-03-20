@@ -9,7 +9,7 @@ const CardTitleWrapper = styled(TextBodyTitle)`
   margin-bottom: 6px;
   :hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.brandColor};
+    color: var(--color-brand);
   }
 `;
 

@@ -20,8 +20,7 @@ export const Background = styled.div`
   width: 100%;
   height: 100%;
   z-index: 10;
-  background: ${({ theme }) =>
-    theme.backgroundColor === '#FFFFFF' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'};
+  background: var(--color-backghround-shadow);
 `;
 
 export const ModalWrapper = styled.div`
@@ -36,7 +35,7 @@ export const ModalContainer = styled.div`
   box-sizing: border-box;
   border-radius: 4px;
   width: 360px;
-  background: ${({ theme }) => theme.backgroundColor};
+  background: var(--color-background);
   box-shadow: 0px 4px 8px 8px rgba(0, 0, 0, 0.05);
 
   @media ${({ theme }) => theme.media.mobile} {
@@ -51,7 +50,7 @@ export const CloseIconButton = styled.div`
   right: 6px;
   transform: scale(0.7);
   path {
-    stroke: ${({ theme }) => theme.textColor};
+    stroke: var(--color-text);
   }
 `;
 
