@@ -10,7 +10,7 @@ export const IconButtonWrapper = styled.button`
   margin-top: 2px;
   border-radius: 50%;
   :hover {
-    background-color: ${({ theme }) => theme.lightGray};
+    background-color: var(--color-lightgray);
   }
   & > *:hover {
     opacity: 0.6;

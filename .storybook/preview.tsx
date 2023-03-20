@@ -1,13 +1,13 @@
 import * as NextImage from 'next/image';
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import ThemeProvider from '../styles/ThemeProvider';
-import { themeState } from '../atoms/common';
 import { DecoratorFn } from '@storybook/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/font.css';
 import { RouterContext } from 'next/dist/shared/lib/router-context'; // next 12
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
+import useCustomTheme from '../hooks/useCustomTheme';
+import commonTheme from '../styles/theme';
 const queryClient = new QueryClient();
 
 const customViewports = {
@@ -75,8 +75,12 @@ Object.defineProperty(NextImage, 'default', {
 });
 
 const ThemeChanger = ({ theme }) => {
-  const setThemeStatus = useSetRecoilState(themeState);
-  setThemeStatus(theme);
+  const { toggleTheme, theme: currentTheme } = useCustomTheme();
+  useEffect(() => {
+    if (currentTheme !== theme) {
+      toggleTheme();
+    }
+  }, [theme]);
   return <></>;
 };
 
@@ -86,9 +90,9 @@ const withDecorator: DecoratorFn = (StoryFn, context) => {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <ThemeChanger theme={theme} />
-        <ThemeProvider>
+        <ThemeProvider theme={commonTheme}>
           <StoryFn />
-        </ThemeProvider>{' '}
+        </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>
   );

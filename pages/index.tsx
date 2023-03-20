@@ -17,7 +17,7 @@ const IntroduceContainer = styled.div`
 `;
 
 const LoginCardContainer = styled.div`
-  box-shadow: ${({ theme }) => theme.shadow.normal};
+  box-shadow: var(--shadow-normal);
 `;
 
 export default function Home() {

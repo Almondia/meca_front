@@ -5,7 +5,7 @@ export const CategoryCardWrapper = styled.div`
   position: relative;
   padding: 24px;
   border: ${({ theme }) => theme.border.card};
-  box-shadow: ${({ theme }) => theme.shadow.normal};
+  box-shadow: var(--shadow-normal);
 `;
 
 export const ProgressesInfoContainer = styled.div`

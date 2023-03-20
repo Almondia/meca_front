@@ -8,16 +8,16 @@ export const NavSelectionWrapper = styled.div`
   right: -5px;
   width: 140px;
   border-radius: 2px;
-  box-shadow: ${({ theme }) => theme.shadow.normal};
+  box-shadow: var(--shadow-normal);
 `;
 
 export const NavSelectionItem = styled(Link)`
   display: block;
   padding: 12px 18px;
   font-size: ${({ theme }) => theme.fontSize.main};
-  color: ${({ theme }) => theme.textColor};
+  color: var(--color-text);
   :hover {
-    background-color: ${({ theme }) => theme.lightGray};
-    color: ${({ theme }) => theme.brandColor};
+    background-color: var(--color-gray100);
+    color: var(--color-brand);
   }
 `;

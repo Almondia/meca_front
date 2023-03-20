@@ -5,7 +5,7 @@ import { FlexCenter } from '@/styles/layout';
 import { ElementSizeType } from '@/types/common';
 
 const buttonTheme = {
-  primary: [COLOR.brand1, COLOR.txtLight],
+  primary: ['var(--color-brand)', COLOR.txtLight],
   cancel: [COLOR.gray100, COLOR.txtDark],
   success: [COLOR.success, COLOR.txtLight],
   warning: [COLOR.warning, COLOR.txtLight],
@@ -27,8 +27,7 @@ export const ButtonWrapper = styled.button<ButtonStyleProp>`
   ${FlexCenter};
   width: ${(props) => props.width ?? 'fit-content'};
   padding: 13px 17px;
-  background-color: ${(props) =>
-    props.colorTheme === 'primary' ? props.theme.brandColor : buttonTheme[props.colorTheme][0]};
+  background-color: ${(props) => buttonTheme[props.colorTheme][0]};
   color: ${(props) => buttonTheme[props.colorTheme][1]};
   &:disabled {
     opacity: 0.5;
