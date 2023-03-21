@@ -1,12 +1,26 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+/* eslint-disable no-param-reassign */
+import axios, { AxiosResponse } from 'axios';
+import { GetServerSidePropsContext } from 'next';
 
-import storage from '@/utils/storageHandler';
-import { TokenType } from '@/types/domain';
 import snakeToCamel from '@/utils/snakeToCamel';
+import { hasBrowser } from '@/utils/common';
+
+import { deleteTokens, getTokens } from './tokenHandler';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const unauthInstance = axios.create({ baseURL });
 const authInstance = axios.create({ baseURL });
+
+let context = <GetServerSidePropsContext>{};
+let accessTokenInstace = '';
+
+export const setContext = (_context: GetServerSidePropsContext) => {
+  context = _context;
+};
+
+export const setAccessToken = (_accessToken: string) => {
+  accessTokenInstace = _accessToken;
+};
 
 function getObject(response: AxiosResponse) {
   const { data } = response;
@@ -22,8 +36,8 @@ function genErrorResponse(error: any) {
 }
 
 authInstance.interceptors.request.use((config) => {
-  // eslint-disable-next-line no-param-reassign
-  config.headers.Authorization = `Bearer ${storage.getItem<TokenType>('token')?.accessToken}`;
+  const accessToken = hasBrowser() ? accessTokenInstace : getTokens(context).accessToken;
+  config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });
 
@@ -36,8 +50,8 @@ authInstance.interceptors.response.use(
   (response): any => getObject(response),
   (error) => {
     // TODO add token refresh logic
-    if (error.status === 401) {
-      storage.removeItem('token');
+    if (!hasBrowser() && error.response.status === 401) {
+      deleteTokens(context);
     }
     return genErrorResponse(error);
   },

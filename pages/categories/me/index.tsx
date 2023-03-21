@@ -4,6 +4,8 @@ import CategoryList from '@/components/organisms/CategoryList';
 import useCategory from '@/hooks/category/useCategory';
 import { Devide, ListSection } from '@/styles/layout';
 
+export { getServerSideProps } from '@/libs/getAuthenticatedUserServerSideProps';
+
 const MyCategory = () => {
   const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
   return (

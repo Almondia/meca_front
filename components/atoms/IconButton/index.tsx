@@ -1,5 +1,3 @@
-import { useTheme } from 'styled-components';
-
 import { IconType } from '@/components/icons/type';
 import { ElementSizeType } from '@/types/common';
 
