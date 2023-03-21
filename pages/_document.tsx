@@ -2,6 +2,8 @@ import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/do
 
 import { ServerStyleSheet } from 'styled-components';
 
+import ThemeScript from '@/styles/InitThemeScript';
+
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
@@ -28,6 +30,7 @@ export default class MyDocument extends Document {
       <Html>
         <Head />
         <body>
+          <ThemeScript />
           <Main />
           <NextScript />
           <div id="modal-root" />

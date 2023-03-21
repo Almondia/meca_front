@@ -1,11 +1,11 @@
 import 'jest-styled-components';
-import { ThemeProvider } from 'styled-components';
 import { render } from '@testing-library/react';
-import themeMode from '../styles/theme';
 import { ToastContainer } from 'react-toastify';
 import { RecoilRoot } from 'recoil';
 import { generateQueryClient } from '@/query/queryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
+import ThemeProvider from '@/styles/ThemeProvider';
+import commonTheme from '@/styles/theme';
 
 export const createQueryClientWrapper = () => {
   const queryClient = generateQueryClient();
@@ -14,7 +14,7 @@ export const createQueryClientWrapper = () => {
 
 const Wrapper = ({ children }) => (
   <RecoilRoot>
-    <ThemeProvider theme={themeMode['light']}>
+    <ThemeProvider theme={commonTheme}>
       <ToastContainer />
       {children}
     </ThemeProvider>

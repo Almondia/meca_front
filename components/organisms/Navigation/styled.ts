@@ -18,7 +18,7 @@ export const NavigationWrapper = styled.header`
 export const Logo = styled.div`
   font-size: ${({ theme }) => theme.fontSize.large};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: ${({ theme }) => theme.brandColor};
+  color: var(--color-brand);
 `;
 
 export const NavBar = styled.nav`

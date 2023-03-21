@@ -19,7 +19,7 @@ export interface IconProps {
 const IconLayout = styled.div<Pick<IconProps, 'color' | 'size'>>`
   display: inline-block;
   & > svg {
-    fill: ${(props) => props.color || 'currentColor' || props.theme.textColor};
+    fill: ${(props) => props.color || 'currentColor' || 'var(--color-text)'};
     width: ${(props) => props.size || '24px'};
     height: auto;
   }
