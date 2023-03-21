@@ -25,7 +25,7 @@ describe('Homepage', () => {
 
   it('로그인 사용자에게 본인 카테고리 목록 UI가 보여진다.', async () => {
     (storage.getItem as jest.Mock).mockReturnValueOnce({ accessToken: 'token' });
-    renderQuery(<Home />);
+    renderQuery(<Home hasAuth={true} />);
     const categoryListPageHead = await screen.findByRole('heading', {
       name: '카테고리 목록',
     });

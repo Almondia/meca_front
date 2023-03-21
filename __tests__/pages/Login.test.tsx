@@ -96,9 +96,7 @@ describe('LoginPage', () => {
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(nookies.set).toBeCalled();
-    expect(props).toEqual({
-      message: '로그인 성공',
-    });
+    expect(props.message).toEqual('로그인 성공');
     render(<Login message={props.message} />);
     await waitFor(() => expect(screen.getByText(/please wait/i)).toBeInTheDocument());
     const toastText = await screen.findByText('로그인 성공');
