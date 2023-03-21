@@ -11,9 +11,9 @@ export const TextInputWrapper = styled.div<{ width?: ElementSizeType }>`
   ${FlexCenter};
   width: ${(props) => props.width ?? 'auto'};
   padding: 10px 15px;
-  border: 1px solid ${({ theme }) => theme.gray};
+  border: 1px solid var(--color-gray);
   border-radius: ${({ theme }) => theme.border.button};
-  color: ${({ theme }) => theme.textColor};
+  color: var(--color-text);
 `;
 
 export const TextInputBox = styled.input`
@@ -21,12 +21,12 @@ export const TextInputBox = styled.input`
   line-height: 150%;
   border: none;
   background-color: transparent;
-  color: ${({ theme }) => theme.textColor};
+  color: var(--color-text);
   :focus {
     outline: none;
   }
   ::placeholder {
-    color: ${({ theme }) => theme.gray};
+    color: var(--color-gray);
   }
   :disabled {
     opacity: 0.5;
@@ -35,7 +35,7 @@ export const TextInputBox = styled.input`
 `;
 
 const TextInputIconBox = styled(Icon)`
-  fill: ${({ theme }) => theme.gray};
+  fill: var(--color-gray);
 `;
 
 export const TextInputLeftIconBox = styled(TextInputIconBox)`
@@ -55,7 +55,7 @@ export const RadioGroupWrapper = styled.fieldset`
 `;
 
 export const RadioBox = styled.label`
-  color: ${({ theme }) => theme.gray};
+  color: var(--color-gray);
   :hover {
     cursor: pointer;
   }
@@ -64,17 +64,17 @@ export const RadioBox = styled.label`
     appearance: none;
     width: ${({ theme }) => theme.fontSize.large};
     height: ${({ theme }) => theme.fontSize.large};
-    border: max(1px, 0.1em) solid ${({ theme }) => theme.gray};
+    border: max(1px, 0.1em) solid var(--color-gray);
     border-radius: 50%;
     :checked {
-      border: 0.35rem solid ${({ theme }) => theme.brandColor};
+      border: 0.35rem solid var(--color-brand);
     }
     :focus-visible {
       outline-offset: max(2px, 0.1em);
-      outline: max(2px, 0.1em) dotted ${({ theme }) => theme.gray};
+      outline: max(2px, 0.1em) dotted var(--color-gray);
     }
     :hover {
-      box-shadow: 0 0 0 max(4px, 0.2em) ${({ theme }) => theme.lightGray};
+      box-shadow: 0 0 0 max(4px, 0.2em) var(--color-lightgray);
     }
   }
 `;
@@ -98,10 +98,10 @@ export const TitleInputWrapper = styled.div`
 export const TitleInputBox = styled(TextInputBox)<{ isValid: boolean }>`
   font-size: 2rem;
   font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: ${({ theme }) => theme.gray};
-  box-shadow: 0 4px 0 -3px ${({ theme }) => theme.gray};
+  color: var(--color-gray);
+  box-shadow: 0 4px 0 -3px var(--color-gray);
   :focus {
-    box-shadow: 0 4px 0 -2px ${(props) => (props.isValid ? props.theme.brandColor : COLOR.error)};
+    box-shadow: 0 4px 0 -2px ${(props) => (props.isValid ? 'var(--color-brand)' : COLOR.error)};
   }
   @media ${({ theme }) => theme.media.mobile} {
     font-size: 1.5rem;

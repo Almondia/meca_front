@@ -14,7 +14,7 @@ const CardTitleWrapper = styled(TextBodyTitle)`
   -webkit-box-orient: vertical;
   :hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.brandColor};
+    color: var(--color-brand);
   }
 `;
 

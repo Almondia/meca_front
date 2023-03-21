@@ -1,3 +1,5 @@
+export type ThemeType = 'dark' | 'light';
+
 export type ElementSizeType = `${number}px` | `${number}rem` | `${number}%`;
 
 export interface DefaultModalOptions {

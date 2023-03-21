@@ -1,5 +1,3 @@
-import { useTheme } from 'styled-components';
-
 import { IconType } from '@/components/icons/type';
 import { ElementSizeType } from '@/types/common';
 
@@ -17,13 +15,10 @@ export interface IconButtonProps {
   onClick: () => void;
 }
 
-const IconButton = ({ icon, iconSize = '20px', color, onClick }: IconButtonProps) => {
-  const theme = useTheme();
-  return (
-    <IconButtonWrapper onClick={onClick}>
-      <Icon icon={icon} size={iconSize} color={color ?? theme.textColor} />
-    </IconButtonWrapper>
-  );
-};
+const IconButton = ({ icon, iconSize = '20px', color, onClick }: IconButtonProps) => (
+  <IconButtonWrapper onClick={onClick}>
+    <Icon icon={icon} size={iconSize} color={color ?? 'var(--color-text)'} />
+  </IconButtonWrapper>
+);
 
 export default IconButton;

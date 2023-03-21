@@ -8,17 +8,17 @@ export const DropdownMenuWrapper = styled.div`
   right: -5px;
   width: 140px;
   border-radius: 2px;
-  box-shadow: ${({ theme }) => theme.shadow.normal};
-  background-color: ${({ theme }) => theme.backgroundColor};
+  box-shadow: var(--shadow-normal);
+  background-color: var(--color-background);
 `;
 
 export const DropdownContentsWrapper = styled(Link)`
   display: block;
   padding: 12px 18px;
   font-size: ${({ theme }) => theme.fontSize.large};
-  color: ${({ theme }) => theme.textColor};
+  color: var(--color-text);
   :hover {
-    background-color: ${({ theme }) => theme.lightGray};
-    color: ${({ theme }) => theme.brandColor};
+    background-color: var(--color-gray100);
+    color: var(--color-brand);
   }
 `;

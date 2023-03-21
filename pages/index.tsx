@@ -1,11 +1,14 @@
+/* eslint-disable react/button-has-type */
+
 import styled from 'styled-components';
 
 import LoginCard from '@/components/organisms/LoginCard';
 import HomeMainSection from '@/components/layout/HomeMainSection';
 import { FlexColumn } from '@/styles/layout';
-import useUser from '@/hooks/useUser';
 
 import MyCategory from './categories/me';
+
+export { getServerSideProps } from '@/libs/getAuthenticatedUserServerSideProps';
 
 const IntroduceContainer = styled.div`
   ${FlexColumn};
@@ -17,15 +20,11 @@ const IntroduceContainer = styled.div`
 `;
 
 const LoginCardContainer = styled.div`
-  box-shadow: ${({ theme }) => theme.shadow.normal};
+  box-shadow: var(--shadow-normal);
 `;
 
-export default function Home() {
-  const { user, isFetching } = useUser();
-  if (isFetching) {
-    return <div>...loading</div>;
-  }
-  if (user) {
+export default function Home({ hasAuth }: { hasAuth?: boolean }) {
+  if (hasAuth) {
     return <MyCategory />;
   }
   return (

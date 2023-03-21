@@ -4,17 +4,14 @@ import { useEffect } from 'react';
 import userApi from '@/apis/userApi';
 import queryKey from '@/query/queryKey';
 
-import useDetactToken from './useDetactToken';
-
-const useUser = () => {
-  const { hasToken } = useDetactToken();
+const useUser = (hasToken: boolean) => {
   const queryClient = useQueryClient();
   const {
     data: user,
-    refetch,
-    isStale,
     isLoading,
     isFetching,
+    isStale,
+    refetch,
   } = useQuery([queryKey.me], userApi.getMe, {
     enabled: false,
     staleTime: 30000,
@@ -29,9 +26,8 @@ const useUser = () => {
       return;
     }
     isStale && refetch();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasToken, user]);
+  }, [hasToken, user, isStale]);
 
   return { user, isLoading, isFetching };
 };
