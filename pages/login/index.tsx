@@ -39,7 +39,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {},
     };
   }
-  let message = '로그인 성공';
   try {
     const tokenResponse = await userApi[`${auth}Login`](code);
     nookies.set(context, 'accessToken', tokenResponse.accessToken, {
@@ -48,14 +47,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       httpOnly: true,
       secure: true,
     });
+    return {
+      props: {
+        message: '로그인 성공',
+        hasAuth: true,
+        accessToken: tokenResponse.accessToken,
+      },
+    };
   } catch (e) {
-    message = (e as Error).message ?? '로그인 실패';
+    return {
+      props: {
+        message: (e as Error).message ?? '로그인 실패',
+      },
+    };
   }
-  return {
-    props: {
-      message,
-    },
-  };
 };
 
 export default Login;
