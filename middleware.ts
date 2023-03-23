@@ -8,12 +8,15 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 export function middleware(request: NextRequest) {
   const { cookies } = request;
-  if (cookies.has('accessToken')) {
+  if (!cookies.has('accessToken') && request.nextUrl.pathname !== '/') {
     return NextResponse.redirect(new URL('/', request.nextUrl.origin));
+  }
+  if (cookies.has('accessToken') && request.nextUrl.pathname === '/') {
+    return NextResponse.rewrite(new URL('/me/categories', request.nextUrl.origin));
   }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/me/:path*', '/write/:path*'],
+  matcher: ['/me/:path*', '/write/:path*', '/'],
 };
