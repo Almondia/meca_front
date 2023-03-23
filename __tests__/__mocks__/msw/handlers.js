@@ -24,7 +24,7 @@ export const handlers = [
     );
   }),
 
-  rest.get(`/api/user`, (req, res, ctx) => {
+  rest.get('/api/user', (req, res, ctx) => {
     return res(
       ctx.json({
         memberId: 'abc01',
