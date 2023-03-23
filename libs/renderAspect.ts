@@ -50,11 +50,6 @@ function serverSideRenderAuthorizedAspect(
         },
       };
     } catch (error: any) {
-      if (error?.status === 401) {
-        nookies.destroy(context, 'accessToken', {
-          path: '/',
-        });
-      }
       return {
         props: {
           hasAuth: false,

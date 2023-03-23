@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
@@ -10,6 +12,7 @@ import { hasAuthState } from '@/atoms/common';
 
 const useUser = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const setHasAuth = useSetRecoilState(hasAuthState);
   const {
     data: user,
@@ -33,6 +36,7 @@ const useUser = () => {
       },
       onError: () => {
         queryClient.setQueryData([queryKey.me], null);
+        router.replace('/');
       },
     },
   );
