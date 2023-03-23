@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
@@ -11,7 +11,6 @@ import { hasAuthState } from '@/atoms/common';
 const useCategory = () => {
   const [query, setQuery] = useState<string>('');
   const hasAuth = useRecoilValue(hasAuthState);
-  const queryClient = useQueryClient();
   const {
     data: categoires,
     isLoading,
@@ -39,16 +38,13 @@ const useCategory = () => {
       if (query === newQuery) {
         return;
       }
-      if (query !== '') {
-        queryClient.removeQueries([queryKey.categories, 'me', query]);
-      }
       setQuery(newQuery);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [query],
   );
 
-  return { categoires, isLoading, isError, fetchNextPage, hasNextPage, changeSearchQuery };
+  return { categoires, isLoading, isError, fetchNextPage, hasNextPage: hasNextPage && hasAuth, changeSearchQuery };
 };
 
 export default useCategory;

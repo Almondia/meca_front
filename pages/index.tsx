@@ -7,8 +7,6 @@ import LoginCard from '@/components/organisms/LoginCard';
 import HomeMainSection from '@/components/layout/HomeMainSection';
 import { FlexColumn } from '@/styles/layout';
 import { ssrAspect } from '@/libs/renderAspect';
-import queryKey from '@/query/queryKey';
-import userApi from '@/apis/userApi';
 
 import MyCategory from './categories/me';
 

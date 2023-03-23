@@ -46,7 +46,7 @@ function serverSideRenderAuthorizedAspect(
         props: {
           ...propsAspect,
           hasAuth: true,
-          dehydratedState: dehydrate(queryClient),
+          dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
         },
       };
     } catch (error: any) {
