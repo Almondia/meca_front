@@ -7,10 +7,9 @@ import nookies from 'nookies';
 import { generateQueryClient } from '@/query/queryClient';
 import queryKey from '@/query/queryKey';
 import userApi from '@/apis/userApi';
-import { setContext } from '@/apis/config/instance';
+import { setRequest } from '@/apis/config/instance';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  setContext(context);
   const { accessToken } = nookies.get(context);
   if (!accessToken) {
     return {
@@ -19,18 +18,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+  setRequest(context.req);
   const queryClient = generateQueryClient();
   try {
     const member = await queryClient.fetchQuery([queryKey.me], userApi.getMe);
     return {
       props: {
         hasAuth: true,
-        accessToken,
         memberId: member.memberId,
         dehydratedState: dehydrate(queryClient),
       },
     };
   } catch {
+    nookies.destroy(context, 'accessToken', {
+      path: '/',
+    });
     return {
       props: {
         hasAuth: false,
