@@ -1,33 +1,48 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import { useSetRecoilState } from 'recoil';
 
-import userApi from '@/apis/userApi';
 import queryKey from '@/query/queryKey';
+import { setAccessToken } from '@/apis/config/instance';
+import { MyProfile } from '@/types/domain';
+import { hasAuthState } from '@/atoms/common';
 
-const useUser = (hasToken: boolean) => {
+const useUser = () => {
   const queryClient = useQueryClient();
+  const setHasAuth = useSetRecoilState(hasAuthState);
   const {
     data: user,
     isLoading,
     isFetching,
-    isStale,
+    isFetched,
     refetch,
-  } = useQuery([queryKey.me], userApi.getMe, {
-    enabled: false,
-    staleTime: 30000,
-  });
+  } = useQuery(
+    [queryKey.me],
+    () =>
+      axios.get<any, AxiosResponse<MyProfile>>('/api/user').then((res) => {
+        const accessToken = res.headers['access-token'];
+        accessToken && setAccessToken(accessToken);
+        return res.data;
+      }),
+    {
+      enabled: true,
+      staleTime: 30000,
+      onSuccess: (data) => {
+        data && setHasAuth(true);
+      },
+      onError: () => {
+        queryClient.setQueryData([queryKey.me], null);
+      },
+    },
+  );
 
   useEffect(() => {
-    if (!hasToken && user === undefined) {
-      return;
+    if (isFetched) {
+      refetch();
     }
-    if (!hasToken) {
-      queryClient.setQueryData([queryKey.me], null);
-      return;
-    }
-    isStale && refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasToken, user, isStale]);
+  }, []);
 
   return { user, isLoading, isFetching };
 };

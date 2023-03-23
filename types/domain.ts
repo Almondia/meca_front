@@ -24,7 +24,7 @@ export interface TokenType {
 }
 
 export interface MyProfile {
-  memberId: number;
+  memberId: string;
   role: string;
   email: string;
   name: string;
