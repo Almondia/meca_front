@@ -8,8 +8,6 @@ import HomeMainSection from '@/components/layout/HomeMainSection';
 import { FlexColumn } from '@/styles/layout';
 import { ssrAspect } from '@/libs/renderAspect';
 
-import MyCategory from './categories/me';
-
 const IntroduceContainer = styled.div`
   ${FlexColumn};
   row-gap: 30px;

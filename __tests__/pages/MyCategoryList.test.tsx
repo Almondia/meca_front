@@ -1,9 +1,7 @@
 import { RecoilObserver, renderQuery } from '../utils';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import MyCategory from '@/pages/categories/me';
+import { fireEvent, screen } from '@testing-library/react';
+import MyCategory from '@/pages/me/categories';
 import { PAGINATION_NUM } from '@/utils/constants';
-import { generateQueryClient } from '@/query/queryClient';
-import { useRecoilValue } from 'recoil';
 import { hasAuthState } from '@/atoms/common';
 
 jest.mock('next/router', () => ({
