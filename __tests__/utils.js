@@ -1,15 +1,23 @@
 import 'jest-styled-components';
 import { render } from '@testing-library/react';
 import { ToastContainer } from 'react-toastify';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useSetRecoilState, useRecoilValue } from 'recoil';
 import { generateQueryClient } from '@/query/queryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import ThemeProvider from '@/styles/ThemeProvider';
 import commonTheme from '@/styles/theme';
+import { useEffect } from 'react';
 
 export const createQueryClientWrapper = () => {
   const queryClient = generateQueryClient();
   return ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+};
+
+export const RecoilObserver = ({ node, defaultValue }) => {
+  const value = useRecoilValue(node);
+  const setValue = useSetRecoilState(node);
+  useEffect(() => setValue(defaultValue), []);
+  return null;
 };
 
 const Wrapper = ({ children }) => (
