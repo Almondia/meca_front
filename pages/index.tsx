@@ -23,10 +23,7 @@ const LoginCardContainer = styled.div`
   box-shadow: var(--shadow-normal);
 `;
 
-export default function Home({ hasAuth }: { hasAuth?: boolean }) {
-  if (hasAuth) {
-    return <MyCategory />;
-  }
+export default function Home() {
   return (
     <HomeMainSection>
       <IntroduceContainer>
