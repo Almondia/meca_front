@@ -12,12 +12,14 @@ export default async function handler(
   const { accessToken } = nookies.get({ req });
   if (!accessToken) {
     res.status(200).json(null);
+    return;
   }
   setRequest(req);
   try {
     const response = await userApi.getMe();
     res.setHeader('access-token', accessToken);
     res.status(200).json(response);
+    return;
   } catch {
     nookies.destroy({ res }, 'accessToken', {
       path: '/',
