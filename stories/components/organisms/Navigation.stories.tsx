@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Navigation, { NavigationProps } from '@/components/organisms/Navigation';
+import Navigation from '@/components/organisms/Navigation';
 
 export default {
   title: 'components/organisms/Navigation',
@@ -10,11 +10,6 @@ export default {
   },
 } as ComponentMeta<typeof Navigation>;
 
-const Template: ComponentStory<typeof Navigation> = (args: NavigationProps) => <Navigation {...args} />;
+const Template: ComponentStory<typeof Navigation> = () => <Navigation />;
 
 export const NoAuth = Template.bind({});
-
-export const Auth = Template.bind({});
-Auth.args = {
-  loginUserName: '유저이름은몇글자까지',
-};
