@@ -125,4 +125,18 @@ export const handlers = [
       }),
     );
   }),
+
+  rest.get(`${ENDPOINT}/cards/categories/:categoryId/me`, (req, res, ctx) => {
+    const { categoryId } = req.params;
+    const pageSize = req.url.searchParams.get('pageSize');
+    const hasNext = req.url.searchParams.get('hasNext');
+    const result = MECAS.sort((o1, o2) => o2.cardId - o1.cardId).filter((card) => card.categoryId === categoryId);
+    const nextIndex = result.findIndex((v) => v.cardId === hasNext) ?? 0;
+    const resData = {
+      contents: [...result].slice(nextIndex, pageSize + 1),
+      pageSize,
+      hasNext: result[nextIndex + 1] ? result[nextIndex + 1].cardId : undefined,
+    };
+    return res(ctx.status(200), ctx.json({ ...resData }));
+  }),
 ];

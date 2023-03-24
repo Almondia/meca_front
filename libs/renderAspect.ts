@@ -11,6 +11,10 @@ import { generateQueryClient } from '@/query/queryClient';
 import queryKey from '@/query/queryKey';
 import userApi from '@/apis/userApi';
 
+function hasErrorRedirection(error: unknown): error is { url: string } {
+  return typeof error === 'object' && Object.prototype.hasOwnProperty.call(error, 'url');
+}
+
 /**
  * should use render data requiring authorization
  * [사용법]
@@ -49,7 +53,15 @@ function serverSideRenderAuthorizedAspect(
           dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
         },
       };
-    } catch (error: any) {
+    } catch (error) {
+      if (hasErrorRedirection(error)) {
+        return {
+          redirect: {
+            destination: error.url,
+            permanent: false,
+          },
+        };
+      }
       return {
         props: {
           hasAuth: false,

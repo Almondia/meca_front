@@ -3,8 +3,9 @@ import { InfiniteData } from '@tanstack/react-query';
 
 import CategoryCard from '@/components/molcules/CategoryCard';
 import { CategoriesResponse } from '@/apis/categoryApi';
+import EmptyPagination from '@/components/layout/EmptyPagination';
 
-import { CategoryListWrapper, EmptyCategoryList } from './styled';
+import { CategoryListWrapper } from './styled';
 
 export interface CategoryListProps {
   categoryList?: InfiniteData<CategoriesResponse>;
@@ -14,8 +15,7 @@ export interface CategoryListProps {
 
 const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryListProps) => {
   if (!categoryList || !categoryList.pages?.[0].contents.length) {
-    // TODO: 목록 비어있을 경우에 대한 컴포넌트 만들기
-    return <EmptyCategoryList>목록이 없습니다</EmptyCategoryList>;
+    return <EmptyPagination />;
   }
   return (
     <CategoryListWrapper
