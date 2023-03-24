@@ -27,6 +27,7 @@ const mecaApi = {
     authInstance.put<never, MecaWriteResponse>(`/api/v1/cards/${props.cardId}`, {
       ...props,
     }),
+  deleteMeca: (cardId: string) => authInstance.delete<never, never>(`/api/v1/cards/${cardId}`),
   getMyMecaList: (props: CursorPaginationType & { categoryId: string }) => {
     const params = {
       pageSize: props.pageSize ?? PAGINATION_NUM,

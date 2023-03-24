@@ -3,10 +3,12 @@ import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
 import { MecaTagType } from '@/types/domain';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
+import useModal from '@/hooks/useModal';
 
 import { MecaCardWrapper, MecaQuestionTextContainer, MecaTagContainer } from './styled';
 
 import DotMenuOpener from '../DotMenuOpener';
+import MecaDeleteDialog from '../MecaDeleteDialog';
 
 export interface MecaCardProps {
   cardId: string;
@@ -19,26 +21,36 @@ export interface MecaCardProps {
 }
 
 /** 문제 카드 컴포넌트 */
-const MecaCard = ({ cardId, categoryId, title, question, tagType, isMine }: MecaCardProps) => (
-  <MecaCardWrapper data-testid="id-meca-card">
-    <CardTitle link={isMine ? `/meca/${cardId}?me=${isMine}` : `/meca/${cardId}`}>{title}</CardTitle>
-    <MecaQuestionTextContainer>
-      {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
-    </MecaQuestionTextContainer>
-    <MecaTagContainer>
-      <MecaTag tagName={tagType} />
-    </MecaTagContainer>
-    {isMine && (
-      <DotMenuOpener top="14px" right="14px">
-        <DropdownMenu>
-          <DropdownMenu.Contents href={`/meca/write/${categoryId}?cardId=${cardId}`}>수정하기</DropdownMenu.Contents>
-          <DropdownMenu.Contents href="" onClick={() => alert('삭제')}>
-            삭제하기
-          </DropdownMenu.Contents>
-        </DropdownMenu>
-      </DotMenuOpener>
-    )}
-  </MecaCardWrapper>
-);
+const MecaCard = ({ cardId, categoryId, title, question, tagType, isMine }: MecaCardProps) => {
+  const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
+  return (
+    <MecaCardWrapper data-testid="id-meca-card">
+      <CardTitle link={isMine ? `/meca/${cardId}?me=${isMine}` : `/meca/${cardId}`}>{title}</CardTitle>
+      <MecaQuestionTextContainer>
+        {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
+      </MecaQuestionTextContainer>
+      <MecaTagContainer>
+        <MecaTag tagName={tagType} />
+      </MecaTagContainer>
+      {isMine && (
+        <>
+          <DotMenuOpener top="14px" right="14px">
+            <DropdownMenu>
+              <DropdownMenu.Contents href={`/meca/write/${categoryId}?cardId=${cardId}`}>
+                수정하기
+              </DropdownMenu.Contents>
+              <DropdownMenu.Contents href="" onClick={deleteModalOpen}>
+                삭제하기
+              </DropdownMenu.Contents>
+            </DropdownMenu>
+          </DotMenuOpener>
+          {isDeleteModalVisible && (
+            <MecaDeleteDialog cardId={cardId} visible={isDeleteModalVisible} onClose={deleteModalClose} />
+          )}
+        </>
+      )}
+    </MecaCardWrapper>
+  );
+};
 
 export default MecaCard;
