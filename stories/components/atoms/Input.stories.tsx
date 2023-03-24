@@ -54,13 +54,13 @@ export const RadioInput = Template.bind({});
 RadioInput.args = {
   children: (
     <Input.RadioGroup>
-      <RadioGroup.Radio name="radio" value="RAD1" defaultChecked>
+      <RadioGroup.Radio onChange={() => console.log('HI')} name="radio" value="RAD1" defaultChecked>
         radio-01
       </RadioGroup.Radio>
-      <RadioGroup.Radio name="radio" value="RAD2">
+      <RadioGroup.Radio onChange={() => console.log('HI')} name="radio" value="RAD2">
         radio-02
       </RadioGroup.Radio>
-      <RadioGroup.Radio name="radio" value="RAD3">
+      <RadioGroup.Radio onChange={() => console.log('HI')} name="radio" value="RAD3">
         radio-03
       </RadioGroup.Radio>
     </Input.RadioGroup>

@@ -1,4 +1,3 @@
-import storage from '@/utils/storageHandler';
 import { rest } from 'msw';
 import { authInstance } from '../../../apis/config/instance';
 import { CATEGORIES, MECAS } from './data';
@@ -10,7 +9,6 @@ export const handlers = [
     const token = {
       accessToken: 'kakao_token',
     };
-    storage.setItem('token', token);
     return res(ctx.json(token));
   }),
   rest.get(`${ENDPOINT}/members/me`, (req, res, ctx) => {
@@ -25,6 +23,21 @@ export const handlers = [
       }),
     );
   }),
+
+  rest.get('/api/user', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        memberId: 'abc01',
+        name: 'pds0309',
+        email: 'abc@abc.com',
+        role: 'USER',
+        oauthType: 'KAKAO',
+        createdAt: '2023-03-11T12:56:22.954816',
+        profile: '/user.jpg',
+      }),
+    );
+  }),
+
   rest.get(`${ENDPOINT}/categories/me`, (req, res, ctx) => {
     const offset = req.url.searchParams.get('offset');
     const pageSize = req.url.searchParams.get('pageSize');

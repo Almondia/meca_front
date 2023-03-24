@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
               newestOnTop={false}
               hideProgressBar
             />
-            <Layout {...pageProps}>
+            <Layout>
               <Component {...pageProps} />
             </Layout>
           </ThemeProvider>

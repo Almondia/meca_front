@@ -1,14 +1,12 @@
 /* eslint-disable react/button-has-type */
 
 import styled from 'styled-components';
+import { GetServerSideProps } from 'next';
 
 import LoginCard from '@/components/organisms/LoginCard';
 import HomeMainSection from '@/components/layout/HomeMainSection';
 import { FlexColumn } from '@/styles/layout';
-
-import MyCategory from './categories/me';
-
-export { getServerSideProps } from '@/libs/getAuthenticatedUserServerSideProps';
+import { ssrAspect } from '@/libs/renderAspect';
 
 const IntroduceContainer = styled.div`
   ${FlexColumn};
@@ -23,10 +21,7 @@ const LoginCardContainer = styled.div`
   box-shadow: var(--shadow-normal);
 `;
 
-export default function Home({ hasAuth }: { hasAuth?: boolean }) {
-  if (hasAuth) {
-    return <MyCategory />;
-  }
+export default function Home() {
   return (
     <HomeMainSection>
       <IntroduceContainer>
@@ -39,3 +34,5 @@ export default function Home({ hasAuth }: { hasAuth?: boolean }) {
     </HomeMainSection>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = ssrAspect();

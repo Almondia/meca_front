@@ -8,16 +8,13 @@ import IconButton from '@/components/atoms/IconButton';
 import useCustomTheme from '@/hooks/useCustomTheme';
 import Icon from '@/components/atoms/Icon';
 import useClickAway from '@/hooks/useClickAway';
+import useUser from '@/hooks/useUser';
 
 import { Logo, NavBar, NavigationWrapper, Profile } from './styled';
 import NavSelection from './NavSelection';
 
-export interface NavigationProps {
-  profileImage?: string;
-  loginUserName?: string;
-}
-
-const Navigation = ({ loginUserName, profileImage }: NavigationProps) => {
+const Navigation = () => {
+  const { user } = useUser();
   const { theme, toggleTheme } = useCustomTheme();
   const [isNavSelectionVisible, setIsNavSelectionVisible] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -33,7 +30,7 @@ const Navigation = ({ loginUserName, profileImage }: NavigationProps) => {
         <div>
           <IconButton icon={theme === 'light' ? 'Lightmode' : 'Darkmode'} iconSize="20px" onClick={toggleTheme} />
         </div>
-        {loginUserName ? (
+        {user ? (
           <Profile
             ref={ref}
             onClick={() => {
@@ -41,8 +38,8 @@ const Navigation = ({ loginUserName, profileImage }: NavigationProps) => {
             }}
           >
             <Image
-              src={profileImage ?? '/images/noprofile.png'}
-              alt={profileImage ?? 'profile-image'}
+              src={user.profile ?? '/images/noprofile.png'}
+              alt={user.profile ?? 'profile-image'}
               width={30}
               height={30}
             />

@@ -1,8 +1,8 @@
-import { renderQuery } from '../utils';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import MyCategory from '@/pages/categories/me';
+import { RecoilObserver, renderQuery } from '../utils';
+import { fireEvent, screen } from '@testing-library/react';
+import MyCategory from '@/pages/me/categories';
 import { PAGINATION_NUM } from '@/utils/constants';
-import { generateQueryClient } from '@/query/queryClient';
+import { hasAuthState } from '@/atoms/common';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
@@ -10,7 +10,12 @@ jest.mock('next/router', () => ({
 
 describe('MyCategoryList Page', () => {
   it('카테고리 목록 페이지에서 목록 Control UI와 카테고리 목록이 식별된다.', async () => {
-    renderQuery(<MyCategory />);
+    renderQuery(
+      <>
+        <RecoilObserver node={hasAuthState} defaultValue={true} />
+        <MyCategory />
+      </>,
+    );
     const categoryListPageHead = screen.getByRole('heading', {
       name: '카테고리 목록',
     });
@@ -24,7 +29,12 @@ describe('MyCategoryList Page', () => {
   });
 
   it('카테고리를 키워드로 검색하면 해당 키워드가 포함된 목록만 식별된다.', async () => {
-    renderQuery(<MyCategory />, null, generateQueryClient());
+    renderQuery(
+      <>
+        <RecoilObserver node={hasAuthState} defaultValue={true} />
+        <MyCategory />
+      </>,
+    );
     const categorySearchInput = screen.getByRole('textbox', {
       name: 'input-category-search',
     });
@@ -49,11 +59,9 @@ describe('MyCategoryList Page', () => {
   it('카테고리 하나를 정상적으로 추가하면 카테고리 목록에 새로운 데이터가 추가된다.', async () => {
     renderQuery(
       <>
-        <div id="modal-root"></div>
+        <RecoilObserver node={hasAuthState} defaultValue={true} />
         <MyCategory />
       </>,
-      null,
-      generateQueryClient(),
     );
     const inputTitleText = 'HELL';
     // 추가하기 버튼을 누르면
@@ -87,11 +95,9 @@ describe('MyCategoryList Page', () => {
   it('카테고리 추가 시 비정상적인 title을 입력하면 카테고리 추가가 되지 않고 toast가 식별된다.', async () => {
     renderQuery(
       <>
-        <div id="modal-root"></div>
+        <RecoilObserver node={hasAuthState} defaultValue={true} />
         <MyCategory />
       </>,
-      null,
-      generateQueryClient(),
     );
     // should not over 20
     const inputTitleText = 'geaighalgiahglaghalgahglaghalghalghalghaglhalgahglaghalghalghag';
