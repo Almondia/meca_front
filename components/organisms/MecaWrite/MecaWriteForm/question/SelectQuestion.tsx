@@ -20,7 +20,7 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
     index: number,
   ) => {
     const changedValues = changeQuestionCase(e.target.value, index);
-    e.target.value = JSON.stringify(changedValues);
+    e.target.value = JSON.stringify(changedValues.slice(0, selectionNum + 1));
     onChange(e);
   };
 
