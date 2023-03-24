@@ -2,6 +2,7 @@ import CardTitle from '@/components/atoms/CardTitle';
 import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
 import { MecaTagType } from '@/types/domain';
+import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
 import { MecaCardWrapper, MecaQuestionTextContainer, MecaTagContainer } from './styled';
 
@@ -21,7 +22,9 @@ export interface MecaCardProps {
 const MecaCard = ({ cardId, categoryId, title, question, tagType, isMine }: MecaCardProps) => (
   <MecaCardWrapper data-testid="id-meca-card">
     <CardTitle link={isMine ? `/meca/${cardId}?me=${isMine}` : `/meca/${cardId}`}>{title}</CardTitle>
-    <MecaQuestionTextContainer>{question}</MecaQuestionTextContainer>
+    <MecaQuestionTextContainer>
+      {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
+    </MecaQuestionTextContainer>
     <MecaTagContainer>
       <MecaTag tagName={tagType} />
     </MecaTagContainer>
