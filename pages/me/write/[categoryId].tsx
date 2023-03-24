@@ -6,11 +6,14 @@ import MecaWrite from '@/components/organisms/MecaWrite';
 import { ssrAspect } from '@/libs/renderAspect';
 import { PostSection } from '@/styles/layout';
 
-const MecaWritePage = ({ categoryId }: { categoryId: string }) => (
-  <PostSection>
-    <MecaWrite categoryId={categoryId} />
-  </PostSection>
-);
+const MecaWritePage = ({ categoryId }: { categoryId: string }) => {
+  console.log(categoryId);
+  return (
+    <PostSection>
+      <MecaWrite categoryId={categoryId} />
+    </PostSection>
+  );
+};
 
 // TODO: 카드 수정에 대한 처리도 필요하다.
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
@@ -22,6 +25,9 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   if (response[0].status === 'rejected') {
     throw { url: '/' };
   }
+  return {
+    categoryId,
+  };
 });
 
 export default MecaWritePage;
