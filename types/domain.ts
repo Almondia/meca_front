@@ -45,6 +45,11 @@ export interface PaginationType {
   query: string;
 }
 
+export interface CursorPaginationType {
+  pageSize?: number;
+  hasNext?: string;
+}
+
 export interface MecaType {
   cardId: string;
   categoryId: string;
