@@ -126,6 +126,13 @@ export const handlers = [
     );
   }),
 
+  rest.delete(`${ENDPOINT}/cards/:id`, async (req, res, ctx) => {
+    const { id } = req.params;
+    const idx = MECAS.findIndex((v) => v.categoryId === id);
+    MECAS.splice(idx, 1);
+    return res(ctx.status(200));
+  }),
+
   rest.get(`${ENDPOINT}/cards/categories/:categoryId/me`, (req, res, ctx) => {
     const { categoryId } = req.params;
     const pageSize = req.url.searchParams.get('pageSize');
