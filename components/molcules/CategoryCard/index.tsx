@@ -29,7 +29,7 @@ const CategoryCard = ({
   const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
   return (
     <CategoryCardWrapper data-testid="id-category-card">
-      <CardTitle link={`/category/${categoryId}`}>{title}</CardTitle>
+      <CardTitle link={`/me/categories/${categoryId}`}>{title}</CardTitle>
       <DotMenuOpener top="14px" right="14px">
         <DropdownMenu>
           <DropdownMenu.Contents href="" onClick={updateModalOpen}>

@@ -11,7 +11,7 @@ export const MecaCardWrapper = styled.div`
   position: relative;
   padding: 24px;
   border: ${({ theme }) => theme.border.card};
-  box-shadow: ${({ theme }) => theme.shadow.normal};
+  box-shadow: var(--shadow-normal);
   @media ${({ theme }) => theme.media.mobile} {
     row-gap: 8px;
     height: auto;
@@ -39,10 +39,8 @@ export const MecaQuestionTextContainer = styled(TextBody)`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   line-height: 140%;
-  color: ${({ theme }) => theme.gray};
+  color: var(--color-gray);
   @media ${({ theme }) => theme.media.mobile} {
     width: 100%;
   }
 `;
-
-export const A = 1;
