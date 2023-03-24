@@ -32,7 +32,6 @@ describe('MecaWritePage SSR Test', () => {
 
   it('본인이 가진 categoryId path에 대해 접근하면 categoryId에 대한 props가 전달된다,', async () => {
     const categoryId = CATEGORIES[0].categoryId;
-    console.log(categoryId);
     (nookies.get as jest.Mock).mockReturnValue({
       accessToken: 'token',
     });
