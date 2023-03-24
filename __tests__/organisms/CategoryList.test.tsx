@@ -45,7 +45,7 @@ const mockCategoryList = {
 describe('CategoryList', () => {
   it('카테고리 목록이 없다면 Empty 컴포넌트가 보여진다.', () => {
     render(<CategoryList fetchNextPage={jest.fn()} />);
-    const EmptyText = screen.getByText('목록이 없습니다');
+    const EmptyText = screen.getByText('목록이 존재하지 않습니다');
     expect(EmptyText).toBeInTheDocument();
   });
 

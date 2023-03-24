@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import { FlexCenter } from '@/styles/layout';
-
+// eslint-disable-next-line import/prefer-default-export
 export const CategoryListWrapper = styled(InfiniteScroll)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, max-content));
@@ -10,9 +9,4 @@ export const CategoryListWrapper = styled(InfiniteScroll)`
   grid-row-gap: 16px;
   justify-content: center;
   margin-top: 40px;
-`;
-
-export const EmptyCategoryList = styled.div`
-  ${FlexCenter};
-  min-height: 50vh;
 `;
