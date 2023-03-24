@@ -1,5 +1,4 @@
-import { A } from '@/components/molcules/MecaCard/styled';
-import { CursorPaginationType, MecaType, PaginationType } from '@/types/domain';
+import { CursorPaginationType, MecaType } from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 
 import { authInstance } from './config/instance';
