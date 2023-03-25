@@ -31,7 +31,7 @@ OxPost.args = {
 export const SelectPost = Template.bind({});
 SelectPost.args = {
   cardType: 'MULTI_CHOICE',
-  createdAt: '2023-03-25T02:13:28.061759',
+  createdAt: '2023-03-24T05:13:28.061759',
   question: '["다음 중 박동석의 MBTI로 적절한 것은?","INFP","ENFJ","ISTJ"]',
   answer: '1',
 };
@@ -39,7 +39,7 @@ SelectPost.args = {
 export const KeywordPost = Template.bind({});
 KeywordPost.args = {
   cardType: 'KEYWORD',
-  createdAt: '2023-03-25T02:13:28.061759',
+  createdAt: '2023-03-20T02:13:28.061759',
   question: '박동석의 MBTI는 무엇인가요',
   answer: 'INFP',
 };
