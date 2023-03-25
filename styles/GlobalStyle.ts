@@ -35,6 +35,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-text: ${COLOR.txtDark};
         --color-gray: ${COLOR.gray600};
         --color-lightgray: ${COLOR.gray100};
+        --color-brightgray: rgba(232, 232, 232, 0.3);
         --shadow-normal: ${SHADOW.normalDark};
         --shadow-bold: ${SHADOW.boldDark};
     }
@@ -46,6 +47,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-text: ${COLOR.txtDark};
         --color-gray: ${COLOR.gray600};
         --color-lightgray: ${COLOR.gray100};
+        --color-brightgray: rgba(232, 232, 232, 0.3);
         --shadow-normal: ${SHADOW.normalDark};
         --shadow-bold: ${SHADOW.boldDark};
     }
@@ -57,6 +59,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-text: ${COLOR.txtLight};
         --color-gray: ${COLOR.gray100};
         --color-lightgray: ${COLOR.gray600};
+        --color-brightgray: rgba(128, 128, 128, 0.3);
         --shadow-normal: ${SHADOW.normalLight};
         --shadow-bold: ${SHADOW.boldLight};
     }
