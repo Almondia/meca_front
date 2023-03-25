@@ -1,17 +1,28 @@
 import React from 'react';
 
-import { MecaPostContentBody, MecaPostContentTitle, MecaPostContentWrapper } from './styled';
+import { MecaTagResponseType } from '@/types/domain';
+
+import DefaultPostBody from './body/DefaultPostBody';
+import { PostBodyComponentType } from './type';
+import OxPostBody from './body/OxPostBody';
+import SelectPostBody from './body/SelectPostBody';
 
 export interface MecaPostContentProps {
-  title?: string;
-  content: string;
+  question: string;
+  answer: string;
+  bodyType: MecaTagResponseType;
 }
 
-const MecaPostContent = ({ title, content }: MecaPostContentProps) => (
-  <MecaPostContentWrapper>
-    {title && <MecaPostContentTitle>{title}</MecaPostContentTitle>}
-    <MecaPostContentBody>{content}</MecaPostContentBody>
-  </MecaPostContentWrapper>
-);
+const ContentBody: Record<MecaTagResponseType, PostBodyComponentType> = {
+  MULTI_CHOICE: SelectPostBody,
+  DESCRIPTION: DefaultPostBody,
+  KEYWORD: DefaultPostBody,
+  OX_QUIZ: OxPostBody,
+};
 
-export default MecaPostContent;
+const MecaPostContent = ({ question, answer, bodyType }: MecaPostContentProps) => {
+  const BodyContent = ContentBody[bodyType];
+  return <BodyContent question={question} answer={answer} />;
+};
+
+export default React.memo(MecaPostContent);
