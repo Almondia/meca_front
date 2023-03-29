@@ -15,7 +15,7 @@ export default {
 } as ComponentMeta<typeof Input>;
 
 const Template: ComponentStory<typeof Input> = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ width: '500px', padding: '30px' }}>
+  <div style={{ width: '100%', padding: '30px', maxWidth: '500px' }}>
     <Input>{children}</Input>
   </div>
 );
@@ -104,6 +104,17 @@ export const TitleInput = () => {
         placeholder="20글자를 넘으면 안됩니다"
         isValid={isValid}
       />
+    </Template>
+  );
+};
+
+export const RangeInput = () => {
+  const [value, setValue] = useState<string>('3');
+  return (
+    <Template>
+      <Input.Range value={value} min={0} max={20} name="range-input" onChange={(e) => setValue(e.target.value)} />
+      <br />
+      {`current value is: ${value}`}
     </Template>
   );
 };

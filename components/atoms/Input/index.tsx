@@ -1,4 +1,5 @@
 import RadioGroup, { ForwardRadioGroup } from './Radio';
+import Range from './Range';
 import { InputWrapper } from './styled';
 import TextArea from './TextArea';
 import TextInput from './TextInput';
@@ -26,5 +27,6 @@ Input.RadioGroup = RadioGroup;
 Input.ForwardRadioGroup = ForwardRadioGroup;
 Input.TextArea = TextArea;
 Input.Title = TitleInput;
+Input.Range = Range;
 
 export default Input;
