@@ -25,7 +25,7 @@ const MecaCard = ({ cardId, categoryId, title, question, tagType, isMine }: Meca
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   return (
     <MecaCardWrapper data-testid="id-meca-card">
-      <CardTitle link={isMine ? `/meca/${cardId}?me=${isMine}` : `/meca/${cardId}`}>{title}</CardTitle>
+      <CardTitle link={isMine ? `/me/meca/${cardId}` : `/meca/${cardId}`}>{title}</CardTitle>
       <MecaQuestionTextContainer>
         {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
       </MecaQuestionTextContainer>
