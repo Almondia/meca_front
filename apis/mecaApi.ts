@@ -38,6 +38,7 @@ const mecaApi = {
       params,
     });
   },
+  getMyCardById: (cardId: string) => authInstance.get<never, MecaType>(`/api/v1/cards/${cardId}/me`),
 };
 
 export default mecaApi;
