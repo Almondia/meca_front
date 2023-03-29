@@ -30,6 +30,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         box-sizing: border-box;
         font-size: 16px;
         --color-brand: ${COLOR.brand1};
+        --color-subbrand: ${COLOR.brand2};
         --color-background: ${COLOR.bgLight};
         --color-backghround-shadow: rgba(0, 0, 0, 0.5);
         --color-text: ${COLOR.txtDark};
@@ -42,6 +43,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
 
     html[data-theme='light'] {
         --color-brand: ${COLOR.brand1};
+        --color-subbrand: ${COLOR.brand2};
         --color-background: ${COLOR.bgLight};
         --color-backghround-shadow: rgba(0, 0, 0, 0.5);
         --color-text: ${COLOR.txtDark};
@@ -54,6 +56,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
 
     html[data-theme='dark'] {
         --color-brand: ${COLOR.brand2};
+        --color-subbrand: ${COLOR.brand1};
         --color-background: ${COLOR.bgDark};
         --color-backghround-shadow: rgba(255, 255, 255, 0.5);
         --color-text: ${COLOR.txtLight};
