@@ -36,6 +36,12 @@ export const FlexColumnAlignCenter = css`
   align-items: center;
 `;
 
+export const TextAreaBox = css`
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+`;
+
 const Section = styled.div`
   margin: 0 auto;
   padding: 100px 140px;

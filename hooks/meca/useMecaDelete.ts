@@ -8,8 +8,9 @@ const useMecaDelete = () => {
   const queryClient = useQueryClient();
 
   const { mutate: deleteMeca } = useMutation(mecaApi.deleteMeca, {
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries([queryKey.mecas]);
+      queryClient.setQueryData([queryKey.meca, variables], null);
       alertToast('삭제 완료', 'success');
     },
   });

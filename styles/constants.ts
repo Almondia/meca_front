@@ -78,3 +78,7 @@ export const BORDER = {
   card: '6px',
   button: '8px',
 };
+
+export const FONT_FAMILY = {
+  sahitya: 'Sahitya',
+};
