@@ -13,7 +13,7 @@ export const WriterInfoBox = styled.div`
   column-gap: 10px;
 `;
 
-export const ModificationBox = styled.div`
+export const ModificationBoxWrapper = styled.div`
   ${FlexCenter};
   column-gap: 10px;
   & > a:hover {
