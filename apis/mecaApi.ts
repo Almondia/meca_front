@@ -1,4 +1,4 @@
-import { CursorPaginationType, MecaType } from '@/types/domain';
+import { CursorPaginationType, MecaType, QuizAlgorithmType } from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 
 import { authInstance } from './config/instance';
@@ -16,6 +16,12 @@ export interface MecaListResponse extends CursorPaginationType {
   contents: Omit<MecaType, 'categoryId'>[];
   categoryId: string;
   categoryTitle: string;
+}
+
+export interface MecaQuizRequest {
+  categoryId: string;
+  limit: number;
+  algorithm: QuizAlgorithmType;
 }
 
 const mecaApi = {
@@ -39,6 +45,13 @@ const mecaApi = {
     });
   },
   getMyCardById: (cardId: string) => authInstance.get<never, MecaType>(`/api/v1/cards/${cardId}/me`),
+  getQuizCards: ({ categoryId, limit, algorithm }: MecaQuizRequest) =>
+    authInstance.get<never, MecaType[]>(`/api/v1/cards/categories/${categoryId}/simulation`, {
+      params: {
+        limit,
+        algorithm,
+      },
+    }),
 };
 
 export default mecaApi;

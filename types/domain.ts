@@ -60,3 +60,5 @@ export interface MecaType {
   createdAt: string;
   images?: string[];
 }
+
+export type QuizAlgorithmType = 'score' | 'random';
