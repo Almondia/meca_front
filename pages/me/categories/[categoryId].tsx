@@ -20,7 +20,7 @@ const MyCategoryByIdPage = ({ categoryId, memberId }: MyCategoryByIdPageProps) =
   return (
     <ListSection>
       <PageTitle>{mecaList?.pages[0].categoryTitle ?? 'Category Title'}</PageTitle>
-      <CardControl categoryId={categoryId} />
+      <CardControl categoryId={categoryId} categoryTitle={mecaList?.pages[0].categoryTitle ?? 'Category Title'} />
       <Devide />
       <MecaList mecaList={mecaList} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} isMine />
     </ListSection>
@@ -32,20 +32,10 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   if (!categoryId || typeof categoryId !== 'string') {
     throw { url: '/' };
   }
-  await queryClient.prefetchInfiniteQuery(
-    [queryKey.mecas, memberId],
-    () =>
-      mecaApi.getMyMecaList({
-        categoryId,
-      }),
-    {
-      getNextPageParam: (lastPage) => lastPage.hasNext,
-    },
-  );
-  return {
-    memberId,
-    categoryId,
-  };
+  await queryClient.prefetchInfiniteQuery([queryKey.mecas, memberId], () => mecaApi.getMyMecaList({ categoryId }), {
+    getNextPageParam: (lastPage) => lastPage.hasNext,
+  });
+  return { memberId, categoryId };
 });
 
 export default MyCategoryByIdPage;
