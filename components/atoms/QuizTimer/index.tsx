@@ -1,3 +1,6 @@
+import { css, keyframes } from 'styled-components';
+import { useCallback } from 'react';
+
 import Icon from '@/components/atoms/Icon';
 
 import { QuizClock, QuizTimerBar, QuizTimerWrapper } from './styled';
@@ -7,15 +10,35 @@ export interface QuizTimerProps {
   second?: number;
 }
 
-const QuizTimer = ({ second }: QuizTimerProps) => (
-  <QuizTimerWrapper isDisabled={!second}>
-    <QuizTimerBar second={second ?? 0}>
-      <div />
-    </QuizTimerBar>
-    <QuizClock>
-      <Icon icon="Clock" color="var(--color-brand)" />
-    </QuizClock>
-  </QuizTimerWrapper>
-);
+const QuizTimer = ({ second }: QuizTimerProps) => {
+  const fillAnimation = useCallback(() => {
+    if (!second) {
+      return undefined;
+    }
+    const fillFrame = keyframes`
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }`;
+    return css`
+      animation: ${fillFrame};
+      animation-duration: ${second}s;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    `;
+  }, [second]);
+  return (
+    <QuizTimerWrapper isDisabled={!second}>
+      <QuizTimerBar second={second ?? 0} fillAnimation={fillAnimation}>
+        <div />
+      </QuizTimerBar>
+      <QuizClock>
+        <Icon icon="Clock" color="var(--color-brand)" />
+      </QuizClock>
+    </QuizTimerWrapper>
+  );
+};
 
 export default QuizTimer;
