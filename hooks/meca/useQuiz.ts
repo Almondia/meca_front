@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import mecaApi from '@/apis/mecaApi';
 import queryKey from '@/query/queryKey';
-import { QuizAlgorithmType } from '@/types/domain';
+import { QuizAlgorithmType, QuizType } from '@/types/domain';
 
 const useQuiz = (categoryId: string, limit: number, algorithm: QuizAlgorithmType) => {
+  const fallback: QuizType[] = [];
   const {
-    data: quizList,
+    data: quizList = fallback,
     isLoading,
     refetch: fetchQuizData,
     isError,

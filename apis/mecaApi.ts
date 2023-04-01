@@ -1,4 +1,4 @@
-import { CursorPaginationType, MecaType, QuizAlgorithmType } from '@/types/domain';
+import { CursorPaginationType, MecaType, QuizAlgorithmType, QuizResultType, QuizType } from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 
 import { authInstance } from './config/instance';
@@ -46,11 +46,15 @@ const mecaApi = {
   },
   getMyCardById: (cardId: string) => authInstance.get<never, MecaType>(`/api/v1/cards/${cardId}/me`),
   getQuizCards: ({ categoryId, limit, algorithm }: MecaQuizRequest) =>
-    authInstance.get<never, MecaType[]>(`/api/v1/cards/categories/${categoryId}/simulation`, {
+    authInstance.get<never, QuizType[]>(`/api/v1/cards/categories/${categoryId}/simulation`, {
       params: {
         limit,
         algorithm,
       },
+    }),
+  applyQuizResult: (props: QuizResultType[]) =>
+    authInstance.post<never, never>(`/api/v1/histories/simulation`, {
+      cardHistories: props,
     }),
 };
 
