@@ -17,6 +17,7 @@ import Google from '@/public/icons/google.svg';
 import Clock from '@/public/icons/clock.svg';
 import Play from '@/public/icons/play.svg';
 import CompactDown from '@/public/icons/compactdown.svg';
+import Selected from '@/public/icons/select.svg';
 
 const Icons = {
   Lightmode,
@@ -38,6 +39,7 @@ const Icons = {
   Clock,
   Play,
   CompactDown,
+  Selected,
 };
 
 export default Icons;
