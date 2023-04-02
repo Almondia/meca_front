@@ -8,7 +8,6 @@ import { Devide, ListSection } from '@/styles/layout';
 import { ssrAspect } from '@/libs/renderAspect';
 import categoryApi from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
-import { PAGINATION_NUM } from '@/utils/constants';
 
 const MyCategory = () => {
   const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
@@ -23,13 +22,9 @@ const MyCategory = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (_, queryClient) => {
-  await queryClient.prefetchInfiniteQuery(
-    [queryKey.categories, 'me', ''],
-    ({ pageParam = 0 }) => categoryApi.getMyCategoryList({ offset: pageParam, query: '' }),
-    {
-      getNextPageParam: (lastPage) => (lastPage.contents.length < PAGINATION_NUM ? false : lastPage.pageNumber + 1),
-    },
-  );
+  await queryClient.prefetchInfiniteQuery([queryKey.categories, 'me'], () => categoryApi.getMyCategoryList({}), {
+    getNextPageParam: (lastPage) => lastPage.hasNext,
+  });
 });
 
 export default MyCategory;

@@ -4,11 +4,10 @@ import { useRecoilValue } from 'recoil';
 
 import categoryApi from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
-import { PAGINATION_NUM } from '@/utils/constants';
 import { hasAuthState } from '@/atoms/common';
 
-// TODO: 커서 페이지네이션으로 변경해주면 반영해야한다.
 const useCategory = () => {
+  // TODO: 검색어 서버 api 구현 안되면 지울 것
   const [query, setQuery] = useState<string>('');
   const hasAuth = useRecoilValue(hasAuthState);
   const {
@@ -18,18 +17,17 @@ const useCategory = () => {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery(
-    [queryKey.categories, 'me', query],
-    async ({ pageParam = 0 }) => {
-      const response = await categoryApi.getMyCategoryList({
-        offset: pageParam,
-        query,
-      });
-      return response;
+    [queryKey.categories, 'me'],
+    ({ pageParam }) => {
+      const props = {
+        hasNext: pageParam,
+      };
+      !pageParam && delete props.hasNext;
+      return categoryApi.getMyCategoryList(props);
     },
     {
       enabled: hasAuth,
-      // TODO: cursor 페이지네이션으로 변경 시 hasNextPage 응답 데이터를 이용한다.
-      getNextPageParam: (lastPage) => (lastPage.contents.length < PAGINATION_NUM ? false : lastPage.pageNumber + 1),
+      getNextPageParam: (lastPage) => lastPage.hasNext,
     },
   );
 
