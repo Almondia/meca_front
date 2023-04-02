@@ -39,19 +39,17 @@ export const handlers = [
   }),
 
   rest.get(`${ENDPOINT}/categories/me`, (req, res, ctx) => {
-    const offset = req.url.searchParams.get('offset');
+    const hasNext = req.url.searchParams.get('hasNext');
     const pageSize = req.url.searchParams.get('pageSize');
-    const title = req.url.searchParams.get('startTitle');
-    const totalPages = parseInt(CATEGORIES.length / pageSize) + 1;
-    const pageNumber = parseInt(offset);
-    const result = {
-      totalPages,
-      pageNumber,
-      contents: CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt)
-        .filter((category) => category.title.indexOf(title) !== -1)
-        .slice(offset * pageSize, (parseInt(offset) + 1) * pageSize),
+    const result = CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt);
+    let nextIndex = result.findIndex((v) => v.cardId === hasNext);
+    nextIndex = nextIndex === -1 ? 0 : nextIndex;
+    const resData = {
+      contents: [...result].slice(nextIndex, Number(pageSize)),
+      pageSize,
+      hasNext: result[nextIndex + 1] ? result[nextIndex + 1].cardId : undefined,
     };
-    return res(ctx.json(result));
+    return res(ctx.json({ ...resData }));
   }),
 
   rest.post(`${ENDPOINT}/categories`, async (req, res, ctx) => {
@@ -67,7 +65,7 @@ export const handlers = [
     CATEGORIES.push({
       title: title,
       createdAt: CATEGORIES.length,
-      id: 'c' + CATEGORIES.length,
+      categoryId: 'cid' + CATEGORIES.length,
     });
     return res(ctx.status(200));
   }),
