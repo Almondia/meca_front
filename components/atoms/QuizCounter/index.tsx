@@ -11,7 +11,7 @@ const QuizCounter = ({ currentCount, maxCount }: QuizCounterProps) => (
       {Math.min(currentCount, maxCount)}
     </QuizCurrentCounter>
     <QuizMaxCounter>/</QuizMaxCounter>
-    <QuizMaxCounter>{maxCount}</QuizMaxCounter>
+    <QuizMaxCounter data-testid="id-quizcounter-maxcount">{maxCount}</QuizMaxCounter>
   </QuizCounterWrapper>
 );
 

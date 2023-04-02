@@ -63,7 +63,7 @@ export interface MecaType {
 
 export type QuizAlgorithmType = 'score' | 'random';
 
-export type QuizPhaseType = 'progress' | 'done' | 'end';
+export type QuizPhaseType = 'progress' | 'done' | 'end' | 'result';
 
 export interface QuizSucceedType {
   succeedText: string;

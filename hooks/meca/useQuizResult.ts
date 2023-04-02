@@ -23,7 +23,7 @@ const useQuizResult = () => {
               ...quiz,
               result: {
                 cardId,
-                userAnswer: answer ?? '시간초과!',
+                userAnswer: answer || '시간초과 또는 정답 미제출',
                 score: answer === quiz.answer ? 100 : 0,
               },
             }
