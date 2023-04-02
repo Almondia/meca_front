@@ -88,6 +88,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     button {
+        font-family: 'Pretendard', sans-serif;
         cursor: pointer;
         border: none;
         outline: none;
