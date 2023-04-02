@@ -37,3 +37,13 @@ export const TextOverline = styled(Text)`
   font-size: ${({ theme }) => theme.fontSize.overline};
   line-height: 0.75rem;
 `;
+
+export const NonVisibleRadioBox = styled.fieldset`
+  position: relative;
+  input[type='radio'] {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+`;

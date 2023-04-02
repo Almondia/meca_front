@@ -60,3 +60,22 @@ export interface MecaType {
   createdAt: string;
   images?: string[];
 }
+
+export type QuizAlgorithmType = 'score' | 'random';
+
+export type QuizPhaseType = 'progress' | 'done' | 'end' | 'result';
+
+export interface QuizSucceedType {
+  succeedText: string;
+  succeedHandler: (...args: any[]) => void;
+}
+
+export interface QuizResultType {
+  cardId: string;
+  userAnswer: string;
+  score: number;
+}
+
+export interface QuizType extends MecaType {
+  result?: Omit<QuizResultType, 'cardId'>;
+}

@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { FlattenSimpleInterpolation, Keyframes } from 'styled-components';
 
 import { FlexCenter } from '@/styles/layout';
 import { COLOR } from '@/styles/constants';
@@ -24,16 +24,7 @@ export const QuizClock = styled.div`
   background-color: var(--color-background);
 `;
 
-const fillFrame = keyframes`
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-`;
-
-export const QuizTimerBar = styled.div<{ second: number }>`
+export const QuizTimerBar = styled.div<{ second: number; fillAnimation: () => FlattenSimpleInterpolation | undefined }>`
   position: relative;
   ${FlexCenter};
   width: 100%;
@@ -56,6 +47,6 @@ export const QuizTimerBar = styled.div<{ second: number }>`
     width: 100%;
     height: 100%;
     background-color: var(--color-brand);
-    animation: ${fillFrame} ${(props) => props.second}s linear forwards;
+    ${(props) => props?.fillAnimation?.()};
   }
 `;
