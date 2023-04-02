@@ -1,21 +1,20 @@
-import { CategoryType, PaginationType } from '@/types/domain';
+import { CategoryType, CursorPaginationType } from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 
 import { authInstance } from './config/instance';
 
-export interface CategoriesResponse {
+export interface CategoriesResponse extends CursorPaginationType {
   contents: CategoryType[];
   totalPages: number;
   pageNumber: number;
 }
 
 const categoryApi = {
-  getMyCategoryList: ({ offset = 0, query = '', pageSize = PAGINATION_NUM }: PaginationType) =>
+  getMyCategoryList: (props: CursorPaginationType) =>
     authInstance.get<never, CategoriesResponse>('/api/v1/categories/me', {
       params: {
-        offset,
-        pageSize,
-        startTitle: query,
+        pageSize: props.pageSize ?? PAGINATION_NUM,
+        hasNext: props.hasNext,
       },
     }),
   addCategory: ({ title }: { title: string }) =>
