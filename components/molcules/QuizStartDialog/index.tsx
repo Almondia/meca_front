@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import useQuiz from '@/hooks/meca/useQuiz';
+import ToggleButton from '@/components/atoms/ToggleButton';
 
 import InputGroup from '../InputGroup';
 import Modal from '../Modal';
@@ -18,11 +19,13 @@ export interface QuizStartDialogProps extends DefaultModalOptions {
 }
 
 const MIN_QUIZNUM = 1;
+const QUIZ_SECONDS = ['15초', '30초', '60초'] as const;
 
 const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizStartDialogProps) => {
   const { input: quizCountInput, onInputChange: onQuizCountChange } = useInput(quizNum.toString());
-  const quizCountInputNumber = parseInt(quizCountInput, 10);
+  const [quizTimeInput, setQuizTimeInput] = useState<(typeof QUIZ_SECONDS)[number]>('15초');
 
+  const quizCountInputNumber = parseInt(quizCountInput, 10);
   const router = useRouter();
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
@@ -43,7 +46,7 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
     if (!isCountValid(quizCountInputNumber)) {
       return;
     }
-    setQuizTime(30);
+    setQuizTime(parseInt(quizTimeInput, 10));
     setQuizTitle(title);
     await fetchQuizData();
     onClose();
@@ -71,6 +74,13 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
             placeholder=""
             onChange={handleCountChange}
             ariaLabel="input-quizcount-text"
+          />
+        </InputGroup>
+        <InputGroup>
+          <InputGroup.Label>문제 풀이 시간</InputGroup.Label>
+          <ToggleButton
+            innerTexts={[...QUIZ_SECONDS]}
+            onClicks={QUIZ_SECONDS.map((quiz) => () => setQuizTimeInput(quiz))}
           />
         </InputGroup>
       </Modal.Body>
