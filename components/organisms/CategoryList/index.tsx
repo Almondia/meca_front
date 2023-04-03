@@ -4,6 +4,7 @@ import { InfiniteData } from '@tanstack/react-query';
 import CategoryCard from '@/components/molcules/CategoryCard';
 import { CategoriesResponse } from '@/apis/categoryApi';
 import EmptyPagination from '@/components/layout/EmptyPagination';
+import LoadSpinner from '@/components/atoms/LoadSpinner';
 
 import { CategoryListWrapper } from './styled';
 
@@ -19,11 +20,7 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
   }
   return (
     <CategoryListWrapper
-      loader={
-        <div data-testid="id-scroll-load-spinner" key={Number(categoryList.pageParams[1]) ?? 0}>
-          ...loading
-        </div>
-      }
+      loader={<LoadSpinner key={Number(categoryList.pageParams[1]) ?? 0} width="100%" />}
       loadMore={fetchNextPage}
       hasMore={hasNextPage}
     >

@@ -4,6 +4,7 @@ import { MecaListResponse } from '@/apis/mecaApi';
 import MecaCard from '@/components/molcules/MecaCard';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 import EmptyPagination from '@/components/layout/EmptyPagination';
+import LoadSpinner from '@/components/atoms/LoadSpinner';
 
 import { MecaListWrapper } from './styled';
 
@@ -20,11 +21,7 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProp
   }
   return (
     <MecaListWrapper
-      loader={
-        <div data-testid="id-scroll-load-spinner" key={Number(mecaList.pageParams[1]) ?? 0}>
-          ...loading
-        </div>
-      }
+      loader={<LoadSpinner key={Number(mecaList.pageParams[1]) ?? 0} width="100%" />}
       loadMore={fetchNextPage}
       hasMore={hasNextPage}
     >
