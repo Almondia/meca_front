@@ -7,6 +7,7 @@ import CompactDown from '@/public/icons/compactdown.svg';
 import Darkmode from '@/public/icons/darkmode.svg';
 import Dice from '@/public/icons/dice.svg';
 import ExceptButton from '@/public/icons/exceptbutton.svg';
+import Google from '@/public/icons/google.svg';
 import Kakao from '@/public/icons/kakao.svg';
 import Lightmode from '@/public/icons/lightmode.svg';
 import Naver from '@/public/icons/naver.svg';
@@ -17,7 +18,6 @@ import Selected from '@/public/icons/select.svg';
 import Triangle from '@/public/icons/triangle.svg';
 import VerticalDot from '@/public/icons/verticaldot.svg';
 import Zoomin from '@/public/icons/zoomin.svg';
-import Google from '@/public/icons/google.svg';
 
 const Icons = {
   Lightmode,
