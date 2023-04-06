@@ -94,6 +94,6 @@
     }
   ],
   "settings": {
-    "import/external-module-folders": [".yarn/cache", ".yarn/sdks", ".yarn/unplugged"]
+    "import/external-module-folders": [".yarn/cache", ".yarn/sdks", ".yarn/unplugged", ".yarn/__virtual__/**"]
   }
 }
