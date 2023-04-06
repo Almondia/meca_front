@@ -4,11 +4,11 @@ import { useCallback, useState } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
+import { quizTimeState, quizTitleState } from '@/atoms/quiz';
+import ToggleButton from '@/components/atoms/ToggleButton';
+import useQuiz from '@/hooks/meca/useQuiz';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
-import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import useQuiz from '@/hooks/meca/useQuiz';
-import ToggleButton from '@/components/atoms/ToggleButton';
 
 import InputGroup from '../InputGroup';
 import Modal from '../Modal';

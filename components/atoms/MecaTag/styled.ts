@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { FlexCenter } from '@/styles/layout';
 import { TextBodySubtitle } from '@/styles/common';
+import { FlexCenter } from '@/styles/layout';
 
 export const MecaTagWrapper = styled.div<{ scale: number; isNotOpaque: boolean; themeColor: string }>`
   position: relative;

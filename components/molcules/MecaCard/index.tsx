@@ -1,9 +1,9 @@
 import CardTitle from '@/components/atoms/CardTitle';
 import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
+import useModal from '@/hooks/useModal';
 import { MecaTagType } from '@/types/domain';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
-import useModal from '@/hooks/useModal';
 
 import { MecaCardWrapper, MecaQuestionTextContainer, MecaTagContainer } from './styled';
 

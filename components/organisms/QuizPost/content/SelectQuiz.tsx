@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 import RadioGroup from '@/components/atoms/Input/Radio';
 import QuizBox from '@/components/atoms/QuizBox';
-import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
-import { FlexColumnCenter } from '@/styles/layout';
-import { COLOR } from '@/styles/constants';
 import { NonVisibleRadioBox } from '@/styles/common';
+import { COLOR } from '@/styles/constants';
+import { FlexColumnCenter } from '@/styles/layout';
+import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
-import { QuizContentProps } from '../type';
 import { QuizContentWrapper } from '../styled';
+import { QuizContentProps } from '../type';
 
 const SelectGroup = styled(NonVisibleRadioBox)`
   ${FlexColumnCenter};

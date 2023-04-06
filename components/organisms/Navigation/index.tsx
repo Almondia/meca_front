@@ -4,14 +4,14 @@ import Link from 'next/link';
 
 import { useCallback, useRef, useState } from 'react';
 
-import IconButton from '@/components/atoms/IconButton';
-import useCustomTheme from '@/hooks/useCustomTheme';
 import Icon from '@/components/atoms/Icon';
+import IconButton from '@/components/atoms/IconButton';
 import useClickAway from '@/hooks/useClickAway';
+import useCustomTheme from '@/hooks/useCustomTheme';
 import useUser from '@/hooks/useUser';
 
-import { Logo, NavBar, NavigationWrapper, Profile } from './styled';
 import NavSelection from './NavSelection';
+import { Logo, NavBar, NavigationWrapper, Profile } from './styled';
 
 const Navigation = () => {
   const { user } = useUser();

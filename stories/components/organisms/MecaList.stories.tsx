@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { InfiniteData } from '@tanstack/react-query';
 
-import MecaList, { MecaListProps } from '@/components/organisms/MecaList';
 import { MecaListResponse } from '@/apis/mecaApi';
+import MecaList, { MecaListProps } from '@/components/organisms/MecaList';
 
 export default {
   title: 'components/organisms/MecaList',

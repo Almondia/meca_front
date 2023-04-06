@@ -3,10 +3,10 @@ import { GetServerSideProps } from 'next';
 
 import styled from 'styled-components';
 
-import LoginCard from '@/components/organisms/LoginCard';
 import HomeMainSection from '@/components/layout/HomeMainSection';
-import { FlexColumn } from '@/styles/layout';
+import LoginCard from '@/components/organisms/LoginCard';
 import { ssrAspect } from '@/libs/renderAspect';
+import { FlexColumn } from '@/styles/layout';
 
 const IntroduceContainer = styled.div`
   ${FlexColumn};

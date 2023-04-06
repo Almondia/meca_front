@@ -1,9 +1,8 @@
 import React from 'react';
-
 import styled, { keyframes } from 'styled-components';
 
-import { ElementSizeType } from '@/types/common';
 import { FlexCenter } from '@/styles/layout';
+import { ElementSizeType } from '@/types/common';
 
 const SpinFrame = keyframes`
   from {

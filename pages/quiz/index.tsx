@@ -2,19 +2,19 @@
 import Link from 'next/link';
 
 import { useCallback, useEffect, useState } from 'react';
-
 import styled from 'styled-components';
+
 import { useRecoilValue } from 'recoil';
 
-import { QuizPhaseType, QuizResultType, QuizSucceedType } from '@/types/domain';
-import { FlexSpaceBetween, PostSection } from '@/styles/layout';
-import PageTitle from '@/components/layout/PageTitle';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import QuizCounter from '@/components/atoms/QuizCounter';
-import useCount from '@/hooks/useCount';
 import QuizTimer from '@/components/atoms/QuizTimer';
+import PageTitle from '@/components/layout/PageTitle';
 import QuizPost from '@/components/organisms/QuizPost';
 import useQuizResult from '@/hooks/meca/useQuizResult';
+import useCount from '@/hooks/useCount';
+import { FlexSpaceBetween, PostSection } from '@/styles/layout';
+import { QuizPhaseType, QuizResultType, QuizSucceedType } from '@/types/domain';
 
 const QuizTitleBox = styled.div`
   ${FlexSpaceBetween};

@@ -2,13 +2,13 @@
 import { GetServerSideProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
+import PageTitle from '@/components/layout/PageTitle';
+import CardControl from '@/components/organisms/CardControl';
+import MecaList from '@/components/organisms/MecaList';
 import useMecaList from '@/hooks/meca/useMecaList';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
-import PageTitle from '@/components/layout/PageTitle';
-import CardControl from '@/components/organisms/CardControl';
-import MecaList from '@/components/organisms/MecaList';
 
 export interface MyCategoryByIdPageProps {
   categoryId: string;

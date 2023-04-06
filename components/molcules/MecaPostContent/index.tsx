@@ -3,9 +3,9 @@ import React from 'react';
 import { MecaTagResponseType } from '@/types/domain';
 
 import DefaultPostBody from './body/DefaultPostBody';
-import { PostBodyComponentType } from './type';
 import OxPostBody from './body/OxPostBody';
 import SelectPostBody from './body/SelectPostBody';
+import { PostBodyComponentType } from './type';
 
 export interface MecaPostContentProps {
   question: string;

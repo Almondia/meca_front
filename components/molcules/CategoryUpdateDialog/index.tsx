@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { DefaultModalOptions } from '@/types/common';
-import useInput from '@/hooks/useInput';
 import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
+import useInput from '@/hooks/useInput';
+import { DefaultModalOptions } from '@/types/common';
 
-import Modal from '../Modal';
 import InputGroup from '../InputGroup';
+import Modal from '../Modal';
 
 export interface CategoryUpdateDialogProps extends DefaultModalOptions {
   categoryId: string;

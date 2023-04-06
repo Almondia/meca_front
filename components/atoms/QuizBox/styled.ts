@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { Flex, FlexColumn } from '@/styles/layout';
 import { TextBodyTitle } from '@/styles/common';
+import { Flex, FlexColumn } from '@/styles/layout';
 
 export const QuizBoxWrapper = styled.div<{ isColumn: boolean }>`
   ${(props) => (props.isColumn ? FlexColumn : Flex)};

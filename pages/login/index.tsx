@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
-import { useEffect } from 'react';
 import nookies from 'nookies';
+import { useEffect } from 'react';
 
+import userApi from '@/apis/userApi';
 import { SOCIAL_TYPES, SocialType } from '@/types/domain';
 import parseQueryString from '@/utils/queryStringHandler';
-import userApi from '@/apis/userApi';
 import alertToast from '@/utils/toastHandler';
 
 const isSocialType = (value: any): value is SocialType => SOCIAL_TYPES.includes(value);

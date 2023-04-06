@@ -1,5 +1,5 @@
-import { PostBodyProps } from '../type';
 import { MecaPostContainer, MecaPostContentBody, MecaPostContentTitle, MecaPostContentWrapper } from '../styled';
+import { PostBodyProps } from '../type';
 
 const DefaultPostBody = ({ question, answer }: PostBodyProps) => (
   <MecaPostContentWrapper>

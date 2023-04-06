@@ -2,8 +2,8 @@ import React from 'react';
 
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
-import useInput from '@/hooks/useInput';
 import CategoryAddButtonDialog from '@/components/molcules/CategoryAddButtonDialog';
+import useInput from '@/hooks/useInput';
 
 import { CategoryControlComponentsContainer, CategoryControlWrapper } from './styled';
 

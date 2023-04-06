@@ -5,15 +5,15 @@ import { createPortal } from 'react-dom';
 
 import IconButton from '@/components/atoms/IconButton';
 import useClickAway from '@/hooks/useClickAway';
+import { DefaultModalOptions } from '@/types/common';
 import { hasBrowser } from '@/utils/common';
 import getInnerComponents from '@/utils/getInnerComponent.s';
-import { DefaultModalOptions } from '@/types/common';
 
-import { Background, CloseIconButton, ModalButtonGroup, ModalContainer, ModalWrapper } from './styled';
-import ModalTitle, { modalTitleComponentType } from './inner/ModalTitle';
 import ModalBody, { modalBodyComponentType } from './inner/ModalBody';
 import ModalCloseButton, { modalCloseButtonComponentType } from './inner/ModalCloseButton';
 import ModalConfirmButton, { modalConfirmButtonComponentType } from './inner/ModalConfirmButton';
+import ModalTitle, { modalTitleComponentType } from './inner/ModalTitle';
+import { Background, CloseIconButton, ModalButtonGroup, ModalContainer, ModalWrapper } from './styled';
 
 export interface ModalProps extends DefaultModalOptions {
   /**

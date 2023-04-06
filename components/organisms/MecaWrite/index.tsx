@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 
-import MecaTagToggleGroup from '@/components/molcules/MecaTagToggleGroup';
-import { MECA_RESPONE_TO_TAG, MecaTagType, MecaType } from '@/types/domain';
-import { Devide } from '@/styles/layout';
 import InputGroup from '@/components/molcules/InputGroup';
+import MecaTagToggleGroup from '@/components/molcules/MecaTagToggleGroup';
+import { Devide } from '@/styles/layout';
+import { MECA_RESPONE_TO_TAG, MecaTagType, MecaType } from '@/types/domain';
 
-import { MecaWriteWrapper } from './styled';
 import MecaWriteForm from './MecaWriteForm';
+import { MecaWriteWrapper } from './styled';
 
 const MECA_TAGS = Object.values(MECA_RESPONE_TO_TAG);
 

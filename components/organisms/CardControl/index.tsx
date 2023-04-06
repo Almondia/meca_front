@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import Button from '@/components/atoms/Button';
-import useModal from '@/hooks/useModal';
 import QuizStartDialog from '@/components/molcules/QuizStartDialog';
+import useModal from '@/hooks/useModal';
 
 import { CardControlComponentsContainer, CardControlWrapper } from './styled';
 

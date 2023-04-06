@@ -1,13 +1,13 @@
 import { GetServerSideProps } from 'next';
 
+import categoryApi from '@/apis/categoryApi';
 import PageTitle from '@/components/layout/PageTitle';
 import CategoryControl from '@/components/organisms/CategoryControl';
 import CategoryList from '@/components/organisms/CategoryList';
 import useCategory from '@/hooks/category/useCategory';
-import { Devide, ListSection } from '@/styles/layout';
 import { ssrAspect } from '@/libs/renderAspect';
-import categoryApi from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
+import { Devide, ListSection } from '@/styles/layout';
 
 const MyCategory = () => {
   const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();

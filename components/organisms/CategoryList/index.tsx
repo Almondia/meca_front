@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import { InfiniteData } from '@tanstack/react-query';
 
-import CategoryCard from '@/components/molcules/CategoryCard';
 import { CategoriesResponse } from '@/apis/categoryApi';
-import EmptyPagination from '@/components/layout/EmptyPagination';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
+import EmptyPagination from '@/components/layout/EmptyPagination';
+import CategoryCard from '@/components/molcules/CategoryCard';
 
 import { CategoryListWrapper } from './styled';
 

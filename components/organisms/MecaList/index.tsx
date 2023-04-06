@@ -1,10 +1,10 @@
 import { InfiniteData } from '@tanstack/react-query';
 
 import { MecaListResponse } from '@/apis/mecaApi';
+import LoadSpinner from '@/components/atoms/LoadSpinner';
+import EmptyPagination from '@/components/layout/EmptyPagination';
 import MecaCard from '@/components/molcules/MecaCard';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
-import EmptyPagination from '@/components/layout/EmptyPagination';
-import LoadSpinner from '@/components/atoms/LoadSpinner';
 
 import { MecaListWrapper } from './styled';
 

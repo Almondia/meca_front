@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import mecaApi from '@/apis/mecaApi';
 import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
-import mecaApi from '@/apis/mecaApi';
 
 const useMecaDelete = () => {
   const queryClient = useQueryClient();

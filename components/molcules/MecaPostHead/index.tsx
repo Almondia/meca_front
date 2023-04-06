@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { MECA_RESPONE_TO_TAG, MecaTagResponseType } from '@/types/domain';
-import { TextCaption } from '@/styles/common';
 import MecaTag from '@/components/atoms/MecaTag';
+import { TextCaption } from '@/styles/common';
+import { MECA_RESPONE_TO_TAG, MecaTagResponseType } from '@/types/domain';
 
 import { MecaPostHeadContent, MecaPostHeadWrapper } from './styled';
 

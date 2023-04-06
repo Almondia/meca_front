@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import InfiniteScroll from 'react-infinite-scroller';
 
 // eslint-disable-next-line import/prefer-default-export

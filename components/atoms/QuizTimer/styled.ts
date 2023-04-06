@@ -1,7 +1,7 @@
 import styled, { FlattenSimpleInterpolation, Keyframes } from 'styled-components';
 
-import { FlexCenter } from '@/styles/layout';
 import { COLOR } from '@/styles/constants';
+import { FlexCenter } from '@/styles/layout';
 
 export const QuizTimerWrapper = styled.div<{ isDisabled: boolean }>`
   position: relative;

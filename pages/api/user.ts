@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import nookies from 'nookies';
 
+import { AxiosErrorResponse, setRequest } from '@/apis/config/instance';
 import userApi from '@/apis/userApi';
 import { MyProfile } from '@/types/domain';
-import { AxiosErrorResponse, setRequest } from '@/apis/config/instance';
 
 export default async function handler(
   req: NextApiRequest,

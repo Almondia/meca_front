@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Icon from '@/components/atoms/Icon';
 import { IconButtonWrapper } from '@/components/atoms/IconButton/styled';
 
-import { PostBodyProps } from '../type';
 import { MecaPostContainer, MecaPostContentBody, MecaPostContentTitle, MecaPostContentWrapper } from '../styled';
+import { PostBodyProps } from '../type';
 
 const OxIcon = styled(IconButtonWrapper.withComponent('div'))`
   margin: 8px 0 0 16px;

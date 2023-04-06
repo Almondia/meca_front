@@ -1,9 +1,9 @@
-import ProgressBar from '@/components/atoms/ProgressBar';
-import { COLOR } from '@/styles/constants';
-import DropdownMenu from '@/components/atoms/DropdownMenu';
 import CardTitle from '@/components/atoms/CardTitle';
+import DropdownMenu from '@/components/atoms/DropdownMenu';
+import ProgressBar from '@/components/atoms/ProgressBar';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
 import useModal from '@/hooks/useModal';
+import { COLOR } from '@/styles/constants';
 
 import { CategoryCardWrapper, ProgressesInfoContainer } from './styled';
 

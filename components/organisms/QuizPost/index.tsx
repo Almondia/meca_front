@@ -4,14 +4,14 @@ import { useCallback, useEffect } from 'react';
 import QuizBox from '@/components/atoms/QuizBox';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import useInput from '@/hooks/useInput';
-import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaTagType, QuizSucceedType } from '@/types/domain';
 import { TextCaption } from '@/styles/common';
+import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaTagType, QuizSucceedType } from '@/types/domain';
 
+import KeywordQuiz from './content/KeywordQuiz';
+import OxQuiz from './content/OxQuiz';
 import SelectQuiz from './content/SelectQuiz';
 import { QuizPostWrapper } from './styled';
 import { QuizContentComponentType } from './type';
-import OxQuiz from './content/OxQuiz';
-import KeywordQuiz from './content/KeywordQuiz';
 
 export interface QuizPostProps {
   question: string;

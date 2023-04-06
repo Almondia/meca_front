@@ -3,10 +3,10 @@ import { GetServerSideProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
 import MecaWrite from '@/components/organisms/MecaWrite';
-import { ssrAspect } from '@/libs/renderAspect';
-import { PostSection } from '@/styles/layout';
 import useMeca from '@/hooks/meca/useMeca';
+import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
+import { PostSection } from '@/styles/layout';
 
 export interface MecaWritePageProps {
   categoryId: string;

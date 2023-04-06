@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-import QuizBox from '@/components/atoms/QuizBox';
-import { NonVisibleRadioBox } from '@/styles/common';
-import RadioGroup from '@/components/atoms/Input/Radio';
 import Icon from '@/components/atoms/Icon';
+import RadioGroup from '@/components/atoms/Input/Radio';
+import QuizBox from '@/components/atoms/QuizBox';
 import InputGroup from '@/components/molcules/InputGroup';
+import { NonVisibleRadioBox } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 
 import { QuizContentWrapper } from '../styled';

@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import styled, { keyframes } from 'styled-components';
 
-import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 import { TextBody } from '@/styles/common';
 import { TextAreaBox } from '@/styles/layout';
+import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
 import { MecaPostContainer, MecaPostContentBody, MecaPostContentTitle, MecaPostContentWrapper } from '../styled';
 import { PostBodyProps } from '../type';

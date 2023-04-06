@@ -78,7 +78,11 @@
             "position": "after"
           }
         ],
-        "newlines-between": "always"
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   },
@@ -90,6 +94,6 @@
     }
   ],
   "settings": {
-    "import/external-module-folders": [".yarn/cache"]
+    "import/external-module-folders": [".yarn/cache", ".yarn/sdks", ".yarn/unplugged"]
   }
 }

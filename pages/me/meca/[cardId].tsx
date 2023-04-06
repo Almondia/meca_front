@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-throw-literal */
 /* eslint-disable react/jsx-no-useless-fragment */
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 
 import React, { useCallback, useEffect } from 'react';
 
-import { Devide, PostSection } from '@/styles/layout';
-import useMeca from '@/hooks/meca/useMeca';
-import MecaPost from '@/components/organisms/MecaPost';
-import { ssrAspect } from '@/libs/renderAspect';
-import queryKey from '@/query/queryKey';
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/layout/PageTitle';
-import CardWriterInfo from '@/components/molcules/PostWriterInfo';
-import useUser from '@/hooks/useUser';
-import useModal from '@/hooks/useModal';
 import MecaDeleteDialog from '@/components/molcules/MecaDeleteDialog';
+import CardWriterInfo from '@/components/molcules/PostWriterInfo';
+import MecaPost from '@/components/organisms/MecaPost';
+import useMeca from '@/hooks/meca/useMeca';
+import useModal from '@/hooks/useModal';
+import useUser from '@/hooks/useUser';
+import { ssrAspect } from '@/libs/renderAspect';
+import queryKey from '@/query/queryKey';
+import { Devide, PostSection } from '@/styles/layout';
 
 export interface MecaPageProps {
   cardId: string;

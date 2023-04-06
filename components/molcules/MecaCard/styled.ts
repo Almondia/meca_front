@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { FlexColumn } from '@/styles/layout';
 import { TextBody } from '@/styles/common';
+import { FlexColumn } from '@/styles/layout';
 
 export const MecaCardWrapper = styled.div`
   ${FlexColumn};

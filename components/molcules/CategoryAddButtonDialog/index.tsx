@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
 import Button from '@/components/atoms/Button';
+import useCategoryPost from '@/hooks/category/useCategoryPost';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
-import useCategoryPost from '@/hooks/category/useCategoryPost';
 
-import Modal from '../Modal';
 import InputGroup from '../InputGroup';
+import Modal from '../Modal';
 
 const CategoryAddButtonDialog = () => {
   const { visible, open, close } = useModal();
