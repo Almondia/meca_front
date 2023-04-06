@@ -2,9 +2,9 @@
 import Link from 'next/link';
 
 import { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
 
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import QuizCounter from '@/components/atoms/QuizCounter';

@@ -73,6 +73,11 @@
             "group": "builtin"
           },
           {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "after"
+          },
+          {
             "pattern": "@/**",
             "group": "internal",
             "position": "after"
@@ -94,6 +99,6 @@
     }
   ],
   "settings": {
-    "import/external-module-folders": [".yarn/cache", ".yarn/sdks", ".yarn/unplugged", ".yarn/__virtual__/**"]
+    "import/external-module-folders": [".yarn/**"]
   }
 }
