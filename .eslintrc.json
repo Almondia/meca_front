@@ -84,5 +84,8 @@
       "files": ["__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
       "extends": ["plugin:testing-library/react"]
     }
-  ]
+  ],
+  "settings": {
+    "import/external-module-folders": [".yarn"]
+  }
 }
