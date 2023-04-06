@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styled, { keyframes } from 'styled-components';
 
 import { ElementSizeType } from '@/types/common';

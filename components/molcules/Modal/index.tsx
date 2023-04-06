@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import { createPortal } from 'react-dom';
 import { useRef } from 'react';
+
+import { createPortal } from 'react-dom';
 
 import IconButton from '@/components/atoms/IconButton';
 import useClickAway from '@/hooks/useClickAway';

@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
+import { GetServerSideProps } from 'next';
 
 import styled from 'styled-components';
-import { GetServerSideProps } from 'next';
 
 import LoginCard from '@/components/organisms/LoginCard';
 import HomeMainSection from '@/components/layout/HomeMainSection';

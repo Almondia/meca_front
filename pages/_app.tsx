@@ -1,10 +1,11 @@
 import type { AppProps } from 'next/app';
 
+import React, { useState } from 'react';
+
 import { Hydrate, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RecoilRoot } from 'recoil';
 import { ToastContainer } from 'react-toastify';
-import React, { useState } from 'react';
 
 import ThemeProvider from '@/styles/ThemeProvider';
 import { generateQueryClient } from '@/query/queryClient';

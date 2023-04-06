@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Link from 'next/link';
 
+import { useCallback, useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { useCallback, useEffect, useState } from 'react';
 
 import { QuizPhaseType, QuizResultType, QuizSucceedType } from '@/types/domain';
 import { FlexSpaceBetween, PostSection } from '@/styles/layout';

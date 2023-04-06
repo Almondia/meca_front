@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 
 import { useEffect } from 'react';
-import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
 import { SOCIAL_TYPES, SocialType } from '@/types/domain';

@@ -3,9 +3,9 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 
 import React, { useCallback, useEffect } from 'react';
-import { GetServerSideProps } from 'next';
 
 import { Devide, PostSection } from '@/styles/layout';
 import useMeca from '@/hooks/meca/useMeca';

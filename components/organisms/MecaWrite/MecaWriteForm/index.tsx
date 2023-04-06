@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useState } from 'react';
+
 import { createPortal } from 'react-dom';
 
 import InputGroup from '@/components/molcules/InputGroup';
