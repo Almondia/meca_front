@@ -8,6 +8,10 @@ import { RouterContext } from 'next/dist/shared/lib/router-context'; // next 12
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useCustomTheme from '../hooks/useCustomTheme';
 import commonTheme from '../styles/theme';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 const queryClient = new QueryClient();
 
 const customViewports = {
@@ -91,6 +95,16 @@ const withDecorator: DecoratorFn = (StoryFn, context) => {
       <RecoilRoot>
         <ThemeChanger theme={theme} />
         <ThemeProvider theme={commonTheme}>
+          <ToastContainer
+            closeOnClick
+            autoClose={2000}
+            position="top-center"
+            rtl={false}
+            theme="dark"
+            limit={2}
+            newestOnTop={false}
+            hideProgressBar
+          />
           <StoryFn />
         </ThemeProvider>
       </RecoilRoot>
