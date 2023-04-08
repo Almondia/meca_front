@@ -79,3 +79,12 @@ export interface QuizResultType {
 export interface QuizType extends MecaType {
   result?: Omit<QuizResultType, 'cardId'>;
 }
+
+export const IMAGE_EXTENTIONS = ['jpg', 'jpeg', 'gif', 'png'] as const;
+export const IMAGE_PURPOSES = ['thumbnail', 'card', 'profile'] as const;
+
+export interface ImageUploadRequestType {
+  purpose: (typeof IMAGE_PURPOSES)[number];
+  extension: (typeof IMAGE_EXTENTIONS)[number];
+  fileName: string;
+}
