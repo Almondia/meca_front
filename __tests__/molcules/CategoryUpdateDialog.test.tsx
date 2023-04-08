@@ -14,7 +14,7 @@ describe('CategoryUpdateDialog', () => {
     const close = jest.fn();
     renderQuery(<CategoryUpdateDialog categoryId={categoryId} categoryTitle={title} visible={true} onClose={close} />);
     const titleUpdateInput = screen.getByRole('textbox', {
-      name: 'input-category-update',
+      name: 'input-category-title',
     });
     expect(titleUpdateInput).toBeInTheDocument();
     expect(titleUpdateInput).toHaveValue(title);
@@ -46,7 +46,7 @@ describe('CategoryUpdateDialog', () => {
     );
     renderQuery(<CategoryUpdateDialog categoryId={categoryId} categoryTitle={title} visible={true} onClose={close} />);
     const titleUpdateInput = screen.getByRole('textbox', {
-      name: 'input-category-update',
+      name: 'input-category-title',
     });
     expect(titleUpdateInput).toHaveValue(title);
     fireEvent.change(titleUpdateInput, { target: { value: inputTitle } });
