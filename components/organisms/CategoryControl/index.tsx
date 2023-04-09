@@ -39,7 +39,7 @@ const CategoryControl = ({ onChangeQuery }: { onChangeQuery: (query: string) => 
           추가하기 +
         </Button>
         {addCategoryVisible && (
-          <CategoryUpdateDialog categoryTitle="" visible={addCategoryVisible} onClose={addCategoryClose} />
+          <CategoryUpdateDialog categoryTitle="" visible={addCategoryVisible} onClose={addCategoryClose} thumbnail="" />
         )}
         <Button colorTheme="success" onClick={() => console.log('HI')}>
           <Button.RightIcon icon="Play" />

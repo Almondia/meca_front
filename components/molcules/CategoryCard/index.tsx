@@ -16,6 +16,7 @@ export interface CategoryCardProps {
   maxCardCount?: number;
   solvedCardCount?: number;
   answeredRate?: number;
+  thumbnail: string;
 }
 
 const CategoryCard = ({
@@ -24,6 +25,7 @@ const CategoryCard = ({
   answeredRate = 0,
   maxCardCount = 0,
   solvedCardCount = 0,
+  thumbnail,
 }: CategoryCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
@@ -50,6 +52,7 @@ const CategoryCard = ({
             <CategoryUpdateDialog
               categoryId={categoryId}
               categoryTitle={title}
+              thumbnail={thumbnail}
               visible={isUpdateModalVisible}
               onClose={updateModalClose}
             />

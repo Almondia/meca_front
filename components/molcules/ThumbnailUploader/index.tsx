@@ -48,7 +48,10 @@ const ThumbnailUploader = ({ image, onChange, onDelete }: ThumbnailUploaderProps
           </label>
         </ThumbnailHiddenInputBox>
         {image ? (
-          <ThumbnailImageContainer image={typeof image === 'string' ? image : URL.createObjectURL(image)} />
+          <ThumbnailImageContainer
+            data-testid="id-thumbnail-background"
+            image={typeof image === 'string' ? image : URL.createObjectURL(image)}
+          />
         ) : (
           <ThumbnailUploadButton onClick={handleUploadThumbnailClick}>
             <Icon size="30px" icon="Logo" color="var(--color-gray)" />
