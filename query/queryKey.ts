@@ -4,6 +4,7 @@ const queryKey = {
   mecas: 'mecas',
   meca: 'meca',
   quiz: 'quiz',
+  imageUrl: 'preUrl',
 };
 
 export default queryKey;
