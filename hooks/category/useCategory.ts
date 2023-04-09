@@ -1,10 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
 import categoryApi from '@/apis/categoryApi';
-import queryKey from '@/query/queryKey';
 import { hasAuthState } from '@/atoms/common';
+import queryKey from '@/query/queryKey';
 
 const useCategory = () => {
   // TODO: 검색어 서버 api 구현 안되면 지울 것

@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { IMAGE_EXTENTIONS } from '@/types/domain';
 import alertToast from '@/utils/toastHandler';
 
-const useImage = (initalImage: string | File | undefined) => {
+const useImage = (initalImage: string | undefined) => {
   const [image, setImage] = useState<string | File | undefined>(initalImage);
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

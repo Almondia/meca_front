@@ -37,6 +37,7 @@ export interface MyProfile {
 export interface CategoryType {
   categoryId: string;
   title: string;
+  thumbnail?: string;
 }
 
 export interface PaginationType {

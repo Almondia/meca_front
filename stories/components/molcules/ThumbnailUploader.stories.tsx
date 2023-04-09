@@ -13,7 +13,7 @@ export default {
 
 const Template: ComponentStory<typeof ThumbnailUploader> = (args: ThumbnailUploaderProps) => {
   // eslint-disable-next-line react/destructuring-assignment
-  const { image, onChange, onDelete } = useImage(args.image);
+  const { image, onChange, onDelete } = useImage(args.image as string | undefined);
   return <ThumbnailUploader onChange={onChange} image={image} onDelete={onDelete} />;
 };
 

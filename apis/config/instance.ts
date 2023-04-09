@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { IncomingMessage } from 'http';
+import { NextApiRequest } from 'next';
 
 import axios, { AxiosResponse, HttpStatusCode } from 'axios';
-import { NextApiRequest } from 'next';
 import nookies from 'nookies';
 
-import snakeToCamel from '@/utils/snakeToCamel';
 import { hasBrowser } from '@/utils/common';
+import snakeToCamel from '@/utils/snakeToCamel';
 
 export interface AxiosErrorResponse {
   message: string;
