@@ -12,6 +12,8 @@ const CardTitleWrapper = styled(TextBodyTitle)`
   text-overflow: ellipsis;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  word-break: break-all;
   :hover {
     cursor: pointer;
     color: var(--color-brand);

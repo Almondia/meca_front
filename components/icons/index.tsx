@@ -10,6 +10,7 @@ import ExceptButton from '@/public/icons/exceptbutton.svg';
 import Google from '@/public/icons/google.svg';
 import Kakao from '@/public/icons/kakao.svg';
 import Lightmode from '@/public/icons/lightmode.svg';
+import Logo from '@/public/icons/logo.svg';
 import Naver from '@/public/icons/naver.svg';
 import O from '@/public/icons/o.svg';
 import Ox from '@/public/icons/ox.svg';
@@ -40,6 +41,7 @@ const Icons = {
   Play,
   CompactDown,
   Selected,
+  Logo,
 };
 
 export default Icons;

@@ -144,4 +144,17 @@ export const handlers = [
     };
     return res(ctx.status(200), ctx.json({ ...resData }));
   }),
+
+  rest.get(`${ENDPOINT}/presign/images/upload`, (req, res, ctx) => {
+    const purpose = req.url.searchParams.get('purpose');
+    const extension = req.url.searchParams.get('extension');
+    const fileName = req.url.searchParams.get('fileName');
+    return res(
+      ctx.status(200),
+      ctx.json({
+        url: ENDPOINT + `/${purpose}/${fileName}.${extension}`,
+        objectKey: `${purpose}/${fileName}.${extension}`,
+      }),
+    );
+  }),
 ];

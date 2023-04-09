@@ -1,20 +1,61 @@
 import { renderQuery } from '../utils';
-import { screen, fireEvent, findByText, waitFor, act } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { CATEGORIES } from '../__mocks__/msw/data';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { rest } from 'msw';
 import { server } from '../__mocks__/msw/server';
 import CategoryUpdateDialog from '@/components/molcules/CategoryUpdateDialog';
-import categoryApi from '@/apis/categoryApi';
 
 describe('CategoryUpdateDialog', () => {
+  it('기존 이미지가 없다면 썸네일 등록 버튼이 식별된다.', () => {
+    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    renderQuery(
+      <CategoryUpdateDialog
+        categoryId={categoryId}
+        categoryTitle={title}
+        visible={true}
+        onClose={close}
+        thumbnail={''}
+      />,
+    );
+    const backgroundThumbnailElement = screen.queryByTestId('id-thumbnail-background');
+    expect(backgroundThumbnailElement).not.toBeInTheDocument();
+    const uploadButton = screen.getByRole('button', {
+      name: /썸네일 업로드/i,
+    });
+    expect(uploadButton).toBeInTheDocument();
+  });
+
+  it('기존 이미지가 있다면 썸네일 등록 UI에 미리보기 이미지가 식별된다.', () => {
+    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    renderQuery(
+      <CategoryUpdateDialog
+        categoryId={categoryId}
+        categoryTitle={title}
+        visible={true}
+        onClose={close}
+        thumbnail={'abc.jpg'}
+      />,
+    );
+    const backgroundThumbnailElement = screen.getByTestId('id-thumbnail-background');
+    expect(backgroundThumbnailElement).toHaveStyleRule('background-image', 'url(abc.jpg)');
+  });
+
   it('카테고리 제목을 수정하면 모달창이 닫힌다.', () => {
     const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
     const inputTitle = 'HELLO';
     const close = jest.fn();
-    renderQuery(<CategoryUpdateDialog categoryId={categoryId} categoryTitle={title} visible={true} onClose={close} />);
+    renderQuery(
+      <CategoryUpdateDialog
+        categoryId={categoryId}
+        categoryTitle={title}
+        visible={true}
+        onClose={close}
+        thumbnail={''}
+      />,
+    );
     const titleUpdateInput = screen.getByRole('textbox', {
-      name: 'input-category-update',
+      name: 'input-category-title',
     });
     expect(titleUpdateInput).toBeInTheDocument();
     expect(titleUpdateInput).toHaveValue(title);
@@ -44,9 +85,17 @@ describe('CategoryUpdateDialog', () => {
         );
       }),
     );
-    renderQuery(<CategoryUpdateDialog categoryId={categoryId} categoryTitle={title} visible={true} onClose={close} />);
+    renderQuery(
+      <CategoryUpdateDialog
+        categoryId={categoryId}
+        categoryTitle={title}
+        visible={true}
+        onClose={close}
+        thumbnail=""
+      />,
+    );
     const titleUpdateInput = screen.getByRole('textbox', {
-      name: 'input-category-update',
+      name: 'input-category-title',
     });
     expect(titleUpdateInput).toHaveValue(title);
     fireEvent.change(titleUpdateInput, { target: { value: inputTitle } });

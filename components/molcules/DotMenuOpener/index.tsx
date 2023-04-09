@@ -22,6 +22,7 @@ export const DotMenuOpenerWrapper = styled.div<Pick<DotMenuOpenerProps, 'right' 
   top: ${(props) => props.top};
   right: ${(props) => props.right};
   transform: scale(0.7);
+  z-index: 2;
 `;
 
 /**
