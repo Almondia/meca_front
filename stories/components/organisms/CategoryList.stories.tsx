@@ -29,6 +29,7 @@ Default.args = {
           {
             categoryId: '1',
             title: 'title1',
+            thumbnail: '01874ace-e463-2b93-436c-7e406943df11/thumbnail/67bdcf9e-5789-4ba8-90d1-af1e018ecb24.jpg',
           },
           {
             categoryId: '2',
