@@ -81,6 +81,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:13.2.1"],\
             ["nookies", "npm:2.5.2"],\
             ["prettier", "npm:2.8.4"],\
+            ["quill-image-compress", "npm:1.2.29"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
@@ -20586,6 +20587,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["quill-image-compress", [\
+        ["npm:1.2.29", {\
+          "packageLocation": "./.yarn/cache/quill-image-compress-npm-1.2.29-a50cfaf626-256942ffa1.zip/node_modules/quill-image-compress/",\
+          "packageDependencies": [\
+            ["quill-image-compress", "npm:1.2.29"],\
+            ["quill", "npm:1.3.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ramda", [\
         ["npm:0.28.0", {\
           "packageLocation": "./.yarn/cache/ramda-npm-0.28.0-6a5fe8f6cc-44ea6e5010.zip/node_modules/ramda/",\
@@ -21542,6 +21553,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:13.2.1"],\
             ["nookies", "npm:2.5.2"],\
             ["prettier", "npm:2.8.4"],\
+            ["quill-image-compress", "npm:1.2.29"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
