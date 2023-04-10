@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TextBody, TextBodyTitle } from '@/styles/common';
 import { FlexColumn, FlexColumnCenter, TextAreaBox } from '@/styles/layout';
 
-export const MecaPostContentWrapper = styled.div`
+export const MecaPostContentWrapper = styled.section`
   ${FlexColumnCenter};
   row-gap: 40px;
   & > * {
@@ -18,6 +18,7 @@ export const MecaPostContainer = styled.div`
 
 export const MecaPostContentTitle = styled(TextBodyTitle)`
   margin-left: 2px;
+  font-size: ${({ theme }) => theme.fontSize.large};
   font-family: ${({ theme }) => theme.fontFamily.sahitya};
 `;
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { MecaTagResponseType } from '@/types/domain';
 
 import DefaultPostBody from './body/DefaultPostBody';
@@ -25,4 +23,4 @@ const MecaPostContent = ({ question, answer, bodyType }: MecaPostContentProps) =
   return <BodyContent question={question} answer={answer} />;
 };
 
-export default React.memo(MecaPostContent);
+export default MecaPostContent;

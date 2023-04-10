@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
     html {
         font-family: 'Pretendard', sans-serif;
         box-sizing: border-box;
-        font-size: 16px;
+        font-size: 18px;
         --color-brand: ${COLOR.brand1};
         --color-subbrand: ${COLOR.brand2};
         --color-background: ${COLOR.bgLight};
@@ -39,6 +39,12 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-brightgray: rgba(232, 232, 232, 0.3);
         --shadow-normal: ${SHADOW.normalDark};
         --shadow-bold: ${SHADOW.boldDark};
+    }
+
+    @media ${MEDIA.mobile} {
+        html {
+            font-size: 16px;
+        }
     }
 
     html[data-theme='light'] {
@@ -75,6 +81,14 @@ const GlobalStyle = createGlobalStyle<Theme>`
         color: var(--color-text);
     }
 
+    strong {
+        font-weight: 800;
+    }
+
+    em {
+        font-style: italic;
+    }
+    
     a {
         color: var(--color-gray);
         text-decoration: none;
@@ -118,5 +132,17 @@ const GlobalStyle = createGlobalStyle<Theme>`
         font-size: 1.5rem;
         font-weight: ${({ fontWeight }) => fontWeight.bold};
     }
+
+    .ql-editor {
+        font-family: 'Pretendard', sans-serif;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .ql-editor.ql-blank::before {
+        left: 1rem;
+    }
+    
 `;
 export default GlobalStyle;
