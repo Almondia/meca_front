@@ -75,6 +75,14 @@ const GlobalStyle = createGlobalStyle<Theme>`
         color: var(--color-text);
     }
 
+    strong {
+        font-weight: 800;
+    }
+
+    em {
+        font-style: italic;
+    }
+    
     a {
         color: var(--color-gray);
         text-decoration: none;
