@@ -3,6 +3,7 @@ import { RefObject, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import NumberIncreaseToggle from '@/components/atoms/NumberIncreaseToggle';
+import EditorComponent from '@/components/editor';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import InputGroup from '@/components/molcules/InputGroup';
 import useMecaWrite from '@/hooks/meca/useMecaWrite';
@@ -38,9 +39,19 @@ export interface MecaWriteFormProps extends Partial<MecaType> {
   mecaTagType: MecaTagType;
 }
 
-const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answer, question }: MecaWriteFormProps) => {
+const MecaWriteForm = ({
+  mecaTagType,
+  titleRef,
+  cardId,
+  categoryId,
+  title,
+  answer,
+  question,
+  description,
+}: MecaWriteFormProps) => {
   const { createMeca, updateMeca } = useMecaWrite();
   const { input: titleInput, onInputChange: onTitleChange } = useInput(title ?? '');
+  const { input: descInput, setInput: setDescInput } = useInput(description ?? '');
   const {
     input: questionInput,
     onInputChange: onQuestionChange,
@@ -78,6 +89,7 @@ const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answe
       categoryId,
       question: questionInput,
       cardType: MECA_TAG_TO_RESPONSE[mecaTagType],
+      description: descInput,
     };
     cardId ? updateMeca({ ...body, cardId }) : createMeca(body);
   };
@@ -105,6 +117,11 @@ const MecaWriteForm = ({ mecaTagType, titleRef, cardId, categoryId, title, answe
         </InputGroup>
       )}
       {Answer && <Answer value={answerInput} onChange={onAnswerChange} selectionNum={caseNum} />}
+      <br />
+      <InputGroup>
+        <InputGroup.Label>문제를 설명하세요</InputGroup.Label>
+        <EditorComponent contents={descInput} setContents={setDescInput} />
+      </InputGroup>
       <br />
       <br />
       <ButtonGroup

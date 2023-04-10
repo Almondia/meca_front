@@ -59,7 +59,7 @@ export interface MecaType {
   question: string;
   answer: string;
   createdAt: string;
-  images?: string[];
+  description: string;
 }
 
 export type QuizAlgorithmType = 'score' | 'random';

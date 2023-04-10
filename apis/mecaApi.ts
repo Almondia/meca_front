@@ -3,9 +3,7 @@ import { PAGINATION_NUM } from '@/utils/constants';
 
 import { authInstance } from './config/instance';
 
-export interface MecaWriteRequest extends Required<Omit<MecaType, 'createdAt' | 'images'>> {
-  images?: string[];
-}
+export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt'>>;
 
 export interface MecaWriteResponse {
   cardId: string;

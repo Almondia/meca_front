@@ -14,7 +14,7 @@ export interface MecaWriteProps extends Partial<MecaType> {
   categoryId: string;
 }
 
-const MecaWrite = ({ cardId, title, cardType, answer, categoryId, question }: MecaWriteProps) => {
+const MecaWrite = ({ cardId, title, cardType, answer, categoryId, question, description }: MecaWriteProps) => {
   const [selectedMecaTag, setSelectedMecaTag] = useState<MecaTagType>(MECA_RESPONE_TO_TAG[cardType ?? 'OX_QUIZ']);
   const titleRef = useRef<HTMLDivElement>(null);
   const handleMecaTagToggle = (tag: MecaTagType) => {
@@ -42,6 +42,7 @@ const MecaWrite = ({ cardId, title, cardType, answer, categoryId, question }: Me
         categoryId={categoryId}
         question={question}
         cardId={cardId}
+        description={description}
       />
     </MecaWriteWrapper>
   );
