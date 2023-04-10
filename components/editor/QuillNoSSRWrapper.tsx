@@ -1,15 +1,18 @@
+/* eslint-disable react/no-danger */
 import dynamic from 'next/dynamic';
 
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
+
 import LoadSpinner from '../atoms/LoadSpinner';
 
 interface ForwardedQuillComponent extends ReactQuillProps {
   forwardedRef: React.Ref<ReactQuill>;
 }
 
-const QuillNoSSRWrapper = dynamic(
+export const QuillNoSSRWriter = dynamic(
   async () => {
     const { default: QuillComponent } = await import('react-quill');
     const { default: ImageCompress } = await import('quill-image-compress');
@@ -22,4 +25,22 @@ const QuillNoSSRWrapper = dynamic(
   { loading: () => <LoadSpinner width="100%" size="4rem" />, ssr: false },
 );
 
-export default QuillNoSSRWrapper;
+export const QuillNoSSRReader = ({ content }: { content: string }) => {
+  const Result = dynamic(
+    async () => {
+      const { default: QuillComponent } = await import('react-quill');
+      return () => <QuillComponent theme="bubble" readOnly value={content} />;
+    },
+    {
+      loading: () => (
+        <div className="quill">
+          <div className="ql-container ql-bubble ql-disabled">
+            <div className="ql-editor" data-gramm="false" dangerouslySetInnerHTML={{ __html: content }} />
+          </div>
+        </div>
+      ),
+      ssr: false,
+    },
+  );
+  return Result;
+};

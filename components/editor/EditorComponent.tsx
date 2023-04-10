@@ -9,18 +9,12 @@ import useImage from '@/hooks/useImage';
 import { IMAGE_SERVER } from '@/utils/constants';
 import alertToast from '@/utils/toastHandler';
 
-import QuillNoSSRWrapper from './QuillNoSSRWrapper';
+import { QuillNoSSRWriter } from './QuillNoSSRWrapper';
 
 const EditorComponentWrapper = styled.div`
   .ql-editor {
     min-height: 360px;
     max-height: 500px;
-  }
-  strong {
-    font-weight: 800;
-  }
-  em {
-    font-style: italic;
   }
 `;
 
@@ -87,7 +81,7 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
 
   return (
     <EditorComponentWrapper>
-      <QuillNoSSRWrapper
+      <QuillNoSSRWriter
         forwardedRef={quillInstance}
         value={contents}
         onChange={setContents}
