@@ -3,7 +3,7 @@ import { RefObject, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import NumberIncreaseToggle from '@/components/atoms/NumberIncreaseToggle';
-import EditorComponent from '@/components/editor';
+import EditorComponent from '@/components/editor/EditorComponent';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import InputGroup from '@/components/molcules/InputGroup';
 import useMecaWrite from '@/hooks/meca/useMecaWrite';
@@ -85,13 +85,13 @@ const MecaWriteForm = ({
     // TODO: validation 로직 추가
     const body = {
       title: titleInput,
-      answer: answerInput,
       categoryId,
       question: questionInput,
-      cardType: MECA_TAG_TO_RESPONSE[mecaTagType],
       description: descInput,
     };
-    cardId ? updateMeca({ ...body, cardId }) : createMeca(body);
+    cardId
+      ? updateMeca({ ...body, cardId })
+      : createMeca({ ...body, answer: answerInput, cardType: MECA_TAG_TO_RESPONSE[mecaTagType] });
   };
 
   return (

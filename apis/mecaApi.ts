@@ -27,9 +27,12 @@ const mecaApi = {
     authInstance.post<never, MecaWriteResponse>('/api/v1/cards', {
       ...props,
     }),
-  updateMeca: (props: Omit<MecaWriteRequest, 'cardType'>) =>
-    authInstance.put<never, MecaWriteResponse>(`/api/v1/cards/${props.cardId}`, {
-      ...props,
+  updateMeca: ({ cardId, categoryId, description, question, title }: Omit<MecaWriteRequest, 'cardType' | 'answer'>) =>
+    authInstance.put<never, MecaWriteResponse>(`/api/v1/cards/${cardId}`, {
+      categoryId,
+      description,
+      question,
+      title,
     }),
   deleteMeca: (cardId: string) => authInstance.delete<never, never>(`/api/v1/cards/${cardId}`),
   getMyMecaList: (props: CursorPaginationType & { categoryId: string }) => {
