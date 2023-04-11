@@ -15,6 +15,8 @@ export interface DotMenuOpenerProps {
   children: React.ReactNode;
   top?: ElementSizeType;
   right?: ElementSizeType;
+  /** 오프너의 의도를 나타내는 숨김 텍스트 */
+  name?: string;
 }
 
 export const DotMenuOpenerWrapper = styled.div<Pick<DotMenuOpenerProps, 'right' | 'top'>>`
@@ -29,7 +31,7 @@ export const DotMenuOpenerWrapper = styled.div<Pick<DotMenuOpenerProps, 'right' 
  * vertical dot button 컴포넌트로 부가적인 메뉴를 열고 닫을 때 사용하는 컴포넌트이다.
  * 메뉴와 버튼 이외의 화면을 클릭하면 메뉴가 닫힌다.
  */
-const DotMenuOpener = ({ children, top = '0px', right = '0px' }: DotMenuOpenerProps) => {
+const DotMenuOpener = ({ children, top = '0px', right = '0px', name }: DotMenuOpenerProps) => {
   const [isDotMenuVisible, setIsDotMenuVisible] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
   useClickAway(
@@ -42,7 +44,7 @@ const DotMenuOpener = ({ children, top = '0px', right = '0px' }: DotMenuOpenerPr
 
   return (
     <DotMenuOpenerWrapper ref={ref} top={top} right={right}>
-      <IconButton icon="VerticalDot" iconSize="21px" onClick={() => setIsDotMenuVisible((prev) => !prev)} />
+      <IconButton icon="VerticalDot" iconSize="21px" onClick={() => setIsDotMenuVisible((prev) => !prev)} name={name} />
       {isDotMenuVisible && children}
     </DotMenuOpenerWrapper>
   );

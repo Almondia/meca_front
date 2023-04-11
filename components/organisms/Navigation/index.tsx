@@ -28,7 +28,12 @@ const Navigation = () => {
       <Logo>LOGO</Logo>
       <NavBar>
         <div>
-          <IconButton icon={theme === 'light' ? 'Lightmode' : 'Darkmode'} iconSize="20px" onClick={toggleTheme} />
+          <IconButton
+            icon={theme === 'light' ? 'Lightmode' : 'Darkmode'}
+            iconSize="20px"
+            onClick={toggleTheme}
+            name={theme === 'light' ? '라이트모드로 변경' : '다크모드로 변경'}
+          />
         </div>
         {user ? (
           <Profile

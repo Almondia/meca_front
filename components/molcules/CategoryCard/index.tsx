@@ -80,7 +80,7 @@ const CategoryCard = ({
             backgroundColor={['#71D4B6', COLOR.success]}
           />
         </ProgressesInfoContainer>
-        <DotMenuOpener top="14px" right="14px">
+        <DotMenuOpener top="14px" right="14px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
           <DropdownMenu>
             <DropdownMenu.Contents href="" onClick={updateModalOpen}>
               수정하기
