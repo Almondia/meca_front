@@ -66,7 +66,7 @@ const Modal = ({ children, visible = false, hasCloseIcon = true, isClickAwayable
               <ModalContainer ref={ref}>
                 {hasCloseIcon && (
                   <CloseIconButton>
-                    <IconButton icon="Ax" onClick={onClose} />
+                    <IconButton icon="Ax" onClick={onClose} name="모달 창 닫기" />
                   </CloseIconButton>
                 )}
                 {titles}
