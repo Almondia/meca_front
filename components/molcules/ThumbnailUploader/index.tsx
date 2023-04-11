@@ -2,6 +2,7 @@
 import { useRef } from 'react';
 
 import Icon from '@/components/atoms/Icon';
+import { IMAGE_SERVER } from '@/utils/constants';
 
 import {
   ThumbnailChangeBox,
@@ -20,7 +21,6 @@ export interface ThumbnailUploaderProps {
 
 const ThumbnailUploader = ({ image, onChange, onDelete }: ThumbnailUploaderProps) => {
   const hiddenImageRef = useRef<HTMLInputElement>(null);
-
   const handleUploadThumbnailClick = () => {
     hiddenImageRef.current?.click();
   };
@@ -50,7 +50,7 @@ const ThumbnailUploader = ({ image, onChange, onDelete }: ThumbnailUploaderProps
         {image ? (
           <ThumbnailImageContainer
             data-testid="id-thumbnail-background"
-            image={typeof image === 'string' ? image : URL.createObjectURL(image)}
+            image={typeof image === 'string' ? `${IMAGE_SERVER}/${image}` : URL.createObjectURL(image)}
           />
         ) : (
           <ThumbnailUploadButton onClick={handleUploadThumbnailClick}>

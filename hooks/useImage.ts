@@ -31,7 +31,7 @@ const useImage = (initalImage: string | undefined) => {
   }, []);
 
   const onDelete = useCallback(() => {
-    setImage(undefined);
+    setImage('');
   }, []);
 
   const getImageInfo = (uploadedImage: File): Omit<ImageUploadRequestType, 'purpose'> => {
