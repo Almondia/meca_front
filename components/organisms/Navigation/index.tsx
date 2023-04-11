@@ -24,39 +24,41 @@ const Navigation = () => {
   useClickAway(ref, closeSelection);
   return (
     <NavigationWrapper>
-      {/* TODO: add LOGO */}
-      <Logo>LOGO</Logo>
-      <NavBar>
-        <div>
-          <IconButton
-            icon={theme === 'light' ? 'Lightmode' : 'Darkmode'}
-            iconSize="20px"
-            onClick={toggleTheme}
-            name={theme === 'light' ? '라이트모드로 변경' : '다크모드로 변경'}
-          />
-        </div>
-        {user ? (
-          <Profile
-            ref={ref}
-            onClick={() => {
-              setIsNavSelectionVisible((prev) => !prev);
-            }}
-          >
-            <Image
-              src={user.profile ?? '/images/noprofile.png'}
-              alt={user.profile ?? 'profile-image'}
-              width={30}
-              height={30}
-            />
-            <Icon icon="CompactDown" size="12px" />
-            {isNavSelectionVisible && <NavSelection />}
-          </Profile>
-        ) : (
+      <div>
+        {/* TODO: add LOGO */}
+        <Logo>LOGO</Logo>
+        <NavBar>
           <div>
-            <Link href="">LOGIN</Link>
+            <IconButton
+              icon={theme === 'light' ? 'Lightmode' : 'Darkmode'}
+              iconSize="20px"
+              onClick={toggleTheme}
+              name={theme === 'light' ? '라이트모드로 변경' : '다크모드로 변경'}
+            />
           </div>
-        )}
-      </NavBar>
+          {user ? (
+            <Profile
+              ref={ref}
+              onClick={() => {
+                setIsNavSelectionVisible((prev) => !prev);
+              }}
+            >
+              <Image
+                src={user.profile ?? '/images/noprofile.png'}
+                alt={user.profile ?? 'profile-image'}
+                width={30}
+                height={30}
+              />
+              <Icon icon="CompactDown" size="12px" />
+              {isNavSelectionVisible && <NavSelection />}
+            </Profile>
+          ) : (
+            <div>
+              <Link href="">LOGIN</Link>
+            </div>
+          )}
+        </NavBar>
+      </div>
     </NavigationWrapper>
   );
 };

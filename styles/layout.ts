@@ -58,12 +58,12 @@ export const ListSection = styled(Section)`
 `;
 
 export const PostSection = styled(Section)`
-  max-width: 1080px;
+  max-width: 864px;
 `;
 
 export const Devide = styled.div`
   width: 100%;
   height: 1px;
-  background-color: var(--color-gray400);
+  background-color: var(--color-lightgray);
   margin: 24px 0;
 `;
