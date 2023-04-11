@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CardTitle from '@/components/atoms/CardTitle';
 import DropdownMenu from '@/components/atoms/DropdownMenu';
@@ -42,6 +42,13 @@ const CategoryCard = ({
   const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
   const [src, setSrc] = useState<string>(thumbnail ? `${IMAGE_SERVER}/${thumbnail}` : '/images/noimage.png');
   const router = useRouter();
+  useEffect(() => {
+    if (thumbnail) {
+      setSrc(`${IMAGE_SERVER}/${thumbnail}`);
+      return;
+    }
+    setSrc('/images/noimage.png');
+  }, [thumbnail]);
   return (
     <CategoryCardWrapper data-testid="id-category-card">
       <CategoryCardThumbnailSection hasValidImage={src !== '/images/noimage.png'}>
@@ -73,7 +80,7 @@ const CategoryCard = ({
             backgroundColor={['#71D4B6', COLOR.success]}
           />
         </ProgressesInfoContainer>
-        <DotMenuOpener top="14px" right="14px">
+        <DotMenuOpener top="14px" right="14px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
           <DropdownMenu>
             <DropdownMenu.Contents href="" onClick={updateModalOpen}>
               수정하기

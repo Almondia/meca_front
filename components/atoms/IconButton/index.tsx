@@ -1,4 +1,5 @@
 import { IconType } from '@/components/icons/type';
+import { HiddenText } from '@/styles/common';
 import { ElementSizeType } from '@/types/common';
 
 import { IconButtonWrapper } from './styled';
@@ -12,12 +13,15 @@ export interface IconButtonProps {
   iconSize?: ElementSizeType;
   /** 아이콘 색상: `기본값: theme textColor` */
   color?: string;
+  /** 아이콘 버튼의 의도를 나타낼 숨겨질 텍스트 */
+  name?: string;
   onClick: () => void;
 }
 
-const IconButton = ({ icon, iconSize = '20px', color, onClick }: IconButtonProps) => (
+const IconButton = ({ icon, iconSize = '20px', color, name, onClick }: IconButtonProps) => (
   <IconButtonWrapper onClick={onClick}>
     <Icon icon={icon} size={iconSize} color={color ?? 'var(--color-text)'} />
+    {name && <HiddenText>{name}</HiddenText>}
   </IconButtonWrapper>
 );
 

@@ -29,24 +29,25 @@ const CategoryUpdateDialog = ({
   const { updateCategory } = useCategoryUpdate();
   const { addCategory } = useCategoryPost();
   const handleUpdateClick = async () => {
-    if (title === '' || title === categoryTitle) {
+    if (title === '') {
       return;
     }
-    const requestedThumbnail =
-      image instanceof File
-        ? await uploadImage(
-            {
-              purpose: 'thumbnail',
-              extension: thumbnail
-                ? (thumbnail.split('/thumbnail/')[1].split('.')[0] as (typeof IMAGE_EXTENTIONS)[number])
-                : (image.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number]),
-              fileName: thumbnail
-                ? thumbnail.split('/thumbnail/')[1].split('.')[1]
-                : Date.now() + image.name.split('.')[0],
-            },
-            image as File,
-          )
-        : thumbnail;
+    let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
+    if (image instanceof File) {
+      requestedThumbnail = await uploadImage(
+        {
+          purpose: 'thumbnail',
+          extension: thumbnail
+            ? (thumbnail.split('/thumbnail/')[1].split('.')[1] as (typeof IMAGE_EXTENTIONS)[number])
+            : (image.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number]),
+          fileName: Date.now() + image.name.split('.')[0],
+        },
+        image as File,
+      );
+    }
+    if (requestedThumbnail === undefined) {
+      return;
+    }
     categoryId
       ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail })
       : addCategory({ title, thumbnail: requestedThumbnail });

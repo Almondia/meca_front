@@ -75,7 +75,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
 
     body {
         min-height: 100vh;
-        margin: 0;
+        margin: 0 auto;
         padding: 0;
         background-color: var(--color-background);
         color: var(--color-text);

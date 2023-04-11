@@ -34,7 +34,7 @@ const MecaCard = ({ cardId, categoryId, title, question, tagType, isMine }: Meca
       </MecaTagContainer>
       {isMine && (
         <>
-          <DotMenuOpener top="14px" right="14px">
+          <DotMenuOpener top="14px" right="14px" name={`${title}카드 수정 삭제 메뉴 오프너`}>
             <DropdownMenu>
               <DropdownMenu.Contents href={`/me/write/${categoryId}?cardId=${cardId}`}>수정하기</DropdownMenu.Contents>
               <DropdownMenu.Contents href="" onClick={deleteModalOpen}>

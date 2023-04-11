@@ -10,7 +10,7 @@ export const InputWrapper = styled.div``;
 export const TextInputWrapper = styled.div<{ width?: ElementSizeType }>`
   ${FlexCenter};
   width: ${(props) => props.width ?? 'auto'};
-  padding: 10px 15px;
+  padding: 4px 15px;
   border: 1px solid var(--color-gray);
   border-radius: ${({ theme }) => theme.border.button};
   color: var(--color-text);
@@ -19,6 +19,8 @@ export const TextInputWrapper = styled.div<{ width?: ElementSizeType }>`
 export const TextInputBox = styled.input`
   flex: 1;
   line-height: 150%;
+  font-family: 'Pretendard';
+  font-size: ${({ theme }) => theme.fontSize.main};
   border: none;
   background-color: transparent;
   color: var(--color-text);

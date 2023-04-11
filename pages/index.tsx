@@ -4,7 +4,6 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 
 import HomeMainSection from '@/components/layout/HomeMainSection';
-import LoginCard from '@/components/organisms/LoginCard';
 import { ssrAspect } from '@/libs/renderAspect';
 import { FlexColumn } from '@/styles/layout';
 
@@ -17,10 +16,6 @@ const IntroduceContainer = styled.div`
   }
 `;
 
-const LoginCardContainer = styled.div`
-  box-shadow: var(--shadow-normal);
-`;
-
 export default function Home() {
   return (
     <HomeMainSection>
@@ -28,9 +23,6 @@ export default function Home() {
         <h2>Meca 서비스 간단 설명</h2>
         <h4>조금 더 긴 서비스 설명을 설명해보고 설명하고 설명해보아요 배경을 꾸며요</h4>
       </IntroduceContainer>
-      <LoginCardContainer>
-        <LoginCard />
-      </LoginCardContainer>
     </HomeMainSection>
   );
 }

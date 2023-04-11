@@ -1,24 +1,30 @@
+import Link from 'next/link';
+
 import styled from 'styled-components';
 
 import { FlexCenter, FlexSpaceBetween } from '@/styles/layout';
 
 export const NavigationWrapper = styled.header`
-  ${FlexSpaceBetween};
-  align-items: center;
-  padding: 4px 90px;
-  background-color: rgba(128, 171, 201, 0.3);
-  @media ${({ theme }) => theme.media.tablet} {
-    padding: 4px 30px;
-  }
-  @media ${({ theme }) => theme.media.mobile} {
-    padding: 4px 15px;
+  padding: 8px 0;
+  background-color: rgba(128, 171, 201, 0.15);
+  & > div {
+    ${FlexSpaceBetween};
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1440px;
+    padding: 0 140px;
+    @media ${({ theme }) => theme.media.tablet} {
+      padding: 0 60px;
+    }
+    @media ${({ theme }) => theme.media.mobile} {
+      padding: 0 30px;
+    }
   }
 `;
 
-export const Logo = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.large};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: var(--color-brand);
+export const LogoLink = styled(Link)`
+  cursor: pointer;
+  margin-bottom: -2px;
 `;
 
 export const NavBar = styled.nav`
@@ -39,5 +45,17 @@ export const Profile = styled.div`
     :hover {
       opacity: 0.8;
     }
+  }
+`;
+
+export const LoginButton = styled.button`
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: ${({ theme }) => theme.fontSize.sub};
+  color: var(--color-background);
+  background-color: var(--color-text);
+  :hover {
+    opacity: 0.85;
+    transition: opacity 0.5s ease-in-out;
   }
 `;

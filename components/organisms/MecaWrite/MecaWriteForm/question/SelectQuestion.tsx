@@ -7,7 +7,7 @@ import { MecaWriteFormInputProps } from '../type';
 
 const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInputProps) => {
   const existed = value ? stringToJsonStringArrayConverter(value) : [];
-  const [sampleValues, setSampleValues] = useState(existed.concat(new Array(6 - existed.length).fill('')));
+  const [sampleValues, setSampleValues] = useState<string[]>(existed.concat(new Array(6 - existed.length).fill('')));
 
   const changeQuestionCase = (inputValue: string, index: number) => {
     const newSampleValues = sampleValues.map((v, i) => (i === index ? inputValue : v));
@@ -19,11 +19,13 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
     e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const changedValues = changeQuestionCase(e.target.value, index);
-    e.target.value = JSON.stringify(changedValues.slice(0, selectionNum + 1));
-    onChange(e);
+    changeQuestionCase(e.target.value, index);
   };
 
+  const handleBlur = (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = JSON.stringify(sampleValues.slice(0, selectionNum + 1));
+    onChange(e);
+  };
   return (
     <div>
       <InputGroup>
@@ -32,6 +34,7 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
           name="meca-question"
           value={sampleValues[0]}
           onChange={(e) => handleChange(e, 0)}
+          onBlur={handleBlur}
           placeholder="객관식 문제 제목을 설명하세요"
           ariaLabel="input-meca-select-question"
         />
@@ -44,6 +47,7 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
             name={`meca-case-${i + 1}`}
             value={sampleValues[i + 1]}
             onChange={(e) => handleChange(e, i + 1)}
+            onBlur={handleBlur}
             placeholder=""
             ariaLabel={`input-meca-case-${i + 1}`}
           />
