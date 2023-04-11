@@ -13,11 +13,11 @@ export const NavSelectionWrapper = styled.div`
 
 export const NavSelectionItem = styled(Link)`
   display: block;
-  padding: 12px 18px;
-  font-size: ${({ theme }) => theme.fontSize.main};
+  padding: 12px 16px;
+  font-size: ${({ theme }) => theme.fontSize.sub};
   color: var(--color-text);
   :hover {
     background-color: var(--color-gray100);
-    color: var(--color-brand);
+    color: var(--color-subbrand);
   }
 `;
