@@ -5,11 +5,11 @@ import { IconType } from '@/components/icons/type';
 
 export const IconTextWrapper = styled(Icon)`
   width: 16px;
-  margin-bottom: -2px;
+  margin-bottom: -4px;
 `;
 
 const RightIcon = ({ icon, color }: { icon: IconType; color?: string }) => (
-  <IconTextWrapper icon={icon} color={color} />
+  <IconTextWrapper icon={icon} color={color} size="1.1rem" />
 );
 
 type RightIconType = typeof RightIcon extends (props: infer P) => React.ReactElement<infer T>

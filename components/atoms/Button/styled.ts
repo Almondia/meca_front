@@ -26,7 +26,7 @@ export interface ButtonStyleProp {
 export const ButtonWrapper = styled.button<ButtonStyleProp>`
   ${FlexCenter};
   width: ${(props) => props.width ?? 'fit-content'};
-  padding: 13px 17px;
+  padding: 11px 14px;
   background-color: ${(props) => buttonTheme[props.colorTheme][0]};
   color: ${(props) => buttonTheme[props.colorTheme][1]};
   &:disabled {
