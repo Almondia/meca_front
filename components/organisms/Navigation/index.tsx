@@ -6,12 +6,14 @@ import { useCallback, useRef, useState } from 'react';
 
 import Icon from '@/components/atoms/Icon';
 import IconButton from '@/components/atoms/IconButton';
+import Logo from '@/components/atoms/Logo';
 import useClickAway from '@/hooks/useClickAway';
 import useCustomTheme from '@/hooks/useCustomTheme';
 import useUser from '@/hooks/useUser';
+import { HiddenText } from '@/styles/common';
 
 import NavSelection from './NavSelection';
-import { Logo, NavBar, NavigationWrapper, Profile } from './styled';
+import { LogoLink, NavBar, NavigationWrapper, Profile } from './styled';
 
 const Navigation = () => {
   const { user } = useUser();
@@ -25,8 +27,10 @@ const Navigation = () => {
   return (
     <NavigationWrapper>
       <div>
-        {/* TODO: add LOGO */}
-        <Logo>LOGO</Logo>
+        <LogoLink href="/">
+          <Logo size="normal" />
+          <HiddenText>메인 페이지 링크</HiddenText>
+        </LogoLink>
         <NavBar>
           <div>
             <IconButton

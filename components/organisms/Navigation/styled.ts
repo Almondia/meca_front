@@ -1,10 +1,12 @@
+import Link from 'next/link';
+
 import styled from 'styled-components';
 
 import { FlexCenter, FlexSpaceBetween } from '@/styles/layout';
 
 export const NavigationWrapper = styled.header`
   padding: 8px 0;
-  background-color: rgba(128, 171, 201, 0.3);
+  background-color: rgba(128, 171, 201, 0.15);
   & > div {
     ${FlexSpaceBetween};
     align-items: center;
@@ -20,10 +22,9 @@ export const NavigationWrapper = styled.header`
   }
 `;
 
-export const Logo = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.large};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: var(--color-brand);
+export const LogoLink = styled(Link)`
+  cursor: pointer;
+  margin-bottom: -2px;
 `;
 
 export const NavBar = styled.nav`
