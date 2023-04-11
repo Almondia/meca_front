@@ -7,18 +7,21 @@ import { useCallback, useRef, useState } from 'react';
 import Icon from '@/components/atoms/Icon';
 import IconButton from '@/components/atoms/IconButton';
 import Logo from '@/components/atoms/Logo';
+import LoginDialog from '@/components/molcules/LoginDialog';
 import useClickAway from '@/hooks/useClickAway';
 import useCustomTheme from '@/hooks/useCustomTheme';
+import useModal from '@/hooks/useModal';
 import useUser from '@/hooks/useUser';
 import { HiddenText } from '@/styles/common';
 
 import NavSelection from './NavSelection';
-import { LogoLink, NavBar, NavigationWrapper, Profile } from './styled';
+import { LoginButton, LogoLink, NavBar, NavigationWrapper, Profile } from './styled';
 
 const Navigation = () => {
   const { user } = useUser();
   const { theme, toggleTheme } = useCustomTheme();
   const [isNavSelectionVisible, setIsNavSelectionVisible] = useState<boolean>(false);
+  const { visible: isLoginModalVisible, close: loginModalClose, open: loginModalOpen } = useModal();
   const ref = useRef<HTMLDivElement>(null);
   const closeSelection = useCallback(() => {
     setIsNavSelectionVisible(false);
@@ -58,7 +61,8 @@ const Navigation = () => {
             </Profile>
           ) : (
             <div>
-              <Link href="">LOGIN</Link>
+              {isLoginModalVisible && <LoginDialog visible={isLoginModalVisible} onClose={loginModalClose} />}
+              <LoginButton onClick={loginModalOpen}>로그인</LoginButton>
             </div>
           )}
         </NavBar>

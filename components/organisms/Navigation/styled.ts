@@ -47,3 +47,15 @@ export const Profile = styled.div`
     }
   }
 `;
+
+export const LoginButton = styled.button`
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: ${({ theme }) => theme.fontSize.sub};
+  color: var(--color-background);
+  background-color: var(--color-text);
+  :hover {
+    opacity: 0.85;
+    transition: opacity 0.5s ease-in-out;
+  }
+`;
