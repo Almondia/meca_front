@@ -1,15 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 
+import { GetServerSideProps, GetServerSidePropsContext, PreviewData } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 
-import nookies from 'nookies';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { GetServerSideProps, GetServerSidePropsContext, PreviewData } from 'next';
+import nookies from 'nookies';
 
 import { setRequest } from '@/apis/config/instance';
+import userApi from '@/apis/userApi';
 import { generateQueryClient } from '@/query/queryClient';
 import queryKey from '@/query/queryKey';
-import userApi from '@/apis/userApi';
 
 function hasErrorRedirection(error: unknown): error is { url: string } {
   return typeof error === 'object' && Object.prototype.hasOwnProperty.call(error, 'url');
@@ -41,11 +41,10 @@ function serverSideRenderAuthorizedAspect(
     }
     try {
       const queryClient = generateQueryClient();
-      const user = await queryClient.fetchQuery([queryKey.me], userApi.getMe);
-      let propsAspect: object | void;
-      if (callback) {
-        propsAspect = await callback(context, queryClient, user.memberId);
-      }
+      const user = await queryClient.fetchQuery([queryKey.me], () =>
+        userApi.getMe().then((res) => ({ ...res, accessToken })),
+      );
+      const propsAspect = callback && (await callback(context, queryClient, user.memberId));
       return {
         props: {
           ...propsAspect,

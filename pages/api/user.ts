@@ -18,8 +18,7 @@ export default async function handler(
   setRequest(req);
   try {
     const response = await userApi.getMe();
-    res.setHeader('access-token', accessToken);
-    res.status(200).json(response);
+    res.status(200).json({ ...response, accessToken });
     return;
   } catch {
     nookies.destroy({ res }, 'accessToken', {
