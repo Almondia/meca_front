@@ -1,6 +1,7 @@
 /* eslint-disable no-alert */
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
+
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import ToggleButton, { ToggleButtonProps } from '@/components/atoms/ToggleButton';
 
