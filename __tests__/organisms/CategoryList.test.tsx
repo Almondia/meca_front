@@ -14,26 +14,38 @@ const mockCategoryList = {
         {
           categoryId: '1',
           title: 'title1',
+          thumbnail: '',
+          shared: false,
         },
         {
           categoryId: '2',
           title: 'title2',
+          thumbnail: '',
+          shared: false,
         },
         {
           categoryId: '3',
           title: 'title3',
+          thumbnail: '',
+          shared: false,
         },
         {
           categoryId: '4',
           title: 'title4',
+          thumbnail: '',
+          shared: false,
         },
         {
           categoryId: '5',
           title: 'title5',
+          thumbnail: '',
+          shared: false,
         },
         {
           categoryId: '6',
           title: 'title6',
+          thumbnail: '',
+          shared: false,
         },
       ],
       pageNumber: 0,
@@ -52,7 +64,8 @@ describe('CategoryList', () => {
   it('카테고리 목록이 존재한다면 카테고리 목록이 보여진다.', () => {
     const mockFetchNextPage = jest.fn();
     render(<CategoryList fetchNextPage={mockFetchNextPage} categoryList={mockCategoryList} />);
-    const pageListText = screen.getAllByText(/(^title)/);
+    const pageListText = screen.getAllByTestId('id-category-card');
+    console.log(pageListText);
     expect(pageListText.length).toBe(6);
     expect(mockFetchNextPage).not.toHaveBeenCalled();
     // 다음 데이터가 없기 때문에 로딩 컴포넌트는 보여지지 않아야 한다.

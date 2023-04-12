@@ -3,6 +3,8 @@ export const CATEGORIES = [...Array(100)].map((v, i) => {
   obj.categoryId = 'cid' + i;
   obj.title = 'title' + i;
   obj.createdAt = i;
+  obj.thumbnail = '';
+  obj.shared = true;
   return obj;
 });
 
