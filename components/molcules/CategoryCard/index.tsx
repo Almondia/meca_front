@@ -28,6 +28,7 @@ export interface CategoryCardProps {
   solvedCardCount?: number;
   answeredRate?: number;
   thumbnail: string;
+  shared: boolean;
 }
 
 const CategoryCard = ({
@@ -37,6 +38,7 @@ const CategoryCard = ({
   maxCardCount = 0,
   solvedCardCount = 0,
   thumbnail,
+  shared,
 }: CategoryCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
@@ -101,6 +103,7 @@ const CategoryCard = ({
                 categoryId={categoryId}
                 categoryTitle={title}
                 thumbnail={thumbnail}
+                isShared={shared}
                 visible={isUpdateModalVisible}
                 onClose={updateModalClose}
               />
