@@ -38,6 +38,14 @@ export const handlers = [
     );
   }),
 
+  rest.get('/api/logout', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        deleted: true,
+      }),
+    );
+  }),
+
   rest.get(`${ENDPOINT}/categories/me`, (req, res, ctx) => {
     const hasNext = req.url.searchParams.get('hasNext');
     const pageSize = req.url.searchParams.get('pageSize');
