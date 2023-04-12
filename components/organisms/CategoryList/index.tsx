@@ -31,6 +31,7 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
             categoryId={category.categoryId}
             title={category.title}
             thumbnail={category.thumbnail ?? ''}
+            shared={category.shared}
           />
         )),
       )}

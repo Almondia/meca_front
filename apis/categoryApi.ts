@@ -17,16 +17,17 @@ const categoryApi = {
         hasNext: props.hasNext,
       },
     }),
-  addCategory: ({ title, thumbnail }: Omit<CategoryType, 'categoryId'>) =>
+  addCategory: ({ title, thumbnail }: Omit<CategoryType, 'categoryId' | 'shared'>) =>
     authInstance.post<never, { categoryId: string }>('/api/v1/categories', {
       title,
       thumbnail,
     }),
   deleteCategory: (id: string) => authInstance.delete<never, never>(`/api/v1/categories/${id}`),
-  updateCategory: ({ categoryId, title, thumbnail }: CategoryType) =>
+  updateCategory: ({ categoryId, title, thumbnail, shared }: CategoryType) =>
     authInstance.put<never, CategoryType>(`/api/v1/categories/${categoryId}`, {
       title,
       thumbnail,
+      isShared: shared,
     }),
 };
 

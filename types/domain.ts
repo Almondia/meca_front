@@ -37,7 +37,16 @@ export interface MyProfile {
 export interface CategoryType {
   categoryId: string;
   title: string;
-  thumbnail?: string;
+  thumbnail: string;
+  shared: boolean;
+}
+
+export interface CategoryDetailType extends CategoryType {
+  createdAt: string;
+  memberId: string;
+  scoreAvg?: number;
+  solvedCount?: number;
+  totalCount: number;
 }
 
 export interface PaginationType {
