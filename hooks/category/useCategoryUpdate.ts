@@ -17,9 +17,7 @@ const useCategoryUpdate = () => {
           pages: [...prev.pages].map((page) => ({
             ...page,
             contents: page.contents.map((content) =>
-              content.categoryId === data.categoryId
-                ? { ...content, title: data.title, thumbnail: data.thumbnail }
-                : content,
+              content.categoryId === data.categoryId ? { ...content, ...data } : content,
             ),
           })),
         };
