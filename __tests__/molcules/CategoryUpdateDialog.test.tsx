@@ -38,7 +38,36 @@ describe('CategoryUpdateDialog', () => {
       />,
     );
     const backgroundThumbnailElement = screen.getByTestId('id-thumbnail-background');
-    expect(backgroundThumbnailElement).toHaveStyleRule('background-image', 'url(abc.jpg)');
+    expect(backgroundThumbnailElement).toHaveStyleRule('background-image', /url\(.*\/abc\.jpg\)/i);
+  });
+
+  it('카테고리 수정이라면 공유 여부 토글이 식별되며 기존 공유 상태가 반영되어있다.', () => {
+    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    renderQuery(
+      <CategoryUpdateDialog
+        categoryId={categoryId}
+        categoryTitle={title}
+        visible={true}
+        onClose={close}
+        thumbnail={'abc.jpg'}
+        isShared
+      />,
+    );
+    const toggle = screen.getByRole('button', {
+      name: /카테고리 공개여부 설정 토글/i,
+    });
+    expect(toggle).toHaveStyleRule('background-color', 'var(--color-brand)');
+    // 토글 클릭 시 상태가 변경된다
+    fireEvent.click(toggle);
+    expect(toggle).toHaveStyleRule('background-color', 'var(--color-gray400)');
+  });
+
+  it('카테고리 등록이라면 공유 여부 토글이 식별되지 않는다.', () => {
+    renderQuery(<CategoryUpdateDialog categoryTitle="" visible={true} onClose={close} thumbnail="" />);
+    const toggle = screen.queryByRole('button', {
+      name: /카테고리 공개여부 설정 토글/i,
+    });
+    expect(toggle).not.toBeInTheDocument();
   });
 
   it('카테고리 제목을 수정하면 모달창이 닫힌다.', () => {
