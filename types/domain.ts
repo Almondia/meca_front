@@ -31,6 +31,7 @@ export interface MyProfile {
   oauthType: SocialType;
   createdAt: string;
   profile?: string;
+  accessToken?: string;
 }
 
 // TODO: 백엔드 응답 데이터에 맞게 추가할 것
