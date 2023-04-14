@@ -79,6 +79,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         padding: 0;
         background-color: var(--color-background);
         color: var(--color-text);
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     }
 
     strong {

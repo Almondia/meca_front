@@ -5,6 +5,7 @@ import { FlexCenter, FlexColumn, FlexSpaceBetween } from '@/styles/layout';
 
 export const HomeCarouselWrapper = styled.section`
   width: 100%;
+  margin-bottom: -30px;
 `;
 
 export const HomeCarouselSlider = styled(Slider)`
@@ -25,6 +26,7 @@ export const HomeCarouselContent = styled.div`
   padding: 0 140px;
   max-width: 1280px;
   height: 232px;
+  overflow: hidden;
   & > *:first-child {
     position: relative;
     z-index: 2;
@@ -42,7 +44,6 @@ export const HomeCarouselContent = styled.div`
     ${FlexCenter};
     width: 735px;
     height: 232px;
-    overflow: hidden;
   }
   @media ${({ theme }) => theme.media.tablet} {
     padding: 0 60px;

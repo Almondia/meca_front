@@ -10,7 +10,7 @@ import { HomeCarouselContent, HomeCarouselContentBackground, HomeCarouselSlider,
 
 const HomeCarousel = () => (
   <HomeCarouselWrapper>
-    <HomeCarouselSlider speed={500} dots arrows={false} infinite>
+    <HomeCarouselSlider speed={1500} dots arrows={false} infinite autoplay autoplaySpeed={5000}>
       <HomeCarouselContentBackground backgroundColor={COLOR.brand3}>
         <HomeCarouselContent>
           <div>
