@@ -1,6 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 
-import { GetServerSideProps, GetServerSidePropsContext, PreviewData } from 'next';
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+  PreviewData,
+} from 'next';
 import { ParsedUrlQuery } from 'querystring';
 
 import { dehydrate, QueryClient } from '@tanstack/react-query';
@@ -23,7 +29,7 @@ function hasErrorRedirection(error: unknown): error is { url: string } {
  * - 여러 api를 ssr하더라도 같은 queryClient에 캐시 데이터를 페이지에 dehydrate 한다.
  */
 function serverSideRenderAuthorizedAspect(
-  callback?: (
+  proceed?: (
     context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
     queryClient: QueryClient,
     memberId?: string,
@@ -44,7 +50,7 @@ function serverSideRenderAuthorizedAspect(
       const user = await queryClient.fetchQuery([queryKey.me], () =>
         userApi.getMe().then((res) => ({ ...res, accessToken })),
       );
-      const propsAspect = callback && (await callback(context, queryClient, user.memberId));
+      const propsAspect = proceed && (await proceed(context, queryClient, user.memberId));
       return {
         props: {
           ...propsAspect,
@@ -70,4 +76,41 @@ function serverSideRenderAuthorizedAspect(
   };
 }
 
+export interface StaticRenderAspectResult {
+  propsAspect?: object;
+  revalidate?: number;
+}
+
+function staticRegenerateRenderAspect(
+  proceed: (
+    context: GetStaticPropsContext<ParsedUrlQuery, PreviewData>,
+    queryClient: QueryClient,
+  ) => Promise<StaticRenderAspectResult>,
+): GetStaticProps {
+  return async (context) => {
+    const queryClient = generateQueryClient();
+    try {
+      const { propsAspect, revalidate } = await proceed(context, queryClient);
+      return {
+        props: {
+          ...propsAspect,
+          dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        },
+        revalidate: revalidate ?? false,
+      };
+    } catch (error) {
+      if (hasErrorRedirection(error)) {
+        return {
+          redirect: {
+            destination: error.url,
+            permanent: false,
+          },
+        };
+      }
+      return Promise.reject(error);
+    }
+  };
+}
+
 export { serverSideRenderAuthorizedAspect as ssrAspect };
+export { staticRegenerateRenderAspect as isrAspect };
