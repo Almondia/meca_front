@@ -45,6 +45,7 @@ const MecaPage = ({ cardId }: MecaPageProps) => {
       {meca && user && (
         <PostSection>
           <PageTitle>{meca.title}</PageTitle>
+          <br />
           <CardWriterInfo name={user.name} profile={user.profile}>
             <CardWriterInfo.Modification>
               <Link href={`/me/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
