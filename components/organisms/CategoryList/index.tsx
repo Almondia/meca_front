@@ -1,17 +1,24 @@
 /* eslint-disable react/no-array-index-key */
 import { InfiniteData } from '@tanstack/react-query';
 
-import { CategoriesResponse } from '@/apis/categoryApi';
+import { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/categoryApi';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
 import EmptyPagination from '@/components/layout/EmptyPagination';
 import CategoryCard from '@/components/molcules/CategoryCard';
+import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
 
 import { CategoryListWrapper } from './styled';
 
 export interface CategoryListProps {
-  categoryList?: InfiniteData<CategoriesResponse>;
+  categoryList?: InfiniteData<PrivateCategoriesResponse | SharedCategoriesResponse>;
   hasNextPage?: boolean;
   fetchNextPage: () => void;
+}
+
+function determineContentsIsPrivate(
+  contents: CategoryDetailType | (CategoryType & UserProfile),
+): contents is CategoryDetailType {
+  return (contents as CategoryDetailType).solveCount !== undefined;
 }
 
 const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryListProps) => {
@@ -30,9 +37,14 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
             key={category.categoryId}
             categoryId={category.categoryId}
             title={category.title}
-            thumbnail={category.thumbnail ?? ''}
-            shared={category.shared}
-          />
+            thumbnail={category.thumbnail}
+          >
+            {determineContentsIsPrivate(category) ? (
+              <CategoryCard.Private {...category} />
+            ) : (
+              <CategoryCard.Shared {...category} />
+            )}
+          </CategoryCard>
         )),
       )}
     </CategoryListWrapper>
