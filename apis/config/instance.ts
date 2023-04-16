@@ -48,6 +48,11 @@ function genErrorResponse(error: any) {
   return Promise.reject(errorResponse);
 }
 
+axios.interceptors.response.use(
+  (response): any => getObject(response),
+  (error) => genErrorResponse(error),
+);
+
 authInstance.interceptors.request.use((config) => {
   const accessToken = hasBrowser() ? accessTokenInstace : getTokens(request).accessToken;
   config.headers.Authorization = `Bearer ${accessToken}`;
