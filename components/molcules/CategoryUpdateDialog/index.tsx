@@ -98,7 +98,7 @@ const CategoryUpdateDialog = ({
             <InputGroup.Label>공개 여부: &nbsp;{shared ? '공개' : '비공개'}</InputGroup.Label>
             <ToggleSwitch
               toggleName="카테고리 공개여부 설정 토글"
-              initialState={isShared ?? false}
+              initialState={shared}
               onClick={() => setShared((prev) => !prev)}
             />
           </InputGroup>
