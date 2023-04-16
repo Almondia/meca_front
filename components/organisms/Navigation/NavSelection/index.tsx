@@ -6,7 +6,7 @@ const NavSelection = () => {
   const { logout } = useLogout();
   return (
     <NavSelectionWrapper>
-      <NavSelectionItem href="/category">내 MeCa</NavSelectionItem>
+      <NavSelectionItem href="/me/categories">내 MeCa</NavSelectionItem>
       <NavSelectionItem href="/me">내 정보</NavSelectionItem>
       <NavSelectionItem
         href="/"

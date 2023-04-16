@@ -4,11 +4,13 @@ import styled from 'styled-components';
 
 export const NavSelectionWrapper = styled.div`
   position: absolute;
+  z-index: 2;
   top: 45px;
   right: -5px;
   width: 140px;
   border-radius: 2px;
   box-shadow: var(--shadow-normal);
+  background-color: var(--color-background);
 `;
 
 export const NavSelectionItem = styled(Link)`
