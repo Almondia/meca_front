@@ -1,31 +1,36 @@
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 
-import categoryApi, { PrivateCategoriesResponse } from '@/apis/categoryApi';
+import { PrivateCategoriesResponse } from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
+import { CategoryType } from '@/types/domain';
 
 const useCategoryUpdate = () => {
   const queryClient = useQueryClient();
 
-  const { mutate: updateCategory } = useMutation(categoryApi.updateCategory, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries([queryKey.mecas, data.categoryId]);
-      queryClient.setQueriesData<InfiniteData<PrivateCategoriesResponse>>([queryKey.categories, 'me'], (prev) => {
-        if (!prev) {
-          return prev;
-        }
-        return {
-          ...prev,
-          pages: [...prev.pages].map((page) => ({
-            ...page,
-            contents: page.contents.map((content) =>
-              content.categoryId === data.categoryId ? { ...content, ...data } : content,
-            ),
-          })),
-        };
-      });
+  const { mutate: updateCategory, isSuccess } = useMutation<CategoryType, unknown, CategoryType>(
+    (props) => axios.put('/api/category', { ...props }),
+    {
+      onSuccess: (data: CategoryType) => {
+        queryClient.invalidateQueries([queryKey.mecas, data.categoryId]);
+        queryClient.setQueriesData<InfiniteData<PrivateCategoriesResponse>>([queryKey.categories, 'me'], (prev) => {
+          if (!prev) {
+            return prev;
+          }
+          return {
+            ...prev,
+            pages: [...prev.pages].map((page) => ({
+              ...page,
+              contents: page.contents.map((content) =>
+                content.categoryId === data.categoryId ? { ...content, ...data } : content,
+              ),
+            })),
+          };
+        });
+      },
     },
-  });
-  return { updateCategory };
+  );
+  return { updateCategory, isSuccess };
 };
 
 export default useCategoryUpdate;

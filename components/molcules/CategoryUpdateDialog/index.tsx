@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
 import useCategoryPost from '@/hooks/category/useCategoryPost';
@@ -32,8 +32,15 @@ const CategoryUpdateDialog = ({
   const { image, onChange: onChangeImage, onDelete: onDeleteImage } = useImage(thumbnail);
   const [shared, setShared] = useState<boolean>(isShared ?? false);
   const { uploadImage } = useFetchImage();
-  const { updateCategory } = useCategoryUpdate();
-  const { addCategory } = useCategoryPost();
+  const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
+  const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
+
+  useEffect(() => {
+    if (isUpdateSuccess || isPostSuccess) {
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateSuccess, isPostSuccess]);
 
   const getUploadedThumbnail = useCallback(async () => {
     let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
@@ -64,9 +71,8 @@ const CategoryUpdateDialog = ({
     categoryId
       ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared })
       : addCategory({ title, thumbnail: requestedThumbnail });
-    onClose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
+
   const keyword = categoryId ? '수정' : '추가';
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false}>
