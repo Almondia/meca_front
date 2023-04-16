@@ -52,6 +52,7 @@ const PrivateCategoryBody = ({
             <CategoryDeleteDialog
               categoryId={categoryId}
               categoryTitle={title}
+              shared={shared}
               visible={isDeleteModalVisible}
               onClose={deleteModalClose}
             />
