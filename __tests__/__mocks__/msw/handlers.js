@@ -105,6 +105,13 @@ export const handlers = [
     return res(ctx.status(200));
   }),
 
+  rest.delete('/api/category', (req, res, ctx) => {
+    const { id, shared } = req.params;
+    const idx = CATEGORIES.findIndex((v) => v.categoryId === id);
+    CATEGORIES.splice(idx, 1);
+    return res(ctx.status(200));
+  }),
+
   rest.put(`${ENDPOINT}/categories/:id`, async (req, res, ctx) => {
     const { id } = req.params;
     const { title } = await req.json();
