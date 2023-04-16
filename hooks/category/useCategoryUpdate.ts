@@ -8,6 +8,7 @@ const useCategoryUpdate = () => {
 
   const { mutate: updateCategory } = useMutation(categoryApi.updateCategory, {
     onSuccess: (data) => {
+      queryClient.invalidateQueries([queryKey.mecas, data.categoryId]);
       queryClient.setQueriesData<InfiniteData<PrivateCategoriesResponse>>([queryKey.categories, 'me'], (prev) => {
         if (!prev) {
           return prev;
