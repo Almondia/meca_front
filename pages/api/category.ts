@@ -6,10 +6,10 @@ import { CategoryType } from '@/types/domain';
 
 async function handlePut(req: NextApiRequest, res: NextApiResponse<CategoryType | AxiosErrorResponse>) {
   setRequest(req);
-  const { categoryId, title, thumbnail, shared }: CategoryType = await req.body;
+  const { categoryId, title, thumbnail, shared, prevShared }: CategoryType & { prevShared: boolean } = await req.body;
   try {
     const result = await categoryApi.updateCategory({ categoryId, title, thumbnail, shared });
-    if (result.shared) {
+    if (prevShared !== shared || result.shared) {
       res.revalidate('/');
     }
     res.status(200).json(result);

@@ -64,12 +64,16 @@ const CategoryUpdateDialog = ({
     if (title === '') {
       return;
     }
+    if (title === categoryTitle && image === thumbnail && shared === isShared) {
+      onClose();
+      return;
+    }
     const requestedThumbnail = await getUploadedThumbnail();
     if (requestedThumbnail === undefined) {
       return;
     }
     categoryId
-      ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared })
+      ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared, prevShared: isShared ?? false })
       : addCategory({ title, thumbnail: requestedThumbnail });
   };
 
