@@ -121,6 +121,21 @@ export const handlers = [
     );
   }),
 
+  rest.put(`/api/category`, async (req, res, ctx) => {
+    const { id, title } = await req.json();
+    const idx = CATEGORIES.findIndex((v) => v.categoryId === id);
+    const category = CATEGORIES[idx];
+    CATEGORIES.splice(idx, 1);
+    CATEGORIES.push({ ...category, title: title });
+    return res(
+      ctx.status(200),
+      ctx.json({
+        title: title,
+        categoryId: id,
+      }),
+    );
+  }),
+
   rest.post(`${ENDPOINT}/cards`, async (req, res, ctx) => {
     const request = await req.json();
     const cardId = 'cid' + MECAS.length;
