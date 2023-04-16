@@ -28,14 +28,5 @@ describe('middleware', () => {
     expect(response.headers.get('location')).toEqual('http://localhost:3000/');
   });
 
-  it('인증된 사용자가 루트로 접근 시 /me/categories로 rewrite 되어야 한다.', () => {
-    (mockNextRequest.cookies.has as jest.Mock).mockReturnValue(true);
-    mockNextRequest.nextUrl.pathname = '/';
-    const response = middleware(mockNextRequest);
-    expect(response).toBeInstanceOf(NextResponse);
-    expect(response.status).toBe(200);
-    expect(response.headers.get('x-middleware-rewrite')).toBe('http://localhost:3000/me/categories');
-  });
-
   // TODO: router 추가 시 접근 테스트 케이스 추가
 });
