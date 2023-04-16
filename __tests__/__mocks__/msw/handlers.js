@@ -60,6 +60,26 @@ export const handlers = [
     return res(ctx.json({ ...resData }));
   }),
 
+  rest.get(`${ENDPOINT}/categories/share`, (req, res, ctx) => {
+    const hasNext = req.url.searchParams.get('hasNext');
+    const pageSize = req.url.searchParams.get('pageSize');
+    const result = CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt).map((v, i) => {
+      return {
+        ...v,
+        categoryInfo: { ...v },
+        memberInfo: { memberId: 'mid' + i, profile: null, name: 'name' + i },
+      };
+    });
+    let nextIndex = result.findIndex((v) => v.cardId === hasNext);
+    nextIndex = nextIndex === -1 ? 0 : nextIndex;
+    const resData = {
+      contents: [...result].slice(nextIndex, Number(pageSize)),
+      pageSize,
+      hasNext: result[nextIndex + 1] ? result[nextIndex + 1].cardId : undefined,
+    };
+    return res(ctx.json({ ...resData }));
+  }),
+
   rest.post(`${ENDPOINT}/categories`, async (req, res, ctx) => {
     const { title } = await req.json();
     if (title.length >= 20) {

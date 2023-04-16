@@ -18,3 +18,15 @@ jest.mock('./components/atoms/Icon', () => {
   const MockedIcon = () => <div>Icon</div>;
   return MockedIcon;
 });
+
+if (typeof window !== 'undefined') {
+  window.matchMedia = jest.fn().mockImplementation((query) => {
+    return {
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+    };
+  });
+}
