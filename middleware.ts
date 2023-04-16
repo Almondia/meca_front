@@ -11,9 +11,6 @@ export function middleware(request: NextRequest) {
   if (!cookies.has('accessToken') && request.nextUrl.pathname !== '/') {
     return NextResponse.redirect(new URL('/', request.nextUrl.origin));
   }
-  if (cookies.has('accessToken') && request.nextUrl.pathname === '/') {
-    return NextResponse.rewrite(new URL('/me/categories', request.nextUrl.origin));
-  }
   return NextResponse.next();
 }
 

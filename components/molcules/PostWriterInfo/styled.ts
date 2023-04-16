@@ -4,7 +4,6 @@ import { FlexCenter, FlexSpaceBetween } from '@/styles/layout';
 
 export const PostWriterInfoWrapper = styled.div`
   ${FlexSpaceBetween};
-  margin-top: 40px;
   margin-bottom: -10px;
 `;
 

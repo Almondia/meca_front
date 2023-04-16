@@ -43,3 +43,5 @@ export const ProgressesInfoContainer = styled.div`
     font-size: ${({ theme }) => theme.fontSize.caption};
   }
 `;
+
+export const CategoryCardBodyContainer = styled.div``;

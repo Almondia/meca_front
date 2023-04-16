@@ -14,8 +14,8 @@ const useLogout = () => {
   const setHasAuth = useSetRecoilState(hasAuthState);
   const router = useRouter();
   const logout = useCallback(async () => {
-    const { data } = await axios.get('/api/logout');
-    if (data.deleted) {
+    const { deleted } = await axios.get<never, { deleted: boolean }>('/api/logout');
+    if (deleted) {
       queryClient.setQueryData([queryKey.me], null);
       setHasAuth(false);
       router.push('/');

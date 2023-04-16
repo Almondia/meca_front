@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof ToggleSwitch> = () => {
   return (
     <div style={{ padding: '30px' }}>
       <ToggleSwitch initialState={false} onClick={handleClick} toggleName="toggle" />
-      {toggle ? 'off' : 'on'}
+      {toggle ? 'on' : 'off'}
     </div>
   );
 };

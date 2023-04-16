@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
 import useCategoryPost from '@/hooks/category/useCategoryPost';
@@ -32,8 +32,15 @@ const CategoryUpdateDialog = ({
   const { image, onChange: onChangeImage, onDelete: onDeleteImage } = useImage(thumbnail);
   const [shared, setShared] = useState<boolean>(isShared ?? false);
   const { uploadImage } = useFetchImage();
-  const { updateCategory } = useCategoryUpdate();
-  const { addCategory } = useCategoryPost();
+  const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
+  const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
+
+  useEffect(() => {
+    if (isUpdateSuccess || isPostSuccess) {
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateSuccess, isPostSuccess]);
 
   const getUploadedThumbnail = useCallback(async () => {
     let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
@@ -57,16 +64,19 @@ const CategoryUpdateDialog = ({
     if (title === '') {
       return;
     }
+    if (title === categoryTitle && image === thumbnail && shared === isShared) {
+      onClose();
+      return;
+    }
     const requestedThumbnail = await getUploadedThumbnail();
     if (requestedThumbnail === undefined) {
       return;
     }
     categoryId
-      ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared })
+      ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared, prevShared: isShared ?? false })
       : addCategory({ title, thumbnail: requestedThumbnail });
-    onClose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
+
   const keyword = categoryId ? '수정' : '추가';
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false}>
@@ -92,7 +102,7 @@ const CategoryUpdateDialog = ({
             <InputGroup.Label>공개 여부: &nbsp;{shared ? '공개' : '비공개'}</InputGroup.Label>
             <ToggleSwitch
               toggleName="카테고리 공개여부 설정 토글"
-              initialState={isShared ?? false}
+              initialState={shared}
               onClick={() => setShared((prev) => !prev)}
             />
           </InputGroup>

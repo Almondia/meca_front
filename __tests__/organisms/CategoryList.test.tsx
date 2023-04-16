@@ -52,7 +52,7 @@ const mockCategoryList = {
       totalPages: 1,
     },
   ],
-};
+} as any;
 
 describe('CategoryList', () => {
   it('카테고리 목록이 없다면 Empty 컴포넌트가 보여진다.', () => {

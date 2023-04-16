@@ -5,13 +5,13 @@ import queryKey from '@/query/queryKey';
 
 const useCategoryPost = (successHandler?: () => void) => {
   const queryClient = useQueryClient();
-  const { mutate: addCategory } = useMutation(categoryApi.addCategory, {
+  const { mutate: addCategory, isSuccess } = useMutation(categoryApi.addCategory, {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKey.categories, 'me']);
       successHandler?.();
     },
   });
-  return { addCategory };
+  return { addCategory, isSuccess };
 };
 
 export default useCategoryPost;

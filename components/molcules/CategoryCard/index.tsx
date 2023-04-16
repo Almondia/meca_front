@@ -4,46 +4,26 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import CardTitle from '@/components/atoms/CardTitle';
-import DropdownMenu from '@/components/atoms/DropdownMenu';
-import ProgressBar from '@/components/atoms/ProgressBar';
-import DotMenuOpener from '@/components/molcules/DotMenuOpener';
-import useModal from '@/hooks/useModal';
-import { COLOR } from '@/styles/constants';
 import { IMAGE_SERVER } from '@/utils/constants';
+import getInnerComponents from '@/utils/getInnerComponent.s';
 
-import {
-  CategoryCardInfoSection,
-  CategoryCardThumbnailSection,
-  CategoryCardWrapper,
-  ProgressesInfoContainer,
-} from './styled';
-
-import CategoryDeleteDialog from '../CategoryDeleteDialog';
-import CategoryUpdateDialog from '../CategoryUpdateDialog';
+import PrivateCategoryBody, { PrivateCategoryBodyComponentType } from './inner/PrivateCategoryBody';
+import SharedCategoryBody, { SharedCategoryBodyComponentType } from './inner/SharedCategoryBody';
+import { CategoryCardInfoSection, CategoryCardThumbnailSection, CategoryCardWrapper } from './styled';
 
 export interface CategoryCardProps {
   categoryId: string;
   title: string;
-  maxCardCount?: number;
-  solvedCardCount?: number;
-  answeredRate?: number;
   thumbnail: string;
-  shared: boolean;
+  children: React.ReactNode;
 }
 
-const CategoryCard = ({
-  categoryId,
-  title,
-  answeredRate = 0,
-  maxCardCount = 0,
-  solvedCardCount = 0,
-  thumbnail,
-  shared,
-}: CategoryCardProps) => {
-  const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
-  const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
+const CategoryCard = ({ categoryId, title, thumbnail, children }: CategoryCardProps) => {
   const [src, setSrc] = useState<string>(thumbnail ? `${IMAGE_SERVER}/${thumbnail}` : '/images/noimage.png');
   const router = useRouter();
+  const PrivateBody = getInnerComponents(children, PrivateCategoryBodyComponentType);
+  const SharedBody = getInnerComponents(children, SharedCategoryBodyComponentType);
+
   useEffect(() => {
     if (thumbnail) {
       setSrc(`${IMAGE_SERVER}/${thumbnail}`);
@@ -64,55 +44,12 @@ const CategoryCard = ({
       </CategoryCardThumbnailSection>
       <CategoryCardInfoSection>
         <CardTitle link={`/me/categories/${categoryId}`}>{title}</CardTitle>
-        <ProgressesInfoContainer>
-          <p>문제개수</p>
-          <ProgressBar
-            type="devision"
-            maxValue={maxCardCount}
-            currentValue={solvedCardCount}
-            backgroundColor={[COLOR.brand3, COLOR.brand1]}
-          />
-        </ProgressesInfoContainer>
-        <ProgressesInfoContainer>
-          <p> 정답률 </p>
-          <ProgressBar
-            type="percentage"
-            maxValue={100}
-            currentValue={answeredRate}
-            backgroundColor={['#71D4B6', COLOR.success]}
-          />
-        </ProgressesInfoContainer>
-        <DotMenuOpener top="14px" right="14px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
-          <DropdownMenu>
-            <DropdownMenu.Contents href="" onClick={updateModalOpen}>
-              수정하기
-            </DropdownMenu.Contents>
-            <DropdownMenu.Contents href="" onClick={deleteModalOpen}>
-              삭제하기
-            </DropdownMenu.Contents>
-            {isDeleteModalVisible && (
-              <CategoryDeleteDialog
-                categoryId={categoryId}
-                categoryTitle={title}
-                visible={isDeleteModalVisible}
-                onClose={deleteModalClose}
-              />
-            )}
-            {isUpdateModalVisible && (
-              <CategoryUpdateDialog
-                categoryId={categoryId}
-                categoryTitle={title}
-                thumbnail={thumbnail}
-                isShared={shared}
-                visible={isUpdateModalVisible}
-                onClose={updateModalClose}
-              />
-            )}
-          </DropdownMenu>
-        </DotMenuOpener>
+        {PrivateBody || SharedBody}
       </CategoryCardInfoSection>
     </CategoryCardWrapper>
   );
 };
 
+CategoryCard.Shared = SharedCategoryBody;
+CategoryCard.Private = PrivateCategoryBody;
 export default CategoryCard;

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 
 import { setAccessToken } from '@/apis/config/instance';
@@ -19,7 +19,7 @@ const useUser = () => {
     data: user,
     isLoading,
     isFetching,
-  } = useQuery([queryKey.me], () => axios.get<any, AxiosResponse<MyProfile>>('/api/user').then((res) => res.data), {
+  } = useQuery([queryKey.me], () => axios.get<never, MyProfile>('/api/user'), {
     enabled: true,
     staleTime: 30000,
     onError: () => {

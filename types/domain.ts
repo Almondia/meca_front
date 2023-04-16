@@ -23,14 +23,17 @@ export interface TokenType {
   refreshToken?: string;
 }
 
-export interface MyProfile {
+export interface UserProfile {
   memberId: string;
-  role: string;
-  email: string;
   name: string;
+  email: string;
+  profile?: string;
+}
+
+export interface MyProfile extends UserProfile {
+  role: string;
   oauthType: SocialType;
   createdAt: string;
-  profile?: string;
   accessToken?: string;
 }
 
@@ -45,8 +48,8 @@ export interface CategoryType {
 export interface CategoryDetailType extends CategoryType {
   createdAt: string;
   memberId: string;
-  scoreAvg?: number;
-  solvedCount?: number;
+  scoreAvg: number;
+  solveCount: number;
   totalCount: number;
 }
 

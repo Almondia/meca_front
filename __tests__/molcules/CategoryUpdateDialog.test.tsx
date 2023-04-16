@@ -70,7 +70,7 @@ describe('CategoryUpdateDialog', () => {
     expect(toggle).not.toBeInTheDocument();
   });
 
-  it('카테고리 제목을 수정하면 모달창이 닫힌다.', () => {
+  it('카테고리 제목을 수정하면 모달창이 닫힌다.', async () => {
     const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
     const inputTitle = 'HELLO';
     const close = jest.fn();
@@ -93,17 +93,15 @@ describe('CategoryUpdateDialog', () => {
       name: /수정하기/i,
     });
     fireEvent.click(updateButton);
-    waitFor(() => expect(close).toHaveBeenCalledTimes(1), {
-      timeout: 2000,
-    });
+    await waitFor(() => expect(close).toHaveBeenCalledTimes(1));
   });
 
   it('카테고리 제목을 비정상적으로 수정하려고 시도하면 에러 toast와 함께 모달창이 닫히지 않는다.', async () => {
-    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 2];
     const inputTitle = 'HELLOOOOOOOOOOOOOOOOOOOOOO';
     const close = jest.fn();
     server.resetHandlers(
-      rest.put(`${ENDPOINT}/categories/${categoryId}`, async (req, res, ctx) => {
+      rest.put(`/api/category`, async (req, res, ctx) => {
         const { id } = req.params;
         const { title } = await req.json();
         return res(
@@ -120,7 +118,7 @@ describe('CategoryUpdateDialog', () => {
         categoryTitle={title}
         visible={true}
         onClose={close}
-        thumbnail=""
+        thumbnail={''}
       />,
     );
     const titleUpdateInput = screen.getByRole('textbox', {
@@ -134,13 +132,11 @@ describe('CategoryUpdateDialog', () => {
       name: /수정하기/i,
     });
     fireEvent.click(updateButton);
-    waitFor(() => expect(close).toHaveBeenCalledTimes(1), {
-      timeout: 1000,
-    });
-    waitFor(
+    await waitFor(
       async () => {
         const text = await screen.findByText('20글자가 넘으면 안됩니다.');
         expect(text).toBeInTheDocument();
+        expect(close).not.toHaveBeenCalled();
       },
       {
         timeout: 1000,

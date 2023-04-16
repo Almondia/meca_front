@@ -5,18 +5,19 @@ import styled from 'styled-components';
 import { FlexCenter, FlexSpaceBetween } from '@/styles/layout';
 
 export const NavigationWrapper = styled.header`
-  padding: 8px 0;
+  padding: 16px 0;
   background-color: rgba(128, 171, 201, 0.15);
   & > div {
     ${FlexSpaceBetween};
     align-items: center;
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: 1280px;
     padding: 0 140px;
     @media ${({ theme }) => theme.media.tablet} {
       padding: 0 60px;
     }
     @media ${({ theme }) => theme.media.mobile} {
+      padding: 8px 0;
       padding: 0 30px;
     }
   }

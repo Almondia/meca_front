@@ -10,7 +10,11 @@ jest.mock('next/router', () => ({
 
 describe('CategoryCard', () => {
   it('Category Card가 UI에 보여진다.', () => {
-    renderQuery(<CategoryCard categoryId="c01" title="title1" thumbnail="" />);
+    renderQuery(
+      <CategoryCard categoryId="c01" title="title1" thumbnail="">
+        card
+      </CategoryCard>,
+    );
     const cardTitle = screen.queryByText('title1');
     const thumbnail = screen.getByRole('img', {
       name: /title1-thumbnail/i,
@@ -24,7 +28,11 @@ describe('CategoryCard', () => {
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
     });
-    renderQuery(<CategoryCard categoryId="c01" title="title1" thumbnail="" />);
+    renderQuery(
+      <CategoryCard categoryId="c01" title="title1" thumbnail="">
+        card
+      </CategoryCard>,
+    );
     const cardTitle = screen.getByText('title1');
     expect(cardTitle).toBeInTheDocument();
     fireEvent.click(cardTitle);
@@ -36,7 +44,11 @@ describe('CategoryCard', () => {
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
     });
-    renderQuery(<CategoryCard categoryId="c01" title="title1" thumbnail="" />);
+    renderQuery(
+      <CategoryCard categoryId="c01" title="title1" thumbnail="">
+        card
+      </CategoryCard>,
+    );
     const thumbnail = screen.getByRole('img', {
       name: /title1-thumbnail/i,
     });
