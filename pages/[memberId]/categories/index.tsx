@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
 import categoryApi from '@/apis/categoryApi';
@@ -9,7 +10,7 @@ import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 
-const MyCategory = () => {
+const Category = () => {
   const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
   return (
     <ListSection>
@@ -21,10 +22,13 @@ const MyCategory = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = ssrAspect(async (_, queryClient) => {
+export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, memberId) => {
+  if (!memberId || memberId !== context.params?.memberId) {
+    throw { url: '/' };
+  }
   await queryClient.prefetchInfiniteQuery([queryKey.categories, 'me'], () => categoryApi.getMyCategoryList({}), {
     getNextPageParam: (lastPage) => lastPage.hasNext,
   });
 });
 
-export default MyCategory;
+export default Category;

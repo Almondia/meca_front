@@ -34,27 +34,30 @@ function serverSideRenderAuthorizedAspect(
     queryClient: QueryClient,
     memberId?: string,
   ) => Promise<object | void>,
+  skipAuth?: boolean,
 ): GetServerSideProps {
   return async (context) => {
     setRequest(context.req);
     const { accessToken } = nookies.get(context);
-    if (!accessToken) {
+    if (!accessToken && !skipAuth) {
       return {
-        props: {
-          hasAuth: false,
+        redirect: {
+          destination: '/',
+          permanent: false,
         },
       };
     }
     try {
       const queryClient = generateQueryClient();
-      const user = await queryClient.fetchQuery([queryKey.me], () =>
-        userApi.getMe().then((res) => ({ ...res, accessToken })),
-      );
-      const propsAspect = proceed && (await proceed(context, queryClient, user.memberId));
+      const user =
+        !!accessToken &&
+        (await queryClient.fetchQuery([queryKey.me], () => userApi.getMe().then((res) => ({ ...res, accessToken }))));
+      const propsAspect =
+        proceed && (await proceed(context, queryClient, user === false ? 'undefined' : user.memberId));
       return {
         props: {
           ...propsAspect,
-          hasAuth: true,
+          hasAuth: !!user,
           dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
         },
       };
@@ -67,11 +70,20 @@ function serverSideRenderAuthorizedAspect(
           },
         };
       }
-      return {
-        props: {
-          hasAuth: false,
-        },
-      };
+      if ((error as any).status === 401) {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false,
+          },
+        };
+      }
+      if ((error as any).status === 403 || (error as any).status === 404) {
+        return {
+          notFound: true,
+        };
+      }
+      return Promise.reject(error);
     }
   };
 }

@@ -15,7 +15,7 @@ const useMecaWrite = () => {
   const successHandler = useCallback((categoryId: string, message: string) => {
     queryClient.invalidateQueries([queryKey.mecas, categoryId]);
     alertToast(message, 'success');
-    router.replace(`/me/categories/${categoryId}`);
+    router.back();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

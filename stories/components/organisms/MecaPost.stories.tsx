@@ -42,4 +42,6 @@ KeywordPost.args = {
   createdAt: '2023-03-20T02:13:28.061759',
   question: '박동석의 MBTI는 무엇인가요',
   answer: 'INFP',
+  description:
+    '<h4>nextjs에서 dynamic import로 quill editor 사용하기</h4><p>hello</p><p>맛이좋아<img src="https://my-meca.s3.ap-northeast-2.amazonaws.com/01876912-fddf-07f6-20ca-7cb2da7d3448/card/1681120302622.png"></p><p><strong class="ql-size-huge" style="color: rgb(230, 0, 0);"><em>돔돔ㄷ</em></strong></p>',
 };

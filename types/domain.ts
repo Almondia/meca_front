@@ -26,7 +26,6 @@ export interface TokenType {
 export interface UserProfile {
   memberId: string;
   name: string;
-  email: string;
   profile?: string;
 }
 
@@ -35,11 +34,13 @@ export interface MyProfile extends UserProfile {
   oauthType: SocialType;
   createdAt: string;
   accessToken?: string;
+  email: string;
 }
 
 // TODO: 백엔드 응답 데이터에 맞게 추가할 것
 export interface CategoryType {
   categoryId: string;
+  memberId: string;
   title: string;
   thumbnail: string;
   shared: boolean;

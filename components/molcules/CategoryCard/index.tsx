@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import CardTitle from '@/components/atoms/CardTitle';
+import { CategoryType } from '@/types/domain';
 import { IMAGE_SERVER } from '@/utils/constants';
 import getInnerComponents from '@/utils/getInnerComponent.s';
 
@@ -11,14 +12,11 @@ import PrivateCategoryBody, { PrivateCategoryBodyComponentType } from './inner/P
 import SharedCategoryBody, { SharedCategoryBodyComponentType } from './inner/SharedCategoryBody';
 import { CategoryCardInfoSection, CategoryCardThumbnailSection, CategoryCardWrapper } from './styled';
 
-export interface CategoryCardProps {
-  categoryId: string;
-  title: string;
-  thumbnail: string;
+export interface CategoryCardProps extends Omit<CategoryType, 'shared'> {
   children: React.ReactNode;
 }
 
-const CategoryCard = ({ categoryId, title, thumbnail, children }: CategoryCardProps) => {
+const CategoryCard = ({ categoryId, title, thumbnail, memberId, children }: CategoryCardProps) => {
   const [src, setSrc] = useState<string>(thumbnail ? `${IMAGE_SERVER}/${thumbnail}` : '/images/noimage.png');
   const router = useRouter();
   const PrivateBody = getInnerComponents(children, PrivateCategoryBodyComponentType);
@@ -39,11 +37,11 @@ const CategoryCard = ({ categoryId, title, thumbnail, children }: CategoryCardPr
           alt={`${title}-thumbnail`}
           fill
           onError={() => setSrc('/images/noimage.png')}
-          onClick={() => router.push(`/me/categories/${categoryId}`)}
+          onClick={() => router.push(`/${memberId}/categories/${categoryId}`)}
         />
       </CategoryCardThumbnailSection>
       <CategoryCardInfoSection>
-        <CardTitle link={`/me/categories/${categoryId}`}>{title}</CardTitle>
+        <CardTitle link={`/${memberId}/categories/${categoryId}`}>{title}</CardTitle>
         {PrivateBody || SharedBody}
       </CategoryCardInfoSection>
     </CategoryCardWrapper>

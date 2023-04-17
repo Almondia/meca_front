@@ -33,12 +33,7 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
     >
       {categoryList.pages.map((pages) =>
         pages.contents.map((category) => (
-          <CategoryCard
-            key={category.categoryId}
-            categoryId={category.categoryId}
-            title={category.title}
-            thumbnail={category.thumbnail}
-          >
+          <CategoryCard key={category.categoryId} {...category}>
             {determineContentsIsPrivate(category) ? (
               <CategoryCard.Private {...category} />
             ) : (

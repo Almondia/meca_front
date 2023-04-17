@@ -71,9 +71,9 @@ describe('MecaWrite', () => {
   });
 
   it('카드를 정상적으로 등록하면 성공 toast가 식별된다,', async () => {
-    const mockReplace = jest.fn();
+    const mockBack = jest.fn();
     (useRouter as jest.Mock).mockReturnValue({
-      replace: mockReplace,
+      back: mockBack,
     });
     renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
     const questionInput = screen.getByRole('textbox', {
@@ -94,7 +94,7 @@ describe('MecaWrite', () => {
     fireEvent.click(submitButton);
     const successToastText = await screen.findByText(/카드 등록 성공/i);
     expect(successToastText).toBeInTheDocument();
-    expect(mockReplace).toHaveBeenCalledTimes(1);
+    expect(mockBack).toHaveBeenCalledTimes(1);
   });
 
   it('카드 수정(카드 정보가 있다면)을 정상적으로 시도하면 수정 toast가 식별된다.', async () => {

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { InfiniteData } from '@tanstack/react-query';
 
-import { MecaListResponse } from '@/apis/mecaApi';
+import { MecaUserListResponse } from '@/apis/mecaApi';
 import MecaList, { MecaListProps } from '@/components/organisms/MecaList';
 
 export default {
@@ -27,8 +27,12 @@ const MecaListSample = {
           title: 'title1',
           question: 'question',
           categoryId: 'c1',
-          cardType: 'MULTI_CHOICE',
+          cardType: 'KEYWORD',
           answer: '1',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
         {
           cardId: '2',
@@ -37,6 +41,10 @@ const MecaListSample = {
           categoryId: 'c1',
           cardType: 'OX_QUIZ',
           answer: 'O',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
         {
           cardId: '3',
@@ -45,14 +53,22 @@ const MecaListSample = {
           categoryId: 'c1',
           cardType: 'OX_QUIZ',
           answer: 'O',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
         {
           cardId: '4',
           title: 'title4',
           question: 'question',
           categoryId: 'c1',
-          cardType: 'MULTI_CHOICE',
+          cardType: 'KEYWORD',
           answer: '1',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
         {
           cardId: '5',
@@ -61,6 +77,10 @@ const MecaListSample = {
           categoryId: 'c1',
           cardType: 'OX_QUIZ',
           answer: 'O',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
         {
           cardId: '6',
@@ -69,15 +89,22 @@ const MecaListSample = {
           categoryId: 'c1',
           cardType: 'OX_QUIZ',
           answer: 'O',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
       ],
-      categoryId: 'c1',
-      categoryTitle: 'TITLE',
+      category: {
+        categoryId: 'c1',
+        title: 'TITLE',
+        memberId: 'memberId',
+      },
       hasNext: '6',
       pageSize: 6,
     },
   ],
-} as unknown as InfiniteData<MecaListResponse>;
+} as unknown as InfiniteData<MecaUserListResponse>;
 
 const Template: ComponentStory<typeof MecaList> = (args: MecaListProps) => (
   <div style={{ width: '100%' }}>
@@ -86,7 +113,7 @@ const Template: ComponentStory<typeof MecaList> = (args: MecaListProps) => (
 );
 
 export const Default = ({ hasNextPage, isMine }: { hasNextPage: boolean; isMine: boolean }) => {
-  const [mecaList, setMecaList] = useState<InfiniteData<MecaListResponse>>(MecaListSample);
+  const [mecaList, setMecaList] = useState<InfiniteData<MecaUserListResponse>>(MecaListSample);
   const fetchNextPage = () => {
     if (!hasNextPage) {
       return;
@@ -114,7 +141,7 @@ export const Default = ({ hasNextPage, isMine }: { hasNextPage: boolean; isMine:
           pageSize: 6,
         },
       ],
-    } as unknown as InfiniteData<MecaListResponse>;
+    } as unknown as InfiniteData<MecaUserListResponse>;
     setMecaList(newMecaList);
   };
   return <Template mecaList={mecaList} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} isMine={isMine} />;
@@ -124,4 +151,5 @@ export const Empty = Template.bind({});
 Empty.args = {
   mecaList: undefined,
   hasNextPage: false,
+  isMine: true,
 };

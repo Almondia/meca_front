@@ -10,6 +10,9 @@ export const PostWriterInfoWrapper = styled.div`
 export const WriterInfoBox = styled.div`
   ${FlexCenter};
   column-gap: 10px;
+  & > img {
+    border-radius: 50%;
+  }
 `;
 
 export const ModificationBoxWrapper = styled.div`

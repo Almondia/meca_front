@@ -4,25 +4,32 @@ import React from 'react';
 
 import Button from '@/components/atoms/Button';
 import ListControlGroup from '@/components/molcules/ListControlGroup';
+import PostWriterInfo from '@/components/molcules/PostWriterInfo';
 import QuizStartDialog from '@/components/molcules/QuizStartDialog';
 import useModal from '@/hooks/useModal';
 
 export interface CardControlProps {
   categoryId: string;
   categoryTitle: string;
+  isMine: boolean;
+  name: string;
+  profile: string;
 }
 
-const CardControl = ({ categoryId, categoryTitle }: CardControlProps) => {
+const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: CardControlProps) => {
   const router = useRouter();
   const { visible: isPlayModalVisible, open: playModalOpen, close: playModalClose } = useModal();
   return (
     <ListControlGroup>
       <ListControlGroup.Left>
-        <Button colorTheme="primary" onClick={() => router.push(`/me/write/${categoryId}`)}>
-          추가하기 +
-        </Button>
+        <PostWriterInfo name={name ?? 'user'} profile={profile} />
       </ListControlGroup.Left>
       <ListControlGroup.Right>
+        {isMine && (
+          <Button colorTheme="primary" onClick={() => router.push(`/me/write/${categoryId}`)}>
+            추가하기 +
+          </Button>
+        )}
         <Button colorTheme="success" onClick={playModalOpen}>
           <Button.RightIcon icon="Play" />
           <Button.InnerText>플레이</Button.InnerText>
