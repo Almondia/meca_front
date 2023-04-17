@@ -2,11 +2,11 @@ import useLogout from '@/hooks/useLogout';
 
 import { NavSelectionItem, NavSelectionWrapper } from './styled';
 
-const NavSelection = () => {
+const NavSelection = ({ memberId }: { memberId: string }) => {
   const { logout } = useLogout();
   return (
     <NavSelectionWrapper>
-      <NavSelectionItem href="/me/categories">내 MeCa</NavSelectionItem>
+      <NavSelectionItem href={`/${memberId}/categories`}>내 MeCa</NavSelectionItem>
       <NavSelectionItem href="/me">내 정보</NavSelectionItem>
       <NavSelectionItem
         href="/"

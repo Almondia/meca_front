@@ -56,7 +56,7 @@ const Navigation = () => {
                 height={30}
               />
               <Icon icon="CompactDown" size="12px" />
-              {isNavSelectionVisible && <NavSelection />}
+              {isNavSelectionVisible && <NavSelection memberId={user.memberId} />}
             </Profile>
           ) : (
             <div>
