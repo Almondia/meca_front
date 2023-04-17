@@ -19,15 +19,18 @@ const useUser = () => {
     data: user,
     isLoading,
     isFetching,
-  } = useQuery([queryKey.me], () => axios.get<never, MyProfile>('/api/user'), {
-    enabled: true,
-    staleTime: 30000,
-    onError: () => {
-      queryClient.setQueryData([queryKey.me], null);
-      router.replace('/');
+  } = useQuery(
+    [queryKey.me],
+    () => axios.get<never, MyProfile>('/api/user').then((res) => (res.accessToken ? res : null)),
+    {
+      enabled: true,
+      staleTime: 30000,
+      onError: () => {
+        queryClient.setQueryData([queryKey.me], null);
+        router.replace('/');
+      },
     },
-  });
-
+  );
   useEffect(() => {
     if (user && user.accessToken) {
       setAccessToken(user.accessToken);
