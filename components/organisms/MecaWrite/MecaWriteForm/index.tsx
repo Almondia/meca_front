@@ -59,7 +59,7 @@ const MecaWriteForm = ({
   } = useInput(question ?? '');
   const { input: answerInput, onInputChange: onAnswerChange, setInput: setAnswerInput } = useInput(answer ?? '');
   const { number: caseNum, increaseNumber: changeCaseNum } = useIncrease(
-    question && mecaTagType === 'select' ? JSON.parse(question).length : 3,
+    question && mecaTagType === 'select' ? JSON.parse(question).length - 1 : 3,
     3,
     5,
   );

@@ -14,6 +14,7 @@ import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
 
 import 'react-toastify/dist/ReactToastify.css';
+import NotFound from './404';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => generateQueryClient());
@@ -33,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
               hideProgressBar
             />
             <Layout>
-              <Component {...pageProps} />
+              {pageProps.errorMessage ? <NotFound message={pageProps.errorMessage} /> : <Component {...pageProps} />}
             </Layout>
           </ThemeProvider>
         </RecoilRoot>

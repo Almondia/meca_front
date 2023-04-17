@@ -40,9 +40,12 @@ describe('MecaListPage with SSR', () => {
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', true);
     expect(props).toHaveProperty('dehydratedState');
-    const queryClient = new QueryClient();
-    hydrate(queryClient, props.dehydratedState);
-    renderQuery(<CategoryById categoryId={props.categoryId} isMine={props.isMine} />, undefined, queryClient);
+    renderQuery(
+      <CategoryById categoryId={props.categoryId} isMine={props.isMine} />,
+      undefined,
+      undefined,
+      props.dehydratedState,
+    );
     const addButton = screen.getByRole('button', {
       name: /추가하기/i,
     });
@@ -102,8 +105,8 @@ describe('MecaListPage with SSR', () => {
         memberId: 'abc01',
       },
     } as unknown as GetServerSidePropsContext;
-    const { notFound } = (await getServerSideProps(mockedContext)) as any;
-    expect(notFound).toBeTruthy();
+    const { props } = (await getServerSideProps(mockedContext)) as any;
+    expect(props).toHaveProperty('errorMessage', '비정상적인 접근');
   });
 
   it('본인 것이 아닌 공유 카드 목록 요청일 경우 개인용 UI가 식별되지 않는다.', async () => {
@@ -173,9 +176,12 @@ describe('MecaListPage with SSR', () => {
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', false);
     expect(props).toHaveProperty('dehydratedState');
-    const queryClient = new QueryClient();
-    hydrate(queryClient, props.dehydratedState);
-    renderQuery(<CategoryById categoryId={props.categoryId} isMine={props.isMine} />, undefined, queryClient);
+    renderQuery(
+      <CategoryById categoryId={props.categoryId} isMine={props.isMine} />,
+      undefined,
+      undefined,
+      props.dehydratedState,
+    );
     const addButton = screen.queryByRole('button', {
       name: /추가하기/i,
     });
