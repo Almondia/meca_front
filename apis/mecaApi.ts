@@ -1,7 +1,15 @@
-import { CursorPaginationType, MecaType, QuizAlgorithmType, QuizResultType, QuizType } from '@/types/domain';
+import {
+  CategoryType,
+  CursorPaginationType,
+  MecaType,
+  QuizAlgorithmType,
+  QuizResultType,
+  QuizType,
+  UserProfile,
+} from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 
-import { authInstance } from './config/instance';
+import { authInstance, unauthInstance } from './config/instance';
 
 export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt'>>;
 
@@ -11,9 +19,12 @@ export interface MecaWriteResponse {
 }
 
 export interface MecaListResponse extends CursorPaginationType {
-  contents: Omit<MecaType, 'categoryId' | 'description'>[];
-  categoryId: string;
-  categoryTitle: string;
+  contents: Omit<MecaType, 'categoryId'>[];
+  category: CategoryType;
+}
+
+export interface MecaUserListResponse extends Omit<MecaListResponse, 'contents'> {
+  contents: (Omit<MecaType, 'categoryId'> & UserProfile)[];
 }
 
 export interface MecaQuizRequest {
@@ -57,6 +68,21 @@ const mecaApi = {
     authInstance.post<never, never>(`/api/v1/histories/simulation`, {
       cardHistories: props,
     }),
+  getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }): Promise<MecaUserListResponse> => {
+    const params = {
+      pageSize: props.pageSize ?? PAGINATION_NUM,
+      hasNext: props.hasNext,
+    };
+    !props.hasNext && delete params.hasNext;
+    return unauthInstance
+      .get<never, Omit<MecaListResponse, 'contents'> & { contents: { cardInfo: MecaType; memberInfo: UserProfile }[] }>(
+        `/api/v1/cards/categories/${props.categoryId}/share`,
+        {
+          params,
+        },
+      )
+      .then((res) => ({ ...res, contents: [...res.contents.map((v) => ({ ...v.cardInfo, ...v.memberInfo }))] }));
+  },
 };
 
 export default mecaApi;
