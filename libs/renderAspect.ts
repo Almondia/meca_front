@@ -78,12 +78,11 @@ function serverSideRenderAuthorizedAspect(
           },
         };
       }
-      if ((error as any).status === 403 || (error as any).status === 404) {
-        return {
-          notFound: true,
-        };
-      }
-      return Promise.reject(error);
+      return {
+        props: {
+          errorMessage: (error as any)?.message ?? 'next server error',
+        },
+      };
     }
   };
 }

@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { ToastContainer } from 'react-toastify';
 import { RecoilRoot, useSetRecoilState, useRecoilValue } from 'recoil';
 import { generateQueryClient } from '@/query/queryClient';
-import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider, hydrate } from '@tanstack/react-query';
 import ThemeProvider from '@/styles/ThemeProvider';
 import commonTheme from '@/styles/theme';
 import { useEffect } from 'react';
@@ -29,8 +29,11 @@ const Wrapper = ({ children }) => (
   </RecoilRoot>
 );
 
-function renderWithQueryClient(ui, options, client) {
+function renderWithQueryClient(ui, options, client, dehydratedState) {
   const queryClient = client ?? generateQueryClient();
+  if (dehydratedState) {
+    hydrate(queryClient, dehydratedState);
+  }
   return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>, { wrapper: Wrapper, ...options });
 }
 
