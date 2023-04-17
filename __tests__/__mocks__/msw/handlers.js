@@ -192,6 +192,11 @@ export const handlers = [
       contents: [...result].slice(nextIndex, pageSize + 1),
       pageSize,
       hasNext: result[nextIndex + 1] ? result[nextIndex + 1].cardId : undefined,
+      category: {
+        categoryId,
+        title: CATEGORIES.find((c) => c.categoryId === categoryId).title,
+        thumbnail: '',
+      },
     };
     return res(ctx.status(200), ctx.json({ ...resData }));
   }),
