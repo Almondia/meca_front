@@ -14,10 +14,10 @@ export interface MecaWritePageProps {
 }
 
 const MecaWritePage = ({ categoryId, cardId }: MecaWritePageProps) => {
-  const { meca, isError } = useMeca(cardId);
+  const { meca } = useMeca(cardId);
   return (
     <PostSection>
-      {isError ? <MecaWrite categoryId={categoryId} /> : <MecaWrite {...meca} categoryId={categoryId} />}
+      {cardId ? <MecaWrite {...meca} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
     </PostSection>
   );
 };
@@ -26,11 +26,11 @@ const MecaWritePage = ({ categoryId, cardId }: MecaWritePageProps) => {
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   const { categoryId, cardId } = context.query;
   if (!categoryId || typeof categoryId !== 'string') {
-    throw { url: '/' };
+    throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
   }
   const response = await Promise.allSettled([mecaApi.getMyMecaList({ categoryId, pageSize: 1 })]);
   if (response[0].status === 'rejected') {
-    throw { url: '/' };
+    throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
   }
   if (!cardId || typeof cardId !== 'string') {
     return {
@@ -38,6 +38,9 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     };
   }
   await queryClient.prefetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId));
+  if (!queryClient.getQueryData([queryKey.meca, cardId])) {
+    throw { message: '적절하지 않은 Meca Card로의 수정 페이지 접근' };
+  }
   return {
     categoryId,
     cardId,
