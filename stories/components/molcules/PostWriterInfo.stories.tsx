@@ -1,6 +1,3 @@
-/* eslint-disable no-alert */
-import Link from 'next/link';
-
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import PostWriterInfo, { PostWriterInfoProps } from '@/components/molcules/PostWriterInfo';
@@ -22,15 +19,4 @@ const Template: ComponentStory<typeof PostWriterInfo> = (args: PostWriterInfoPro
 export const Default = Template.bind({});
 Default.args = {
   name: '사용자 이름',
-};
-
-export const WithModification = Template.bind({});
-WithModification.args = {
-  name: '사용자 이름',
-  children: (
-    <PostWriterInfo.Modification>
-      <Link href="/">수정하기</Link>
-      <Link href="/">삭제하기</Link>
-    </PostWriterInfo.Modification>
-  ),
 };

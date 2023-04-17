@@ -2,13 +2,13 @@ import { render } from '../utils';
 import { screen } from '@testing-library/react';
 import MecaList from '@/components/organisms/MecaList';
 import { InfiniteData } from '@tanstack/react-query';
-import { MecaListResponse } from '@/apis/mecaApi';
+import { MecaUserListResponse } from '@/apis/mecaApi';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-const mockMecaList: InfiniteData<MecaListResponse> | undefined = {
+const mockMecaList: InfiniteData<MecaUserListResponse> | undefined = {
   pageParams: [undefined],
   pages: [
     {
@@ -20,6 +20,10 @@ const mockMecaList: InfiniteData<MecaListResponse> | undefined = {
           answer: 'a1',
           cardType: 'OX_QUIZ',
           createdAt: 'c1',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
         {
           cardId: '2',
@@ -28,6 +32,10 @@ const mockMecaList: InfiniteData<MecaListResponse> | undefined = {
           answer: 'a2',
           cardType: 'OX_QUIZ',
           createdAt: 'c2',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
         {
           cardId: '3',
@@ -36,12 +44,21 @@ const mockMecaList: InfiniteData<MecaListResponse> | undefined = {
           answer: 'a3',
           cardType: 'OX_QUIZ',
           createdAt: 'c3',
+          description: '',
+          memberId: 'memberId',
+          name: 'name',
+          profile: '',
         },
       ],
       hasNext: '3',
       pageSize: 2,
-      categoryId: '1',
-      categoryTitle: 'category-title',
+      category: {
+        categoryId: '1',
+        title: 'category-title',
+        memberId: 'memberId',
+        shared: true,
+        thumbnail: '',
+      },
     },
   ],
 };

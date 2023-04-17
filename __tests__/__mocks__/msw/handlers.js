@@ -34,6 +34,7 @@ export const handlers = [
         oauthType: 'KAKAO',
         createdAt: '2023-03-11T12:56:22.954816',
         profile: '/user.jpg',
+        accessToken: 'token',
       }),
     );
   }),
