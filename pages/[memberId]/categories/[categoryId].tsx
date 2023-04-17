@@ -8,6 +8,7 @@ import PageTitle from '@/components/layout/PageTitle';
 import CardControl from '@/components/organisms/CardControl';
 import MecaList from '@/components/organisms/MecaList';
 import useMecaList from '@/hooks/meca/useMecaList';
+import useUser from '@/hooks/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
@@ -20,12 +21,15 @@ export interface MyCategoryByIdPageProps {
 
 const CategoryById = ({ categoryId, isMine }: MyCategoryByIdPageProps) => {
   const { mecaList, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
+  const { user } = useUser();
   return (
     <ListSection>
       <PageTitle>{mecaList?.pages[0].category.title ?? 'Category Title'}</PageTitle>
       <CardControl
         categoryId={categoryId}
         categoryTitle={mecaList?.pages[0].category.title ?? 'Category Title'}
+        name={(isMine ? user?.name : mecaList?.pages[0]?.contents[0]?.name) || 'username'}
+        profile={(isMine ? user?.profile : mecaList?.pages[0]?.contents[0]?.profile) || '/images/noprofile.png'}
         isMine={isMine}
       />
       <Devide />

@@ -17,7 +17,7 @@ const ModificationBox = ({ children }: { children: React.ReactNode }) => (
 const PostWriterInfo = ({ name, profile, children }: PostWriterInfoProps) => (
   <PostWriterInfoWrapper>
     <WriterInfoBox>
-      <Image src={profile || '/images/noprofile.png'} alt={profile ?? 'profile-image'} width={36} height={36} />
+      <Image src={profile || '/images/noprofile.png'} alt={`${name}-profile-image`} width={36} height={36} />
       <p>{name}</p>
     </WriterInfoBox>
     {children}
