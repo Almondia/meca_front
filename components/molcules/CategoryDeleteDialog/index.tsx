@@ -10,7 +10,6 @@ export interface CategoryDeleteDialogProps extends DefaultModalOptions {
 }
 
 const CategoryDeleteDialog = ({ onClose, visible, categoryId, categoryTitle, shared }: CategoryDeleteDialogProps) => {
-  console.log(categoryId);
   const { deleteCategory } = useCategoryDelete();
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false}>
