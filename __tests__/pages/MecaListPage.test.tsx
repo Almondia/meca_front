@@ -40,9 +40,12 @@ describe('MecaListPage with SSR', () => {
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', true);
     expect(props).toHaveProperty('dehydratedState');
-    const queryClient = new QueryClient();
-    hydrate(queryClient, props.dehydratedState);
-    renderQuery(<CategoryById categoryId={props.categoryId} isMine={props.isMine} />, undefined, queryClient);
+    renderQuery(
+      <CategoryById categoryId={props.categoryId} isMine={props.isMine} />,
+      undefined,
+      undefined,
+      props.dehydratedState,
+    );
     const addButton = screen.getByRole('button', {
       name: /추가하기/i,
     });
@@ -173,9 +176,12 @@ describe('MecaListPage with SSR', () => {
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', false);
     expect(props).toHaveProperty('dehydratedState');
-    const queryClient = new QueryClient();
-    hydrate(queryClient, props.dehydratedState);
-    renderQuery(<CategoryById categoryId={props.categoryId} isMine={props.isMine} />, undefined, queryClient);
+    renderQuery(
+      <CategoryById categoryId={props.categoryId} isMine={props.isMine} />,
+      undefined,
+      undefined,
+      props.dehydratedState,
+    );
     const addButton = screen.queryByRole('button', {
       name: /추가하기/i,
     });
