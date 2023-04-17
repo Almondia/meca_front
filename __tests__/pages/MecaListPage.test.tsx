@@ -102,8 +102,8 @@ describe('MecaListPage with SSR', () => {
         memberId: 'abc01',
       },
     } as unknown as GetServerSidePropsContext;
-    const { notFound } = (await getServerSideProps(mockedContext)) as any;
-    expect(notFound).toBeTruthy();
+    const { props } = (await getServerSideProps(mockedContext)) as any;
+    expect(props).toHaveProperty('errorMessage', '비정상적인 접근');
   });
 
   it('본인 것이 아닌 공유 카드 목록 요청일 경우 개인용 UI가 식별되지 않는다.', async () => {
