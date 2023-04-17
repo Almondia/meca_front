@@ -40,7 +40,7 @@ export interface MyProfile extends UserProfile {
 // TODO: 백엔드 응답 데이터에 맞게 추가할 것
 export interface CategoryType {
   categoryId: string;
-  memberId: string;
+  memberId?: string;
   title: string;
   thumbnail: string;
   shared: boolean;
