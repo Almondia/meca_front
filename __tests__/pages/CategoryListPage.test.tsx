@@ -1,19 +1,25 @@
 import { RecoilObserver, renderQuery } from '../utils';
 import { fireEvent, screen } from '@testing-library/react';
-import MyCategory from '@/pages/me/categories';
 import { PAGINATION_NUM } from '@/utils/constants';
 import { hasAuthState } from '@/atoms/common';
+import Category, { getServerSideProps } from '@/pages/[memberId]/categories';
+import nookies from 'nookies';
+import { GetServerSidePropsContext } from 'next';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-describe('MyCategoryList Page', () => {
+jest.mock('nookies', () => ({
+  get: jest.fn(),
+}));
+
+describe('CategoryListPage', () => {
   it('카테고리 목록 페이지에서 목록 Control UI와 카테고리 목록이 식별된다.', async () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <MyCategory />
+        <Category />
       </>,
     );
     const categoryListPageHead = screen.getByRole('heading', {
@@ -61,7 +67,7 @@ describe('MyCategoryList Page', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <MyCategory />
+        <Category />
       </>,
     );
     const inputTitleText = 'HELL';
@@ -97,7 +103,7 @@ describe('MyCategoryList Page', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <MyCategory />
+        <Category />
       </>,
     );
     // should not over 20
@@ -117,5 +123,61 @@ describe('MyCategoryList Page', () => {
     });
     fireEvent.click(submitButton);
     const toastText = await screen.findByText('제목 오류');
+    expect(toastText).toBeInTheDocument();
+  });
+
+  describe('SSR Test', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+    it('본인의 category 목록 path에 접근하면 정상적으로 동작한다.', async () => {
+      (nookies.get as jest.Mock).mockReturnValue({
+        accessToken: 'token',
+      });
+      const mockedContext = {
+        req: {
+          url: '/abc01/categories',
+        },
+        params: {
+          memberId: 'abc01',
+        },
+        res: {},
+      } as unknown as GetServerSidePropsContext;
+      const props = (await getServerSideProps(mockedContext)) as any;
+      expect(props?.redirect).toBeUndefined();
+    });
+
+    it('본인의 category 목록이 아닌 path에 접근하면 메인페이지로 redirect된다.', async () => {
+      (nookies.get as jest.Mock).mockReturnValue({
+        accessToken: 'token',
+      });
+      const mockedContext = {
+        req: {
+          url: '/abdagbabeababa/categories',
+        },
+        params: {
+          memberId: 'abdagbabeababa',
+        },
+        res: {},
+      } as unknown as GetServerSidePropsContext;
+      const props = (await getServerSideProps(mockedContext)) as any;
+      expect(props?.redirect).toHaveProperty('destination', '/');
+    });
+    it('인증되지 않은 유저가 해당 path에 접근하면 메인페이지로 redirect된다.', async () => {
+      (nookies.get as jest.Mock).mockReturnValue({
+        accessToken: undefined,
+      });
+      const mockedContext = {
+        req: {
+          url: '/pp0309/categories',
+        },
+        params: {
+          memberId: 'pp0309',
+        },
+        res: {},
+      } as unknown as GetServerSidePropsContext;
+      const props = (await getServerSideProps(mockedContext)) as any;
+      expect(props?.redirect).toHaveProperty('destination', '/');
+    });
   });
 });
