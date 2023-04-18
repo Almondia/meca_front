@@ -11,11 +11,11 @@ import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 
 const Category = () => {
-  const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
+  const { categoires, hasNextPage, fetchNextPage } = useCategory();
   return (
     <ListSection>
       <PageTitle>카테고리 목록</PageTitle>
-      <CategoryControl onChangeQuery={changeSearchQuery} />
+      <CategoryControl />
       <Devide />
       <CategoryList categoryList={categoires} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
     </ListSection>

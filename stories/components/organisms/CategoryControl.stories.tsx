@@ -13,7 +13,7 @@ export default {
 const Template: ComponentStory<typeof CategoryControl> = ({
   onChangeQuery,
 }: {
-  onChangeQuery: (query: string) => void;
+  onChangeQuery?: (query: string) => void;
 }) => <CategoryControl onChangeQuery={onChangeQuery} />;
 
 export const Default = Template.bind({});

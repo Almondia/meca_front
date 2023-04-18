@@ -8,7 +8,7 @@ import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
 
 export interface CategoryControlProps {
-  onChangeQuery: (query: string) => void;
+  onChangeQuery?: (query: string) => void;
   isShared?: boolean;
 }
 
@@ -19,7 +19,7 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
     if (searchKeyword.length >= 100) {
       return;
     }
-    onChangeQuery(searchKeyword);
+    onChangeQuery?.(searchKeyword);
   };
   return (
     <ListControlGroup>
