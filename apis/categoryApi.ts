@@ -49,6 +49,7 @@ const categoryApi = {
           params: {
             pageSize: props.pageSize ?? 2 * PAGINATION_NUM,
             hasNext: props.hasNext,
+            containTitle: props.containTitle,
           },
         },
       )

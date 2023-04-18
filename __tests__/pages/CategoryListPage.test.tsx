@@ -34,35 +34,6 @@ describe('CategoryListPage', () => {
     expect(categoryCards).toHaveLength(PAGINATION_NUM);
   });
 
-  // FIXME: 검색어 기능 구현 안되면 지우기
-  // it('카테고리를 키워드로 검색하면 해당 키워드가 포함된 목록만 식별된다.', async () => {
-  //   renderQuery(
-  //     <>
-  //       <RecoilObserver node={hasAuthState} defaultValue={true} />
-  //       <MyCategory />
-  //     </>,
-  //   );
-  //   const categorySearchInput = screen.getByRole('textbox', {
-  //     name: 'input-category-search',
-  //   });
-  //   expect(categorySearchInput).toBeInTheDocument();
-
-  //   // 검색어 입력
-  //   fireEvent.change(categorySearchInput, { target: { value: 'title1' } });
-  //   expect(categorySearchInput).toHaveValue('title1');
-
-  //   // 검색
-  //   const categorySearchButton = screen.getByRole('button', {
-  //     name: '검색',
-  //   });
-  //   expect(categorySearchButton).toBeInTheDocument();
-  //   fireEvent.click(categorySearchButton);
-  //   const categoryCards = await screen.findAllByTestId('id-category-card');
-  //   categoryCards.forEach((card) => {
-  //     expect(card).toHaveTextContent(/title1/i);
-  //   });
-  // });
-
   it('카테고리 하나를 정상적으로 추가하면 카테고리 목록에 새로운 데이터가 추가된다.', async () => {
     renderQuery(
       <>

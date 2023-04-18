@@ -63,6 +63,7 @@ export interface PaginationType {
 export interface CursorPaginationType {
   pageSize?: number;
   hasNext?: string;
+  containTitle?: string;
 }
 
 export interface MecaType {

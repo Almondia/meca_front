@@ -10,13 +10,13 @@ import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 
 export default function Home() {
-  const { categories, hasNextPage, fetchNextPage } = useSharedCategory();
+  const { categories, hasNextPage, fetchNextPage, changeSearchQuery } = useSharedCategory();
   return (
     <>
       <HomeCarousel />
       <ListSection>
         {/* TODO: backend 구현 완료 시 query change 추가 */}
-        <CategoryControl onChangeQuery={(str) => console.log(str)} isShared />
+        <CategoryControl onChangeQuery={changeSearchQuery} isShared />
         <Devide />
         <CategoryList categoryList={categories} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
       </ListSection>
@@ -26,7 +26,7 @@ export default function Home() {
 
 export const getStaticProps: GetStaticProps = isrAspect(async (_, queryClient) => {
   await queryClient.prefetchInfiniteQuery(
-    [queryKey.categories, 'shared'],
+    [queryKey.categories, 'shared', ''],
     () => categoryApi.getSharedCategoryList({}),
     {
       getNextPageParam: (lastPage) => lastPage.hasNext,

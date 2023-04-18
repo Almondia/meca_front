@@ -64,13 +64,16 @@ export const handlers = [
   rest.get(`${ENDPOINT}/categories/share`, (req, res, ctx) => {
     const hasNext = req.url.searchParams.get('hasNext');
     const pageSize = req.url.searchParams.get('pageSize');
-    const result = CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt).map((v, i) => {
-      return {
-        ...v,
-        categoryInfo: { ...v },
-        memberInfo: { memberId: 'mid' + i, profile: null, name: 'name' + i },
-      };
-    });
+    const containTitle = req.url.searchParams.get('containTitle');
+    const result = CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt)
+      .filter((category) => category.title.indexOf(containTitle) !== -1)
+      .map((v, i) => {
+        return {
+          ...v,
+          categoryInfo: { ...v },
+          memberInfo: { memberId: 'mid' + i, profile: null, name: 'name' + i },
+        };
+      });
     let nextIndex = result.findIndex((v) => v.cardId === hasNext);
     nextIndex = nextIndex === -1 ? 0 : nextIndex;
     const resData = {

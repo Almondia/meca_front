@@ -8,8 +8,6 @@ import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
 
 const useCategory = () => {
-  // TODO: 검색어 서버 api 구현 안되면 지울 것
-  const [query, setQuery] = useState<string>('');
   const hasAuth = useRecoilValue(hasAuthState);
   const {
     data: categoires,
@@ -32,18 +30,7 @@ const useCategory = () => {
     },
   );
 
-  const changeSearchQuery = useCallback(
-    (newQuery: string) => {
-      if (query === newQuery) {
-        return;
-      }
-      setQuery(newQuery);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [query],
-  );
-
-  return { categoires, isLoading, isError, fetchNextPage, hasNextPage: hasNextPage && hasAuth, changeSearchQuery };
+  return { categoires, isLoading, isError, fetchNextPage, hasNextPage: hasNextPage && hasAuth };
 };
 
 export default useCategory;
