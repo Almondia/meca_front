@@ -56,6 +56,10 @@ const mecaApi = {
       params,
     });
   },
+  getSharedCardById: (cardId: string): Promise<MecaType & UserProfile> =>
+    unauthInstance
+      .get<never, { cardInfo: MecaType; memberInfo: UserProfile }>(`/api/v1/cards/${cardId}/share`)
+      .then((res) => ({ ...res.cardInfo, ...res.memberInfo })),
   getMyCardById: (cardId: string) => authInstance.get<never, MecaType>(`/api/v1/cards/${cardId}/me`),
   getQuizCards: ({ categoryId, limit, algorithm }: MecaQuizRequest) =>
     authInstance.get<never, QuizType[]>(`/api/v1/cards/categories/${categoryId}/simulation`, {
