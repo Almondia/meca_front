@@ -13,12 +13,12 @@ const useLogout = () => {
   const queryClient = useQueryClient();
   const setHasAuth = useSetRecoilState(hasAuthState);
   const router = useRouter();
-  const logout = useCallback(async () => {
+  const logout = useCallback(async (pushUrl?: string) => {
     const { deleted } = await axios.get<never, { deleted: boolean }>('/api/logout');
     if (deleted) {
       queryClient.setQueryData([queryKey.me], null);
       setHasAuth(false);
-      router.push('/');
+      pushUrl && router.push(pushUrl);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

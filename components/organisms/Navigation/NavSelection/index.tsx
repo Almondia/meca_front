@@ -12,7 +12,7 @@ const NavSelection = () => {
         href="/"
         onClick={(e) => {
           e.preventDefault();
-          logout();
+          logout('/');
         }}
       >
         로그아웃
