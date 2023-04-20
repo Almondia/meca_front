@@ -7,12 +7,13 @@ import CardTitle from '@/components/atoms/CardTitle';
 import { CategoryType } from '@/types/domain';
 import { IMAGE_SERVER } from '@/utils/constants';
 import getInnerComponents from '@/utils/getInnerComponent.s';
+import { combineUUID } from '@/utils/uuidHandler';
 
 import PrivateCategoryBody, { PrivateCategoryBodyComponentType } from './inner/PrivateCategoryBody';
 import SharedCategoryBody, { SharedCategoryBodyComponentType } from './inner/SharedCategoryBody';
 import { CategoryCardInfoSection, CategoryCardThumbnailSection, CategoryCardWrapper } from './styled';
 
-export interface CategoryCardProps extends Omit<CategoryType, 'shared'> {
+export interface CategoryCardProps extends Required<Omit<CategoryType, 'shared'>> {
   children: React.ReactNode;
 }
 
@@ -37,11 +38,11 @@ const CategoryCard = ({ categoryId, title, thumbnail, memberId, children }: Cate
           alt={`${title}-thumbnail`}
           fill
           onError={() => setSrc('/images/noimage.png')}
-          onClick={() => router.push(`/${memberId}/categories/${categoryId}`)}
+          onClick={() => router.push(`/categories/${combineUUID(memberId, categoryId)}`)}
         />
       </CategoryCardThumbnailSection>
       <CategoryCardInfoSection>
-        <CardTitle link={`/${memberId}/categories/${categoryId}`}>{title}</CardTitle>
+        <CardTitle link={`/categories/${combineUUID(memberId, categoryId)}`}>{title}</CardTitle>
         {PrivateBody || SharedBody}
       </CategoryCardInfoSection>
     </CategoryCardWrapper>

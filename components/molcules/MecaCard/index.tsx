@@ -4,6 +4,7 @@ import MecaTag from '@/components/atoms/MecaTag';
 import useModal from '@/hooks/useModal';
 import { MecaTagType } from '@/types/domain';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
+import { combineUUID } from '@/utils/uuidHandler';
 
 import { MecaCardWrapper, MecaQuestionTextContainer, MecaTagContainer } from './styled';
 
@@ -16,16 +17,17 @@ export interface MecaCardProps {
   title: string;
   question: string;
   tagType: MecaTagType;
+  memberId: string;
   /** 다른 사용자의 카테고리에 대한 카드와 내 것에 차이가 있음 */
   isMine?: boolean;
 }
 
 /** 문제 카드 컴포넌트 */
-const MecaCard = ({ cardId, categoryId, title, question, tagType, isMine }: MecaCardProps) => {
+const MecaCard = ({ cardId, categoryId, memberId, title, question, tagType, isMine }: MecaCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   return (
     <MecaCardWrapper data-testid="id-meca-card">
-      <CardTitle link={isMine ? `/me/meca/${cardId}` : `/meca/${cardId}`}>{title}</CardTitle>
+      <CardTitle link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</CardTitle>
       <MecaQuestionTextContainer>
         {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
       </MecaQuestionTextContainer>

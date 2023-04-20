@@ -31,6 +31,7 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProp
             key={meca.cardId}
             cardId={meca.cardId}
             categoryId={pages.category.categoryId}
+            memberId={meca.memberId}
             title={meca.title}
             question={meca.question}
             tagType={MECA_RESPONE_TO_TAG[meca.cardType]}
