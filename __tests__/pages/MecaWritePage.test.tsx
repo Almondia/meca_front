@@ -1,4 +1,4 @@
-import MecaWritePage, { getServerSideProps } from '@/pages/me/write/[categoryId]';
+import MecaWritePage, { getServerSideProps } from '@/pages/mecas/write/[categoryId]';
 import { GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';
 import { CATEGORIES } from '../__mocks__/msw/data';
@@ -27,9 +27,11 @@ describe('MecaWritePage with SSR', () => {
     });
     const mockedContext = {
       req: {
-        url: '/me/write',
+        url: '/meca/write',
       },
-      query: 'hello',
+      params: {
+        categoryId: ['hello'],
+      },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('errorMessage', '적절하지 않은 Meca Category로의 수정 페이지 접근');
@@ -46,9 +48,9 @@ describe('MecaWritePage with SSR', () => {
     );
     const mockedContext = {
       req: {
-        url: '/me/write',
+        url: '/meca/write',
       },
-      query: {
+      params: {
         categoryId: 'cid01',
       },
     } as unknown as GetServerSidePropsContext;
@@ -63,15 +65,15 @@ describe('MecaWritePage with SSR', () => {
     });
     const mockedContext = {
       req: {
-        url: '/me/write',
+        url: '/meca/write',
       },
       res: {},
-      query: {
+      params: {
         categoryId,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
-    expect(props).toHaveProperty('categoryId');
+    expect(props).toHaveProperty('categoryId', categoryId);
     expect(props).toHaveProperty('dehydratedState');
     renderQuery(<MecaWritePage categoryId={props.categoryId} />, undefined, undefined, props.dehydratedState);
     const inputTitle = screen.getByRole('textbox', {
@@ -117,11 +119,13 @@ describe('MecaWritePage with SSR', () => {
     );
     const mockedContext = {
       req: {
-        url: '/me/write',
+        url: '/mecas/write',
       },
       res: {},
-      query: {
+      params: {
         categoryId,
+      },
+      query: {
         cardId,
       },
     } as unknown as GetServerSidePropsContext;
@@ -151,7 +155,7 @@ describe('MecaWritePage with SSR', () => {
     expect(KeywordTagButton).toBeInTheDocument();
   });
 
-  it('카테고리에 존재하지 않는 Card에 대한 수정을 위해 접근하면 not found 처리된다.', async () => {
+  it('카테고리에 존재하지 않는 Card에 대한 수정을 위해 접근하면 새 카드 등록 페이지가 식별된다.', async () => {
     const categoryId = '01875422-c76a-51b5-16f0-9c47c79c3cae';
     const cardId = '01875422-d340-5865-67b1-4acfdc4eea33';
     (nookies.get as jest.Mock).mockReturnValue({
@@ -167,15 +171,32 @@ describe('MecaWritePage with SSR', () => {
     );
     const mockedContext = {
       req: {
-        url: '/me/write',
+        url: '/mecas/write',
       },
       res: {},
-      query: {
+      params: {
         categoryId,
+      },
+      query: {
         cardId,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
-    expect(props).toHaveProperty('errorMessage', '적절하지 않은 Meca Card로의 수정 페이지 접근');
+    expect(props).toHaveProperty('categoryId', categoryId);
+    expect(props).not.toHaveProperty('cardId');
+    expect(props).toHaveProperty('dehydratedState');
+    renderQuery(<MecaWritePage {...props} />, undefined, undefined, props.dehydratedState);
+    const inputTitle = screen.getByRole('textbox', {
+      name: 'input-meca-title',
+    });
+    const OxTagButton = screen.getByRole('button', {
+      name: /OX퀴즈/i,
+    });
+    const KeywordTagButton = screen.getByRole('button', {
+      name: /키워드/i,
+    });
+    expect(inputTitle).toHaveValue('');
+    expect(OxTagButton).toBeInTheDocument();
+    expect(KeywordTagButton).toBeInTheDocument();
   });
 });
