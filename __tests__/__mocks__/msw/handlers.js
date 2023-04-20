@@ -248,4 +248,22 @@ export const handlers = [
       }),
     );
   }),
+  rest.get(`${ENDPOINT}/cards/:cardId/me`, (req, res, ctx) => {
+    const { cardId } = req.params;
+    return res(
+      ctx.status(200),
+      ctx.json({
+        cardId,
+        title: 'Small Soft Computer',
+        memberId: '01234567-89ab-cdef-0123-456789abcdef',
+        question: 'February',
+        categoryId: '0187934c-d471-9365-fe25-9fa63e4ba45c',
+        cardType: 'OX_QUIZ',
+        createdAt: '2023-04-18T16:38:33.936941',
+        modifiedAt: '2023-04-18T16:38:33.936941',
+        answer: 'O',
+        description: 'edit text',
+      }),
+    );
+  }),
 ];

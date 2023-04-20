@@ -21,3 +21,12 @@ export const MECAS = [...Array(24)].map((v, i) => {
   obj.question = 'question' + i;
   return obj;
 });
+
+export const ME = {
+  memberId: '01234567-89ab-cdef-0123-456789abcdef',
+  name: 'pds0309',
+  email: 'abc@abc.com',
+  role: 'USER',
+  oauthType: 'KAKAO',
+  createdAt: '2023-03-11T12:56:22.954816',
+};
