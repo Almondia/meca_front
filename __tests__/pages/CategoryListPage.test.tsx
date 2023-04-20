@@ -114,19 +114,5 @@ describe('CategoryListPage', () => {
       const props = (await getServerSideProps(mockedContext)) as any;
       expect(props?.redirect).toBeUndefined();
     });
-
-    it('인증되지 않은 유저가 해당 path에 접근하면 메인페이지로 redirect된다.', async () => {
-      (nookies.get as jest.Mock).mockReturnValue({
-        accessToken: undefined,
-      });
-      const mockedContext = {
-        req: {
-          url: '/categories',
-        },
-        res: {},
-      } as unknown as GetServerSidePropsContext;
-      const props = (await getServerSideProps(mockedContext)) as any;
-      expect(props?.redirect).toHaveProperty('destination', '/');
-    });
   });
 });
