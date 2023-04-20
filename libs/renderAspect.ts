@@ -42,11 +42,12 @@ function serverSideRenderAuthorizedAspect(
     setRequest(context.req);
     const { accessToken } = nookies.get(context);
     if (!accessToken && !skipAuth) {
+      const { res } = context;
+      res.setHeader('Location', '/401');
+      res.statusCode = 302;
+      res.end();
       return {
-        redirect: {
-          destination: '/',
-          permanent: false,
-        },
+        props: {},
       };
     }
     try {
@@ -73,11 +74,12 @@ function serverSideRenderAuthorizedAspect(
         };
       }
       if ((error as any).status === 401) {
+        const { res } = context;
+        res.setHeader('Location', '/401');
+        res.statusCode = 302;
+        res.end();
         return {
-          redirect: {
-            destination: '/',
-            permanent: false,
-          },
+          props: {},
         };
       }
       return {

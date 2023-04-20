@@ -67,3 +67,13 @@ export const Devide = styled.div`
   background-color: var(--color-lightgray);
   margin: 24px 0;
 `;
+
+export const ErrorPageSection = styled.section`
+  position: fixed;
+  left: 0;
+  top: 60px;
+  ${FlexColumnCenter};
+  row-gap: 30px;
+  width: 100vw;
+  height: 90vh;
+`;
