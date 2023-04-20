@@ -40,7 +40,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
           <br />
           <CardWriterInfo name={user.name} profile={user.profile}>
             <CardWriterInfo.Modification>
-              <Link href={`/me/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
+              <Link href={`/mecas/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
               <Link href="/" onClick={handleDeleteLinkClick}>
                 삭제하기
               </Link>

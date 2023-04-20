@@ -26,7 +26,7 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: CardC
       </ListControlGroup.Left>
       <ListControlGroup.Right>
         {isMine && (
-          <Button colorTheme="primary" onClick={() => router.push(`/me/write/${categoryId}`)}>
+          <Button colorTheme="primary" onClick={() => router.push(`/mecas/write/${categoryId}`)}>
             추가하기 +
           </Button>
         )}
