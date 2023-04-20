@@ -48,11 +48,13 @@ export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, query
     throw { message: '잘못된 요청' };
   }
   const { uuid1: memberId, uuid2: cardId } = extractCombinedUUID(memberCardId);
-  await queryClient.prefetchQuery([queryKey.meca, cardId], () => mecaApi.getSharedCardById(cardId));
+  if (!memberId || !cardId) {
+    throw { message: '잘못된 요청' };
+  }
+  await queryClient.fetchQuery([queryKey.meca, cardId], () => mecaApi.getSharedCardById(cardId));
   return {
     propsAspect: {
       cardId,
-      memberId,
     },
   };
 });
