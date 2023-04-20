@@ -216,4 +216,54 @@ export const handlers = [
       }),
     );
   }),
+
+  rest.get(`${ENDPOINT}/cards/:cardId/share`, (req, res, ctx) => {
+    const { cardId } = req.params;
+    return res(
+      ctx.status(200),
+      ctx.json({
+        cardInfo: {
+          cardId,
+          title: 'Small Soft Computer',
+          memberId: '0187934c-bd9d-eb51-758f-3b3723a0d3a7',
+          question: 'February',
+          categoryId: '0187934c-d471-9365-fe25-9fa63e4ba45c',
+          cardType: 'OX_QUIZ',
+          createdAt: '2023-04-18T16:38:33.936941',
+          modifiedAt: '2023-04-18T16:38:33.936941',
+          answer: 'O',
+          description: 'edit text',
+        },
+        memberInfo: {
+          memberId: '0187934c-bd9d-eb51-758f-3b3723a0d3a7',
+          name: '임현규',
+          email: null,
+          profile: null,
+          role: 'USER',
+          createdAt: '2023-04-18T16:38:12.861907',
+          modifiedAt: '2023-04-18T16:38:12.861907',
+          deleted: false,
+          oauthType: 'KAKAO',
+        },
+      }),
+    );
+  }),
+  rest.get(`${ENDPOINT}/cards/:cardId/me`, (req, res, ctx) => {
+    const { cardId } = req.params;
+    return res(
+      ctx.status(200),
+      ctx.json({
+        cardId,
+        title: 'Small Soft Computer',
+        memberId: '01234567-89ab-cdef-0123-456789abcdef',
+        question: 'February',
+        categoryId: '0187934c-d471-9365-fe25-9fa63e4ba45c',
+        cardType: 'OX_QUIZ',
+        createdAt: '2023-04-18T16:38:33.936941',
+        modifiedAt: '2023-04-18T16:38:33.936941',
+        answer: 'O',
+        description: 'edit text',
+      }),
+    );
+  }),
 ];

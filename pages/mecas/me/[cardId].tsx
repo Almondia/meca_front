@@ -3,9 +3,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/layout/PageTitle';
@@ -23,8 +22,7 @@ export interface MecaPageProps {
   cardId: string;
 }
 
-const MecaPage = ({ cardId }: MecaPageProps) => {
-  const router = useRouter();
+const MecaById = ({ cardId }: MecaPageProps) => {
   const { meca } = useMeca(cardId);
   const { user } = useUser();
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
@@ -34,12 +32,6 @@ const MecaPage = ({ cardId }: MecaPageProps) => {
     deleteModalOpen();
   }, []);
 
-  useEffect(() => {
-    if (!meca) {
-      router.back();
-    }
-  }, [meca]);
-
   return (
     <>
       {meca && user && (
@@ -48,7 +40,7 @@ const MecaPage = ({ cardId }: MecaPageProps) => {
           <br />
           <CardWriterInfo name={user.name} profile={user.profile}>
             <CardWriterInfo.Modification>
-              <Link href={`/me/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
+              <Link href={`/mecas/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
               <Link href="/" onClick={handleDeleteLinkClick}>
                 삭제하기
               </Link>
@@ -63,9 +55,9 @@ const MecaPage = ({ cardId }: MecaPageProps) => {
   );
 };
 
-// TODO: 다른사람 카드 조회 처리 추가
+// middleware rewrite로 접근되는 본인 카드 조회 페이지
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
-  const { cardId } = context.query;
+  const cardId = context.params?.cardId;
   if (!cardId || typeof cardId !== 'string') {
     throw { url: '/' };
   }
@@ -76,4 +68,4 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   };
 });
 
-export default MecaPage;
+export default MecaById;

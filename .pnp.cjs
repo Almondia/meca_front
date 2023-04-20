@@ -76,6 +76,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:29.4.3"],\
             ["jest-environment-jsdom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:29.4.3"],\
             ["jest-styled-components", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:7.1.1"],\
+            ["jwt-decode", "npm:3.1.2"],\
             ["lint-staged", "npm:13.1.2"],\
             ["lodash", "npm:4.17.21"],\
             ["msw", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.1.0"],\
@@ -17649,6 +17650,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jwt-decode", [\
+        ["npm:3.1.2", {\
+          "packageLocation": "./.yarn/cache/jwt-decode-npm-3.1.2-bf3ab26591-20a4b072d4.zip/node_modules/jwt-decode/",\
+          "packageDependencies": [\
+            ["jwt-decode", "npm:3.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["kind-of", [\
         ["npm:3.2.2", {\
           "packageLocation": "./.yarn/cache/kind-of-npm-3.2.2-7deaffa5f9-e898df8ca2.zip/node_modules/kind-of/",\
@@ -21629,6 +21639,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:29.4.3"],\
             ["jest-environment-jsdom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:29.4.3"],\
             ["jest-styled-components", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:7.1.1"],\
+            ["jwt-decode", "npm:3.1.2"],\
             ["lint-staged", "npm:13.1.2"],\
             ["lodash", "npm:4.17.21"],\
             ["msw", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.1.0"],\
