@@ -14,7 +14,7 @@ const Category = () => {
   const { categoires, hasNextPage, fetchNextPage } = useCategory();
   return (
     <ListSection>
-      <PageTitle>카테고리 목록</PageTitle>
+      <PageTitle>내 카테고리 목록</PageTitle>
       <CategoryControl />
       <Devide />
       <CategoryList categoryList={categoires} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
@@ -22,10 +22,7 @@ const Category = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, memberId) => {
-  if (!memberId || memberId !== context.params?.memberId) {
-    throw { url: '/' };
-  }
+export const getServerSideProps: GetServerSideProps = ssrAspect(async (_, queryClient) => {
   await queryClient.prefetchInfiniteQuery([queryKey.categories, 'me'], () => categoryApi.getMyCategoryList({}), {
     getNextPageParam: (lastPage) => lastPage.hasNext,
   });

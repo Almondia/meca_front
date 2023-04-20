@@ -1,13 +1,13 @@
 import { renderQuery } from '../utils';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import { MOCK_CATEGORY_ID } from '../__mocks__/msw/data';
-import CategoryById, { getServerSideProps } from '@/pages/[memberId]/categories/[categoryId]';
+import { MOCK_CATEGORY_ID, MOCK_MEMBERI_ID } from '../__mocks__/msw/data';
+import CategoryById, { getServerSideProps } from '@/pages/categories/[memberCategoryId]';
 import { screen } from '@testing-library/react';
-import { QueryClient, hydrate } from '@tanstack/react-query';
 import { server } from '../__mocks__/msw/server';
 import { rest } from 'msw';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
+import { combineUUID } from '@/utils/uuidHandler';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
@@ -22,18 +22,16 @@ describe('MecaListPage with SSR', () => {
     jest.clearAllMocks();
   });
   it('회원 본인의 카드 목록 요청에 대해 카드 목록이 보여진다.', async () => {
+    const combinedUUID = combineUUID(MOCK_MEMBERI_ID, MOCK_CATEGORY_ID);
     (nookies.get as jest.Mock).mockReturnValue({
       accessToken: 'token',
     });
     const mockedContext = {
       req: {
-        url: '/abc01/categories/' + MOCK_CATEGORY_ID,
-      },
-      query: {
-        categoryId: MOCK_CATEGORY_ID,
+        url: '/categories/' + combinedUUID,
       },
       params: {
-        memberId: 'abc01',
+        memberCategoryId: combinedUUID,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
@@ -66,13 +64,10 @@ describe('MecaListPage with SSR', () => {
     const categoryId = ['5'];
     const mockedContext = {
       req: {
-        url: '/abc01/categories/' + categoryId,
+        url: '/categories/' + categoryId,
       },
       params: {
-        memberId: 'abc01',
-      },
-      query: {
-        categoryId: categoryId,
+        memberCategoryId: categoryId,
       },
     } as unknown as GetServerSidePropsContext;
     const { redirect } = (await getServerSideProps(mockedContext)) as any;
@@ -94,15 +89,13 @@ describe('MecaListPage with SSR', () => {
     (nookies.get as jest.Mock).mockReturnValue({
       accessToken: undefined,
     });
+    const combinedUUID = combineUUID(MOCK_MEMBERI_ID, MOCK_CATEGORY_ID);
     const mockedContext = {
       req: {
-        url: '/abc01/categories/' + MOCK_CATEGORY_ID,
-      },
-      query: {
-        categoryId: MOCK_CATEGORY_ID,
+        url: '/categories/' + combinedUUID,
       },
       params: {
-        memberId: 'abc01',
+        memberCategoryId: combinedUUID,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
@@ -161,15 +154,13 @@ describe('MecaListPage with SSR', () => {
     (nookies.get as jest.Mock).mockReturnValue({
       accessToken: undefined,
     });
+    const combinedUUID = combineUUID(MOCK_MEMBERI_ID, MOCK_CATEGORY_ID);
     const mockedContext = {
       req: {
-        url: '/abc01/categories/' + MOCK_CATEGORY_ID,
-      },
-      query: {
-        categoryId: MOCK_CATEGORY_ID,
+        url: '/categories/' + combinedUUID,
       },
       params: {
-        memberId: 'abc01',
+        memberCategoryId: combinedUUID,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
