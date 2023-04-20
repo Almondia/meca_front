@@ -13,6 +13,7 @@ import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { UserProfile } from '@/types/domain';
+import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface MyCategoryByIdPageProps {
   categoryId: string;
@@ -47,12 +48,13 @@ const getMecaList = async (categoryId: string, isMine: boolean, queryClient: Que
   return mecaApi.getSharedMecaList({ categoryId });
 };
 
-export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, memberId) => {
-  const { categoryId } = context.query;
-  if (!categoryId || typeof categoryId !== 'string') {
+export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, currentMemberId) => {
+  const memberCategoryId = context.params?.memberCategoryId;
+  if (!memberCategoryId || typeof memberCategoryId !== 'string') {
     throw { url: '/' };
   }
-  const isMine: boolean = context.params?.memberId === memberId ?? false;
+  const { uuid1: memberId, uuid2: categoryId } = extractCombinedUUID(memberCategoryId);
+  const isMine: boolean = memberId === currentMemberId ?? false;
   await queryClient.fetchInfiniteQuery(
     [queryKey.mecas, categoryId],
     () => getMecaList(categoryId, isMine, queryClient),

@@ -2,7 +2,7 @@ import { RecoilObserver, renderQuery } from '../utils';
 import { fireEvent, screen } from '@testing-library/react';
 import { PAGINATION_NUM } from '@/utils/constants';
 import { hasAuthState } from '@/atoms/common';
-import Category, { getServerSideProps } from '@/pages/[memberId]/categories';
+import Category, { getServerSideProps } from '@/pages/categories';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 
@@ -23,7 +23,7 @@ describe('CategoryListPage', () => {
       </>,
     );
     const categoryListPageHead = screen.getByRole('heading', {
-      name: '카테고리 목록',
+      name: /카테고리 목록/i,
     });
     const addButton = screen.getByRole('button', {
       name: /추가하기/i,
@@ -101,16 +101,13 @@ describe('CategoryListPage', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
-    it('본인의 category 목록 path에 접근하면 정상적으로 동작한다.', async () => {
+    it('인증된 회원 본인의 category 목록 path에 접근하면 정상적으로 동작한다.', async () => {
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',
       });
       const mockedContext = {
         req: {
-          url: '/abc01/categories',
-        },
-        params: {
-          memberId: 'abc01',
+          url: '/categories',
         },
         res: {},
       } as unknown as GetServerSidePropsContext;
@@ -118,32 +115,13 @@ describe('CategoryListPage', () => {
       expect(props?.redirect).toBeUndefined();
     });
 
-    it('본인의 category 목록이 아닌 path에 접근하면 메인페이지로 redirect된다.', async () => {
-      (nookies.get as jest.Mock).mockReturnValue({
-        accessToken: 'token',
-      });
-      const mockedContext = {
-        req: {
-          url: '/abdagbabeababa/categories',
-        },
-        params: {
-          memberId: 'abdagbabeababa',
-        },
-        res: {},
-      } as unknown as GetServerSidePropsContext;
-      const props = (await getServerSideProps(mockedContext)) as any;
-      expect(props?.redirect).toHaveProperty('destination', '/');
-    });
     it('인증되지 않은 유저가 해당 path에 접근하면 메인페이지로 redirect된다.', async () => {
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: undefined,
       });
       const mockedContext = {
         req: {
-          url: '/pp0309/categories',
-        },
-        params: {
-          memberId: 'pp0309',
+          url: '/categories',
         },
         res: {},
       } as unknown as GetServerSidePropsContext;

@@ -14,7 +14,7 @@ export const handlers = [
   rest.get(`${ENDPOINT}/members/me`, (req, res, ctx) => {
     return res(
       ctx.json({
-        memberId: 'abc01',
+        memberId: '01234567-89ab-cdef-0123-456789abcdef',
         name: 'pds0309',
         email: 'abc@abc.com',
         role: 'USER',
@@ -27,7 +27,7 @@ export const handlers = [
   rest.get('/api/user', (req, res, ctx) => {
     return res(
       ctx.json({
-        memberId: 'abc01',
+        memberId: '01234567-89ab-cdef-0123-456789abcdef',
         name: 'pds0309',
         email: 'abc@abc.com',
         role: 'USER',
@@ -71,7 +71,7 @@ export const handlers = [
         return {
           ...v,
           categoryInfo: { ...v },
-          memberInfo: { memberId: 'mid' + i, profile: null, name: 'name' + i },
+          memberInfo: { memberId: '01234567-89ab-cdef-0123-456789abcdef' + i, profile: null, name: 'name' + i },
         };
       });
     let nextIndex = result.findIndex((v) => v.cardId === hasNext);

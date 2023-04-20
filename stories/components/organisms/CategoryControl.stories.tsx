@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import CategoryControl from '@/components/organisms/CategoryControl';
+import CategoryControl, { CategoryControlProps } from '@/components/organisms/CategoryControl';
 
 export default {
   title: 'components/organisms/CategoryControl',
@@ -10,10 +10,6 @@ export default {
   },
 } as ComponentMeta<typeof CategoryControl>;
 
-const Template: ComponentStory<typeof CategoryControl> = ({
-  onChangeQuery,
-}: {
-  onChangeQuery: (query: string) => void;
-}) => <CategoryControl onChangeQuery={onChangeQuery} />;
+const Template: ComponentStory<typeof CategoryControl> = (args: CategoryControlProps) => <CategoryControl {...args} />;
 
 export const Default = Template.bind({});
