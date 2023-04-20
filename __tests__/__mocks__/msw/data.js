@@ -1,6 +1,6 @@
 export const CATEGORIES = [...Array(100)].map((v, i) => {
   const obj = {};
-  obj.categoryId = 'cid' + i;
+  obj.categoryId = '01234567-89ab-cdef-0123-456789abcd' + i.toString().padStart(2, '0');
   obj.title = 'title' + i;
   obj.createdAt = i;
   obj.thumbnail = '';
@@ -8,12 +8,13 @@ export const CATEGORIES = [...Array(100)].map((v, i) => {
   return obj;
 });
 
-export const MOCK_CATEGORY_ID = 'cid24';
+export const MOCK_CATEGORY_ID = '01234567-89ab-cdef-0123-456789abcd24';
+export const MOCK_MEMBERI_ID = '01234567-89ab-cdef-0123-456789abcdef';
 
 export const MECAS = [...Array(24)].map((v, i) => {
   const obj = {};
   obj.categoryId = MOCK_CATEGORY_ID;
-  obj.cardId = 'cid' + i;
+  obj.cardId = '01234567-89ab-cdef-0123-456789abcd' + i.toString().padStart(2, '0');
   obj.title = 'title' + i;
   obj.cardType = 'KEYWORD';
   obj.answer = 'answer' + i;

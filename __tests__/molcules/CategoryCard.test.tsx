@@ -36,7 +36,7 @@ describe('CategoryCard', () => {
     const cardTitle = screen.getByText('title1');
     expect(cardTitle).toBeInTheDocument();
     fireEvent.click(cardTitle);
-    expect(mockPush).toHaveBeenCalledWith('/mid/categories/c01');
+    expect(mockPush).toHaveBeenCalledWith('/categories/mid-c01');
   });
 
   it('Category Card Thumbnail을 클릭하면 해당 카테고리의 카드 목록 페이지로 이동한다.', () => {
@@ -53,6 +53,6 @@ describe('CategoryCard', () => {
       name: /title1-thumbnail/i,
     });
     fireEvent.click(thumbnail);
-    expect(mockPush).toHaveBeenCalledWith('/mid/categories/c01');
+    expect(mockPush).toHaveBeenCalledWith('/categories/mid-c01');
   });
 });
