@@ -14,10 +14,23 @@ import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
 
 import 'react-toastify/dist/ReactToastify.css';
+import Unauthorized from './401';
 import NotFound from './404';
+
+interface ErrorProps {
+  errorStatus?: 401 | 404;
+  errorMessage?: string;
+}
+
+const errorPage = {
+  401: Unauthorized,
+  404: NotFound,
+} as const;
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => generateQueryClient());
+  const { errorStatus, errorMessage }: ErrorProps = pageProps;
+  const ErrorPage = errorStatus && errorPage[errorStatus];
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
@@ -33,9 +46,7 @@ export default function App({ Component, pageProps }: AppProps) {
               newestOnTop={false}
               hideProgressBar
             />
-            <Layout>
-              {pageProps.errorMessage ? <NotFound message={pageProps.errorMessage} /> : <Component {...pageProps} />}
-            </Layout>
+            <Layout>{ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...pageProps} />}</Layout>
           </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} />

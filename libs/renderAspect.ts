@@ -42,12 +42,11 @@ function serverSideRenderAuthorizedAspect(
     setRequest(context.req);
     const { accessToken } = nookies.get(context);
     if (!accessToken && !skipAuth) {
-      const { res } = context;
-      res.setHeader('Location', '/401');
-      res.statusCode = 302;
-      res.end();
       return {
-        props: {},
+        props: {
+          errorMessage: 'not foun authorization info',
+          errorStatus: 401,
+        },
       };
     }
     try {
@@ -74,17 +73,17 @@ function serverSideRenderAuthorizedAspect(
         };
       }
       if ((error as any).status === 401) {
-        const { res } = context;
-        res.setHeader('Location', '/401');
-        res.statusCode = 302;
-        res.end();
         return {
-          props: {},
+          props: {
+            errorMessage: (error as any)?.message ?? 'invalid authorization info',
+            errorStatus: 401,
+          },
         };
       }
       return {
         props: {
           errorMessage: (error as any)?.message ?? 'next server error',
+          errorStatus: 404,
         },
       };
     }

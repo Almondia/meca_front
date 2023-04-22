@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getJWTPayload } from './utils/jwtHandler';
 import { extractCombinedUUID } from './utils/uuidHandler';
 
-const authorizedPaths = ['/write', '/quiz', '/mypage', '/categories'];
+const authorizedPaths = ['/write', '/quiz', '/mypage'];
 
 function isMyMecaRequest(token: string, pathname: string) {
   if (!pathname.startsWith('/mecas')) {
@@ -37,5 +37,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/mecas/:path*', '/:path*/write/:path*', '/quiz', '/mypage/:path*', '/categories'],
+  matcher: ['/mecas/:path*', '/:path*/write/:path*', '/quiz', '/mypage/:path*'],
 };

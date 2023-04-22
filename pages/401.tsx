@@ -9,7 +9,11 @@ import useModal from '@/hooks/useModal';
 import { HiddenText, TextBodySubtitle } from '@/styles/common';
 import { ErrorPageSection } from '@/styles/layout';
 
-const Unauthorized = () => {
+export interface UnauthorizedProps {
+  message?: string;
+}
+
+const Unauthorized = ({ message }: UnauthorizedProps) => {
   const { visible, open, close } = useModal();
   const { logout } = useLogout();
   useEffect(() => {
@@ -24,7 +28,7 @@ const Unauthorized = () => {
         로그인
       </Button>
       {visible && <LoginDialog visible={visible} onClose={close} />}
-      <HiddenText>UnAuthorized</HiddenText>
+      <HiddenText>{message ?? 'unauthorized'}</HiddenText>
     </ErrorPageSection>
   );
 };
