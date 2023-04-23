@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-underscore-dangle */
-import PageRouter, { useRouter } from 'next/router';
+import SingletonRouter, { useRouter } from 'next/router';
 
 import { useCallback, useEffect, useState } from 'react';
 
@@ -8,8 +8,8 @@ const useSSRInterception = () => {
   const router = useRouter();
   const [ssrPageHistory, setSsrPageHistory] = useState<{ [key: string]: Record<string, any> }>({});
 
-  const setLoadPage = useCallback(({ isSSR }: { isSSR: boolean }) => {
-    const pageLoader = PageRouter.router?.pageLoader;
+  const setLoadPage = useCallback(({ allowSSR }: { allowSSR: boolean }) => {
+    const pageLoader = SingletonRouter.router?.pageLoader;
     if (!pageLoader) {
       return;
     }
@@ -19,26 +19,26 @@ const useSSRInterception = () => {
         ...pageCache,
         mod: {
           ...pageCache.mod,
-          __N_SSP: isSSR,
+          __N_SSP: allowSSR,
         },
       }));
   }, []);
 
   useEffect(() => {
-    const props = PageRouter.router?.components[router.pathname].props;
+    const props = SingletonRouter.router?.components[router.pathname].props;
+    if (!props || !props.__N_SSP === undefined) {
+      return;
+    }
+    delete SingletonRouter.router?.components[router.pathname];
     if (!ssrPageHistory[router.asPath]) {
-      if (!props?.__N_SSP) {
-        return;
-      }
-      setSsrPageHistory((prev) => ({ ...prev, [router.asPath]: props.pageProps }));
+      setSsrPageHistory((prev) => ({ ...prev, [router.asPath]: { ...props.pageProps } }));
     }
   }, [router]);
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       if (ssrPageHistory[url]) {
-        delete PageRouter.router?.components[url];
-        setLoadPage({ isSSR: false });
+        setLoadPage({ allowSSR: false });
       }
       return true;
     };
@@ -46,12 +46,13 @@ const useSSRInterception = () => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, [router.events, ssrPageHistory]);
+  }, [router]);
 
   useEffect(() => {
     const handle = () => {
-      setLoadPage({ isSSR: true });
+      setLoadPage({ allowSSR: true });
     };
+
     router.events.on('routeChangeComplete', handle);
     return () => {
       router.events.off('routeChangeComplete', handle);
