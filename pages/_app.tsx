@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Hydrate, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -9,15 +9,30 @@ import { RecoilRoot } from 'recoil';
 
 import '@/styles/font.css';
 import Layout from '@/components/layout/Layout';
+import useSSRInterception from '@/hooks/useSSRInterception';
 import { generateQueryClient } from '@/query/queryClient';
 import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
 
 import 'react-toastify/dist/ReactToastify.css';
+import Unauthorized from './401';
 import NotFound from './404';
+
+interface ErrorProps {
+  errorStatus?: 401 | 404;
+  errorMessage?: string;
+}
+
+const errorPage = {
+  401: Unauthorized,
+  404: NotFound,
+} as const;
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => generateQueryClient());
+  const { props: cachedProps } = useSSRInterception();
+  const { errorStatus, errorMessage }: ErrorProps = pageProps;
+  const ErrorPage = errorStatus && errorPage[errorStatus];
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
@@ -34,7 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
               hideProgressBar
             />
             <Layout>
-              {pageProps.errorMessage ? <NotFound message={pageProps.errorMessage} /> : <Component {...pageProps} />}
+              {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
             </Layout>
           </ThemeProvider>
         </RecoilRoot>
