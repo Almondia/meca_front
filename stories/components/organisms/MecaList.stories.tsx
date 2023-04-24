@@ -29,7 +29,8 @@ const MecaListSample = {
           categoryId: 'c1',
           cardType: 'KEYWORD',
           answer: '1',
-          description: '',
+          description:
+            '<p>161616</p><p><br></p><p>&lt;img src="hello"/&gt;</p><p><br></p><p><img src=\'https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png\'></p>',
           memberId: 'memberId',
           name: 'name',
           profile: '',
@@ -41,7 +42,8 @@ const MecaListSample = {
           categoryId: 'c1',
           cardType: 'OX_QUIZ',
           answer: 'O',
-          description: '',
+          description:
+            "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>",
           memberId: 'memberId',
           name: 'name',
           profile: '',
@@ -139,6 +141,11 @@ export const Default = ({ hasNextPage, isMine }: { hasNextPage: boolean; isMine:
           contents,
           hasNext: (Number(pageParam) + 6).toString(),
           pageSize: 6,
+          category: {
+            categoryId: 'c1',
+            title: 'TITLE',
+            memberId: 'memberId',
+          },
         },
       ],
     } as unknown as InfiniteData<MecaUserListResponse>;
