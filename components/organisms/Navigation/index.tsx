@@ -14,7 +14,7 @@ import useUser from '@/hooks/useUser';
 import { HiddenText } from '@/styles/common';
 
 import NavSelection from './NavSelection';
-import { LoginButton, LogoLink, NavBar, NavigationWrapper, Profile } from './styled';
+import { LoginButton, LogoLink, NavBar, NavigationContentsSection, NavigationWrapper, Profile } from './styled';
 
 const Navigation = () => {
   const { user } = useUser();
@@ -28,7 +28,7 @@ const Navigation = () => {
   useClickAway(ref, closeSelection);
   return (
     <NavigationWrapper>
-      <div>
+      <NavigationContentsSection>
         <LogoLink href="/">
           <Logo size="normal" />
           <HiddenText>메인 페이지 링크</HiddenText>
@@ -65,7 +65,7 @@ const Navigation = () => {
             </div>
           )}
         </NavBar>
-      </div>
+      </NavigationContentsSection>
     </NavigationWrapper>
   );
 };
