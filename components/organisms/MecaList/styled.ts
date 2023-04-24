@@ -1,14 +1,10 @@
+/* eslint-disable import/prefer-default-export */
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
-
-export const MecaListWrapper = styled(InfiniteScroll)`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30%, 340px));
-  grid-column-gap: 30px;
-  grid-row-gap: 16px;
-  justify-content: center;
+export const MecaListWrapper = styled(InfiniteScroll)<{ visible: boolean }>`
   margin-top: 40px;
+  & > * {
+    opacity: ${(props) => (props.visible ? 1 : 0)};
+  }
 `;
-
-export const A = 1;
