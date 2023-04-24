@@ -1,54 +1,7 @@
 import styled from 'styled-components';
 
 import { TextBody } from '@/styles/common';
-import { FlexCenter, FlexColumn } from '@/styles/layout';
-
-export const MecaCardWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  max-width: 360px;
-  border: ${({ theme }) => theme.border.card};
-  box-shadow: var(--shadow-normal);
-  @media ${({ theme }) => theme.media.mobile} {
-    max-width: 95%;
-    height: auto;
-  }
-`;
-
-export const MecaCardThumbnailSection = styled.div`
-  position: relative;
-  width: 100%;
-  height: auto;
-  cursor: pointer;
-  margin-bottom: -8px;
-  overflow: hidden;
-  img {
-    position: relative !important;
-    object-fit: cover;
-    object-position: top left;
-    min-height: 120px;
-    max-height: 440px;
-    border-top-right-radius: ${({ theme }) => theme.border.card};
-    border-top-left-radius: ${({ theme }) => theme.border.card};
-    @media ${({ theme }) => theme.media.mobile} {
-      max-height: 340px;
-    }
-    :hover {
-      transform: scale(1.05);
-    }
-    transition: transform 0.75s ease-in-out;
-  }
-`;
-
-export const MecaCardInfoSection = styled.div`
-  ${FlexColumn};
-  row-gap: 6px;
-  position: relative;
-  padding: 24px 16px 16px 24px;
-  @media ${({ theme }) => theme.media.mobile} {
-    row-gap: 4px;
-  }
-`;
+import { FlexCenter } from '@/styles/layout';
 
 export const MecaTagContainer = styled.div`
   ${FlexCenter};

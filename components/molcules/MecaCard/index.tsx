@@ -1,9 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
-
-import CardTitle from '@/components/atoms/CardTitle';
 import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
+import Card from '@/components/layout/Card';
 import useModal from '@/hooks/useModal';
 import { MecaTagType } from '@/types/domain';
 import { extractFirstImageSrc } from '@/utils/imageHandler';
@@ -11,9 +8,6 @@ import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
 import {
-  MecaCardInfoSection,
-  MecaCardThumbnailSection,
-  MecaCardWrapper,
   MecaQuestionTextContainer,
   MecaTagContainer,
 } from './styled';
@@ -38,16 +32,16 @@ const MecaCard = ({ cardId, categoryId, memberId, title, question, description, 
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const thumbnailImageSrc = extractFirstImageSrc(description);
   return (
-    <MecaCardWrapper data-testid="id-meca-card">
+    <Card data-testid="id-meca-card">
       {thumbnailImageSrc && (
-        <MecaCardThumbnailSection>
-          <Link href={`/mecas/${combineUUID(memberId, cardId)}`}>
-            <Image src={thumbnailImageSrc} fill alt={`${title}-meca-thumbnail`} />
-          </Link>
-        </MecaCardThumbnailSection>
+        <Card.Thumbnail
+          src={thumbnailImageSrc}
+          href={`/mecas/${combineUUID(memberId, cardId)}`}
+          altText={`${title}-meca-thumbnail`}
+        />
       )}
-      <MecaCardInfoSection>
-        <CardTitle link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</CardTitle>
+      <Card.Title link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</Card.Title>
+      <Card.Body>
         <MecaQuestionTextContainer>
           {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
         </MecaQuestionTextContainer>
@@ -76,8 +70,8 @@ const MecaCard = ({ cardId, categoryId, memberId, title, question, description, 
             )}
           </>
         )}
-      </MecaCardInfoSection>
-    </MecaCardWrapper>
+      </Card.Body>
+    </Card>
   );
 };
 
