@@ -24,8 +24,15 @@ export const MecaCardThumbnailSection = styled.div`
   overflow: hidden;
   img {
     position: relative !important;
+    object-fit: cover;
+    object-position: top left;
+    min-height: 120px;
+    max-height: 440px;
     border-top-right-radius: ${({ theme }) => theme.border.card};
     border-top-left-radius: ${({ theme }) => theme.border.card};
+    @media ${({ theme }) => theme.media.mobile} {
+      max-height: 340px;
+    }
     :hover {
       transform: scale(1.05);
     }
