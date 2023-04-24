@@ -52,6 +52,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react", "npm:18.0.28"],\
             ["@types/react-dom", "npm:18.0.11"],\
             ["@types/react-infinite-scroller", "npm:1.2.3"],\
+            ["@types/react-responsive-masonry", "npm:2.1.0"],\
             ["@types/react-slick", "npm:0.23.10"],\
             ["@types/styled-components", "npm:5.1.26"],\
             ["@types/testing-library__jest-dom", "npm:5.14.5"],\
@@ -83,12 +84,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:13.2.1"],\
             ["nookies", "npm:2.5.2"],\
             ["prettier", "npm:2.8.4"],\
+            ["prop-types", "npm:15.8.1"],\
             ["quill-image-compress", "npm:1.2.29"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
             ["react-is", "npm:18.2.0"],\
             ["react-quill", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.0"],\
+            ["react-responsive-masonry", "npm:2.1.7"],\
             ["react-slick", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.29.0"],\
             ["react-toastify", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:9.1.1"],\
             ["recoil", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.7.6"],\
@@ -8404,6 +8407,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-react-infinite-scroller-npm-1.2.3-e22e24bf6e-ae11063b5e.zip/node_modules/@types/react-infinite-scroller/",\
           "packageDependencies": [\
             ["@types/react-infinite-scroller", "npm:1.2.3"],\
+            ["@types/react", "npm:18.0.28"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/react-responsive-masonry", [\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/@types-react-responsive-masonry-npm-2.1.0-45295ea2b7-319aeecf3b.zip/node_modules/@types/react-responsive-masonry/",\
+          "packageDependencies": [\
+            ["@types/react-responsive-masonry", "npm:2.1.0"],\
             ["@types/react", "npm:18.0.28"]\
           ],\
           "linkType": "HARD"\
@@ -20946,6 +20959,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-responsive-masonry", [\
+        ["npm:2.1.7", {\
+          "packageLocation": "./.yarn/cache/react-responsive-masonry-npm-2.1.7-93658b64e0-d8fd1838f7.zip/node_modules/react-responsive-masonry/",\
+          "packageDependencies": [\
+            ["react-responsive-masonry", "npm:2.1.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-slick", [\
         ["npm:0.29.0", {\
           "packageLocation": "./.yarn/cache/react-slick-npm-0.29.0-28db290b04-67ce498191.zip/node_modules/react-slick/",\
@@ -21615,6 +21637,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react", "npm:18.0.28"],\
             ["@types/react-dom", "npm:18.0.11"],\
             ["@types/react-infinite-scroller", "npm:1.2.3"],\
+            ["@types/react-responsive-masonry", "npm:2.1.0"],\
             ["@types/react-slick", "npm:0.23.10"],\
             ["@types/styled-components", "npm:5.1.26"],\
             ["@types/testing-library__jest-dom", "npm:5.14.5"],\
@@ -21646,12 +21669,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:13.2.1"],\
             ["nookies", "npm:2.5.2"],\
             ["prettier", "npm:2.8.4"],\
+            ["prop-types", "npm:15.8.1"],\
             ["quill-image-compress", "npm:1.2.29"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
             ["react-is", "npm:18.2.0"],\
             ["react-quill", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.0"],\
+            ["react-responsive-masonry", "npm:2.1.7"],\
             ["react-slick", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.29.0"],\
             ["react-toastify", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:9.1.1"],\
             ["recoil", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.7.6"],\
