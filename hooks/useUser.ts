@@ -24,7 +24,8 @@ const useUser = () => {
     () => axios.get<never, MyProfile>('/api/user').then((res) => (res.accessToken ? res : null)),
     {
       enabled: true,
-      staleTime: 30000,
+      staleTime: 1500000,
+      cacheTime: 3000000,
       onError: () => {
         queryClient.setQueryData([queryKey.me], null);
         router.replace('/');
