@@ -3,11 +3,10 @@ import { InfiniteData } from '@tanstack/react-query';
 
 import { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/categoryApi';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
+import CardInfiniteList from '@/components/layout/CardInfiniteList';
 import EmptyPagination from '@/components/layout/EmptyPagination';
 import CategoryCard from '@/components/molcules/CategoryCard';
 import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
-
-import { CategoryListWrapper } from './styled';
 
 export interface CategoryListProps {
   categoryList?: InfiniteData<PrivateCategoriesResponse | SharedCategoriesResponse>;
@@ -26,7 +25,8 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
     return <EmptyPagination />;
   }
   return (
-    <CategoryListWrapper
+    <CardInfiniteList
+      type="grid"
       loader={<LoadSpinner key={Number(categoryList.pageParams[1]) ?? 0} width="100%" />}
       loadMore={fetchNextPage}
       hasMore={hasNextPage}
@@ -42,7 +42,7 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
           </CategoryCard>
         )),
       )}
-    </CategoryListWrapper>
+    </CardInfiniteList>
   );
 };
 
