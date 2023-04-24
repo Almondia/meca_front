@@ -27,6 +27,10 @@ export const MEDIA = {
    * media: (max-width: 992px)
    */
   tablet: '(max-width: 992px)',
+  /**
+   * media: (max-width: 1439px)
+   */
+  desktop: '(max-width: 1440px)',
 };
 
 export const FONT_SIZE = {

@@ -44,21 +44,32 @@ export const TextAreaBox = css`
 
 const Section = styled.div`
   margin: 0 auto;
-  padding: 100px 140px;
+  padding: 90px 0px;
   @media ${({ theme }) => theme.media.tablet} {
-    padding: 60px 60px;
+    padding: 60px 0;
+    max-width: calc(100% - 30px);
   }
   @media ${({ theme }) => theme.media.mobile} {
-    padding: 60px 30px;
+    padding: 30px 0;
   }
 `;
 
 export const ListSection = styled(Section)`
-  max-width: 1280px;
+  max-width: 1376px;
+  @media ${({ theme }) => theme.media.desktop} {
+    max-width: 1024px;
+  }
+  @media (max-width: 1056px) {
+    max-width: calc(100% - 60px);
+  }
 `;
 
 export const PostSection = styled(Section)`
   max-width: 864px;
+  @media ${({ theme }) => theme.media.tablet} {
+    width: 768px;
+    max-width: calc(100% - 30px);
+  }
 `;
 
 export const Devide = styled.div`
