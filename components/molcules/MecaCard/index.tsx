@@ -67,7 +67,12 @@ const MecaCard = ({ cardId, categoryId, memberId, title, question, description, 
               </DropdownMenu>
             </DotMenuOpener>
             {isDeleteModalVisible && (
-              <MecaDeleteDialog cardId={cardId} visible={isDeleteModalVisible} onClose={deleteModalClose} />
+              <MecaDeleteDialog
+                cardId={cardId}
+                cardTitle={title}
+                visible={isDeleteModalVisible}
+                onClose={deleteModalClose}
+              />
             )}
           </>
         )}

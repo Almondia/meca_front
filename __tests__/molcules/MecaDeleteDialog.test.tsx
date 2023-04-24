@@ -13,7 +13,7 @@ jest.mock('next/router', () => ({
 describe('MecaDeleteDialog', () => {
   it('존재하는 카드 하나를 삭제하면 삭제 성공 toast가 식별된다.', async () => {
     const { cardId } = MECAS[0];
-    renderQuery(<MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} />);
+    renderQuery(<MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} cardTitle="title" />);
     const deleteButton = screen.getByRole('button', {
       name: /삭제하기/i,
     });
@@ -35,7 +35,7 @@ describe('MecaDeleteDialog', () => {
         );
       }),
     );
-    renderQuery(<MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} />);
+    renderQuery(<MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} cardTitle="title" />);
     const deleteButton = screen.getByRole('button', {
       name: /삭제하기/i,
     });
