@@ -9,12 +9,24 @@ jest.mock('next/router', () => ({
 describe('MecaCard', () => {
   it('주어지는 데이터에 대한 적절한 Card가 보여진다', () => {
     renderQuery(
-      <MecaCard cardId={'cardId'} categoryId={'categoryId'} title={'title'} question={'question'} tagType={'ox'} />,
+      <MecaCard
+        cardId={'cardId'}
+        memberId={''}
+        categoryId={'categoryId'}
+        title={'mytitle'}
+        question={'question'}
+        tagType={'ox'}
+        description={
+          "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>"
+        }
+      />,
     );
-    const titleText = screen.getByText('title');
+    const titleText = screen.getByText('mytitle');
     const tagText = screen.getByText(/OX퀴즈/i);
+    const thumbnail = screen.getByRole('img', { name: /mytitle-meca-thumbnail/i });
     expect(titleText).toBeInTheDocument();
     expect(tagText).toBeInTheDocument();
+    expect(thumbnail).toBeInTheDocument();
   });
 
   it('내 카드라면 dot button이 식별된다.', () => {
@@ -22,10 +34,12 @@ describe('MecaCard', () => {
       <MecaCard
         isMine={true}
         cardId={'cardId'}
+        memberId={''}
         categoryId={'categoryId'}
         title={'title'}
         question={'question'}
         tagType={'ox'}
+        description=""
       />,
     );
     const dotButton = screen.getByRole('button', {
@@ -40,9 +54,11 @@ describe('MecaCard', () => {
         isMine={true}
         cardId={'cardId'}
         categoryId={'categoryId'}
+        memberId={''}
         title={'title'}
         question={'["real question","111","222","333"]'}
         tagType={'select'}
+        description=""
       />,
     );
     const tagText = screen.getByText(/객관식/i);

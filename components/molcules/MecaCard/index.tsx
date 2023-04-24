@@ -1,12 +1,22 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 import CardTitle from '@/components/atoms/CardTitle';
 import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
 import useModal from '@/hooks/useModal';
 import { MecaTagType } from '@/types/domain';
+import { extractFirstImageSrc } from '@/utils/imageHandler';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import { MecaCardWrapper, MecaQuestionTextContainer, MecaTagContainer } from './styled';
+import {
+  MecaCardInfoSection,
+  MecaCardThumbnailSection,
+  MecaCardWrapper,
+  MecaQuestionTextContainer,
+  MecaTagContainer,
+} from './styled';
 
 import DotMenuOpener from '../DotMenuOpener';
 import MecaDeleteDialog from '../MecaDeleteDialog';
@@ -16,6 +26,7 @@ export interface MecaCardProps {
   categoryId: string;
   title: string;
   question: string;
+  description: string;
   tagType: MecaTagType;
   memberId: string;
   /** 다른 사용자의 카테고리에 대한 카드와 내 것에 차이가 있음 */
@@ -23,34 +34,49 @@ export interface MecaCardProps {
 }
 
 /** 문제 카드 컴포넌트 */
-const MecaCard = ({ cardId, categoryId, memberId, title, question, tagType, isMine }: MecaCardProps) => {
+const MecaCard = ({ cardId, categoryId, memberId, title, question, description, tagType, isMine }: MecaCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
+  const thumbnailImageSrc = extractFirstImageSrc(description);
   return (
     <MecaCardWrapper data-testid="id-meca-card">
-      <CardTitle link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</CardTitle>
-      <MecaQuestionTextContainer>
-        {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
-      </MecaQuestionTextContainer>
-      <MecaTagContainer>
-        <MecaTag tagName={tagType} />
-      </MecaTagContainer>
-      {isMine && (
-        <>
-          <DotMenuOpener top="14px" right="14px" name={`${title}카드 수정 삭제 메뉴 오프너`}>
-            <DropdownMenu>
-              <DropdownMenu.Contents href={`/mecas/write/${categoryId}?cardId=${cardId}`}>
-                수정하기
-              </DropdownMenu.Contents>
-              <DropdownMenu.Contents href="" onClick={deleteModalOpen}>
-                삭제하기
-              </DropdownMenu.Contents>
-            </DropdownMenu>
-          </DotMenuOpener>
-          {isDeleteModalVisible && (
-            <MecaDeleteDialog cardId={cardId} visible={isDeleteModalVisible} onClose={deleteModalClose} />
-          )}
-        </>
+      {thumbnailImageSrc && (
+        <MecaCardThumbnailSection>
+          <Link href={`/mecas/${combineUUID(memberId, cardId)}`}>
+            <Image src={thumbnailImageSrc} fill alt={`${title}-meca-thumbnail`} />
+          </Link>
+        </MecaCardThumbnailSection>
       )}
+      <MecaCardInfoSection>
+        <CardTitle link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</CardTitle>
+        <MecaQuestionTextContainer>
+          {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
+        </MecaQuestionTextContainer>
+        <MecaTagContainer>
+          <MecaTag tagName={tagType} />
+        </MecaTagContainer>
+        {isMine && (
+          <>
+            <DotMenuOpener top="14px" right="6px" name={`${title}카드 수정 삭제 메뉴 오프너`}>
+              <DropdownMenu>
+                <DropdownMenu.Contents href={`/mecas/write/${categoryId}?cardId=${cardId}`}>
+                  수정하기
+                </DropdownMenu.Contents>
+                <DropdownMenu.Contents href="" onClick={deleteModalOpen}>
+                  삭제하기
+                </DropdownMenu.Contents>
+              </DropdownMenu>
+            </DotMenuOpener>
+            {isDeleteModalVisible && (
+              <MecaDeleteDialog
+                cardId={cardId}
+                cardTitle={title}
+                visible={isDeleteModalVisible}
+                onClose={deleteModalClose}
+              />
+            )}
+          </>
+        )}
+      </MecaCardInfoSection>
     </MecaCardWrapper>
   );
 };

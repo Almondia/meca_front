@@ -46,7 +46,12 @@ const MecaById = ({ cardId }: MecaPageProps) => {
               </Link>
             </CardWriterInfo.Modification>
           </CardWriterInfo>
-          <MecaDeleteDialog cardId={cardId} visible={isDeleteModalVisible} onClose={deleteModalClose} />
+          <MecaDeleteDialog
+            cardId={cardId}
+            cardTitle={meca.title}
+            visible={isDeleteModalVisible}
+            onClose={deleteModalClose}
+          />
           <Devide />
           <MecaPost {...meca} />
         </PostSection>
