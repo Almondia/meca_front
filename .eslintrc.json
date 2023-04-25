@@ -12,9 +12,10 @@
   "env": {
     "browser": true,
     "node": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
-  "ignorePatterns": ["node_modules/", "public"],
+  "ignorePatterns": ["node_modules/", "public", ".next", "next.config.js", "jest**", "__tests__"],
   "extends": [
     "next/core-web-vitals",
     "airbnb",
@@ -25,17 +26,26 @@
   ],
   "rules": {
     "no-console": "off",
-    "no-unused-expressions": "warn",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "no-unused-expressions": "off",
     "no-unused-vars": "warn",
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": "off",
     "react/jsx-props-no-spreading": 0,
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-expressions": "warn",
+    "@typescript-eslint/no-unused-expressions": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "no-useless-catch": "off",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
     "import/order": [
       "error",
       {
@@ -55,15 +65,29 @@
         ],
         "pathGroups": [
           {
+            "pattern": "next",
+            "group": "builtin"
+          },
+          {
             "pattern": "next/**",
             "group": "builtin"
           },
           {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "after"
+          },
+          {
             "pattern": "@/**",
-            "group": "internal"
+            "group": "internal",
+            "position": "after"
           }
         ],
-        "newlines-between": "always"
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   },
@@ -73,5 +97,8 @@
       "files": ["__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
       "extends": ["plugin:testing-library/react"]
     }
-  ]
+  ],
+  "settings": {
+    "import/external-module-folders": [".yarn/**"]
+  }
 }
