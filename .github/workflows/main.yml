@@ -1,0 +1,24 @@
+name: main deploy
+
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: remove git
+        run: rm -r .git
+      - name: push
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: '.'
+          destination-github-username: ${{ secrets.PRV_USER }}
+          destination-repository-name: ${{ secrets.PRV_REP }}
+          user-email: ${{ secrets.PRV_EMAIL }}
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: main

@@ -1,4 +1,4 @@
-import styled, { FlattenSimpleInterpolation, Keyframes } from 'styled-components';
+import styled, { FlattenSimpleInterpolation } from 'styled-components';
 
 import { COLOR } from '@/styles/constants';
 import { FlexCenter } from '@/styles/layout';

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 import { TextBody } from '@/styles/common';
 import { TextAreaBox } from '@/styles/layout';
