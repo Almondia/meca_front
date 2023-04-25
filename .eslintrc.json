@@ -7,7 +7,7 @@
       "jsx": true
     },
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "project": "./tsconfig.json"
   },
   "env": {
     "browser": true,
