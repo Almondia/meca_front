@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import jwt from 'jsonwebtoken';
 
 export const getJWTPayload = (token: string, key: string) => {
