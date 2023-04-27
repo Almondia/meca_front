@@ -39,7 +39,7 @@ const useMecaWrite = () => {
   const { mutate: updateMeca } = useMutation(mecaApi.updateMeca, {
     onSuccess: ({ categoryId, cardId, memberId }) => {
       successHandler(categoryId, cardId, '카드 수정 성공');
-      utilApi.revalidate(`/${combineUUID(memberId, cardId)}`);
+      utilApi.revalidate(`/mecas/${combineUUID(memberId, cardId)}`);
     },
   });
 
