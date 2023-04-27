@@ -17,7 +17,7 @@ export const isValidJWT = (token: string) => {
     return false;
   }
   try {
-    jwt.verify(token, process.env.NEXT_PUBLIC_SECRETS_KEY ?? '', { algorithms: ['HS256'] });
+    jwt.verify(token, secret, { algorithms: ['HS256'] });
     return true;
   } catch {
     return false;
