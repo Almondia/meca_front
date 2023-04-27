@@ -18,7 +18,7 @@ const CardInfiniteList = ({ children, loader, loadMore, hasMore, type }: CardInf
     setIsLoaded(true);
   }, []);
   return (
-    <CardInfiniteListWrapper loader={loader} loadMore={loadMore} hasMore={hasMore} visibility={isLoaded}>
+    <CardInfiniteListWrapper loader={loader} loadMore={loadMore} hasMore={hasMore} visible={isLoaded.toString()}>
       {type === 'grid' ? (
         <CardInfiniteGridContainer>{children}</CardInfiniteGridContainer>
       ) : (
