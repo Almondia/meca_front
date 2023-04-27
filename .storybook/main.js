@@ -15,6 +15,10 @@ module.exports = {
   },
   staticDirs: ['../public'],
   webpackFinal: async (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      jsonwebtoken: '../__tests__/__mocks__/jwt.js',
+    };
     config.resolve.plugins = [
       new TsconfigPathsPlugin({
         configFile: path.resolve(__dirname, '../tsconfig.json'),
