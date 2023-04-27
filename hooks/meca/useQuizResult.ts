@@ -9,7 +9,13 @@ const useQuizResult = () => {
   const fallback: QuizType[] = [];
   const quizList = queryClient.getQueryData<QuizType[]>([queryKey.quiz]) ?? fallback;
 
-  const { mutate: applyQuizResult } = useMutation(mecaApi.applyQuizResult);
+  const { mutate: applyQuizResult } = useMutation(mecaApi.applyQuizResult, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([queryKey.categories, 'me']);
+      // TODO: 결과 UI 구현 후 결과 페이지 이탈 시 동작하도록 수정하기
+      queryClient.setQueryData([queryKey.quiz], []);
+    },
+  });
 
   const solveQuiz = (cardId: string, answer?: string) => {
     if (!quizList) {
