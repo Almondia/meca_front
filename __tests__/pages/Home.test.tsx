@@ -3,10 +3,6 @@ import { screen, fireEvent } from '@testing-library/react';
 import Home from '@/pages';
 import { CATEGORIES } from '../__mocks__/msw/data';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 describe('Homepage', () => {
   it('메인 UI 상단 Carousel이 보여진다', () => {
     renderQuery(<Home />);
@@ -18,11 +14,11 @@ describe('Homepage', () => {
 
   it('공유 카테고리 목록이 보여진다.', async () => {
     renderQuery(<Home />);
-    const categoryCardList = await screen.findAllByTestId('id-category-card');
+    const categoryCards = await screen.findAllByRole('article');
     const profileImages = await screen.findAllByRole('img', {
       name: /profile-image/i,
     });
-    expect(categoryCardList.length).toEqual(24);
+    expect(categoryCards.length).toEqual(24);
     expect(profileImages.length).toEqual(24);
   });
 
@@ -37,7 +33,7 @@ describe('Homepage', () => {
     fireEvent.change(searchInput, { target: { value: containTitle } });
     expect(searchInput).toHaveValue(containTitle);
     fireEvent.click(screen.getByRole('button', { name: '검색' }));
-    const categoryCards = await screen.findAllByTestId('id-category-card');
+    const categoryCards = await screen.findAllByRole('article');
     expect(categoryCards.length).toEqual(searchedCategories.length);
     categoryCards.forEach((card) => expect(card).toHaveTextContent(/title1/i));
   });

@@ -7,10 +7,6 @@ import { server } from '../__mocks__/msw/server';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import utilApi from '@/apis/utilApi';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 jest.mock('../../apis/utilApi', () => ({
   revalidate: jest.fn(),
 }));

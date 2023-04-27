@@ -3,11 +3,7 @@ import { renderQuery } from '../utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { server } from '../__mocks__/msw/server';
 import { rest } from 'msw';
-import { useRouter } from 'next/router';
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
+import mockRouter from 'next-router-mock';
 
 describe('Navigation', () => {
   it('비로그인 사용자일 경우 navigation에 로그인 버튼이 식별된다.', async () => {
@@ -48,10 +44,6 @@ describe('Navigation', () => {
   });
 
   it('로그인 된 사용자가 navigation 프로필을 클릭해 logout하면 메인페이지로 이동한다.', async () => {
-    const mockPush = jest.fn();
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockPush,
-    });
     renderQuery(
       <>
         <Navigation />
@@ -64,14 +56,7 @@ describe('Navigation', () => {
       name: /로그아웃/i,
     });
     fireEvent.click(logoutLink);
-    await waitFor(
-      () => {
-        expect(mockPush).toHaveBeenCalledWith('/');
-      },
-      {
-        timeout: 2000,
-      },
-    );
+    await waitFor(() => expect(mockRouter.pathname).toEqual('/'));
     // 로그아웃되어 로그인 버튼이 식별된다.
     const loginButton = screen.getByRole('button', {
       name: '로그인',
@@ -80,10 +65,6 @@ describe('Navigation', () => {
   });
 
   it('로그인된 사용자가 회원 정보 조회에 실패할 경우 메인페이지로 강제 이동하며 비로그인 사용자 UI가 식별된다.', async () => {
-    const mockReplace = jest.fn();
-    (useRouter as jest.Mock).mockReturnValue({
-      replace: mockReplace,
-    });
     renderQuery(
       <>
         <Navigation />
@@ -100,14 +81,7 @@ describe('Navigation', () => {
         );
       }),
     );
-    await waitFor(
-      () => {
-        expect(mockReplace).toHaveBeenCalledWith('/');
-      },
-      {
-        timeout: 2000,
-      },
-    );
+    await waitFor(() => expect(mockRouter.pathname).toEqual('/'));
     await waitFor(() => {
       expect(
         screen.queryByRole('button', {

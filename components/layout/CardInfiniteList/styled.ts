@@ -2,10 +2,10 @@
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
-export const CardInfiniteListWrapper = styled(InfiniteScroll)<{ visibility: boolean }>`
+export const CardInfiniteListWrapper = styled(InfiniteScroll)<{ visible: string }>`
   margin-top: 40px;
   & > * {
-    opacity: ${(props) => (props.visibility ? 1 : 0)};
+    opacity: ${(props) => (props.visible === 'true' ? 1 : 0)};
   }
 `;
 

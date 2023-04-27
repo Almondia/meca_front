@@ -50,10 +50,10 @@ export const parameters = {
   layout: 'fullscreen',
   nextRouter: {
     Provider: RouterContext.Provider,
+    prefetch() {},
     path: '/',
     asPath: '/',
     query: {},
-    push() {},
   },
 };
 
