@@ -5,10 +5,11 @@ import Modal from '../Modal';
 
 export interface MecaDeleteDialogProps extends DefaultModalOptions {
   cardId: string;
+  categoryId: string;
   cardTitle: string;
 }
 
-const MecaDeleteDialog = ({ onClose, visible, cardId, cardTitle }: MecaDeleteDialogProps) => {
+const MecaDeleteDialog = ({ onClose, visible, cardId, categoryId, cardTitle }: MecaDeleteDialogProps) => {
   const { deleteMeca } = useMecaDelete();
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false}>
@@ -17,7 +18,7 @@ const MecaDeleteDialog = ({ onClose, visible, cardId, cardTitle }: MecaDeleteDia
         {cardTitle && `'${cardTitle}'`}
         <br /> 카드를 삭제합니다
       </Modal.Body>
-      <Modal.ConfirmButton onClick={() => deleteMeca(cardId)}>삭제하기</Modal.ConfirmButton>
+      <Modal.ConfirmButton onClick={() => deleteMeca({ cardId, categoryId })}>삭제하기</Modal.ConfirmButton>
       <Modal.CloseButton onClick={onClose}>취소</Modal.CloseButton>
     </Modal>
   );
