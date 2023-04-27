@@ -101,7 +101,7 @@ describe('CategoryUpdateDialog', () => {
     const inputTitle = 'HELLOOOOOOOOOOOOOOOOOOOOOO';
     const close = jest.fn();
     server.resetHandlers(
-      rest.put(`/api/category`, async (req, res, ctx) => {
+      rest.put(`${ENDPOINT}/categories/:id`, async (req, res, ctx) => {
         const { id } = req.params;
         const { title } = await req.json();
         return res(

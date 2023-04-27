@@ -16,6 +16,7 @@ export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt'>>;
 export interface MecaWriteResponse {
   cardId: string;
   categoryId: string;
+  memberId: string;
 }
 
 export interface MecaListResponse extends CursorPaginationType {
@@ -87,6 +88,8 @@ const mecaApi = {
       )
       .then((res) => ({ ...res, contents: [...res.contents.map((v) => ({ ...v.cardInfo, ...v.memberInfo }))] }));
   },
+  getCountByCategoryId: (categoryId: string) =>
+    authInstance.get<never, { count: number }>(`/api/v1/cards/categories/${categoryId}/me/count`),
 };
 
 export default mecaApi;

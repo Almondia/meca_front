@@ -11,7 +11,10 @@ const useQuiz = (categoryId: string, limit: number, algorithm: QuizAlgorithmType
     isLoading,
     refetch: fetchQuizData,
     isError,
-  } = useQuery([queryKey.quiz], () => mecaApi.getQuizCards({ categoryId, limit, algorithm }), { enabled: false });
+  } = useQuery([queryKey.quiz], () => mecaApi.getQuizCards({ categoryId, limit, algorithm }), {
+    enabled: false,
+    staleTime: 3000000,
+  });
 
   return { quizList, isLoading, isError, fetchQuizData };
 };

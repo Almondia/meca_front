@@ -7,10 +7,7 @@ import { extractFirstImageSrc } from '@/utils/imageHandler';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import {
-  MecaQuestionTextContainer,
-  MecaTagContainer,
-} from './styled';
+import { MecaQuestionTextContainer, MecaTagContainer } from './styled';
 
 import DotMenuOpener from '../DotMenuOpener';
 import MecaDeleteDialog from '../MecaDeleteDialog';
@@ -63,6 +60,7 @@ const MecaCard = ({ cardId, categoryId, memberId, title, question, description, 
             {isDeleteModalVisible && (
               <MecaDeleteDialog
                 cardId={cardId}
+                categoryId={categoryId}
                 cardTitle={title}
                 visible={isDeleteModalVisible}
                 onClose={deleteModalClose}

@@ -48,6 +48,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
           </CardWriterInfo>
           <MecaDeleteDialog
             cardId={cardId}
+            categoryId={meca.categoryId}
             cardTitle={meca.title}
             visible={isDeleteModalVisible}
             onClose={deleteModalClose}

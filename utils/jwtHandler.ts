@@ -1,11 +1,32 @@
-/* eslint-disable import/prefer-default-export */
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 
-export const getJWTPayload = (token: string) => {
+export const getJWTPayload = (token: string, key: string) => {
   try {
-    const { id } = jwtDecode<JwtPayload & { id?: string }>(token);
-    return { id };
+    const decodedJwt = jwt.decode(token) as { [key: string]: string | undefined };
+    return decodedJwt[key];
   } catch {
-    return { id: undefined };
+    return undefined;
   }
+};
+
+export const isValidJWT = (token: string) => {
+  const secret = process.env.NEXT_PUBLIC_SECRETS_KEY;
+  if (!secret || !token) {
+    return false;
+  }
+  try {
+    jwt.verify(token, secret, { algorithms: ['HS256'] });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const generateJWT = (payload: object, expiresIn: string) => {
+  const secret = process.env.NEXT_PUBLIC_SECRETS_KEY;
+  if (!secret) {
+    return null;
+  }
+  const token = jwt.sign(payload, secret, { expiresIn });
+  return token;
 };

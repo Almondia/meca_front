@@ -5,6 +5,7 @@ import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { rest } from 'msw';
 import { server } from '../__mocks__/msw/server';
 import MecaDeleteDialog from '@/components/molcules/MecaDeleteDialog';
+import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
@@ -12,8 +13,14 @@ jest.mock('next/router', () => ({
 
 describe('MecaDeleteDialog', () => {
   it('존재하는 카드 하나를 삭제하면 삭제 성공 toast가 식별된다.', async () => {
-    const { cardId } = MECAS[0];
-    renderQuery(<MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} cardTitle="title" />);
+    (useRouter as jest.Mock).mockReturnValueOnce({
+      pathname: '/categories',
+      push: jest.fn(),
+    });
+    const { cardId, categoryId } = MECAS[0];
+    renderQuery(
+      <MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} categoryId={categoryId} cardTitle="title" />,
+    );
     const deleteButton = screen.getByRole('button', {
       name: /삭제하기/i,
     });
@@ -35,7 +42,9 @@ describe('MecaDeleteDialog', () => {
         );
       }),
     );
-    renderQuery(<MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} cardTitle="title" />);
+    renderQuery(
+      <MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} categoryId="cid01" cardTitle="title" />,
+    );
     const deleteButton = screen.getByRole('button', {
       name: /삭제하기/i,
     });

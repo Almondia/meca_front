@@ -28,10 +28,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   if (!categoryId || typeof categoryId !== 'string') {
     throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
   }
-  const response = await Promise.allSettled([mecaApi.getMyMecaList({ categoryId, pageSize: 1 })]);
-  if (response[0].status === 'rejected') {
-    throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
-  }
+  await queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () => mecaApi.getCountByCategoryId(categoryId));
   const cardId = context.query?.cardId;
   if (!cardId || typeof cardId !== 'string') {
     return {
