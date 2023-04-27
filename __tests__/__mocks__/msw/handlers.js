@@ -182,6 +182,15 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ ...resData }));
   }),
 
+  rest.get(`${ENDPOINT}/cards/categories/:id/me/count`, async (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        count: 1,
+      }),
+    );
+  }),
+
   rest.get(`${ENDPOINT}/presign/images/upload`, (req, res, ctx) => {
     const purpose = req.url.searchParams.get('purpose');
     const extension = req.url.searchParams.get('extension');
