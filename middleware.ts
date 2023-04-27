@@ -1,18 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getJWTPayload } from './utils/jwtHandler';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
+
 import { extractCombinedUUID } from './utils/uuidHandler';
 
 const authorizedPaths = ['/write', '/quiz', '/mypage'];
 
-function isMyMecaRequest(token: string, pathname: string) {
-  if (!pathname.startsWith('/mecas')) {
+function getUserPayload(token: string) {
+  try {
+    const { id } = jwtDecode<JwtPayload & { id?: string }>(token);
+    return id;
+  } catch {
     return undefined;
   }
-  const combinedUUId = pathname.replace('/mecas/', '');
-  const { uuid1: memberId, uuid2: cardId } = extractCombinedUUID(combinedUUId);
-  if (memberId && getJWTPayload(token, 'id') === memberId) {
-    return cardId;
+}
+
+function isUserResource(token: string, pathname: string) {
+  const combinedUUId = pathname.split('/')[2];
+  const { uuid1: memberId, uuid2 } = extractCombinedUUID(combinedUUId);
+  if (memberId && getUserPayload(token) === memberId) {
+    return uuid2;
   }
   return undefined;
 }
@@ -26,12 +33,14 @@ function isMyMecaRequest(token: string, pathname: string) {
 export function middleware(request: NextRequest) {
   const { cookies } = request;
   const accessToken = cookies.get('accessToken')?.value ?? '';
-  const cardId = isMyMecaRequest(accessToken, request.nextUrl.pathname);
-  if (cardId) {
-    return NextResponse.rewrite(new URL(`/mecas/me/${cardId}`, request.nextUrl.origin));
-  }
   if (!accessToken && authorizedPaths.some((path) => request.nextUrl.pathname.indexOf(path) !== -1)) {
     return NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
+  }
+  if (request.nextUrl.pathname.startsWith('/mecas/')) {
+    const requestId = isUserResource(accessToken, request.nextUrl.pathname);
+    return requestId
+      ? NextResponse.rewrite(new URL(`/mecas/me/${requestId}`, request.nextUrl.origin))
+      : NextResponse.next();
   }
   return NextResponse.next();
 }
