@@ -12149,6 +12149,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jwt-decode@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "jwt-decode@npm:3.1.2"
+  checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
+  languageName: node
+  linkType: hard
+
 "kind-of@npm:^3.0.2, kind-of@npm:^3.0.3, kind-of@npm:^3.2.0":
   version: 3.2.2
   resolution: "kind-of@npm:3.2.2"
@@ -15684,6 +15691,7 @@ __metadata:
     jest-environment-jsdom: 29.4.3
     jest-styled-components: ^7.1.1
     jsonwebtoken: 8.5.1
+    jwt-decode: ^3.1.2
     lint-staged: ^13.1.2
     lodash: ^4.17.21
     msw: ^1.1.0
