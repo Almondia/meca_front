@@ -1,12 +1,16 @@
 import { useRouter } from 'next/router';
 
-import React from 'react';
+import React, { useState } from 'react';
 
+import mecaApi from '@/apis/mecaApi';
 import Button from '@/components/atoms/Button';
 import ListControlGroup from '@/components/molcules/ListControlGroup';
 import PostWriterInfo from '@/components/molcules/PostWriterInfo';
 import QuizStartDialog from '@/components/molcules/QuizStartDialog';
+import useCachedOrFetchQuery from '@/hooks/useCachedOrFetchQuery';
 import useModal from '@/hooks/useModal';
+import queryKey from '@/query/queryKey';
+import alertToast from '@/utils/toastHandler';
 
 export interface CardControlProps {
   categoryId: string;
@@ -18,7 +22,21 @@ export interface CardControlProps {
 
 const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: CardControlProps) => {
   const router = useRouter();
+  const { fetchOrGetQuery } = useCachedOrFetchQuery();
+  const [quiznum, setQuizNum] = useState<number>(0);
   const { visible: isPlayModalVisible, open: playModalOpen, close: playModalClose } = useModal();
+  const handlePlayClick = async () => {
+    const { data } = await fetchOrGetQuery([queryKey.mecas, categoryId, 'count'], () =>
+      mecaApi.getCountByCategoryId(categoryId),
+    );
+    const { count } = data;
+    setQuizNum(count);
+    if (!count) {
+      alertToast('플레이할 카드가 없어요!', 'info');
+      return;
+    }
+    playModalOpen();
+  };
   return (
     <ListControlGroup>
       <ListControlGroup.Left>
@@ -30,15 +48,14 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: CardC
             추가하기 +
           </Button>
         )}
-        <Button colorTheme="success" onClick={playModalOpen}>
+        <Button colorTheme="success" onClick={handlePlayClick}>
           <Button.RightIcon icon="Play" />
           <Button.InnerText>플레이</Button.InnerText>
         </Button>
-        {/* TODO: 퀴즈 숫자 받을 수 있게 되면 수정할 것 */}
         {isPlayModalVisible && (
           <QuizStartDialog
             title={categoryTitle}
-            quizNum={3}
+            quizNum={quiznum}
             categoryId={categoryId}
             visible={isPlayModalVisible}
             onClose={playModalClose}
