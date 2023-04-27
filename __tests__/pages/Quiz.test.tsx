@@ -3,13 +3,8 @@ import { renderQuery } from '../utils';
 import { screen, fireEvent } from '@testing-library/react';
 import { MECAS } from '../__mocks__/msw/data';
 import { MecaTagResponseType } from '@/types/domain';
-import { useQueryClient } from '@tanstack/react-query';
 
 const mockQuizs = MECAS.slice(0, 2);
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
 
 jest.mock('@tanstack/react-query', () => ({
   ...jest.requireActual('@tanstack/react-query'),

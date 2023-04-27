@@ -4,10 +4,6 @@ import MecaList from '@/components/organisms/MecaList';
 import { InfiniteData } from '@tanstack/react-query';
 import { MecaUserListResponse } from '@/apis/mecaApi';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 const mockMecaList: InfiniteData<MecaUserListResponse> | undefined = {
   pageParams: [undefined],
   pages: [

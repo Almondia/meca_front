@@ -9,10 +9,6 @@ import { rest } from 'msw';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { combineUUID } from '@/utils/uuidHandler';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));

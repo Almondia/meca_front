@@ -2,10 +2,6 @@ import MecaCard from '@/components/molcules/MecaCard';
 import { renderQuery } from '../utils';
 import { screen } from '@testing-library/react';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 describe('MecaCard', () => {
   it('주어지는 데이터에 대한 적절한 Card가 보여진다', () => {
     renderQuery(

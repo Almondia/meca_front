@@ -2,10 +2,6 @@ import CategoryList from '@/components/organisms/CategoryList';
 import { render } from '../utils';
 import { screen } from '@testing-library/react';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 const mockCategoryList = {
   pageParams: [undefined],
   pages: [
@@ -64,8 +60,7 @@ describe('CategoryList', () => {
   it('카테고리 목록이 존재한다면 카테고리 목록이 보여진다.', () => {
     const mockFetchNextPage = jest.fn();
     render(<CategoryList fetchNextPage={mockFetchNextPage} categoryList={mockCategoryList} />);
-    const pageListText = screen.getAllByTestId('id-category-card');
-    console.log(pageListText);
+    const pageListText = screen.getAllByRole('article');
     expect(pageListText.length).toBe(6);
     expect(mockFetchNextPage).not.toHaveBeenCalled();
     // 다음 데이터가 없기 때문에 로딩 컴포넌트는 보여지지 않아야 한다.

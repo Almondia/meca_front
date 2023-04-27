@@ -6,10 +6,6 @@ import Category, { getServerSideProps } from '@/pages/categories';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
@@ -30,7 +26,7 @@ describe('CategoryListPage', () => {
     });
     expect(categoryListPageHead).toBeInTheDocument();
     expect(addButton).toBeInTheDocument();
-    const categoryCards = await screen.findAllByTestId('id-category-card');
+    const categoryCards = await screen.findAllByRole('article');
     expect(categoryCards).toHaveLength(PAGINATION_NUM);
   });
 
@@ -60,7 +56,7 @@ describe('CategoryListPage', () => {
     });
     fireEvent.click(submitButton);
     // 새로운 카테고리 카드가 맨 앞에 식별된다.
-    const categoryCards = await screen.findAllByTestId('id-category-card');
+    const categoryCards = await screen.findAllByRole('article');
     expect(categoryCards).toHaveLength(PAGINATION_NUM);
     expect(categoryCards[0]).toHaveTextContent(inputTitleText);
     expect(

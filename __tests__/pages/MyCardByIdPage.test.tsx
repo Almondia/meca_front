@@ -8,10 +8,6 @@ import { server } from '../__mocks__/msw/server';
 import { rest } from 'msw';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
