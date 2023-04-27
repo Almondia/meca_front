@@ -7,6 +7,7 @@ import { QueryClientProvider, hydrate } from '@tanstack/react-query';
 import ThemeProvider from '@/styles/ThemeProvider';
 import commonTheme from '@/styles/theme';
 import { useEffect } from 'react';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 
 export const createQueryClientWrapper = () => {
   const queryClient = generateQueryClient();
@@ -21,12 +22,14 @@ export const RecoilObserver = ({ node, defaultValue }) => {
 };
 
 const Wrapper = ({ children }) => (
-  <RecoilRoot>
-    <ThemeProvider theme={commonTheme}>
-      <ToastContainer />
-      {children}
-    </ThemeProvider>
-  </RecoilRoot>
+  <MemoryRouterProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={commonTheme}>
+        <ToastContainer />
+        {children}
+      </ThemeProvider>
+    </RecoilRoot>
+  </MemoryRouterProvider>
 );
 
 function renderWithQueryClient(ui, options, client, dehydratedState) {
