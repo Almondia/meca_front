@@ -9,8 +9,8 @@ import commonTheme from '@/styles/theme';
 import { useEffect } from 'react';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 
-export const createQueryClientWrapper = () => {
-  const queryClient = generateQueryClient();
+export const createQueryClientWrapper = (client) => {
+  const queryClient = client ?? generateQueryClient();
   return ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
