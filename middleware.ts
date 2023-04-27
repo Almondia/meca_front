@@ -11,7 +11,7 @@ function isMyMecaRequest(token: string, pathname: string) {
   }
   const combinedUUId = pathname.replace('/mecas/', '');
   const { uuid1: memberId, uuid2: cardId } = extractCombinedUUID(combinedUUId);
-  if (memberId && getJWTPayload(token).id === memberId) {
+  if (memberId && getJWTPayload(token, 'id') === memberId) {
     return cardId;
   }
   return undefined;
