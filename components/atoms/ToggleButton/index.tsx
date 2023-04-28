@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
 
 import { ElementSizeType } from '@/types/common';
@@ -22,7 +23,12 @@ const ToggleButtonGroup = <T extends number>({ innerTexts, onClicks, minWidth }:
   return (
     <ToggleButtonWrapper>
       {innerTexts.map((text, index) => (
-        <InnerToggleButton onClick={() => handleClick(index)} isSelected={selected === index} minWidth={minWidth}>
+        <InnerToggleButton
+          key={index}
+          onClick={() => handleClick(index)}
+          isSelected={selected === index}
+          minWidth={minWidth}
+        >
           {text}
         </InnerToggleButton>
       ))}
