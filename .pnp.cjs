@@ -59,6 +59,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/testing-library__jest-dom", "npm:5.14.5"],\
             ["@typescript-eslint/eslint-plugin", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.54.0"],\
             ["@typescript-eslint/parser", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.54.0"],\
+            ["apexcharts", "npm:3.39.0"],\
             ["axios", "npm:1.3.4"],\
             ["babel-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:8.3.0"],\
             ["eslint", "npm:8.35.0"],\
@@ -90,6 +91,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prop-types", "npm:15.8.1"],\
             ["quill-image-compress", "npm:1.2.29"],\
             ["react", "npm:18.2.0"],\
+            ["react-apexcharts", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.4.0"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
             ["react-is", "npm:18.2.0"],\
@@ -9595,6 +9597,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["anymatch", "npm:3.1.3"],\
             ["normalize-path", "npm:3.0.0"],\
             ["picomatch", "npm:2.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["apexcharts", [\
+        ["npm:3.39.0", {\
+          "packageLocation": "./.yarn/cache/apexcharts-npm-3.39.0-674b98fb75-2ffc7b2a58.zip/node_modules/apexcharts/",\
+          "packageDependencies": [\
+            ["apexcharts", "npm:3.39.0"],\
+            ["svg.draggable.js", "npm:2.2.2"],\
+            ["svg.easing.js", "npm:2.0.0"],\
+            ["svg.filter.js", "npm:2.0.2"],\
+            ["svg.pathmorphing.js", "npm:0.1.3"],\
+            ["svg.resize.js", "npm:1.4.3"],\
+            ["svg.select.js", "npm:3.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20910,6 +20927,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-apexcharts", [\
+        ["npm:1.4.0", {\
+          "packageLocation": "./.yarn/cache/react-apexcharts-npm-1.4.0-13745d5b61-eb6c1fcfe7.zip/node_modules/react-apexcharts/",\
+          "packageDependencies": [\
+            ["react-apexcharts", "npm:1.4.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.4.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-apexcharts-virtual-283ceb2789/0/cache/react-apexcharts-npm-1.4.0-13745d5b61-eb6c1fcfe7.zip/node_modules/react-apexcharts/",\
+          "packageDependencies": [\
+            ["react-apexcharts", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.4.0"],\
+            ["@types/apexcharts", null],\
+            ["@types/react", "npm:18.0.28"],\
+            ["apexcharts", "npm:3.39.0"],\
+            ["prop-types", "npm:15.8.1"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/apexcharts",\
+            "@types/react",\
+            "apexcharts",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-docgen", [\
         ["npm:5.4.3", {\
           "packageLocation": "./.yarn/cache/react-docgen-npm-5.4.3-10385f7edf-cef935ba94.zip/node_modules/react-docgen/",\
@@ -21807,6 +21851,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/testing-library__jest-dom", "npm:5.14.5"],\
             ["@typescript-eslint/eslint-plugin", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.54.0"],\
             ["@typescript-eslint/parser", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.54.0"],\
+            ["apexcharts", "npm:3.39.0"],\
             ["axios", "npm:1.3.4"],\
             ["babel-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:8.3.0"],\
             ["eslint", "npm:8.35.0"],\
@@ -21838,6 +21883,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prop-types", "npm:15.8.1"],\
             ["quill-image-compress", "npm:1.2.29"],\
             ["react", "npm:18.2.0"],\
+            ["react-apexcharts", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.4.0"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
             ["react-is", "npm:18.2.0"],\
@@ -23222,6 +23268,84 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/svg-parser-npm-2.0.4-1b0b6afbe9-b3de665304.zip/node_modules/svg-parser/",\
           "packageDependencies": [\
             ["svg-parser", "npm:2.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["svg.draggable.js", [\
+        ["npm:2.2.2", {\
+          "packageLocation": "./.yarn/cache/svg.draggable.js-npm-2.2.2-91cd7475f3-b9068975d7.zip/node_modules/svg.draggable.js/",\
+          "packageDependencies": [\
+            ["svg.draggable.js", "npm:2.2.2"],\
+            ["svg.js", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["svg.easing.js", [\
+        ["npm:2.0.0", {\
+          "packageLocation": "./.yarn/cache/svg.easing.js-npm-2.0.0-0c84ce8158-0f7df78333.zip/node_modules/svg.easing.js/",\
+          "packageDependencies": [\
+            ["svg.easing.js", "npm:2.0.0"],\
+            ["svg.js", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["svg.filter.js", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/svg.filter.js-npm-2.0.2-f65ff6d47e-f0e780bfe3.zip/node_modules/svg.filter.js/",\
+          "packageDependencies": [\
+            ["svg.filter.js", "npm:2.0.2"],\
+            ["svg.js", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["svg.js", [\
+        ["npm:2.7.1", {\
+          "packageLocation": "./.yarn/cache/svg.js-npm-2.7.1-c232ccf7aa-945bfc9623.zip/node_modules/svg.js/",\
+          "packageDependencies": [\
+            ["svg.js", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["svg.pathmorphing.js", [\
+        ["npm:0.1.3", {\
+          "packageLocation": "./.yarn/cache/svg.pathmorphing.js-npm-0.1.3-83b910d5a4-bcbe1ccea9.zip/node_modules/svg.pathmorphing.js/",\
+          "packageDependencies": [\
+            ["svg.pathmorphing.js", "npm:0.1.3"],\
+            ["svg.js", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["svg.resize.js", [\
+        ["npm:1.4.3", {\
+          "packageLocation": "./.yarn/cache/svg.resize.js-npm-1.4.3-9e6b42a70f-8f4116f442.zip/node_modules/svg.resize.js/",\
+          "packageDependencies": [\
+            ["svg.resize.js", "npm:1.4.3"],\
+            ["svg.js", "npm:2.7.1"],\
+            ["svg.select.js", "npm:2.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["svg.select.js", [\
+        ["npm:2.1.2", {\
+          "packageLocation": "./.yarn/cache/svg.select.js-npm-2.1.2-d8be268fcb-1dbbb44d16.zip/node_modules/svg.select.js/",\
+          "packageDependencies": [\
+            ["svg.select.js", "npm:2.1.2"],\
+            ["svg.js", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:3.0.1", {\
+          "packageLocation": "./.yarn/cache/svg.select.js-npm-3.0.1-9baa0ca5b5-0ce3bda86f.zip/node_modules/svg.select.js/",\
+          "packageDependencies": [\
+            ["svg.select.js", "npm:3.0.1"],\
+            ["svg.js", "npm:2.7.1"]\
           ],\
           "linkType": "HARD"\
         }]\
