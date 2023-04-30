@@ -60,6 +60,10 @@ export const CardTitleWrapper = styled(TextBodyTitle.withComponent('h3'))`
       color: var(--color-brand);
     }
   }
+  & > p {
+    display: inline;
+    color: var(--color-text);
+  }
 `;
 
 export const CardBodyWrapper = styled.div`
