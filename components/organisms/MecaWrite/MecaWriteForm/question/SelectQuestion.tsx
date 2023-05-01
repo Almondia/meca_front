@@ -22,10 +22,14 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
     changeQuestionCase(e.target.value, index);
   };
 
-  const handleBlur = (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value = JSON.stringify(sampleValues.slice(0, selectionNum + 1));
-    onChange(e);
+  const handleBlur = () => {
+    const event = new CustomEvent('change') as any;
+    Object.defineProperty(event, 'target', {
+      value: { value: JSON.stringify(sampleValues.slice(0, selectionNum + 1)) },
+    });
+    onChange(event);
   };
+
   return (
     <div>
       <InputGroup>

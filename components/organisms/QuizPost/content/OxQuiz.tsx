@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import styled from 'styled-components';
 
 import Icon from '@/components/atoms/Icon';
@@ -42,17 +44,30 @@ const AnswerCircle = styled.div`
 `;
 
 const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => {
+  const fieldsetRef = useRef<HTMLFieldSetElement>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === 'O' || e.target.value === 'X') {
       onChange(e);
     }
   };
+  useEffect(
+    () => () => {
+      if (isAnswerState) {
+        return;
+      }
+      const checkedRadio = fieldsetRef.current?.querySelector<HTMLInputElement>('input[type="radio"]:checked');
+      if (checkedRadio) {
+        checkedRadio.checked = false;
+      }
+    },
+    [isAnswerState],
+  );
   return (
     <QuizContentWrapper>
       <QuizBox header="Q." body={question} isColumn />
       <InputGroup>
         <InputGroup.Label>정답을 선택하세요</InputGroup.Label>
-        <SelectGroup>
+        <SelectGroup ref={fieldsetRef}>
           {['O', 'X'].map((ox) => (
             <RadioGroup.Radio key={ox} name="quiz" value={ox} onChange={handleChange} disabled={isAnswerState}>
               <OxIconContainer>

@@ -90,6 +90,7 @@ export interface QuizResultType {
   cardId: string;
   userAnswer: string;
   score: number;
+  spendTime: number;
 }
 
 export interface QuizType extends MecaType {
