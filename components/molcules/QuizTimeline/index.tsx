@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useState } from 'react';
 
 import { TextCaption } from '@/styles/common';
@@ -10,7 +11,7 @@ import {
   QuizTimelineActivity,
   QuizTimelineBadge,
   QuizTimelineContent,
-  QuizTimelineTime,
+  QuizTimelineSummary,
   QuizTimelineWrapper,
   QuizTimeMoreButton,
 } from './styled';
@@ -33,10 +34,11 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
             quiz.cardType === 'MULTI_CHOICE'
               ? stringToJsonStringArrayConverter(quiz.question)[0]
               : (quiz.question as string);
-          const answer =
-            quiz.cardType === 'MULTI_CHOICE'
-              ? stringToJsonStringArrayConverter(quiz.question)[Number(quiz.answer)]
-              : quiz.answer;
+          const answer = !quiz.answer
+            ? '미제출'
+            : quiz.cardType === 'MULTI_CHOICE'
+            ? stringToJsonStringArrayConverter(quiz.question)[Number(quiz.answer)]
+            : quiz.answer;
           const userAnswer =
             quiz.cardType === 'MULTI_CHOICE'
               ? stringToJsonStringArrayConverter(quiz.question)[Number(quizResult.userAnswer)]
@@ -44,10 +46,15 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
           const answerColor = quizResult.score >= 80 ? COLOR.success : COLOR.warning;
           return (
             <QuizTimelineActivity key={quiz.cardId}>
-              <QuizTimelineTime>{quizResult.spendTime}s</QuizTimelineTime>
+              <QuizTimelineSummary>
+                <p>{quizResult.spendTime}초</p>
+                <p>{quizResult.score}점</p>
+              </QuizTimelineSummary>
               <QuizTimelineBadge color={answerColor} />
               <QuizTimelineContent>
-                <strong>{question}</strong>
+                <TextCaption>
+                  <strong>{question}</strong>
+                </TextCaption>
                 <TextCaption>
                   문제 정답: <strong>{answer}</strong>
                 </TextCaption>

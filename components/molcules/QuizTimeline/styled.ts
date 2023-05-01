@@ -20,15 +20,18 @@ export const QuizTimelineActivity = styled.div`
   column-gap: 1rem;
   padding: 6px 0;
   @media ${({ theme }) => theme.media.mobile} {
-    padding: 3px 0 0 0;
-    column-gap: 0.4rem;
+    padding: 3px 0;
+    column-gap: 0.6rem;
   }
 `;
 
-export const QuizTimelineTime = styled.div`
+export const QuizTimelineSummary = styled.div`
+  ${FlexColumn};
+  width: 24px;
   color: var(--color-gray);
   font-size: ${({ theme }) => theme.fontSize.caption};
-  margin: 1px 2px 0 0;
+  white-space: nowrap;
+  row-gap: 4px;
 `;
 
 export const QuizTimelineBadge = styled.div<{ color: string }>`
@@ -57,7 +60,6 @@ export const QuizTimelineContent = styled.div`
   ${FlexColumn};
   row-gap: 6px;
   width: 80%;
-  margin-top: -4px;
   & > * {
     display: -webkit-box;
     overflow: hidden;
