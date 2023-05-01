@@ -3,6 +3,7 @@ import { useState } from 'react';
 import DoughnutChart from '@/components/chart/DougnutChart';
 import GroupBarChart from '@/components/chart/GroupBarChart';
 import RadialChart from '@/components/chart/RadialChart';
+import WordCloud from '@/components/chart/WordCloud';
 import Card from '@/components/layout/Card';
 import QuizTimeline from '@/components/molcules/QuizTimeline';
 import useQuizResult from '@/hooks/meca/useQuizResult';
@@ -60,15 +61,10 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
       </QuizResultSideArea>
       <QuizResultUpperContentArea>
         <Card>
-          <Card.Title>Keyword 워드 클라우드</Card.Title>
+          <Card.Title>Keyword Cloud</Card.Title>
           <Card.Body>
-            {/* TODO: 워드클라우드 컴포넌트 구성 */}
-            <p>준비즁ㅎㅎ</p>
-            <p>준비즁ㅎㅎ</p>
-            <p>준비즁ㅎㅎ</p>
-            <p>준비즁ㅎㅎ</p>
-            <p>준비즁ㅎㅎ</p>
-            <p>준비즁ㅎㅎ</p>
+            {/* TODO: word cloud 텍스트 반영 */}
+            <WordCloud />
           </Card.Body>
         </Card>
       </QuizResultUpperContentArea>
@@ -84,7 +80,10 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
         <Card>
           <Card.Title>추천 카테고리</Card.Title>
           <Card.Body>
-            <p>준비즁</p>
+            {/* TODO: 추천 카테고리 반영 */}
+            <div style={{ height: '300px' }}>
+              <p>준비즁</p>
+            </div>
           </Card.Body>
         </Card>
       </QuizResultFooterArea>
