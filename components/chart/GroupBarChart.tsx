@@ -27,10 +27,10 @@ export interface GroupBarChartProps {
 const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupBarChartProps) => {
   const series = [
     {
-      data: firstValues,
+      data: firstValues.map((val) => (val === 0 ? 0.2 : val)),
     },
     {
-      data: secondValues.map((val) => val),
+      data: secondValues.map((val) => (val === 0 ? 0.2 : val)),
     },
   ];
   const options: ApexCharts.ApexOptions = {
@@ -44,7 +44,6 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupB
     plotOptions: {
       bar: {
         horizontal: false,
-        hideZeroBarsWhenGrouped: true,
         dataLabels: {
           position: 'top',
         },
@@ -59,6 +58,9 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupB
       style: {
         fontSize: '12px',
         colors: ['#fff'],
+      },
+      formatter(value: number) {
+        return value === 0.2 ? 0 : value;
       },
     },
     stroke: {
