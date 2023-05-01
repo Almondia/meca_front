@@ -1,8 +1,5 @@
-import { useRouter } from 'next/router';
-
 import { useState } from 'react';
 
-import Button from '@/components/atoms/Button';
 import DoughnutChart from '@/components/chart/DougnutChart';
 import GroupBarChart from '@/components/chart/GroupBarChart';
 import RadialChart from '@/components/chart/RadialChart';
@@ -22,10 +19,10 @@ import {
 
 export interface QuizResultProps {
   quizList: QuizType[];
+  maxQuizTime: number;
 }
 
-const QuizResult = ({ quizList }: QuizResultProps) => {
-  const router = useRouter();
+const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
   const { getQuizTypeRateResult, getAnswerRateResult } = useQuizResult();
   const [{ avgTime, avgScore }] = useState(getAnswerRateResult());
   const [quizTypeRate] = useState(getQuizTypeRateResult());
@@ -57,7 +54,7 @@ const QuizResult = ({ quizList }: QuizResultProps) => {
         <Card>
           <Card.Title>평균 소요 시간</Card.Title>
           <Card.Body>
-            <RadialChart value={avgTime} label={{ pre: '평균', post: 'S' }} />
+            <RadialChart value={avgTime} maxValue={maxQuizTime} label={{ pre: '평균', post: 'S' }} />
           </Card.Body>
         </Card>
       </QuizResultSideArea>
@@ -84,9 +81,12 @@ const QuizResult = ({ quizList }: QuizResultProps) => {
         </Card>
       </QuizResultLowerContentArea>
       <QuizResultFooterArea>
-        <Button colorTheme="cancel" width="120px" onClick={() => router.back()}>
-          뒤로가기
-        </Button>
+        <Card>
+          <Card.Title>추천 카테고리</Card.Title>
+          <Card.Body>
+            <p>준비즁</p>
+          </Card.Body>
+        </Card>
       </QuizResultFooterArea>
     </QuizResulDashBoard>
   );

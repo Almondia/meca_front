@@ -20,10 +20,11 @@ export interface RadialChartProps {
     pre: string;
     post: string;
   };
+  maxValue: number;
 }
 
-const RadialChart = ({ value, label }: RadialChartProps) => {
-  const series = [Number(value.toFixed(2))];
+const RadialChart = ({ value, maxValue, label }: RadialChartProps) => {
+  const series = [(Number(value.toFixed(2)) / maxValue) * 100];
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: 'radialBar',

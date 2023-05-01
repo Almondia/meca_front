@@ -5,6 +5,7 @@ import { FlexColumn } from '@/styles/layout';
 export const QuizResulDashBoard = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 211px minmax(0px, auto) auto;
   gap: 1rem;
   grid-template-areas:
     'content-1 content-1 sidebar'
