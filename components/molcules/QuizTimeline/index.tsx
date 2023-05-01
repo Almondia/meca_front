@@ -34,15 +34,15 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
             quiz.cardType === 'MULTI_CHOICE'
               ? stringToJsonStringArrayConverter(quiz.question)[0]
               : (quiz.question as string);
-          const answer = !quiz.answer
+          const answer =
+            quiz.cardType === 'MULTI_CHOICE'
+              ? stringToJsonStringArrayConverter(quiz.question)[Number(quiz.answer)]
+              : quiz.answer;
+          const userAnswer = !quiz.result?.userAnswer
             ? '미제출'
             : quiz.cardType === 'MULTI_CHOICE'
-            ? stringToJsonStringArrayConverter(quiz.question)[Number(quiz.answer)]
-            : quiz.answer;
-          const userAnswer =
-            quiz.cardType === 'MULTI_CHOICE'
-              ? stringToJsonStringArrayConverter(quiz.question)[Number(quizResult.userAnswer)]
-              : quizResult.userAnswer;
+            ? stringToJsonStringArrayConverter(quiz.question)[Number(quizResult.userAnswer)]
+            : quizResult.userAnswer;
           const answerColor = quizResult.score >= 80 ? COLOR.success : COLOR.warning;
           return (
             <QuizTimelineActivity key={quiz.cardId}>
