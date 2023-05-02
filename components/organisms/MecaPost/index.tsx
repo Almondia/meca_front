@@ -1,10 +1,9 @@
 import React from 'react';
 
 import MecaTag from '@/components/atoms/MecaTag';
-import { QuillNoSSRReader } from '@/components/editor/QuillNoSSRWrapper';
+import Editor from '@/components/molcules/Editor';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
-import { EditorContainer } from '@/components/styles/common';
 import { TextCaption } from '@/styles/common';
 import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaType } from '@/types/domain';
 import { getRelativeTimeByDateTime } from '@/utils/common';
@@ -23,7 +22,7 @@ const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
 };
 
 const MecaPost = ({ cardType, question, answer, description, createdAt }: MecaPostProps) => {
-  const Editor = QuillNoSSRReader({ content: description || '내용이 없습니다.' });
+  const DescriptionEditor = Editor.Reader({ content: description || '내용이 없습니다.' });
   const MecaBody = ContentBody[cardType];
   return (
     <MecaPostWrapper>
@@ -39,7 +38,7 @@ const MecaPost = ({ cardType, question, answer, description, createdAt }: MecaPo
       <PostBody>
         <PostBody.Title>Description</PostBody.Title>
         <PostBody.Content>
-          <Editor />
+          <DescriptionEditor />
         </PostBody.Content>
       </PostBody>
     </MecaPostWrapper>

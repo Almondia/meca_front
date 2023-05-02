@@ -6,7 +6,7 @@ import ReactQuill, { ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 
-import LoadSpinner from '../atoms/LoadSpinner';
+import LoadSpinner from '@/components/atoms/LoadSpinner';
 
 interface ForwardedQuillComponent extends ReactQuillProps {
   forwardedRef: React.Ref<ReactQuill>;
