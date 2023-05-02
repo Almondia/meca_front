@@ -6,7 +6,7 @@ import mecaApi from '@/apis/mecaApi';
 import Button from '@/components/atoms/Button';
 import ListControlGroup from '@/components/molcules/ListControlGroup';
 import PostWriterInfo from '@/components/molcules/PostWriterInfo';
-import QuizStartDialog from '@/components/molcules/QuizStartDialog';
+import QuizStartDialog from '@/components/organisms/QuizStartDialog';
 import useCachedOrFetchQuery from '@/hooks/useCachedOrFetchQuery';
 import useModal from '@/hooks/useModal';
 import queryKey from '@/query/queryKey';

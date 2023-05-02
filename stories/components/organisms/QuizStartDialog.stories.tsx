@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import QuizStartDialog, { QuizStartDialogProps } from '@/components/molcules/QuizStartDialog';
+import QuizStartDialog, { QuizStartDialogProps } from '@/components/organisms/QuizStartDialog';
 
 export default {
-  title: 'components/molcules/QuizStartDialog',
+  title: 'components/organisms/QuizStartDialog',
   component: QuizStartDialog,
 } as ComponentMeta<typeof QuizStartDialog>;
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Card from '@/components/layout/Card';
 import Chart from '@/components/molcules/Chart';
-import QuizTimeline from '@/components/molcules/QuizTimeline';
+import QuizTimeline from '@/components/organisms/QuizTimeline';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import { COLOR } from '@/styles/constants';
 import { QuizType } from '@/types/domain';

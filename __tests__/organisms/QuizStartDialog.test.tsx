@@ -1,6 +1,6 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import QuizStartDialog, { QuizStartDialogProps } from '@/components/molcules/QuizStartDialog';
+import QuizStartDialog, { QuizStartDialogProps } from '@/components/organisms/QuizStartDialog';
 import { server } from '../__mocks__/msw/server';
 import { rest } from 'msw';
 import { ENDPOINT } from '../__mocks__/msw/handlers';

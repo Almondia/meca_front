@@ -10,8 +10,8 @@ import useQuiz from '@/hooks/meca/useQuiz';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
 
-import InputGroup from '../InputGroup';
-import Modal from '../Modal';
+import InputGroup from '../../molcules/InputGroup';
+import Modal from '../../molcules/Modal';
 
 export interface QuizStartDialogProps extends DefaultModalOptions {
   categoryId: string;

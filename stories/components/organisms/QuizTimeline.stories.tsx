@@ -1,10 +1,10 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import QuizTimeline from '@/components/molcules/QuizTimeline';
+import QuizTimeline from '@/components/organisms/QuizTimeline';
 import { QuizType } from '@/types/domain';
 
 export default {
-  title: 'components/molcules/QuizTimeline',
+  title: 'components/organisms/QuizTimeline',
   component: QuizTimeline,
 } as ComponentMeta<typeof QuizTimeline>;
 
