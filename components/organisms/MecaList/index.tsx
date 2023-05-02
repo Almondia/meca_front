@@ -1,8 +1,8 @@
 import { InfiniteData } from '@tanstack/react-query';
 
 import { MecaUserListResponse } from '@/apis/mecaApi';
+import EmptyList from '@/components/atoms/EmptyList';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
-import EmptyPagination from '@/components/layout/EmptyPagination';
 import ListInfiniteScroller from '@/components/molcules/ListInfiniteScroller';
 import MecaCard from '@/components/organisms/MecaCard';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
@@ -16,7 +16,7 @@ export interface MecaListProps {
 
 const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProps) => {
   if (!mecaList || !mecaList.pages?.[0].contents.length) {
-    return <EmptyPagination />;
+    return <EmptyList />;
   }
   return (
     <ListInfiniteScroller
