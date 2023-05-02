@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
-import Icon from '@/components/common/Icon';
 import Logo from '@/components/atoms/Logo';
+import Icon from '@/components/common/Icon';
 import Modal from '@/components/molcules/Modal';
 import { HiddenText, TextBodyTitle, TextCaption } from '@/styles/common';
 import { DefaultModalOptions } from '@/types/common';
