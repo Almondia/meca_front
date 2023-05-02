@@ -22,7 +22,6 @@ const MecaWritePage = ({ categoryId, cardId }: MecaWritePageProps) => {
   );
 };
 
-// TODO: 카드 수정에 대한 처리도 필요하다.
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   const categoryId = context.params?.categoryId;
   if (!categoryId || typeof categoryId !== 'string') {
