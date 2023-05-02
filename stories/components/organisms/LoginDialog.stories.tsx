@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import LoginDialog from '@/components/molcules/LoginDialog';
+import LoginDialog from '@/components/organisms/LoginDialog';
 import { DefaultModalOptions } from '@/types/common';
 
 export default {
-  title: 'components/molcules/LoginDialog',
+  title: 'components/organisms/LoginDialog',
   component: LoginDialog,
   parameters: {
     componentSubtitle: '로그인 모달',

@@ -6,7 +6,7 @@ import { useCallback, useRef, useState } from 'react';
 import Icon from '@/components/atoms/Icon';
 import IconButton from '@/components/atoms/IconButton';
 import Logo from '@/components/atoms/Logo';
-import LoginDialog from '@/components/molcules/LoginDialog';
+import LoginDialog from '@/components/organisms/LoginDialog';
 import useClickAway from '@/hooks/useClickAway';
 import useCustomTheme from '@/hooks/useCustomTheme';
 import useModal from '@/hooks/useModal';

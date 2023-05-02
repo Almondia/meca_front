@@ -2,12 +2,11 @@ import { useRouter } from 'next/router';
 
 import Icon from '@/components/atoms/Icon';
 import Logo from '@/components/atoms/Logo';
+import Modal from '@/components/molcules/Modal';
 import { HiddenText, TextBodyTitle, TextCaption } from '@/styles/common';
 import { DefaultModalOptions } from '@/types/common';
 
 import { SocialButton, SocialButtonContainer } from './styled';
-
-import Modal from '../Modal';
 
 const LoginDialog = ({ visible, onClose }: DefaultModalOptions) => {
   const router = useRouter();
