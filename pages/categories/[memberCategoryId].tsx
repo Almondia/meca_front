@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 import { QueryClient } from '@tanstack/react-query';
 
 import mecaApi from '@/apis/mecaApi';
-import PageTitle from '@/components/layout/PageTitle';
+import PageTitle from '@/components/atoms/PageTitle';
 import MecaControl from '@/components/organisms/MecaControl';
 import MecaList from '@/components/organisms/MecaList';
 import useMecaList from '@/hooks/meca/useMecaList';
