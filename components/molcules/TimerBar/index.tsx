@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { css, keyframes } from 'styled-components';
 
-import Icon from '@/components/atoms/Icon';
+import Icon from '@/components/common/Icon';
 
 import { TimerBarClock, TimerBarProgression, TimerBarWrapper } from './styled';
 

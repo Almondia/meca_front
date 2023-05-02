@@ -45,3 +45,4 @@ const Icons = {
 };
 
 export default Icons;
+export type IconType = keyof typeof Icons;

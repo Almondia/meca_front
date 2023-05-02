@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Icon, { IconProps } from '@/components/atoms/Icon';
+import Icon, { IconProps } from '@/components/common/Icon';
 
 export default {
-  title: 'components/atoms/Icon',
+  title: 'components/common/Icon',
   component: Icon,
   parameters: {
     componentSubtitle: '아이콘',

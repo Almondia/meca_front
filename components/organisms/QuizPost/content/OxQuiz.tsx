@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import ContentsBox from '@/components/atoms/ContentsBox';
-import Icon from '@/components/atoms/Icon';
+import Icon from '@/components/common/Icon';
 import RadioGroup from '@/components/atoms/Input/Radio';
 import InputGroup from '@/components/molcules/InputGroup';
 import { NonVisibleRadioBox, TextBodyTitle } from '@/styles/common';

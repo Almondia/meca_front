@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import Icons from '@/components/icons';
-import { IconType } from '@/components/icons/type';
+import Icons, { IconType } from '../Icons';
 
 export const iconTypes = Object.keys(Icons) as IconType[];
 

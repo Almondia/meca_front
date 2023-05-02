@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import Icon from '@/components/atoms/Icon';
 import { IconButtonWrapper } from '@/components/atoms/IconButton/styled';
+import Icon from '@/components/common/Icon';
 import PostBody from '@/components/molcules/PostBody';
 
 import { MecaPostBodyProps } from '../type';

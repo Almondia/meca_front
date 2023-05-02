@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Icon, { iconTypes } from '@/components/atoms/Icon';
+import Icon, { iconTypes } from '@/components/common/Icon';
 
 const IconWrapper = ({ children }: { children: React.ReactNode }) => (
   <div
@@ -27,7 +27,7 @@ const Icons: React.ReactNode = (
 );
 
 export default {
-  title: 'components/atoms/IconSamples',
+  title: 'components/common/IconSamples',
   component: IconWrapper,
   parameters: {
     componentSubtitle: '사용 아이콘 모음',

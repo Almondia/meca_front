@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import Icon from '@/components/atoms/Icon';
+import Icon from '@/components/common/Icon';
 import { COLOR } from '@/styles/constants';
 import { FlexCenter, FlexColumn } from '@/styles/layout';
 import { ElementSizeType } from '@/types/common';

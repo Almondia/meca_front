@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { useCallback, useRef, useState } from 'react';
 
-import Icon from '@/components/atoms/Icon';
+import Icon from '@/components/common/Icon';
 import IconButton from '@/components/atoms/IconButton';
 import Logo from '@/components/atoms/Logo';
 import LoginDialog from '@/components/organisms/LoginDialog';
