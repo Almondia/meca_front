@@ -1,6 +1,7 @@
 import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
 import Card from '@/components/layout/Card';
+import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 import useModal from '@/hooks/useModal';
 import { MecaTagType } from '@/types/domain';
 import { extractFirstImageSrc } from '@/utils/imageHandler';
@@ -10,7 +11,6 @@ import { combineUUID } from '@/utils/uuidHandler';
 import { MecaQuestionTextContainer, MecaTagContainer } from './styled';
 
 import DotMenuOpener from '../DotMenuOpener';
-import MecaDeleteDialog from '../MecaDeleteDialog';
 
 export interface MecaCardProps {
   cardId: string;

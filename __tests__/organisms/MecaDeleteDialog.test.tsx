@@ -4,7 +4,7 @@ import { MECAS } from '../__mocks__/msw/data';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { rest } from 'msw';
 import { server } from '../__mocks__/msw/server';
-import MecaDeleteDialog from '@/components/molcules/MecaDeleteDialog';
+import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 
 describe('MecaDeleteDialog', () => {
   it('존재하는 카드 하나를 삭제하면 삭제 성공 toast가 식별된다.', async () => {
