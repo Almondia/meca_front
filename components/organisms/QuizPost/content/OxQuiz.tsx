@@ -6,7 +6,7 @@ import Icon from '@/components/atoms/Icon';
 import RadioGroup from '@/components/atoms/Input/Radio';
 import QuizBox from '@/components/atoms/QuizBox';
 import InputGroup from '@/components/molcules/InputGroup';
-import { NonVisibleRadioBox } from '@/styles/common';
+import { NonVisibleRadioBox, TextBodyTitle } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 
 import { QuizContentWrapper } from '../styled';
@@ -64,7 +64,7 @@ const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizConten
   );
   return (
     <QuizContentWrapper>
-      <QuizBox header="Q." body={question} isColumn />
+      <QuizBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
       <InputGroup>
         <InputGroup.Label>정답을 선택하세요</InputGroup.Label>
         <SelectGroup ref={fieldsetRef}>
