@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect } from 'react';
 
+import QuizBox from '@/components/atoms/QuizBox';
 import { QuillNoSSRReader } from '@/components/editor/QuillNoSSRWrapper';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import useInput from '@/hooks/useInput';
@@ -10,7 +11,7 @@ import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaTagType, QuizSucceedType 
 import KeywordQuiz from './content/KeywordQuiz';
 import OxQuiz from './content/OxQuiz';
 import SelectQuiz from './content/SelectQuiz';
-import { QuizPostWrapper } from './styled';
+import { QuizEditorWrapper, QuizPostWrapper } from './styled';
 import { QuizContentComponentType } from './type';
 
 export interface QuizPostProps {
@@ -56,11 +57,15 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
         isAnswerState={isAnswerState}
       />
       {isAnswerState && (
-        // TODO: 아코디언 UI 구성하기
-        <div>
-          <p>설명보기</p>
-          <Editor />
-        </div>
+        <QuizBox
+          header="C."
+          isColumn
+          body={
+            <QuizEditorWrapper>
+              <Editor />
+            </QuizEditorWrapper>
+          }
+        />
       )}
       <div>
         <TextCaption>* 정답제출을 반드시 해야 채점됩니다!</TextCaption>
