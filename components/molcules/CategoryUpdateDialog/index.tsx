@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
 import useCategoryPost from '@/hooks/category/useCategoryPost';
@@ -35,12 +35,9 @@ const CategoryUpdateDialog = ({
   const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
   const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
 
-  useEffect(() => {
-    if (isUpdateSuccess || isPostSuccess) {
-      onClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUpdateSuccess, isPostSuccess]);
+  if (isUpdateSuccess || isPostSuccess) {
+    onClose();
+  }
 
   const getUploadedThumbnail = useCallback(async () => {
     let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
