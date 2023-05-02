@@ -12,7 +12,7 @@ import useModal from '@/hooks/useModal';
 import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
 
-export interface CardControlProps {
+export interface MecaControlProps {
   categoryId: string;
   categoryTitle: string;
   isMine: boolean;
@@ -20,7 +20,7 @@ export interface CardControlProps {
   profile: string;
 }
 
-const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: CardControlProps) => {
+const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: MecaControlProps) => {
   const router = useRouter();
   const { fetchOrGetQuery } = useCachedOrFetchQuery();
   const [quiznum, setQuizNum] = useState<number>(0);

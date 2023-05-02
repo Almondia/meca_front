@@ -1,4 +1,4 @@
-import CardControl, { CardControlProps } from '@/components/organisms/CardControl';
+import MecaControl, { MecaControlProps } from '@/components/organisms/MecaControl';
 import { renderQuery } from '../utils';
 import { screen, fireEvent } from '@testing-library/react';
 import { server } from '../__mocks__/msw/server';
@@ -6,8 +6,8 @@ import { rest } from 'msw';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import mockRouter from 'next-router-mock';
 
-describe('CardControl', () => {
-  const props: CardControlProps = {
+describe('MecaControl', () => {
+  const props: MecaControlProps = {
     categoryId: 'cid01',
     categoryTitle: 'title',
     isMine: true,
@@ -15,8 +15,8 @@ describe('CardControl', () => {
     profile: '',
   };
 
-  it('본인 CardControl UI가 식별된다.', () => {
-    renderQuery(<CardControl {...props} isMine />);
+  it('본인 MecaControl UI가 식별된다.', () => {
+    renderQuery(<MecaControl {...props} isMine />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     const addButton = screen.getByRole('button', { name: /추가하기 /i });
     const name = screen.getByText('myName');
@@ -25,15 +25,15 @@ describe('CardControl', () => {
     expect(name).toBeInTheDocument();
   });
 
-  it('본인 CardControl에서 추가하기 버튼을 클릭하면 해당 페이지로 이동한다.', () => {
-    renderQuery(<CardControl {...props} isMine />);
+  it('본인 MecaControl에서 추가하기 버튼을 클릭하면 해당 페이지로 이동한다.', () => {
+    renderQuery(<MecaControl {...props} isMine />);
     const addButton = screen.getByRole('button', { name: /추가하기 /i });
     fireEvent.click(addButton);
     expect(mockRouter.pathname).toEqual(`/mecas/write/${props.categoryId}`);
   });
 
-  it('다른사람의 CardControl UI가 식별된다.', () => {
-    renderQuery(<CardControl {...props} isMine={false} />);
+  it('다른사람의 MecaControl UI가 식별된다.', () => {
+    renderQuery(<MecaControl {...props} isMine={false} />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     const addButton = screen.queryByRole('button', { name: /추가하기 /i });
     const name = screen.getByText('myName');
@@ -54,7 +54,7 @@ describe('CardControl', () => {
         );
       }),
     );
-    renderQuery(<CardControl {...props} isMine />);
+    renderQuery(<MecaControl {...props} isMine />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     fireEvent.click(playButton);
     const modalQuizCountText = await screen.findByText(`문제 수 (최대 ${count})`);
@@ -72,7 +72,7 @@ describe('CardControl', () => {
         );
       }),
     );
-    renderQuery(<CardControl {...props} isMine />);
+    renderQuery(<MecaControl {...props} isMine />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     fireEvent.click(playButton);
     const toastText = await screen.findByText('플레이할 카드가 없어요!');
