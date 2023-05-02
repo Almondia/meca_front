@@ -84,7 +84,7 @@ const MecaWriteForm = ({
   const handleCreateButtonClick = () => {
     // TODO: validation 로직 추가
     const body = {
-      title: titleInput,
+      title: titleInput.trim(),
       categoryId,
       question: questionInput,
       description: descInput,

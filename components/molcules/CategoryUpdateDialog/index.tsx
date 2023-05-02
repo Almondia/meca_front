@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
 import useCategoryPost from '@/hooks/category/useCategoryPost';
@@ -35,12 +35,9 @@ const CategoryUpdateDialog = ({
   const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
   const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
 
-  useEffect(() => {
-    if (isUpdateSuccess || isPostSuccess) {
-      onClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUpdateSuccess, isPostSuccess]);
+  if (isUpdateSuccess || isPostSuccess) {
+    onClose();
+  }
 
   const getUploadedThumbnail = useCallback(async () => {
     let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
@@ -61,10 +58,11 @@ const CategoryUpdateDialog = ({
   }, [image]);
 
   const handleUpdateClick = async () => {
-    if (title === '') {
+    const inputTitle = title.trim();
+    if (inputTitle === '') {
       return;
     }
-    if (title === categoryTitle && image === thumbnail && shared === isShared) {
+    if (inputTitle === categoryTitle && image === thumbnail && shared === isShared) {
       onClose();
       return;
     }
@@ -73,8 +71,14 @@ const CategoryUpdateDialog = ({
       return;
     }
     categoryId
-      ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared, prevShared: isShared ?? false })
-      : addCategory({ title, thumbnail: requestedThumbnail });
+      ? updateCategory({
+          categoryId,
+          title: inputTitle,
+          thumbnail: requestedThumbnail,
+          shared,
+          prevShared: isShared ?? false,
+        })
+      : addCategory({ title: inputTitle, thumbnail: requestedThumbnail });
   };
 
   const keyword = categoryId ? '수정' : '추가';
