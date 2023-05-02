@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TextBody, TextBodyTitle } from '@/styles/common';
 import { FlexColumn, FlexColumnCenter, TextAreaBox } from '@/styles/layout';
 
-export const MecaPostContentWrapper = styled.section`
+export const PostBodyWrapper = styled.section`
   ${FlexColumnCenter};
   row-gap: 40px;
   & > * {
@@ -11,18 +11,18 @@ export const MecaPostContentWrapper = styled.section`
   }
 `;
 
-export const MecaPostContainer = styled.div`
+export const PostBodyContainer = styled.div`
   ${FlexColumn};
   row-gap: 8px;
 `;
 
-export const MecaPostContentTitle = styled(TextBodyTitle)`
+export const PostBodyTitleWrapper = styled(TextBodyTitle)`
   margin: 0 0 6px 2px;
   font-size: ${({ theme }) => theme.fontSize.large};
   font-family: ${({ theme }) => theme.fontFamily.sahitya};
 `;
 
-export const MecaPostContentBody = styled(TextBody)`
+export const PostBodyContentWrapper = styled(TextBody)`
   ${TextAreaBox}
   padding: 30px;
   background-color: var(--color-brightgray);
