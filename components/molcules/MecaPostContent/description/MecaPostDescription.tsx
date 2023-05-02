@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { QuillNoSSRReader } from '@/components/editor/QuillNoSSRWrapper';
+import { EditorContainer } from '@/styles/layout';
 
 import { MecaPostContainer, MecaPostContentTitle, MecaPostContentWrapper } from '../styled';
 
@@ -9,8 +10,10 @@ const MecaPostDescription = ({ description }: { description: string }) => {
   return (
     <MecaPostContentWrapper>
       <MecaPostContainer>
-        <MecaPostContentTitle>Comment</MecaPostContentTitle>
-        <Editor />
+        <MecaPostContentTitle>Description</MecaPostContentTitle>
+        <EditorContainer>
+          <Editor />
+        </EditorContainer>
       </MecaPostContainer>
     </MecaPostContentWrapper>
   );
