@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Flex, FlexColumn } from '@/styles/layout';
 
-export const QuizBoxWrapper = styled.div<{ isColumn: boolean }>`
+export const ContentsBoxWrapper = styled.div<{ isColumn: boolean }>`
   ${(props) => (props.isColumn ? FlexColumn : Flex)};
   column-gap: 10px;
   row-gap: 20px;
@@ -15,11 +15,11 @@ export const QuizBoxWrapper = styled.div<{ isColumn: boolean }>`
   }
 `;
 
-export const QuizBoxHeader = styled.div`
+export const ContentsBoxHeader = styled.div`
   font-family: ${({ theme }) => theme.fontFamily.sahitya};
   font-size: ${({ theme }) => theme.fontSize.huge};
 `;
 
-export const QuizBoxBody = styled.div`
+export const ContentsBoxBody = styled.div`
   padding-top: 4px;
 `;

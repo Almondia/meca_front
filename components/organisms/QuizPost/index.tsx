@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect } from 'react';
 
-import QuizBox from '@/components/atoms/QuizBox';
+import ContentsBox from '@/components/atoms/ContentsBox';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import Editor from '@/components/molcules/Editor';
 import useInput from '@/hooks/useInput';
@@ -57,7 +57,7 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
         isAnswerState={isAnswerState}
       />
       {isAnswerState && (
-        <QuizBox
+        <ContentsBox
           header="C."
           isColumn
           body={
