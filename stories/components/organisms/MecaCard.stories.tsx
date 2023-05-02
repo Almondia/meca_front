@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import MecaCard, { MecaCardProps } from '@/components/molcules/MecaCard';
+import MecaCard, { MecaCardProps } from '@/components/organisms/MecaCard';
 
 export default {
-  title: 'components/molcules/MecaCard',
+  title: 'components/organisms/MecaCard',
   component: MecaCard,
   parameters: {
     componentSubtitle: '메모리 카드',

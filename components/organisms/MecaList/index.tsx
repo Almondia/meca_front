@@ -4,7 +4,7 @@ import { MecaUserListResponse } from '@/apis/mecaApi';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
 import CardInfiniteList from '@/components/layout/CardInfiniteList';
 import EmptyPagination from '@/components/layout/EmptyPagination';
-import MecaCard from '@/components/molcules/MecaCard';
+import MecaCard from '@/components/organisms/MecaCard';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 
 export interface MecaListProps {

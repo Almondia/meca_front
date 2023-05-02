@@ -1,4 +1,4 @@
-import MecaCard from '@/components/molcules/MecaCard';
+import MecaCard from '@/components/organisms/MecaCard';
 import { renderQuery } from '../utils';
 import { screen } from '@testing-library/react';
 
