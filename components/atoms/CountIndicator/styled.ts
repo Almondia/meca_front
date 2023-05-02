@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { FlexCenter } from '@/styles/layout';
 
-export const QuizCounterWrapper = styled.div`
+export const CountIndicatorWrapper = styled.div`
   ${FlexCenter};
   column-gap: 6px;
   width: 100px;
@@ -11,11 +11,11 @@ export const QuizCounterWrapper = styled.div`
   }
 `;
 
-export const QuizCurrentCounter = styled.h5<{ isMoreThanHalf: boolean }>`
+export const CountIndicatorCurrentCounter = styled.h5<{ isMoreThanHalf: boolean }>`
   color: var(--color-subbrand);
   opacity: ${(props) => (props.isMoreThanHalf ? 1 : 0.6)};
 `;
 
-export const QuizMaxCounter = styled.h4`
+export const CountIndicatorMaxCounter = styled.h4`
   color: var(--color-brand);
 `;

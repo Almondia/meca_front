@@ -18,7 +18,7 @@ jest.mock('@tanstack/react-query', () => ({
 describe('QuizPage', () => {
   it('첫 퀴즈페이지 접근 시 주어진 문제 수와 question, input, 정답 제출 버튼이 식별된다.', () => {
     renderQuery(<QuizPage />);
-    const maxCountText = screen.getByTestId('id-quizcounter-maxcount');
+    const maxCountText = screen.getByTestId('id-count-indicator-maxcount');
     expect(maxCountText).toHaveTextContent(mockQuizs.length.toString());
 
     const questionText = screen.getByText(mockQuizs[0].question);
@@ -72,10 +72,6 @@ describe('QuizPage', () => {
       expect(submitButton2).toBeInTheDocument();
       return { submitButton2 };
     };
-
-    it('다음문제 버튼을 클릭하면 다음 문제가 식별된다.', async () => {
-      await fireNextQuizShouldShowNextQuizQuestion();
-    });
 
     it('마지막 문제를 확인하면 결과보기 버튼이 식별된다.', async () => {
       const { submitButton2 } = await fireNextQuizShouldShowNextQuizQuestion();
