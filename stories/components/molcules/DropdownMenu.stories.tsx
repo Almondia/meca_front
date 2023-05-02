@@ -1,10 +1,10 @@
 /* eslint-disable no-alert */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import DropdownMenu from '@/components/atoms/DropdownMenu';
+import DropdownMenu from '@/components/molcules/DropdownMenu';
 
 export default {
-  title: 'components/atoms/DropdownMenu',
+  title: 'components/molcules/DropdownMenu',
   component: DropdownMenu,
   parameters: {
     componentSubtitle: '드롭다운',

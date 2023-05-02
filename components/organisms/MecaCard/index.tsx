@@ -1,7 +1,7 @@
-import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
 import Card from '@/components/molcules/Card';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
+import DropdownMenu from '@/components/molcules/DropdownMenu';
 import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 import useModal from '@/hooks/useModal';
 import { MecaTagType } from '@/types/domain';

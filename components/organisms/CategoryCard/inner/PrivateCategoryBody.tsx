@@ -1,6 +1,6 @@
-import DropdownMenu from '@/components/atoms/DropdownMenu';
 import ProgressBar from '@/components/atoms/ProgressBar';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
+import DropdownMenu from '@/components/molcules/DropdownMenu';
 import CategoryDeleteDialog from '@/components/organisms/CategoryDeleteDialog';
 import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
 import useModal from '@/hooks/useModal';
