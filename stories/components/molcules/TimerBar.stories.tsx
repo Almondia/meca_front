@@ -1,18 +1,18 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import QuizTimer, { QuizTimerProps } from '@/components/atoms/QuizTimer';
+import TimerBar, { TimerBarProps } from '@/components/molcules/TimerBar';
 
 export default {
-  title: 'components/atoms/QuizTimer',
-  component: QuizTimer,
+  title: 'components/molcules/TimerBar',
+  component: TimerBar,
   parameters: {
     componentSubtitle: '퀴즈 타이머 바 컴포넌트',
   },
-} as ComponentMeta<typeof QuizTimer>;
+} as ComponentMeta<typeof TimerBar>;
 
-const Template: ComponentStory<typeof QuizTimer> = (args: QuizTimerProps) => (
+const Template: ComponentStory<typeof TimerBar> = (args: TimerBarProps) => (
   <div style={{ padding: '30px' }}>
-    <QuizTimer {...args} />
+    <TimerBar {...args} />
   </div>
 );
 

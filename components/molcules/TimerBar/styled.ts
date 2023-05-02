@@ -3,7 +3,7 @@ import styled, { FlattenSimpleInterpolation } from 'styled-components';
 import { COLOR } from '@/styles/constants';
 import { FlexCenter } from '@/styles/layout';
 
-export const QuizTimerWrapper = styled.div<{ isDisabled: boolean }>`
+export const TimerBarWrapper = styled.div<{ isDisabled: boolean }>`
   position: relative;
   ${FlexCenter};
   width: 100%;
@@ -11,7 +11,7 @@ export const QuizTimerWrapper = styled.div<{ isDisabled: boolean }>`
   opacity: ${(props) => (props.isDisabled ? 0.5 : 1)};
 `;
 
-export const QuizClock = styled.div`
+export const TimerBarClock = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -24,7 +24,10 @@ export const QuizClock = styled.div`
   background-color: var(--color-background);
 `;
 
-export const QuizTimerBar = styled.div<{ second: number; fillAnimation: () => FlattenSimpleInterpolation | undefined }>`
+export const TimerBarProgression = styled.div<{
+  second: number;
+  fillAnimation: () => FlattenSimpleInterpolation | undefined;
+}>`
   position: relative;
   ${FlexCenter};
   width: 100%;

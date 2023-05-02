@@ -10,8 +10,8 @@ import styled from 'styled-components';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
 import QuizCounter from '@/components/atoms/QuizCounter';
-import QuizTimer from '@/components/atoms/QuizTimer';
 import PageTitle from '@/components/layout/PageTitle';
+import TimerBar from '@/components/molcules/TimerBar';
 import QuizPost from '@/components/organisms/QuizPost';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import useCount from '@/hooks/useCount';
@@ -126,7 +126,7 @@ const QuizPage = () => {
         <PageTitle>{quizTitle}</PageTitle>
         <QuizCounter currentCount={round} maxCount={quizList.length} />
       </QuizTitleBox>
-      {quizPhase === 'progress' ? <QuizTimer second={quizPhaseTime ?? undefined} /> : <QuizTimer />}
+      {quizPhase === 'progress' ? <TimerBar second={quizPhaseTime ?? undefined} /> : <TimerBar />}
       <br />
       <br />
       <QuizPost

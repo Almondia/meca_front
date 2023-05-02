@@ -4,14 +4,17 @@ import { css, keyframes } from 'styled-components';
 
 import Icon from '@/components/atoms/Icon';
 
-import { QuizClock, QuizTimerBar, QuizTimerWrapper } from './styled';
+import { TimerBarClock, TimerBarProgression, TimerBarWrapper } from './styled';
 
-export interface QuizTimerProps {
+export interface TimerBarProps {
   /** [선택] 초 단위 입력, 없을 경우 타이머 미적용 */
   second?: number;
 }
 
-const QuizTimer = ({ second }: QuizTimerProps) => {
+/**
+ * Time Progress Bar 컴포넌트
+ */
+const TimerBar = ({ second }: TimerBarProps) => {
   const fillAnimation = useCallback(() => {
     if (!second) {
       return undefined;
@@ -31,15 +34,15 @@ const QuizTimer = ({ second }: QuizTimerProps) => {
     `;
   }, [second]);
   return (
-    <QuizTimerWrapper isDisabled={!second}>
-      <QuizTimerBar second={second ?? 0} fillAnimation={fillAnimation}>
+    <TimerBarWrapper isDisabled={!second}>
+      <TimerBarProgression second={second ?? 0} fillAnimation={fillAnimation}>
         <div />
-      </QuizTimerBar>
-      <QuizClock>
+      </TimerBarProgression>
+      <TimerBarClock>
         <Icon icon="Clock" color="var(--color-brand)" />
-      </QuizClock>
-    </QuizTimerWrapper>
+      </TimerBarClock>
+    </TimerBarWrapper>
   );
 };
 
-export default QuizTimer;
+export default TimerBar;
