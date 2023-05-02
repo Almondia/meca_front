@@ -1,6 +1,6 @@
 import DropdownMenu from '@/components/atoms/DropdownMenu';
 import MecaTag from '@/components/atoms/MecaTag';
-import Card from '@/components/layout/Card';
+import Card from '@/components/molcules/Card';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
 import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 import useModal from '@/hooks/useModal';

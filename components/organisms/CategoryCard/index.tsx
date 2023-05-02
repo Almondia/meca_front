@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import Card from '@/components/layout/Card';
+import Card from '@/components/molcules/Card';
 import { CategoryType } from '@/types/domain';
 import { IMAGE_SERVER } from '@/utils/constants';
 import getInnerComponents from '@/utils/getInnerComponent.s';

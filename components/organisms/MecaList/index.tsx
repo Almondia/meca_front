@@ -2,8 +2,8 @@ import { InfiniteData } from '@tanstack/react-query';
 
 import { MecaUserListResponse } from '@/apis/mecaApi';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
-import CardInfiniteList from '@/components/layout/CardInfiniteList';
 import EmptyPagination from '@/components/layout/EmptyPagination';
+import ListInfiniteScroller from '@/components/molcules/ListInfiniteScroller';
 import MecaCard from '@/components/organisms/MecaCard';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 
@@ -19,7 +19,7 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProp
     return <EmptyPagination />;
   }
   return (
-    <CardInfiniteList
+    <ListInfiniteScroller
       type="masonry"
       loader={<LoadSpinner key={Number(mecaList.pageParams[1]) ?? 0} width="100%" />}
       loadMore={fetchNextPage}
@@ -40,7 +40,7 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProp
           />
         )),
       )}
-    </CardInfiniteList>
+    </ListInfiniteScroller>
   );
 };
 

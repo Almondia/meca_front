@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Card from '@/components/layout/Card';
+import Card from '@/components/molcules/Card';
 import Chart from '@/components/molcules/Chart';
 import QuizTimeline from '@/components/organisms/QuizTimeline';
 import useQuizResult from '@/hooks/meca/useQuizResult';
