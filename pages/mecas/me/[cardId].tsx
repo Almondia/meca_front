@@ -7,9 +7,9 @@ import Link from 'next/link';
 import React, { useCallback } from 'react';
 
 import mecaApi from '@/apis/mecaApi';
-import PageTitle from '@/components/layout/PageTitle';
-import MecaDeleteDialog from '@/components/molcules/MecaDeleteDialog';
+import PageTitle from '@/components/atoms/PageTitle';
 import CardWriterInfo from '@/components/molcules/PostWriterInfo';
+import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';

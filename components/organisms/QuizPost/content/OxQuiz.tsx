@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 
 import styled from 'styled-components';
 
-import Icon from '@/components/atoms/Icon';
+import ContentsBox from '@/components/atoms/ContentsBox';
 import RadioGroup from '@/components/atoms/Input/Radio';
-import QuizBox from '@/components/atoms/QuizBox';
+import Icon from '@/components/common/Icon';
 import InputGroup from '@/components/molcules/InputGroup';
 import { NonVisibleRadioBox, TextBodyTitle } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
@@ -64,7 +64,7 @@ const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizConten
   );
   return (
     <QuizContentWrapper>
-      <QuizBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
+      <ContentsBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
       <InputGroup>
         <InputGroup.Label>정답을 선택하세요</InputGroup.Label>
         <SelectGroup ref={fieldsetRef}>

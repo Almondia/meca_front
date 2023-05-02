@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import DropdownMenu from '@/components/atoms/DropdownMenu';
+import DropdownMenu from '@/components/molcules/DropdownMenu';
 import DotMenuOpener, { DotMenuOpenerProps } from '@/components/molcules/DotMenuOpener';
 
 export default {

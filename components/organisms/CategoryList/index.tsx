@@ -2,10 +2,10 @@
 import { InfiniteData } from '@tanstack/react-query';
 
 import { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/categoryApi';
+import EmptyList from '@/components/atoms/EmptyList';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
-import CardInfiniteList from '@/components/layout/CardInfiniteList';
-import EmptyPagination from '@/components/layout/EmptyPagination';
-import CategoryCard from '@/components/molcules/CategoryCard';
+import ListInfiniteScroller from '@/components/molcules/ListInfiniteScroller';
+import CategoryCard from '@/components/organisms/CategoryCard';
 import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
 
 export interface CategoryListProps {
@@ -22,10 +22,10 @@ function determineContentsIsPrivate(
 
 const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryListProps) => {
   if (!categoryList || !categoryList.pages?.[0].contents.length) {
-    return <EmptyPagination />;
+    return <EmptyList />;
   }
   return (
-    <CardInfiniteList
+    <ListInfiniteScroller
       type="grid"
       loader={<LoadSpinner key={Number(categoryList.pageParams[1]) ?? 0} width="100%" />}
       loadMore={fetchNextPage}
@@ -42,7 +42,7 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryList
           </CategoryCard>
         )),
       )}
-    </CardInfiniteList>
+    </ListInfiniteScroller>
   );
 };
 

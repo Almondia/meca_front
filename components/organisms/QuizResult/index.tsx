@@ -1,11 +1,8 @@
 import { useState } from 'react';
 
-import DoughnutChart from '@/components/chart/DougnutChart';
-import GroupBarChart from '@/components/chart/GroupBarChart';
-import RadialChart from '@/components/chart/RadialChart';
-import WordCloud from '@/components/chart/WordCloud';
-import Card from '@/components/layout/Card';
-import QuizTimeline from '@/components/molcules/QuizTimeline';
+import Card from '@/components/molcules/Card';
+import Chart from '@/components/molcules/Chart';
+import QuizTimeline from '@/components/organisms/QuizTimeline';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import { COLOR } from '@/styles/constants';
 import { QuizType } from '@/types/domain';
@@ -34,7 +31,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
         <Card>
           <Card.Title>전체 정답률</Card.Title>
           <Card.Body>
-            <DoughnutChart
+            <Chart.DoughnutChart
               labels={['오답률', '정답률']}
               fillColors={[COLOR.success, COLOR.error]}
               values={[avgScore, 1 - avgScore]}
@@ -44,7 +41,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
         <Card>
           <Card.Title>유형별 점수 비율</Card.Title>
           <Card.Body>
-            <GroupBarChart
+            <Chart.GroupBarChart
               legends={['점수 비율', '문제수']}
               axisNames={quizTypeRate.names}
               firstValues={quizTypeRate.answerRate}
@@ -55,7 +52,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
         <Card>
           <Card.Title>평균 소요 시간</Card.Title>
           <Card.Body>
-            <RadialChart value={avgTime} maxValue={maxQuizTime} label={{ pre: '평균', post: 'S' }} />
+            <Chart.RadialChart value={avgTime} maxValue={maxQuizTime} label={{ pre: '평균', post: 'S' }} />
           </Card.Body>
         </Card>
       </QuizResultSideArea>
@@ -64,7 +61,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
           <Card.Title>Keyword Cloud</Card.Title>
           <Card.Body>
             {/* TODO: word cloud 텍스트 반영 */}
-            <WordCloud />
+            <Chart.WordCloud />
           </Card.Body>
         </Card>
       </QuizResultUpperContentArea>

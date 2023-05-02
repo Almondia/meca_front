@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import { RecoilRoot } from 'recoil';
 
 import '@/styles/font.css';
-import Layout from '@/components/layout/Layout';
+import Layout from '@/components/common/Layout';
 import useSSRInterception from '@/hooks/useSSRInterception';
 import { generateQueryClient } from '@/query/queryClient';
 import commonTheme from '@/styles/theme';

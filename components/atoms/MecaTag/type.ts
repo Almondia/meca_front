@@ -1,4 +1,4 @@
-import { IconType } from '@/components/icons/type';
+import { IconType } from '@/components/common/Icons';
 import { MecaTagType } from '@/types/domain';
 
 interface MecaTagValueType {

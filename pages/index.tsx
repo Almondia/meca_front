@@ -15,7 +15,6 @@ export default function Home() {
     <>
       <HomeCarousel />
       <ListSection>
-        {/* TODO: backend 구현 완료 시 query change 추가 */}
         <CategoryControl onChangeQuery={changeSearchQuery} isShared />
         <Devide />
         <CategoryList categoryList={categories} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />

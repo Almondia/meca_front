@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRef } from 'react';
 
-import Icon from '@/components/atoms/Icon';
+import Icon from '@/components/common/Icon';
 import { IMAGE_SERVER } from '@/utils/constants';
 
 import {

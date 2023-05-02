@@ -1,4 +1,4 @@
-import Icon from '@/components/atoms/Icon';
+import Icon from '@/components/common/Icon';
 import { render } from '@testing-library/react';
 
 it('Icon 컴포넌트는 MockedIcon 컴포넌트를 렌더링한다.', () => {
