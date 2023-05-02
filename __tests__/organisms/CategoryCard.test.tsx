@@ -1,7 +1,7 @@
 import { renderQuery } from '../utils';
 
 import { screen, fireEvent } from '@testing-library/react';
-import CategoryCard from '@/components/molcules/CategoryCard';
+import CategoryCard from '@/components/organisms/CategoryCard';
 import mockRouter from 'next-router-mock';
 
 describe('CategoryCard', () => {

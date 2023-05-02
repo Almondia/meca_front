@@ -1,12 +1,12 @@
 import DropdownMenu from '@/components/atoms/DropdownMenu';
 import ProgressBar from '@/components/atoms/ProgressBar';
+import DotMenuOpener from '@/components/molcules/DotMenuOpener';
+import CategoryDeleteDialog from '@/components/organisms/CategoryDeleteDialog';
+import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
 import useModal from '@/hooks/useModal';
 import { COLOR } from '@/styles/constants';
 import { CategoryDetailType } from '@/types/domain';
 
-import CategoryDeleteDialog from '../../CategoryDeleteDialog';
-import CategoryUpdateDialog from '../../CategoryUpdateDialog';
-import DotMenuOpener from '../../DotMenuOpener';
 import { CategoryCardBodyContainer, ProgressesInfoContainer } from '../styled';
 
 const PrivateCategoryBody = ({

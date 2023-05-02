@@ -1,10 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import CategoryCard, { CategoryCardProps } from '@/components/molcules/CategoryCard';
+import CategoryCard, { CategoryCardProps } from '@/components/organisms/CategoryCard';
 
 export default {
-  title: 'components/molcules/CategoryCard',
+  title: 'components/organisms/CategoryCard',
   component: CategoryCard,
   parameters: {
     componentSubtitle: '카테고리 카드',

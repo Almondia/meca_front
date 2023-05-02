@@ -5,7 +5,7 @@ import { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/cate
 import LoadSpinner from '@/components/atoms/LoadSpinner';
 import CardInfiniteList from '@/components/layout/CardInfiniteList';
 import EmptyPagination from '@/components/layout/EmptyPagination';
-import CategoryCard from '@/components/molcules/CategoryCard';
+import CategoryCard from '@/components/organisms/CategoryCard';
 import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
 
 export interface CategoryListProps {
