@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import QuizBox from '@/components/atoms/QuizBox';
 import InputGroup from '@/components/molcules/InputGroup';
+import { TextBodyTitle } from '@/styles/common';
 
 import { QuizContentWrapper } from '../styled';
 import { QuizContentProps } from '../type';
@@ -12,7 +13,7 @@ const KeywordAnswerInputContainer = styled.div<{ isAnswerState: boolean }>`
 
 const KeywordQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
   <QuizContentWrapper>
-    <QuizBox header="Q." body={question} isColumn />
+    <QuizBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
     {isAnswerState && <QuizBox header="A." body={answer} isColumn />}
     <KeywordAnswerInputContainer isAnswerState={isAnswerState}>
       <InputGroup>

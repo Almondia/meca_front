@@ -2,7 +2,7 @@ import { QuizBoxBody, QuizBoxHeader, QuizBoxWrapper } from './styled';
 
 export interface QuizBoxProps {
   header: string;
-  body: string;
+  body: React.ReactNode;
   isColumn?: boolean;
 }
 

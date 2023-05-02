@@ -17,7 +17,7 @@ export const MecaPostContainer = styled.div`
 `;
 
 export const MecaPostContentTitle = styled(TextBodyTitle)`
-  margin-left: 2px;
+  margin: 0 0 6px 2px;
   font-size: ${({ theme }) => theme.fontSize.large};
   font-family: ${({ theme }) => theme.fontFamily.sahitya};
 `;

@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
-import { TextBodyTitle } from '@/styles/common';
 import { Flex, FlexColumn } from '@/styles/layout';
 
 export const QuizBoxWrapper = styled.div<{ isColumn: boolean }>`
   ${(props) => (props.isColumn ? FlexColumn : Flex)};
   column-gap: 10px;
   row-gap: 20px;
-  padding: 30px 60px;
+  padding: 20px 60px;
   box-shadow: var(--shadow-bold);
   border-radius: ${({ theme }) => theme.border.card};
   @media ${({ theme }) => theme.media.mobile} {
@@ -21,6 +20,6 @@ export const QuizBoxHeader = styled.div`
   font-size: ${({ theme }) => theme.fontSize.huge};
 `;
 
-export const QuizBoxBody = styled(TextBodyTitle)`
+export const QuizBoxBody = styled.div`
   padding-top: 4px;
 `;
