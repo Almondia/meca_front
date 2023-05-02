@@ -4,7 +4,7 @@ import { CATEGORIES } from '../__mocks__/msw/data';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { rest } from 'msw';
 import { server } from '../__mocks__/msw/server';
-import CategoryUpdateDialog from '@/components/molcules/CategoryUpdateDialog';
+import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
 
 describe('CategoryUpdateDialog', () => {
   it('기존 이미지가 없다면 썸네일 등록 버튼이 식별된다.', () => {

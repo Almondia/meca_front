@@ -1,6 +1,9 @@
 import { useCallback, useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
+import InputGroup from '@/components/molcules/InputGroup';
+import Modal from '@/components/molcules/Modal';
+import ThumbnailUploader from '@/components/molcules/ThumbnailUploader';
 import useCategoryPost from '@/hooks/category/useCategoryPost';
 import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
 import useFetchImage from '@/hooks/useFetchImage';
@@ -8,10 +11,6 @@ import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
 import { IMAGE_EXTENTIONS } from '@/types/domain';
-
-import InputGroup from '../InputGroup';
-import Modal from '../Modal';
-import ThumbnailUploader from '../ThumbnailUploader';
 
 export interface CategoryUpdateDialogProps extends DefaultModalOptions {
   categoryId?: string;
