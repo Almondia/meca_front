@@ -58,10 +58,11 @@ const CategoryUpdateDialog = ({
   }, [image]);
 
   const handleUpdateClick = async () => {
-    if (title === '') {
+    const inputTitle = title.trim();
+    if (inputTitle === '') {
       return;
     }
-    if (title === categoryTitle && image === thumbnail && shared === isShared) {
+    if (inputTitle === categoryTitle && image === thumbnail && shared === isShared) {
       onClose();
       return;
     }
@@ -70,8 +71,14 @@ const CategoryUpdateDialog = ({
       return;
     }
     categoryId
-      ? updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared, prevShared: isShared ?? false })
-      : addCategory({ title, thumbnail: requestedThumbnail });
+      ? updateCategory({
+          categoryId,
+          title: inputTitle,
+          thumbnail: requestedThumbnail,
+          shared,
+          prevShared: isShared ?? false,
+        })
+      : addCategory({ title: inputTitle, thumbnail: requestedThumbnail });
   };
 
   const keyword = categoryId ? '수정' : '추가';
