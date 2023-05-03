@@ -27,8 +27,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install unplugged dependencies
         run: yarn install
-      - name: Run tests with coverage
-        run: yarn test:ci
       - name: Generate coverage report
         id: coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
