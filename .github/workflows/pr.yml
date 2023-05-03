@@ -21,17 +21,21 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install unplugged dependencies
         run: yarn install
-      - name: Run tests with coverage
-        run: yarn test:ci
       - name: Generate coverage report
         id: coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
+        env:
+          NEXT_PUBLIC_KAKAO_LOGIN: ${{ secrets.TEST_KAKAO }}
+          NEXT_PUBLIC_NAVER_LOGIN: ${{ secrets.TEST_NAVER }}
+          NEXT_PUBLIC_GOOGLE_LOGIN: ${{ secrets.TEST_GOOGLE }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.TEST_API_URL }}
+          NEXT_PUBLIC_SECRETS_KEY: ${{ secrets.TEST_SECRETS_KEY }}
         with:
           annotations: none
           github-token: ${{ secrets.SECRET_TOKEN }}
           package-manager: yarn
           test-script: yarn test:ci
-          output: comment, report-markdown
+          output: comment
       - name: Comment coverage report
         uses: unsplash/comment-on-pr@v1.3.0
         env:
