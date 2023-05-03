@@ -1,0 +1,41 @@
+name: Pull Request Workflow
+on:
+  pull_request:
+    branches:
+      - dev
+jobs:
+  jest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install unplugged dependencies
+        run: yarn install
+      - name: Run tests with coverage
+        run: yarn test:ci
+      - name: Generate coverage report
+        id: coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          annotations: none
+          github-token: ${{ secrets.SECRET_TOKEN }}
+          package-manager: yarn
+          test-script: yarn test:ci
+          output: comment, report-markdown
+      - name: Comment coverage report
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+        with:
+          msg: |
+            ${env.JEST_COVERAGE_REPORT}
