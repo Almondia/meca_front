@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
 import mecaApi from '@/apis/mecaApi';
+import statisticsApi from '@/apis/statisticsApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import { MECATAG_VALUES } from '@/components/atoms/MecaTag/type';
 import queryKey from '@/query/queryKey';
@@ -13,6 +14,16 @@ const useQuizResult = () => {
   const quizList = queryClient.getQueryData<QuizType[]>([queryKey.quiz]) ?? fallback;
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
+
+  const {
+    mutate: applyQuizKeyword,
+    data: quizKeywords,
+    isLoading: isApplyKeywordLoading,
+  } = useMutation(async () => {
+    const sentence = quizList.reduce((prev, cur) => `${prev} ${cur.title} ${cur.question} ${cur.answer}`, '');
+    const response = await statisticsApi.postKeywordBySentence(sentence);
+    return response;
+  });
 
   const { mutate: applyQuizResult } = useMutation(mecaApi.applyQuizResult, {
     onSuccess: () => {
@@ -75,7 +86,17 @@ const useQuizResult = () => {
     queryClient.setQueryData([queryKey.quiz], []);
   };
 
-  return { quizList, solveQuiz, applyQuizResult, getQuizTypeRateResult, getAnswerRateResult, clearQuizPhase };
+  return {
+    quizList,
+    solveQuiz,
+    applyQuizResult,
+    applyQuizKeyword,
+    quizKeywords,
+    getQuizTypeRateResult,
+    getAnswerRateResult,
+    clearQuizPhase,
+    isApplyKeywordLoading,
+  };
 };
 
 export default useQuizResult;

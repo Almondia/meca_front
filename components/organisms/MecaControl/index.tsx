@@ -25,16 +25,22 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: MecaC
   const { fetchOrGetQuery } = useCachedOrFetchQuery();
   const [quiznum, setQuizNum] = useState<number>(0);
   const { visible: isPlayModalVisible, open: playModalOpen, close: playModalClose } = useModal();
+
+  // TODO: 최소문제 처리 개선할 것: 3문제 이하일 경우 플레이버튼이 안나오게 한다던가?
   const handlePlayClick = async () => {
     const { data } = await fetchOrGetQuery([queryKey.mecas, categoryId, 'count'], () =>
       mecaApi.getCountByCategoryId(categoryId),
     );
     const { count } = data;
-    setQuizNum(count);
     if (!count) {
       alertToast('플레이할 카드가 없어요!', 'info');
       return;
     }
+    if (count < 3) {
+      alertToast('3문제 정도는 있어야 합니다!', 'info');
+      return;
+    }
+    setQuizNum(count);
     playModalOpen();
   };
   return (

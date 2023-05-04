@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import LoadSpinner from '@/components/atoms/LoadSpinner';
 import Card from '@/components/molcules/Card';
 import Chart from '@/components/molcules/Chart';
 import QuizTimeline from '@/components/organisms/QuizTimeline';
@@ -21,9 +22,15 @@ export interface QuizResultProps {
 }
 
 const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
-  const { getQuizTypeRateResult, getAnswerRateResult } = useQuizResult();
+  const { getQuizTypeRateResult, getAnswerRateResult, applyQuizKeyword, isApplyKeywordLoading, quizKeywords } =
+    useQuizResult();
   const [{ avgTime, avgScore }] = useState(getAnswerRateResult());
   const [quizTypeRate] = useState(getQuizTypeRateResult());
+
+  useEffect(() => {
+    applyQuizKeyword();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <QuizResulDashBoard>
@@ -60,8 +67,13 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
         <Card>
           <Card.Title>Keyword Cloud</Card.Title>
           <Card.Body>
-            {/* TODO: word cloud 텍스트 반영 */}
-            <Chart.WordCloud />
+            {isApplyKeywordLoading || !quizKeywords ? (
+              <LoadSpinner width="100%" height="200px" />
+            ) : (
+              <Chart.WordCloud
+                words={Object.entries(quizKeywords.keywords).map(([text, value]) => ({ text, value }))}
+              />
+            )}
           </Card.Body>
         </Card>
       </QuizResultUpperContentArea>

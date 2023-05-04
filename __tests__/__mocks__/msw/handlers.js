@@ -39,7 +39,7 @@ export const handlers = [
     );
   }),
 
-  rest.get('/api/logout', (req, res, ctx) => {
+  rest.post('/api/logout', (req, res, ctx) => {
     return res(
       ctx.json({
         deleted: true,
