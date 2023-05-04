@@ -12,12 +12,12 @@ const SpinFrame = keyframes`
     transform: rotate(360deg);
   }`;
 
-const LoadSpinnerWrapper = styled.div<{ width: ElementSizeType; size: ElementSizeType }>`
+const LoadSpinnerWrapper = styled.div<{ width: ElementSizeType; height?: ElementSizeType; size: ElementSizeType }>`
   grid-column: 1 / -1;
   ${FlexCenter};
   width: ${(props) => props.width};
   min-height: 60px;
-  height: 40px;
+  height: ${(props) => (props.height ? props.height : '60px')};
   padding: 30px 0;
   & > div {
     width: ${(props) => props.size};
@@ -33,11 +33,12 @@ const LoadSpinnerWrapper = styled.div<{ width: ElementSizeType; size: ElementSiz
 
 export interface LoadSpinnerProps {
   width: ElementSizeType;
+  height?: ElementSizeType;
   size?: ElementSizeType;
 }
 
-const LoadSpinner = ({ width, size = '2.25rem' }: LoadSpinnerProps) => (
-  <LoadSpinnerWrapper data-testid="id-scroll-load-spinner" width={width} size={size}>
+const LoadSpinner = ({ width, height, size = '2.25rem' }: LoadSpinnerProps) => (
+  <LoadSpinnerWrapper data-testid="id-scroll-load-spinner" width={width} height={height} size={size}>
     <div />
   </LoadSpinnerWrapper>
 );
