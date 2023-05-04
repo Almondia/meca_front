@@ -1,7 +1,7 @@
+import Icon from '@/components/common/Icon';
+
 import { MecaTagWrapper, TagIconBox, TagText } from './styled';
 import { MECATAG_VALUES, MecaTagIconType } from './type';
-
-import Icon from '../Icon';
 
 export interface MecaTagProps {
   /** [필수] 정해진 태그이름을 사용할 것 */

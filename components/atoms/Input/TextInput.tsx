@@ -1,4 +1,4 @@
-import { IconType } from '@/components/icons/type';
+import { IconType } from '@/components/common/Icons';
 import { ElementSizeType } from '@/types/common';
 
 import { TextInputBox, TextInputLeftIconBox, TextInputRightIconBox, TextInputWrapper } from './styled';

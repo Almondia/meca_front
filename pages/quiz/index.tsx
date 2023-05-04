@@ -1,24 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import QuizCounter from '@/components/atoms/QuizCounter';
-import QuizTimer from '@/components/atoms/QuizTimer';
-import PageTitle from '@/components/layout/PageTitle';
+import CountIndicator from '@/components/atoms/CountIndicator';
+import LoadSpinner from '@/components/atoms/LoadSpinner';
+import PageTitle from '@/components/atoms/PageTitle';
+import TimerBar from '@/components/molcules/TimerBar';
 import QuizPost from '@/components/organisms/QuizPost';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { FlexSpaceBetween, PostSection } from '@/styles/layout';
 import { QuizPhaseType, QuizResultType, QuizSucceedType } from '@/types/domain';
 
+const QuizResult = dynamic(() => import('@/components/organisms/QuizResult'), {
+  loading: () => <LoadSpinner width="100%" />,
+  ssr: false,
+});
+
 const QuizTitleBox = styled.div`
   ${FlexSpaceBetween};
-  margin-bottom: 6px;
+  align-items: center;
 `;
 
 type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhaseType, QuizSucceedType>, 'result'>;
@@ -26,9 +33,10 @@ type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhaseType, QuizSucceedType>, 
 const QuizPage = () => {
   const quizTitle = useRecoilValue(quizTitleState);
   const quizPhaseTime = useRecoilValue(quizTimeState);
-  const { quizList, solveQuiz, applyQuizResult } = useQuizResult();
+  const { quizList, solveQuiz, applyQuizResult, clearQuizPhase } = useQuizResult();
   const { number: round, increaseNumber: setNextRound } = useCount(1, 1, quizList.length);
   const [quizPhase, setQuizPhase] = useState<QuizPhaseType>('progress');
+  const quizSpendTimeRef = useRef<number>(0);
   const quizIndex = round - 1;
 
   const nextQuizHandler = () => {
@@ -42,7 +50,7 @@ const QuizPage = () => {
         return;
       }
       setQuizPhase(round === quizList.length ? 'end' : 'done');
-      solveQuiz(quizList[quizIndex].cardId, answer);
+      solveQuiz(quizList[quizIndex].cardId, quizSpendTimeRef.current, answer);
     },
     [round, quizIndex],
   );
@@ -54,14 +62,28 @@ const QuizPage = () => {
 
   useEffect(() => {
     if (quizPhase !== 'progress') {
+      quizSpendTimeRef.current = 0;
       return;
     }
     const timeoutId = setTimeout(() => {
       solveQuizHandler('시간초과!');
     }, quizPhaseTime * 1000);
+    const intervalId = setInterval(() => {
+      quizSpendTimeRef.current += 1;
+    }, 1000);
     // eslint-disable-next-line consistent-return
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
   }, [quizPhase]);
+
+  useEffect(
+    () => () => {
+      clearQuizPhase();
+    },
+    [],
+  );
 
   const quizPhaseSucceed: QuizPhaseSucceedHandlerType = {
     progress: {
@@ -87,32 +109,34 @@ const QuizPage = () => {
       </PostSection>
     );
   }
+  if (quizPhase === 'result') {
+    return (
+      <PostSection>
+        <QuizTitleBox>
+          <PageTitle>{quizTitle}</PageTitle>
+          <Link href="/categories">목록으로</Link>
+        </QuizTitleBox>
+        <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
+      </PostSection>
+    );
+  }
   return (
     <PostSection>
       <QuizTitleBox>
         <PageTitle>{quizTitle}</PageTitle>
-        <QuizCounter currentCount={round} maxCount={quizList.length} />
+        <CountIndicator currentCount={round} maxCount={quizList.length} />
       </QuizTitleBox>
-      {quizPhase !== 'result' ? (
-        <>
-          {quizPhase === 'progress' ? <QuizTimer second={quizPhaseTime ?? undefined} /> : <QuizTimer />}
-          <br />
-          <br />
-          <QuizPost
-            isAnswerState={quizPhase !== 'progress'}
-            question={quizList[quizIndex].question}
-            answer={quizList[quizIndex].answer}
-            description={quizList[quizIndex].description}
-            handleSucceed={quizPhaseSucceed[quizPhase]}
-            quizType={quizList[quizIndex].cardType}
-          />
-        </>
-      ) : (
-        // TODO: 결과 페이지 만들기
-        <div>
-          result! <Link href="/">홈으로</Link>
-        </div>
-      )}
+      {quizPhase === 'progress' ? <TimerBar second={quizPhaseTime ?? undefined} /> : <TimerBar />}
+      <br />
+      <br />
+      <QuizPost
+        isAnswerState={quizPhase !== 'progress'}
+        question={quizList[quizIndex].question}
+        answer={quizList[quizIndex].answer}
+        description={quizList[quizIndex].description}
+        handleSucceed={quizPhaseSucceed[quizPhase]}
+        quizType={quizList[quizIndex].cardType}
+      />
     </PostSection>
   );
 };

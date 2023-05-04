@@ -2,7 +2,7 @@
 import { GetServerSideProps } from 'next';
 
 import categoryApi from '@/apis/categoryApi';
-import PageTitle from '@/components/layout/PageTitle';
+import PageTitle from '@/components/atoms/PageTitle';
 import CategoryControl from '@/components/organisms/CategoryControl';
 import CategoryList from '@/components/organisms/CategoryList';
 import useCategory from '@/hooks/category/useCategory';

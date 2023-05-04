@@ -6,6 +6,7 @@ import { server } from '../__mocks__/msw/server';
 import { rest } from 'msw';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import nookies from 'nookies';
+import mockRouter from 'next-router-mock';
 
 jest.mock('nookies', () => ({
   set: jest.fn(),
@@ -15,7 +16,6 @@ describe('LoginPage', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  const useRouterMock = jest.spyOn(require('next/router'), 'useRouter');
 
   it('Login Page에 비정상적으로 접근(code, auth type없이)하면 메인페이지로 이동된다.', async () => {
     const mockedContext = {
@@ -50,10 +50,6 @@ describe('LoginPage', () => {
   });
 
   it('지정된 querystring으로 접근했으나 부적절한 정보여서 로그인에 실패하면 toast 메시지와 함께 메인페이지로 이동된다.', async () => {
-    const replaceMock = jest.fn();
-    useRouterMock.mockImplementation(() => ({
-      replace: replaceMock,
-    }));
     server.resetHandlers(
       rest.post(`${ENDPOINT}/oauth/login/kakao`, (req, res, ctx) => {
         return res(
@@ -81,14 +77,10 @@ describe('LoginPage', () => {
     await waitFor(() => expect(screen.getByText(/please wait/i)).toBeInTheDocument());
     const toastText = await screen.findByText('알 수 없는 오류');
     expect(toastText).toBeInTheDocument();
-    expect(replaceMock).toHaveBeenCalledWith('/');
+    expect(mockRouter.pathname).toEqual('/');
   });
 
   it('Login Page에 지정된 kakao oauth로 적절한 정보와 함꼐 접근하여 로그인에 성공하면 toast 메시지와 함꼐 메인페이지로 이동된다..', async () => {
-    const replaceMock = jest.fn();
-    useRouterMock.mockImplementation(() => ({
-      replace: replaceMock,
-    }));
     const mockedContext = {
       req: {
         url: '/login?auth=kakao&code=code',
@@ -101,6 +93,6 @@ describe('LoginPage', () => {
     await waitFor(() => expect(screen.getByText(/please wait/i)).toBeInTheDocument());
     const toastText = await screen.findByText('로그인 성공');
     expect(toastText).toBeInTheDocument();
-    expect(replaceMock).toHaveBeenCalledWith('/');
+    expect(mockRouter.pathname).toEqual('/');
   });
 });

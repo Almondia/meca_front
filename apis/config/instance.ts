@@ -18,6 +18,7 @@ export type ServerRequestType = (IncomingMessage & { cookies: Partial<{ [key: st
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const unauthInstance = axios.create({ baseURL });
 const authInstance = axios.create({ baseURL });
+const serverInstance = axios.create({ baseURL: '' });
 
 let request = <ServerRequestType>{};
 let accessTokenInstace = '';
@@ -48,7 +49,7 @@ function genErrorResponse(error: any) {
   return Promise.reject(errorResponse);
 }
 
-axios.interceptors.response.use(
+serverInstance.interceptors.response.use(
   (response): any => getObject(response),
   (error) => genErrorResponse(error),
 );
@@ -73,4 +74,4 @@ authInstance.interceptors.response.use(
     return genErrorResponse(error);
   },
 );
-export { unauthInstance, authInstance };
+export { unauthInstance, authInstance, serverInstance };

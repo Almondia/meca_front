@@ -22,16 +22,12 @@ const MecaWritePage = ({ categoryId, cardId }: MecaWritePageProps) => {
   );
 };
 
-// TODO: 카드 수정에 대한 처리도 필요하다.
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   const categoryId = context.params?.categoryId;
   if (!categoryId || typeof categoryId !== 'string') {
     throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
   }
-  const response = await Promise.allSettled([mecaApi.getMyMecaList({ categoryId, pageSize: 1 })]);
-  if (response[0].status === 'rejected') {
-    throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
-  }
+  await queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () => mecaApi.getCountByCategoryId(categoryId));
   const cardId = context.query?.cardId;
   if (!cardId || typeof cardId !== 'string') {
     return {

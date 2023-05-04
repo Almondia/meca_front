@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import Icon from '@/components/atoms/Icon';
-import { IconType } from '@/components/icons/type';
+import Icon from '@/components/common/Icon';
+import { IconType } from '@/components/common/Icons';
 
 export const IconTextWrapper = styled(Icon)`
   width: 16px;

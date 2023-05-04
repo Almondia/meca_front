@@ -1,10 +1,9 @@
-import { IconType } from '@/components/icons/type';
+import Icon from '@/components/common/Icon';
+import { IconType } from '@/components/common/Icons';
 import { HiddenText } from '@/styles/common';
 import { ElementSizeType } from '@/types/common';
 
 import { IconButtonWrapper } from './styled';
-
-import Icon from '../Icon';
 
 export interface IconButtonProps {
   /** 존재하는 svg 아이콘 이름 */

@@ -2,7 +2,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
-import PageTitle from '@/components/layout/PageTitle';
+import PageTitle from '@/components/atoms/PageTitle';
 import PostWriterInfo from '@/components/molcules/PostWriterInfo';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';

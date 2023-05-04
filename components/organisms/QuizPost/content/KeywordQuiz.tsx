@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import QuizBox from '@/components/atoms/QuizBox';
+import ConetentsBox from '@/components/atoms/ContentsBox';
 import InputGroup from '@/components/molcules/InputGroup';
+import { TextBodyTitle } from '@/styles/common';
 
 import { QuizContentWrapper } from '../styled';
 import { QuizContentProps } from '../type';
@@ -12,8 +13,8 @@ const KeywordAnswerInputContainer = styled.div<{ isAnswerState: boolean }>`
 
 const KeywordQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
   <QuizContentWrapper>
-    <QuizBox header="Q." body={question} isColumn />
-    {isAnswerState && <QuizBox header="A." body={answer} isColumn />}
+    <ConetentsBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
+    {isAnswerState && <ConetentsBox header="A." body={answer} isColumn />}
     <KeywordAnswerInputContainer isAnswerState={isAnswerState}>
       <InputGroup>
         <InputGroup.Label>{isAnswerState ? '나의 정답' : '키워드를 입력하세요'}</InputGroup.Label>

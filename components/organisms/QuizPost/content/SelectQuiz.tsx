@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import styled from 'styled-components';
 
+import ContentsBox from '@/components/atoms/ContentsBox';
 import RadioGroup from '@/components/atoms/Input/Radio';
-import QuizBox from '@/components/atoms/QuizBox';
-import { NonVisibleRadioBox } from '@/styles/common';
+import { NonVisibleRadioBox, TextBodyTitle } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 import { FlexColumnCenter } from '@/styles/layout';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
@@ -43,7 +43,7 @@ const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizCo
   };
   return (
     <QuizContentWrapper>
-      <QuizBox header="Q." body={questions[0]} isColumn />
+      <ContentsBox header="Q." body={<TextBodyTitle>{questions[0]}</TextBodyTitle>} />
       <SelectGroup>
         {questions.slice(1).map((qs, index) => (
           <RadioGroup.Radio
@@ -57,7 +57,7 @@ const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizCo
               bgColor={setBoxBackgroundColor(index)}
               isNotAnswer={isAnswerState && answer !== (index + 1).toString()}
             >
-              <QuizBox header={`(${index + 1})`} body={qs} />
+              <ContentsBox header={`(${index + 1})`} body={<strong>{qs}</strong>} />
             </SelectBox>
           </RadioGroup.Radio>
         ))}

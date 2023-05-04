@@ -2,8 +2,8 @@ import React from 'react';
 
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
-import CategoryUpdateDialog from '@/components/molcules/CategoryUpdateDialog';
 import ListControlGroup from '@/components/molcules/ListControlGroup';
+import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
 

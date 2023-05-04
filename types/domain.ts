@@ -37,7 +37,6 @@ export interface MyProfile extends UserProfile {
   email: string;
 }
 
-// TODO: 백엔드 응답 데이터에 맞게 추가할 것
 export interface CategoryType {
   categoryId: string;
   memberId?: string;
@@ -90,6 +89,7 @@ export interface QuizResultType {
   cardId: string;
   userAnswer: string;
   score: number;
+  spendTime: number;
 }
 
 export interface QuizType extends MecaType {

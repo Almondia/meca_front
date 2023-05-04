@@ -8,10 +8,6 @@ import { rest } from 'msw';
 import { server } from '../__mocks__/msw/server';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
@@ -42,8 +38,8 @@ describe('MecaWritePage with SSR', () => {
       accessToken: 'token',
     });
     server.use(
-      rest.get(`${ENDPOINT}/cards/categories/cid01/me`, (req, res, ctx) => {
-        return res(ctx.status(403));
+      rest.get(`${ENDPOINT}/cards/categories/:id/me/count`, (req, res, ctx) => {
+        return res(ctx.status(400), ctx.json({ message: '해당 카테고리가 존재하지 않음' }));
       }),
     );
     const mockedContext = {
@@ -55,7 +51,7 @@ describe('MecaWritePage with SSR', () => {
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
-    expect(props).toHaveProperty('errorMessage', '적절하지 않은 Meca Category로의 수정 페이지 접근');
+    expect(props).toHaveProperty('errorMessage', '해당 카테고리가 존재하지 않음');
   });
 
   it('본인이 가진 카테고리에 대한 Card 추가를 위해 접근하면 새 Card 작성 페이지가 식별된다,', async () => {

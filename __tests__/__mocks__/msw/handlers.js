@@ -39,7 +39,7 @@ export const handlers = [
     );
   }),
 
-  rest.get('/api/logout', (req, res, ctx) => {
+  rest.post('/api/logout', (req, res, ctx) => {
     return res(
       ctx.json({
         deleted: true,
@@ -109,31 +109,9 @@ export const handlers = [
     return res(ctx.status(200));
   }),
 
-  rest.delete('/api/category', (req, res, ctx) => {
-    const { id, shared } = req.params;
-    const idx = CATEGORIES.findIndex((v) => v.categoryId === id);
-    CATEGORIES.splice(idx, 1);
-    return res(ctx.status(200));
-  }),
-
   rest.put(`${ENDPOINT}/categories/:id`, async (req, res, ctx) => {
     const { id } = req.params;
     const { title } = await req.json();
-    const idx = CATEGORIES.findIndex((v) => v.categoryId === id);
-    const category = CATEGORIES[idx];
-    CATEGORIES.splice(idx, 1);
-    CATEGORIES.push({ ...category, title: title });
-    return res(
-      ctx.status(200),
-      ctx.json({
-        title: title,
-        categoryId: id,
-      }),
-    );
-  }),
-
-  rest.put(`/api/category`, async (req, res, ctx) => {
-    const { id, title } = await req.json();
     const idx = CATEGORIES.findIndex((v) => v.categoryId === id);
     const category = CATEGORIES[idx];
     CATEGORIES.splice(idx, 1);
@@ -204,6 +182,15 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ ...resData }));
   }),
 
+  rest.get(`${ENDPOINT}/cards/categories/:id/me/count`, async (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        count: 1,
+      }),
+    );
+  }),
+
   rest.get(`${ENDPOINT}/presign/images/upload`, (req, res, ctx) => {
     const purpose = req.url.searchParams.get('purpose');
     const extension = req.url.searchParams.get('extension');
@@ -263,6 +250,15 @@ export const handlers = [
         modifiedAt: '2023-04-18T16:38:33.936941',
         answer: 'O',
         description: 'edit text',
+      }),
+    );
+  }),
+
+  rest.post('/api/revalidate', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        message: 'revalidated',
       }),
     );
   }),

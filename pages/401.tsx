@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 
 import Button from '@/components/atoms/Button';
-import LoginDialog from '@/components/molcules/LoginDialog';
+import LoginDialog from '@/components/organisms/LoginDialog';
 import useLogout from '@/hooks/useLogout';
 import useModal from '@/hooks/useModal';
 import { HiddenText, TextBodySubtitle } from '@/styles/common';
