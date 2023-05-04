@@ -3,13 +3,12 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 
 import { setAccessToken } from '@/apis/config/instance';
+import userApi from '@/apis/userApi';
 import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
-import { MyProfile } from '@/types/domain';
 
 const useUser = () => {
   const queryClient = useQueryClient();
@@ -19,19 +18,15 @@ const useUser = () => {
     data: user,
     isLoading,
     isFetching,
-  } = useQuery(
-    [queryKey.me],
-    () => axios.get<never, MyProfile>('/api/user').then((res) => (res.accessToken ? res : null)),
-    {
-      enabled: true,
-      staleTime: 1500000,
-      cacheTime: 3000000,
-      onError: () => {
-        queryClient.setQueryData([queryKey.me], null);
-        router.replace('/');
-      },
+  } = useQuery([queryKey.me], () => userApi.getMeFromServer().then((res) => (res.accessToken ? res : null)), {
+    enabled: true,
+    staleTime: 1500000,
+    cacheTime: 3000000,
+    onError: () => {
+      queryClient.setQueryData([queryKey.me], null);
+      router.replace('/');
     },
-  );
+  });
   useEffect(() => {
     if (user && user.accessToken) {
       setAccessToken(user.accessToken);

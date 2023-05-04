@@ -1,11 +1,11 @@
-import axios from 'axios';
-
 import { generateJWT } from '@/utils/jwtHandler';
+
+import { serverInstance } from './config/instance';
 
 const utilApi = {
   revalidate: (url: string) => {
     const token = generateJWT({ url }, '2s');
-    return axios.post('/api/revalidate', undefined, {
+    return serverInstance.post('/api/revalidate', undefined, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
