@@ -1,5 +1,4 @@
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 import Image from 'next/image';
 
@@ -21,7 +20,7 @@ const HomeCarousel = () => (
             </TextBody>
           </div>
           <div>
-            <Image src="/images/mainimg1.png" alt="main-image1" fill />
+            <Image src="/images/mainimg1.png" alt="main-image1" fill loading="eager" />
           </div>
         </HomeCarouselContent>
       </HomeCarouselContentBackground>
