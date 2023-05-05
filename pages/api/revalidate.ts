@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(304).json({ message: 'not revalidated' });
     return;
   }
-  const requestUrl = getJWTPayload(token, 'url');
+  const requestUrl = await getJWTPayload(token, 'url');
   if (!requestUrl) {
     res.status(304).json({ message: 'not revalidated' });
     return;
