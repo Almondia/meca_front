@@ -7,10 +7,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ToastContainer } from 'react-toastify';
 import { RecoilRoot } from 'recoil';
 
-import '@/styles/font.css';
 import Layout from '@/components/common/Layout';
 import useSSRInterception from '@/hooks/useSSRInterception';
 import { generateQueryClient } from '@/query/queryClient';
+import { pretendard } from '@/styles/font';
 import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
 
@@ -48,9 +48,11 @@ export default function App({ Component, pageProps }: AppProps) {
               newestOnTop={false}
               hideProgressBar
             />
-            <Layout>
-              {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
-            </Layout>
+            <div className={pretendard.className}>
+              <Layout>
+                {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
+              </Layout>
+            </div>
           </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} />

@@ -16,7 +16,6 @@ export const ContentsBoxWrapper = styled.div<{ isColumn: boolean }>`
 `;
 
 export const ContentsBoxHeader = styled.div`
-  font-family: ${({ theme }) => theme.fontFamily.sahitya};
   font-size: ${({ theme }) => theme.fontSize.huge};
 `;
 
