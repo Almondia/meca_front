@@ -31,6 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.21.0"],\
             ["@mdx-js/react", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.6.22"],\
             ["@next/eslint-plugin-next", "npm:13.2.1"],\
+            ["@next/font", "npm:13.4.0"],\
             ["@storybook/addon-actions", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.5.16"],\
             ["@storybook/addon-docs", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.5.16"],\
             ["@storybook/addon-essentials", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.5.16"],\
@@ -5026,6 +5027,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@next/eslint-plugin-next", "npm:13.2.1"],\
             ["glob", "npm:7.1.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@next/font", [\
+        ["npm:13.4.0", {\
+          "packageLocation": "./.yarn/cache/@next-font-npm-13.4.0-b5496ff98f-726882eb31.zip/node_modules/@next/font/",\
+          "packageDependencies": [\
+            ["@next/font", "npm:13.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -22044,6 +22054,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.21.0"],\
             ["@mdx-js/react", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.6.22"],\
             ["@next/eslint-plugin-next", "npm:13.2.1"],\
+            ["@next/font", "npm:13.4.0"],\
             ["@storybook/addon-actions", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.5.16"],\
             ["@storybook/addon-docs", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.5.16"],\
             ["@storybook/addon-essentials", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:6.5.16"],\
