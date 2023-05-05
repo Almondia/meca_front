@@ -1,11 +1,14 @@
+import dynamic from 'next/dynamic';
+
 import React from 'react';
 
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import ListControlGroup from '@/components/molcules/ListControlGroup';
-import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
+
+const CategoryUpdateDialog = dynamic(() => import('@/components/organisms/CategoryUpdateDialog'));
 
 export interface CategoryControlProps {
   onChangeQuery?: (query: string) => void;
