@@ -1,10 +1,10 @@
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 
 import { useState } from 'react';
 
 import { Hydrate, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ToastContainer } from 'react-toastify';
 import { RecoilRoot } from 'recoil';
 
 import Layout from '@/components/common/Layout';
@@ -14,9 +14,9 @@ import { pretendard } from '@/styles/font';
 import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
 
-import 'react-toastify/dist/ReactToastify.css';
-import Unauthorized from './401';
-import NotFound from './404';
+const Unauthorized = dynamic(() => import('./401'), { ssr: false });
+const NotFound = dynamic(() => import('./404'), { ssr: false });
+const ToastProvider = dynamic(() => import('@/components/common/ToastProvider'), { ssr: false });
 
 interface ErrorProps {
   errorStatus?: 401 | 404;
@@ -38,16 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.dehydratedState}>
         <RecoilRoot>
           <ThemeProvider theme={commonTheme}>
-            <ToastContainer
-              closeOnClick
-              autoClose={2000}
-              position="top-center"
-              rtl={false}
-              theme="dark"
-              limit={2}
-              newestOnTop={false}
-              hideProgressBar
-            />
+            <ToastProvider />
             <div className={pretendard.className}>
               <Layout>
                 {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
