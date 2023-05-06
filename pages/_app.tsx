@@ -43,6 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <Layout>
                 {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
               </Layout>
+              <div id="modal-root" />
             </div>
           </ThemeProvider>
         </RecoilRoot>

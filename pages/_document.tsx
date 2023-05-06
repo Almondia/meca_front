@@ -33,7 +33,6 @@ export default class MyDocument extends Document {
           <ThemeScript />
           <Main />
           <NextScript />
-          <div id="modal-root" />
         </body>
       </Html>
     );
