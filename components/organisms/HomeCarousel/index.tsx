@@ -1,8 +1,8 @@
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 import Image from 'next/image';
 
+import MainImage from '@/public/images/mainimg1.png';
 import { TextBody } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 
@@ -21,7 +21,7 @@ const HomeCarousel = () => (
             </TextBody>
           </div>
           <div>
-            <Image src="/images/mainimg1.png" alt="main-image1" fill />
+            <Image src={MainImage} alt="main-image1" priority width={735} height={232} />
           </div>
         </HomeCarouselContent>
       </HomeCarouselContentBackground>
@@ -35,7 +35,7 @@ const HomeCarousel = () => (
             </TextBody>
           </div>
           <div>
-            <Image src="/images/mainimg1.png" alt="main-image1" fill />
+            <Image src={MainImage} alt="main-image2" width={735} height={232} placeholder="blur" />
           </div>
         </HomeCarouselContent>
       </HomeCarouselContentBackground>

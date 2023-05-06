@@ -19,7 +19,6 @@ export const TextInputWrapper = styled.div<{ width?: ElementSizeType }>`
 export const TextInputBox = styled.input`
   flex: 1;
   line-height: 150%;
-  font-family: 'Pretendard';
   font-size: ${({ theme }) => theme.fontSize.main};
   border: none;
   background-color: transparent;

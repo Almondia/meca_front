@@ -6,7 +6,6 @@ import axios, { AxiosResponse, HttpStatusCode } from 'axios';
 import nookies from 'nookies';
 
 import { hasBrowser } from '@/utils/common';
-import snakeToCamel from '@/utils/snakeToCamel';
 
 export interface AxiosErrorResponse {
   message: string;
@@ -38,7 +37,7 @@ export const getTokens = (_request: ServerRequestType) => {
 
 function getObject(response: AxiosResponse) {
   const { data } = response;
-  return data !== null && typeof data === 'object' ? snakeToCamel(response.data) : {};
+  return data !== null && typeof data === 'object' ? response.data : {};
 }
 
 function genErrorResponse(error: any) {

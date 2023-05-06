@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
 import { useCallback, useRef, useState } from 'react';
@@ -6,15 +7,16 @@ import { useCallback, useRef, useState } from 'react';
 import IconButton from '@/components/atoms/IconButton';
 import Logo from '@/components/atoms/Logo';
 import Icon from '@/components/common/Icon';
-import LoginDialog from '@/components/organisms/LoginDialog';
 import useClickAway from '@/hooks/useClickAway';
 import useCustomTheme from '@/hooks/useCustomTheme';
 import useModal from '@/hooks/useModal';
 import useUser from '@/hooks/useUser';
 import { HiddenText } from '@/styles/common';
 
-import NavSelection from './NavSelection';
 import { LoginButton, LogoLink, NavBar, NavigationContentsSection, NavigationWrapper, Profile } from './styled';
+
+const NavSelection = dynamic(() => import('./NavSelection'), { ssr: false });
+const LoginDialog = dynamic(() => import('@/components/organisms/LoginDialog'), { ssr: false });
 
 const Navigation = () => {
   const { user } = useUser();
@@ -29,7 +31,7 @@ const Navigation = () => {
   return (
     <NavigationWrapper>
       <NavigationContentsSection>
-        <LogoLink href="/">
+        <LogoLink href="/" prefetch={false}>
           <Logo size="normal" />
           <HiddenText>메인 페이지 링크</HiddenText>
         </LogoLink>

@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
 
 import categoryApi from '@/apis/categoryApi';
+import MetaHead from '@/components/common/MetaHead';
 import CategoryControl from '@/components/organisms/CategoryControl';
 import CategoryList from '@/components/organisms/CategoryList';
 import HomeCarousel from '@/components/organisms/HomeCarousel';
@@ -13,6 +14,7 @@ export default function Home() {
   const { categories, hasNextPage, fetchNextPage, changeSearchQuery } = useSharedCategory();
   return (
     <>
+      <MetaHead />
       <HomeCarousel />
       <ListSection>
         <CategoryControl onChangeQuery={changeSearchQuery} isShared />
