@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 
 import categoryApi from '@/apis/categoryApi';
 import PageTitle from '@/components/atoms/PageTitle';
+import MetaHead from '@/components/common/MetaHead';
 import CategoryControl from '@/components/organisms/CategoryControl';
 import CategoryList from '@/components/organisms/CategoryList';
 import useCategory from '@/hooks/category/useCategory';
@@ -13,12 +14,15 @@ import { Devide, ListSection } from '@/styles/layout';
 const Category = () => {
   const { categoires, hasNextPage, fetchNextPage } = useCategory();
   return (
-    <ListSection>
-      <PageTitle>내 카테고리 목록</PageTitle>
-      <CategoryControl />
-      <Devide />
-      <CategoryList categoryList={categoires} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
-    </ListSection>
+    <>
+      <MetaHead title="내 카테고리 목록" description="로그인 후 이용할 수 있어요!" />
+      <ListSection>
+        <PageTitle>내 카테고리 목록</PageTitle>
+        <CategoryControl />
+        <Devide />
+        <CategoryList categoryList={categoires} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
+      </ListSection>
+    </>
   );
 };
 

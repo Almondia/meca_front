@@ -5,6 +5,7 @@ import { QueryClient } from '@tanstack/react-query';
 
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
+import MetaHead from '@/components/common/MetaHead';
 import MecaControl from '@/components/organisms/MecaControl';
 import MecaList from '@/components/organisms/MecaList';
 import useMecaList from '@/hooks/meca/useMecaList';
@@ -23,19 +24,25 @@ export interface MyCategoryByIdPageProps {
 const CategoryById = ({ categoryId, isMine }: MyCategoryByIdPageProps) => {
   const { mecaList, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
   const { user } = useUser();
+  const categoryTitle = mecaList?.pages[0].category.title ?? 'Category Title';
+  const username = (isMine ? user?.name : mecaList?.pages[0]?.contents[0]?.name) || 'username';
+  const categoryThumbnail = mecaList?.pages[0].category.thumbnail;
   return (
-    <ListSection>
-      <PageTitle>{mecaList?.pages[0].category.title ?? 'Category Title'}</PageTitle>
-      <MecaControl
-        categoryId={categoryId}
-        categoryTitle={mecaList?.pages[0].category.title ?? 'Category Title'}
-        name={(isMine ? user?.name : mecaList?.pages[0]?.contents[0]?.name) || 'username'}
-        profile={(isMine ? user?.profile : mecaList?.pages[0]?.contents[0]?.profile) || '/images/noprofile.png'}
-        isMine={isMine}
-      />
-      <Devide />
-      <MecaList mecaList={mecaList} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} isMine={isMine} />
-    </ListSection>
+    <>
+      <MetaHead title={categoryTitle} description={`${username}님의 MecaSet`} image={categoryThumbnail} />
+      <ListSection>
+        <PageTitle>{categoryTitle}</PageTitle>
+        <MecaControl
+          categoryId={categoryId}
+          categoryTitle={categoryTitle}
+          name={username}
+          profile={(isMine ? user?.profile : mecaList?.pages[0]?.contents[0]?.profile) || '/images/noprofile.png'}
+          isMine={isMine}
+        />
+        <Devide />
+        <MecaList mecaList={mecaList} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} isMine={isMine} />
+      </ListSection>
+    </>
   );
 };
 
