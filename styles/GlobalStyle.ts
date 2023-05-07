@@ -110,7 +110,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         border-radius: ${({ border }) => border.button};
     }
 
-    input {
+    input, textarea {
         font-family: inherit;
     }
 

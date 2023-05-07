@@ -16,7 +16,7 @@ export const NumberIncreaseToggleInnerContainer = styled.div`
   color: var(--color-brand);
 `;
 
-export const NumberIncreaseToggleButton = styled(NumberIncreaseToggleInnerContainer)`
+export const NumberIncreaseToggleButton = styled(NumberIncreaseToggleInnerContainer.withComponent('button'))`
   color: var(--color-text);
   cursor: pointer;
 `;

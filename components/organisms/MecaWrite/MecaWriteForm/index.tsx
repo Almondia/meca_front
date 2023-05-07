@@ -110,13 +110,13 @@ const MecaWriteForm = ({
         titleRef.current,
       )}
       {Question && <Question value={questionInput} onChange={onQuestionChange} selectionNum={caseNum} />}
-      {mecaTagType === 'select' && (
+      {!cardId && mecaTagType === 'select' && (
         <InputGroup>
           <InputGroup.Label>문항 수를 선택하세요</InputGroup.Label>
           <NumberIncreaseToggle value={caseNum} onChange={changeCaseNum} />
         </InputGroup>
       )}
-      {Answer && <Answer value={answerInput} onChange={onAnswerChange} selectionNum={caseNum} />}
+      {Answer && <Answer value={answerInput} onChange={onAnswerChange} selectionNum={caseNum} isDisabled={!!cardId} />}
       <br />
       <InputGroup>
         <InputGroup.Label>문제를 설명하세요</InputGroup.Label>
