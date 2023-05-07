@@ -16,8 +16,6 @@ export const QuillNoSSRWriter = dynamic(
   async () => {
     const { default: QuillComponent } = await import('react-quill');
     const { default: ImageCompress } = await import('quill-image-compress');
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const { default: ImageResize } = await import('quill-image-resize');
     QuillComponent.Quill.register('modules/imageCompress', ImageCompress);
     QuillComponent.Quill.register('modules/imageResize', ImageResize);
