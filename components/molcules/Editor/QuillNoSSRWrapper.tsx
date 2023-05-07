@@ -16,7 +16,9 @@ export const QuillNoSSRWriter = dynamic(
   async () => {
     const { default: QuillComponent } = await import('react-quill');
     const { default: ImageCompress } = await import('quill-image-compress');
+    const { default: ImageResize } = await import('quill-image-resize');
     QuillComponent.Quill.register('modules/imageCompress', ImageCompress);
+    QuillComponent.Quill.register('modules/imageResize', ImageResize);
     const Quill = ({ forwardedRef, ...props }: ForwardedQuillComponent) => (
       <QuillComponent ref={forwardedRef} {...props} />
     );

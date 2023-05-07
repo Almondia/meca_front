@@ -15176,7 +15176,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quill@npm:^1.3.7":
+"quill-image-resize@npm:^3.0.9":
+  version: 3.0.9
+  resolution: "quill-image-resize@npm:3.0.9"
+  dependencies:
+    lodash: ^4.17.4
+    quill: ^1.2.2
+    raw-loader: ^0.5.1
+  checksum: 78a7081aff572ae1aee52bd9de6c76ca9065497a0a0cb6bed7314a72cf1cc6674853dc9f8ed542b32594edfe0136c770d346a5077619efaa79a62bb4b27cab6a
+  languageName: node
+  linkType: hard
+
+"quill@npm:^1.2.2, quill@npm:^1.3.7":
   version: 1.3.7
   resolution: "quill@npm:1.3.7"
   dependencies:
@@ -15232,6 +15243,13 @@ __metadata:
     iconv-lite: 0.4.24
     unpipe: 1.0.0
   checksum: 5362adff1575d691bb3f75998803a0ffed8c64eabeaa06e54b4ada25a0cd1b2ae7f4f5ec46565d1bec337e08b5ac90c76eaa0758de6f72a633f025d754dec29e
+  languageName: node
+  linkType: hard
+
+"raw-loader@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "raw-loader@npm:0.5.1"
+  checksum: 8051ec0b804ee72fbeee9a0f6183df8c0f764ba23a78ed5229c981cfb3a560dabc7926670fb0125b1c3831998d053ae39d578f3fb46187538226ceedad8cf1ab
   languageName: node
   linkType: hard
 
@@ -16091,6 +16109,7 @@ __metadata:
     prettier: ^2.8.4
     prop-types: ^15.8.1
     quill-image-compress: ^1.2.29
+    quill-image-resize: ^3.0.9
     react: 18.2.0
     react-apexcharts: ^1.4.0
     react-dom: 18.2.0
