@@ -6,6 +6,7 @@ import { FlexColumn } from '@/styles/layout';
 export const DescriptionWrapper = styled.ul`
   font-size: ${({ theme }) => theme.fontSize.caption};
   color: var(--color-gray);
+  padding-top: 6px;
   & > li {
     margin: 0 0 8px 4px;
   }

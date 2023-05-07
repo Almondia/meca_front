@@ -67,6 +67,9 @@ export const RadioBox = styled.label`
     height: ${({ theme }) => theme.fontSize.large};
     border: max(1px, 0.1em) solid var(--color-gray);
     border-radius: 50%;
+    :disabled {
+      opacity: 0.5;
+    }
     :checked {
       border: 0.35rem solid var(--color-brand);
     }
