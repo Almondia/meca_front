@@ -16,6 +16,9 @@ const EditorComponentWrapper = styled.div`
     min-height: 360px;
     max-height: 500px;
   }
+  img {
+    display: block;
+  }
 `;
 
 const EditorImageUploadLoaderText = styled.p`
@@ -74,6 +77,11 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
         debug: false,
         suppressErrorLogging: false,
         insertIntoEditor: imageHandler,
+      },
+      imageResize: {
+        toolbarStyles: {
+          display: 'none',
+        },
       },
     }),
     [],
