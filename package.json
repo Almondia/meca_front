@@ -23,6 +23,7 @@
     "nookies": "^2.5.2",
     "prop-types": "^15.8.1",
     "quill-image-compress": "^1.2.29",
+    "quill-image-resize": "^3.0.9",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "18.2.0",
