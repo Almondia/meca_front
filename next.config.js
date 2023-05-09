@@ -7,6 +7,8 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   images: {
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 322, 384],
+    deviceSizes: [576, 732, 828, 1080, 1200, 1920, 2048],
     remotePatterns: [
       {
         protocol: 'https',

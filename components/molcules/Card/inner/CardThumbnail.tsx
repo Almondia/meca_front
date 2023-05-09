@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { MEDIA } from '@/styles/constants';
+
 import { CardThumbnailWrapper, CardThumbnailWrapper1 } from '../styled';
 
 interface CardThumbnailProps {
@@ -20,8 +22,9 @@ export const CardThumbnail = ({ href, src, altText, blurURL, hasStaticHeight, on
         fill
         alt={altText}
         onError={onError}
-        blurDataURL={blurURL}
+        blurDataURL={blurURL ?? undefined}
         placeholder={blurURL ? 'blur' : 'empty'}
+        sizes={`${MEDIA.mobile} 92vw, (max-width: 732px) 92vw, ${MEDIA.tablet} 46vw, 320px`}
       />
     </CardThumbnailWrapper>
     <CardThumbnailWrapper1 />

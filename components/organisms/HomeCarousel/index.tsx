@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import MainImage from '@/public/images/mainimg1.png';
 import { TextBody } from '@/styles/common';
-import { COLOR } from '@/styles/constants';
+import { COLOR, MEDIA } from '@/styles/constants';
 
 import { HomeCarouselContent, HomeCarouselContentBackground, HomeCarouselSlider, HomeCarouselWrapper } from './styled';
 
@@ -21,7 +21,14 @@ const HomeCarousel = () => (
             </TextBody>
           </div>
           <div>
-            <Image src={MainImage} alt="main-image1" priority width={735} height={232} />
+            <Image
+              src={MainImage}
+              alt="main-image1"
+              priority
+              width={735}
+              height={232}
+              sizes={`${MEDIA.mobile} 75vw, 730px`}
+            />
           </div>
         </HomeCarouselContent>
       </HomeCarouselContentBackground>
@@ -35,7 +42,14 @@ const HomeCarousel = () => (
             </TextBody>
           </div>
           <div>
-            <Image src={MainImage} alt="main-image2" width={735} height={232} placeholder="blur" />
+            <Image
+              src={MainImage}
+              alt="main-image2"
+              width={735}
+              height={232}
+              placeholder="blur"
+              sizes={`${MEDIA.mobile} 75vw, 730px`}
+            />
           </div>
         </HomeCarouselContent>
       </HomeCarouselContentBackground>
