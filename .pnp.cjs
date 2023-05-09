@@ -89,8 +89,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.8.4"],\
             ["prop-types", "npm:15.8.1"],\
             ["quill-image-compress", "npm:1.2.29"],\
+            ["quill-image-resize", "npm:3.0.9"],\
             ["react", "npm:18.2.0"],\
             ["react-apexcharts", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.4.0"],\
+            ["react-cropper", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.3.3"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
             ["react-is", "npm:18.2.0"],\
@@ -12106,6 +12108,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["cropperjs", [\
+        ["npm:1.5.13", {\
+          "packageLocation": "./.yarn/cache/cropperjs-npm-1.5.13-68c8d6861d-5a3d0f8b2a.zip/node_modules/cropperjs/",\
+          "packageDependencies": [\
+            ["cropperjs", "npm:1.5.13"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["cross-spawn", [\
         ["npm:6.0.5", {\
           "packageLocation": "./.yarn/cache/cross-spawn-npm-6.0.5-2deab6c280-f893bb0d96.zip/node_modules/cross-spawn/",\
@@ -21198,6 +21209,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["quill-image-resize", [\
+        ["npm:3.0.9", {\
+          "packageLocation": "./.yarn/cache/quill-image-resize-npm-3.0.9-080fc99ac6-78a7081aff.zip/node_modules/quill-image-resize/",\
+          "packageDependencies": [\
+            ["quill-image-resize", "npm:3.0.9"],\
+            ["lodash", "npm:4.17.21"],\
+            ["quill", "npm:1.3.7"],\
+            ["raw-loader", "npm:0.5.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ramda", [\
         ["npm:0.28.0", {\
           "packageLocation": "./.yarn/cache/ramda-npm-0.28.0-6a5fe8f6cc-44ea6e5010.zip/node_modules/ramda/",\
@@ -21251,6 +21274,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["raw-loader", [\
+        ["npm:0.5.1", {\
+          "packageLocation": "./.yarn/cache/raw-loader-npm-0.5.1-842d4ead25-8051ec0b80.zip/node_modules/raw-loader/",\
+          "packageDependencies": [\
+            ["raw-loader", "npm:0.5.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.0.2", {\
           "packageLocation": "./.yarn/cache/raw-loader-npm-4.0.2-94da6c700d-51cc1b0d0e.zip/node_modules/raw-loader/",\
           "packageDependencies": [\
@@ -21319,6 +21349,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/apexcharts",\
             "@types/react",\
             "apexcharts",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-cropper", [\
+        ["npm:2.3.3", {\
+          "packageLocation": "./.yarn/cache/react-cropper-npm-2.3.3-3a05db65ee-8adaff99aa.zip/node_modules/react-cropper/",\
+          "packageDependencies": [\
+            ["react-cropper", "npm:2.3.3"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.3.3", {\
+          "packageLocation": "./.yarn/__virtual__/react-cropper-virtual-8b9173242c/0/cache/react-cropper-npm-2.3.3-3a05db65ee-8adaff99aa.zip/node_modules/react-cropper/",\
+          "packageDependencies": [\
+            ["react-cropper", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.3.3"],\
+            ["@types/react", "npm:18.0.28"],\
+            ["cropperjs", "npm:1.5.13"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
             "react"\
           ],\
           "linkType": "HARD"\
@@ -22295,8 +22348,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.8.4"],\
             ["prop-types", "npm:15.8.1"],\
             ["quill-image-compress", "npm:1.2.29"],\
+            ["quill-image-resize", "npm:3.0.9"],\
             ["react", "npm:18.2.0"],\
             ["react-apexcharts", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.4.0"],\
+            ["react-cropper", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.3.3"],\
             ["react-dom", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:18.2.0"],\
             ["react-infinite-scroller", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.2.6"],\
             ["react-is", "npm:18.2.0"],\
