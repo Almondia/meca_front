@@ -1,5 +1,6 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
+
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import MecaTagToggleGroup, { MecaTagToggleGroupProps } from '@/components/molcules/MecaTagToggleGroup';
 import { MecaTagType } from '@/types/domain';

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-const OUTSIDE_ELEMENTS = ['modal-root'];
+const OUTSIDE_ELEMENTS = ['modal-root', 'image-crop-root'];
 
 type Event = MouseEvent | TouchEvent;
 

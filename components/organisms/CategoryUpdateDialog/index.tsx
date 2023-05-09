@@ -47,7 +47,7 @@ const CategoryUpdateDialog = ({
           extension: thumbnail
             ? (thumbnail.split('/thumbnail/')[1].split('.')[1] as (typeof IMAGE_EXTENTIONS)[number])
             : (image.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number]),
-          fileName: Date.now() + image.name.split('.')[0],
+          fileName: `${Date.now()}-category-thumbnail`,
         },
         image as File,
       );
@@ -88,7 +88,9 @@ const CategoryUpdateDialog = ({
         <InputGroup>
           <InputGroup.Label>썸네일 업로드</InputGroup.Label>
           <ThumbnailUploader image={image} onChange={onChangeImage} onDelete={onDeleteImage} />
-          <InputGroup.Description descLists={['jpg, jpeg, png, gif 파일 업로드 가능']} />
+          <InputGroup.Description
+            descLists={['jpg, jpeg, png, gif 파일 업로드 가능', 'gif 이미지는 리사이징 할 수 없습니다.']}
+          />
         </InputGroup>
         <InputGroup>
           <InputGroup.Label>제목 {keyword}하기</InputGroup.Label>

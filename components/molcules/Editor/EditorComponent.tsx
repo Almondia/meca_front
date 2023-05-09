@@ -74,6 +74,7 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
         maxWidth: 768,
         maxHeight: 700,
         keepImageTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
+        ignoreImageTypes: ['image/gif'],
         debug: false,
         suppressErrorLogging: false,
         insertIntoEditor: imageHandler,

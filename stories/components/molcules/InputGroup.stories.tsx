@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import InputGroup from '@/components/molcules/InputGroup';
