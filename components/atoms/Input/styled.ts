@@ -7,17 +7,17 @@ import { ElementSizeType } from '@/types/common';
 
 export const InputWrapper = styled.div``;
 
-export const TextInputWrapper = styled.div<{ width?: ElementSizeType }>`
+export const TextInputWrapper = styled.div`
   ${FlexCenter};
-  width: ${(props) => props.width ?? 'auto'};
+  width: auto;
   padding: 4px 15px;
   border: 1px solid var(--color-gray);
   border-radius: ${({ theme }) => theme.border.button};
   color: var(--color-text);
 `;
 
-export const TextInputBox = styled.input`
-  flex: 1;
+export const TextInputBox = styled.input<{ width?: ElementSizeType }>`
+  width: ${(props) => (props.width ? props.width : '100%')};
   line-height: 150%;
   font-size: ${({ theme }) => theme.fontSize.main};
   border: none;

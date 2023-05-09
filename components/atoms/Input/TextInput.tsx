@@ -36,10 +36,11 @@ const TextInput = ({
   width,
   ariaLabel,
 }: TextInputProps) => (
-  <TextInputWrapper width={width}>
+  <TextInputWrapper>
     {iconLeft && <TextInputLeftIconBox icon={iconLeft} size="1rem" />}
     <TextInputBox
       name={name}
+      width={width}
       type={type ?? 'text'}
       value={value}
       placeholder={placeholder}

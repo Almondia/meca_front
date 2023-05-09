@@ -28,14 +28,15 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
     <ListControlGroup>
       <ListControlGroup.Right>
         <Input.Text
+          width="155px"
           iconLeft="Zoomin"
           name="search"
           value={searchKeyword}
           onChange={handleSearchKeywordChange}
-          placeholder="제목으로 카테고리 검색"
+          placeholder="제목으로 검색"
           ariaLabel="input-category-search"
         />
-        <Button colorTheme="primary" width="100px" onClick={handleSearchQuery}>
+        <Button colorTheme="primary" onClick={handleSearchQuery}>
           검색
         </Button>
       </ListControlGroup.Right>
