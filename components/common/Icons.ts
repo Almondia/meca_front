@@ -1,24 +1,26 @@
-import Ax from '@/public/icons/ax.svg';
-import Bell from '@/public/icons/bell.svg';
-import Bubble from '@/public/icons/bubble.svg';
-import Check from '@/public/icons/check.svg';
-import Clock from '@/public/icons/clock.svg';
-import CompactDown from '@/public/icons/compactdown.svg';
-import Darkmode from '@/public/icons/darkmode.svg';
-import Dice from '@/public/icons/dice.svg';
-import ExceptButton from '@/public/icons/exceptbutton.svg';
-import Google from '@/public/icons/google.svg';
-import Kakao from '@/public/icons/kakao.svg';
-import Lightmode from '@/public/icons/lightmode.svg';
-import Logo from '@/public/icons/logo.svg';
-import Naver from '@/public/icons/naver.svg';
-import O from '@/public/icons/o.svg';
-import Ox from '@/public/icons/ox.svg';
-import Play from '@/public/icons/play.svg';
-import Selected from '@/public/icons/select.svg';
-import Triangle from '@/public/icons/triangle.svg';
-import VerticalDot from '@/public/icons/verticaldot.svg';
-import Zoomin from '@/public/icons/zoomin.svg';
+import dynamic from 'next/dynamic';
+
+const Ax = dynamic(() => import('@/public/icons/ax.svg'));
+const Bell = dynamic(() => import('@/public/icons/bell.svg'));
+const Bubble = dynamic(() => import('@/public/icons/bubble.svg'));
+const Check = dynamic(() => import('@/public/icons/check.svg'));
+const Clock = dynamic(() => import('@/public/icons/clock.svg'));
+const CompactDown = dynamic(() => import('@/public/icons/compactdown.svg'));
+const Darkmode = dynamic(() => import('@/public/icons/darkmode.svg'));
+const Dice = dynamic(() => import('@/public/icons/dice.svg'));
+const ExceptButton = dynamic(() => import('@/public/icons/exceptbutton.svg'));
+const Google = dynamic(() => import('@/public/icons/google.svg'));
+const Kakao = dynamic(() => import('@/public/icons/kakao.svg'));
+const Lightmode = dynamic(() => import('@/public/icons/lightmode.svg'));
+const Logo = dynamic(() => import('@/public/icons/logo.svg'));
+const Naver = dynamic(() => import('@/public/icons/naver.svg'));
+const O = dynamic(() => import('@/public/icons/o.svg'));
+const Ox = dynamic(() => import('@/public/icons/ox.svg'));
+const Play = dynamic(() => import('@/public/icons/play.svg'));
+const Selected = dynamic(() => import('@/public/icons/select.svg'));
+const Triangle = dynamic(() => import('@/public/icons/triangle.svg'));
+const VerticalDot = dynamic(() => import('@/public/icons/verticaldot.svg'));
+const Zoomin = dynamic(() => import('@/public/icons/zoomin.svg'));
 
 const Icons = {
   Lightmode,

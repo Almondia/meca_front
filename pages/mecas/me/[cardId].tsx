@@ -8,6 +8,7 @@ import React, { useCallback } from 'react';
 
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
+import MetaHead from '@/components/common/MetaHead';
 import CardWriterInfo from '@/components/molcules/PostWriterInfo';
 import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 import MecaPost from '@/components/organisms/MecaPost';
@@ -35,27 +36,30 @@ const MecaById = ({ cardId }: MecaPageProps) => {
   return (
     <>
       {meca && user && (
-        <PostSection>
-          <PageTitle>{meca.title}</PageTitle>
-          <br />
-          <CardWriterInfo name={user.name} profile={user.profile}>
-            <CardWriterInfo.Modification>
-              <Link href={`/mecas/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
-              <Link href="/" onClick={handleDeleteLinkClick}>
-                삭제하기
-              </Link>
-            </CardWriterInfo.Modification>
-          </CardWriterInfo>
-          <MecaDeleteDialog
-            cardId={cardId}
-            categoryId={meca.categoryId}
-            cardTitle={meca.title}
-            visible={isDeleteModalVisible}
-            onClose={deleteModalClose}
-          />
-          <Devide />
-          <MecaPost {...meca} />
-        </PostSection>
+        <>
+          <MetaHead title={meca.title} description={meca.description} />
+          <PostSection>
+            <PageTitle>{meca.title}</PageTitle>
+            <br />
+            <CardWriterInfo name={user.name} profile={user.profile}>
+              <CardWriterInfo.Modification>
+                <Link href={`/mecas/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
+                <Link href="/" onClick={handleDeleteLinkClick}>
+                  삭제하기
+                </Link>
+              </CardWriterInfo.Modification>
+            </CardWriterInfo>
+            <MecaDeleteDialog
+              cardId={cardId}
+              categoryId={meca.categoryId}
+              cardTitle={meca.title}
+              visible={isDeleteModalVisible}
+              onClose={deleteModalClose}
+            />
+            <Devide />
+            <MecaPost {...meca} />
+          </PostSection>
+        </>
       )}
     </>
   );

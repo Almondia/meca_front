@@ -5,8 +5,8 @@ import { FlexCenter, FlexColumnCenter } from '@/styles/layout';
 export const ThumbnailUploaderWrapper = styled.div`
   position: relative;
   ${FlexColumnCenter};
-  width: 140px;
-  height: 100px;
+  width: 300px;
+  height: 150px;
   padding: 4px;
   border-radius: ${({ theme }) => theme.border.card};
   background-color: var(--color-lightgray);

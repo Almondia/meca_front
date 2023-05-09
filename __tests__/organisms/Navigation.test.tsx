@@ -52,7 +52,7 @@ describe('Navigation', () => {
     const imageAltText = await screen.findByAltText('/user.jpg');
     expect(imageAltText).toBeInTheDocument();
     fireEvent.click(imageAltText);
-    const logoutLink = screen.getByRole('link', {
+    const logoutLink = await screen.findByRole('link', {
       name: /로그아웃/i,
     });
     fireEvent.click(logoutLink);

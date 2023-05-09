@@ -1,11 +1,14 @@
+import dynamic from 'next/dynamic';
+
 import React from 'react';
 
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import ListControlGroup from '@/components/molcules/ListControlGroup';
-import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
+
+const CategoryUpdateDialog = dynamic(() => import('@/components/organisms/CategoryUpdateDialog'));
 
 export interface CategoryControlProps {
   onChangeQuery?: (query: string) => void;
@@ -25,14 +28,15 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
     <ListControlGroup>
       <ListControlGroup.Right>
         <Input.Text
+          width="155px"
           iconLeft="Zoomin"
           name="search"
           value={searchKeyword}
           onChange={handleSearchKeywordChange}
-          placeholder="제목으로 카테고리 검색"
+          placeholder="제목으로 검색"
           ariaLabel="input-category-search"
         />
-        <Button colorTheme="primary" width="100px" onClick={handleSearchQuery}>
+        <Button colorTheme="primary" onClick={handleSearchQuery}>
           검색
         </Button>
       </ListControlGroup.Right>

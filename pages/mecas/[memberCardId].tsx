@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
+import MetaHead from '@/components/common/MetaHead';
 import PostWriterInfo from '@/components/molcules/PostWriterInfo';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
@@ -24,13 +25,16 @@ const MecaById = ({ cardId }: MecaByIdProps) => {
   }
   const meca = response as MecaType & UserProfile;
   return (
-    <PostSection>
-      <PageTitle>{meca.title}</PageTitle>
-      <br />
-      <PostWriterInfo name={meca.name} profile={meca.profile} />
-      <Devide />
-      <MecaPost {...meca} />
-    </PostSection>
+    <>
+      <MetaHead title={meca.title} description={meca.question} ogType="article" />
+      <PostSection>
+        <PageTitle>{meca.title}</PageTitle>
+        <br />
+        <PostWriterInfo name={meca.name} profile={meca.profile} />
+        <Devide />
+        <MecaPost {...meca} />
+      </PostSection>
+    </>
   );
 };
 

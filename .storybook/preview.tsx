@@ -3,7 +3,6 @@ import { RecoilRoot } from 'recoil';
 import ThemeProvider from '../styles/ThemeProvider';
 import { DecoratorFn } from '@storybook/react';
 import React, { useEffect } from 'react';
-import '../styles/font.css';
 import { RouterContext } from 'next/dist/shared/lib/router-context'; // next 12
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useCustomTheme from '../hooks/useCustomTheme';

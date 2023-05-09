@@ -44,7 +44,7 @@ describe('CategoryListPage', () => {
     });
     fireEvent.click(addButton);
     // 다이얼로그의 input이 등장한다.
-    const categoryTitleInput = screen.getByRole('textbox', {
+    const categoryTitleInput = await screen.findByRole('textbox', {
       name: 'input-category-title',
     });
     expect(categoryTitleInput).toBeInTheDocument();

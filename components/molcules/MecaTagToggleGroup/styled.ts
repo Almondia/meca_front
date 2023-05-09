@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const MecaTagToggleGroupWrapper = styled.div`
   display: flex;
   column-gap: 6px;
+  padding-top: 6px;
 `;
 
 export const MecaTagButton = styled.button`

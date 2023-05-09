@@ -26,7 +26,6 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     html {
-        font-family: 'Pretendard', sans-serif;
         box-sizing: border-box;
         font-size: 18px;
         --color-brand: ${COLOR.brand1};
@@ -103,12 +102,16 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     button {
-        font-family: 'Pretendard', sans-serif;
+        font-family: inherit;
         cursor: pointer;
         border: none;
         outline: none;
         background-color: transparent;
         border-radius: ${({ border }) => border.button};
+    }
+
+    input, textarea {
+        font-family: inherit;
     }
 
     ul {
@@ -135,7 +138,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     .ql-editor {
-        font-family: 'Pretendard', sans-serif;
+        font-family: inherit;
         padding: 1rem;
         font-size: 1rem;
         line-height: 1.5;

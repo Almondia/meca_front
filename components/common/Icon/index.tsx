@@ -31,7 +31,7 @@ const IconLayout = styled.div<Pick<IconProps, 'color' | 'size'>>`
  * - color는 기본으로 제공되는 색상 또는 theme text color이며 rgb또는 코드를 입력하여 색상을 설정합니다.
  */
 const Icon = ({ icon, color, size, className = '' }: IconProps) => {
-  const SVGIcon = Icons[icon];
+  const SVGIcon = Icons[icon] as any;
   return (
     <IconLayout color={color} size={size}>
       <SVGIcon className={className} viewBox="0 0 24 24" />
