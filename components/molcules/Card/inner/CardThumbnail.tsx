@@ -7,14 +7,22 @@ interface CardThumbnailProps {
   href: string;
   src: string;
   altText: string;
+  blurURL?: string;
   hasStaticHeight?: boolean;
   onError?: () => void;
 }
 
-export const CardThumbnail = ({ href, src, altText, hasStaticHeight, onError }: CardThumbnailProps) => (
+export const CardThumbnail = ({ href, src, altText, blurURL, hasStaticHeight, onError }: CardThumbnailProps) => (
   <Link href={href}>
     <CardThumbnailWrapper hasStaticHeight={hasStaticHeight}>
-      <Image src={src} fill alt={altText} onError={onError} />
+      <Image
+        src={src}
+        fill
+        alt={altText}
+        onError={onError}
+        blurDataURL={blurURL}
+        placeholder={blurURL ? 'blur' : 'empty'}
+      />
     </CardThumbnailWrapper>
     <CardThumbnailWrapper1 />
   </Link>

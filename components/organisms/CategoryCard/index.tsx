@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Card from '@/components/molcules/Card';
 import { CategoryType } from '@/types/domain';
-import { IMAGE_SERVER } from '@/utils/constants';
+import { CATEGORY_THUMBNAIL_BLUR_URL, IMAGE_SERVER } from '@/utils/constants';
 import getInnerComponents from '@/utils/getInnerComponent.s';
 import { combineUUID } from '@/utils/uuidHandler';
 
@@ -33,6 +33,7 @@ const CategoryCard = ({ categoryId, title, thumbnail, memberId, children }: Cate
         href={`/categories/${combineUUID(memberId, categoryId)}`}
         altText={`${title}-category-thumbnail`}
         hasStaticHeight
+        blurURL={CATEGORY_THUMBNAIL_BLUR_URL}
         onError={() => setSrc('/images/noimage.png')}
       />
       <Card.Title link={`/categories/${combineUUID(memberId, categoryId)}`}>{title}</Card.Title>
