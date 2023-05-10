@@ -1,12 +1,12 @@
 import React from 'react';
 
 import MecaTag from '@/components/atoms/MecaTag';
+import { RelativeDateText } from '@/components/common/RelativeDateText';
 import Editor from '@/components/molcules/Editor';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
 import { TextCaption } from '@/styles/common';
 import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaType } from '@/types/domain';
-import { getRelativeTimeByDateTime } from '@/utils/common';
 
 import MecaPostBody from './mecaBody';
 import { MecaPostWrapper } from './styled';
@@ -23,6 +23,7 @@ const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
 
 const MecaPost = ({ cardType, question, answer, description, createdAt }: MecaPostProps) => {
   const DescriptionEditor = Editor.Reader({ content: description || '내용이 없습니다.' });
+  const DateText = RelativeDateText({ date: createdAt });
   const MecaBody = ContentBody[cardType];
   return (
     <MecaPostWrapper>
@@ -31,7 +32,9 @@ const MecaPost = ({ cardType, question, answer, description, createdAt }: MecaPo
           <MecaTag tagName={MECA_RESPONE_TO_TAG[cardType]} scale={0.8} />
         </PostSubInfo.Content>
         <PostSubInfo.Content title="작성일">
-          <TextCaption>{getRelativeTimeByDateTime(createdAt)}</TextCaption>
+          <TextCaption>
+            <DateText />
+          </TextCaption>
         </PostSubInfo.Content>
       </PostSubInfo>
       <MecaBody question={question} answer={answer} />
