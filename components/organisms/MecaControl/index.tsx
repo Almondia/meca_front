@@ -9,6 +9,7 @@ import PostWriterInfo from '@/components/molcules/PostWriterInfo';
 import useCachedOrFetchQuery from '@/hooks/useCachedOrFetchQuery';
 import useModal from '@/hooks/useModal';
 import queryKey from '@/query/queryKey';
+import alertToast from '@/utils/toastHandler';
 
 const QuizStartDialog = dynamic(() => import('@/components/organisms/QuizStartDialog'));
 
@@ -34,7 +35,6 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile }: MecaC
     );
     const { count } = data;
     if (!count) {
-      const { default: alertToast } = await import('@/utils/toastHandler');
       alertToast('플레이할 카드가 없어요!', 'info');
       return;
     }
