@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 
 import ContentsBox from '@/components/atoms/ContentsBox';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
-import Editor from '@/components/molcules/Editor';
+import QuillNoSSRReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import useInput from '@/hooks/useInput';
 import { TextCaption } from '@/styles/common';
 import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaTagType, QuizSucceedType } from '@/types/domain';
@@ -32,7 +32,7 @@ const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
 
 const QuizPost = ({ question, answer, description, quizType, isAnswerState, handleSucceed }: QuizPostProps) => {
   const QuizContent = QUIZ_CONTENTS[MECA_RESPONE_TO_TAG[quizType]];
-  const DescriptionEditor = Editor.Reader({ content: description });
+  const DescriptionEditor = QuillNoSSRReader({ content: description });
   const { input: answerInput, onInputChange: answerInputChange, inputReset } = useInput('');
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
