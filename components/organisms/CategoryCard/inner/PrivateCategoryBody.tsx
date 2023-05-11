@@ -1,13 +1,16 @@
+import dynamic from 'next/dynamic';
+
 import ProgressBar from '@/components/atoms/ProgressBar';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
 import DropdownMenu from '@/components/molcules/DropdownMenu';
-import CategoryDeleteDialog from '@/components/organisms/CategoryDeleteDialog';
-import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
 import useModal from '@/hooks/useModal';
 import { COLOR } from '@/styles/constants';
 import { CategoryDetailType } from '@/types/domain';
 
 import { CategoryCardBodyContainer, ProgressesInfoContainer } from '../styled';
+
+const CategoryDeleteDialog = dynamic(() => import('@/components/organisms/CategoryDeleteDialog'));
+const CategoryUpdateDialog = dynamic(() => import('@/components/organisms/CategoryUpdateDialog'));
 
 const PrivateCategoryBody = ({
   categoryId,
