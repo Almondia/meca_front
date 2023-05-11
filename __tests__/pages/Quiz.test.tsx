@@ -1,8 +1,9 @@
 import QuizPage from '@/pages/quiz';
-import { renderQuery } from '../utils';
-import { screen, fireEvent } from '@testing-library/react';
+import { RecoilObserver, renderQuery } from '../utils';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { MECAS } from '../__mocks__/msw/data';
 import { MecaTagResponseType } from '@/types/domain';
+import { quizTimeState } from '@/atoms/quiz';
 
 const mockQuizs = MECAS.slice(0, 2);
 
@@ -16,22 +17,23 @@ jest.mock('@tanstack/react-query', () => ({
 }));
 
 describe('QuizPage', () => {
-  it('첫 퀴즈페이지 접근 시 주어진 문제 수와 question, input, 정답 제출 버튼이 식별된다.', () => {
-    renderQuery(<QuizPage />);
+  it('첫 퀴즈페이지 접근 시 주어진 문제 수와 question, input, 정답 제출 버튼이 식별된다.', async () => {
+    renderQuery(
+      <>
+        <RecoilObserver node={quizTimeState} defaultValue={30} />
+        <QuizPage />
+      </>,
+    );
     const maxCountText = screen.getByTestId('id-count-indicator-maxcount');
     expect(maxCountText).toHaveTextContent(mockQuizs.length.toString());
-
-    const questionText = screen.getByText(mockQuizs[0].question);
-    expect(questionText).toBeInTheDocument();
     const cardType = mockQuizs[0].cardType as MecaTagResponseType;
-    if (cardType === 'KEYWORD') {
-      const inputLabelText = screen.getByText('키워드를 입력하세요');
-      expect(inputLabelText).toBeInTheDocument();
-    }
-    const submitButton = screen.getByRole('button', {
-      name: '정답제출',
+    await waitFor(() => {
+      if (cardType === 'KEYWORD') {
+        expect(screen.queryByText('키워드를 입력하세요')).toBeInTheDocument();
+      }
+      expect(screen.queryByText(mockQuizs[0].question)).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: '정답제출' })).toBeInTheDocument();
     });
-    expect(submitButton).toBeInTheDocument();
   });
 
   it('정답 제출 후 정답과 다음 문제 버튼이 식별된다.', async () => {
