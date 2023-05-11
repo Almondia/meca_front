@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:anz": "ANALYZE=true next build",
     "start": "next start",
     "test": "jest --watch",
     "test:ci": "jest --ci",
