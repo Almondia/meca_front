@@ -1,12 +1,14 @@
+import dynamic from 'next/dynamic';
+
 import { InfiniteData } from '@tanstack/react-query';
 
 import { MecaUserListResponse } from '@/apis/mecaApi';
 import EmptyList from '@/components/atoms/EmptyList';
-import LoadSpinner from '@/components/atoms/LoadSpinner';
 import ListInfiniteScroller from '@/components/molcules/ListInfiniteScroller';
 import MecaCard from '@/components/organisms/MecaCard';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 
+const LoadSpinner = dynamic(() => import('@/components/atoms/LoadSpinner'));
 export interface MecaListProps {
   mecaList?: InfiniteData<MecaUserListResponse>;
   hasNextPage?: boolean;

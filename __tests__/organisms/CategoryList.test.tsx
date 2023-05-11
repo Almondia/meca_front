@@ -1,6 +1,6 @@
 import CategoryList from '@/components/organisms/CategoryList';
 import { render } from '../utils';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 const mockCategoryList = {
   pageParams: [undefined],
@@ -57,21 +57,20 @@ describe('CategoryList', () => {
     expect(EmptyText).toBeInTheDocument();
   });
 
-  it('카테고리 목록이 존재한다면 카테고리 목록이 보여진다.', () => {
+  it('카테고리 목록이 존재한다면 카테고리 목록이 보여진다.', async () => {
     const mockFetchNextPage = jest.fn();
     render(<CategoryList fetchNextPage={mockFetchNextPage} categoryList={mockCategoryList} />);
     const pageListText = screen.getAllByRole('article');
     expect(pageListText.length).toBe(6);
     expect(mockFetchNextPage).not.toHaveBeenCalled();
     // 다음 데이터가 없기 때문에 로딩 컴포넌트는 보여지지 않아야 한다.
-    const loadComponent = screen.queryByTestId('id-scroll-load-spinner');
-    expect(loadComponent).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByTestId('id-scroll-load-spinner')).not.toBeInTheDocument());
   });
 
   it('다음 페이지 데이터가 있다면 다음 페이지를 가져오기를 기다리는 컴포넌트가 보여진다.', async () => {
     const mockFetchNextPage = jest.fn();
     render(<CategoryList hasNextPage={true} fetchNextPage={mockFetchNextPage} categoryList={mockCategoryList} />);
-    const loadComponent = screen.queryByTestId('id-scroll-load-spinner');
+    const loadComponent = await screen.findByTestId('id-scroll-load-spinner');
     expect(loadComponent).toBeInTheDocument();
   });
 });
