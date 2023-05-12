@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { useMemo } from 'react';
 
-import MecaTag from '@/components/atoms/MecaTag';
+import MecaTag from '@/components/molcules/MecaTag';
 import { MecaTagType } from '@/types/domain';
 import alertToast from '@/utils/toastHandler';
 

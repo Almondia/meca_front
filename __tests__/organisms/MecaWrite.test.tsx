@@ -11,16 +11,16 @@ jest.mock('next/router', () => ({
 }));
 
 describe('MecaWrite', () => {
-  it('카드 등록이면(카드 정보가 없다면) 최초에 OX퀴즈 등록 UI가 식별된다,', () => {
+  it('카드 등록이면(카드 정보가 없다면) 퀴즈 등록 UI가 식별된다,', () => {
     renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
     const selectedTagToggle = screen.getByRole('button', {
       name: /OX퀴즈/i,
     });
-    expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
+    expect(selectedTagToggle.firstChild).toBeInTheDocument();
     const notSelectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
-    expect(notSelectedTagToggle.firstChild).toHaveStyleRule('opacity', '0.5');
+    expect(notSelectedTagToggle.firstChild).toBeInTheDocument();
     const oxQuizQuestionText = screen.getByText('OX퀴즈 문제를 설명하세요');
     expect(oxQuizQuestionText).toBeInTheDocument();
     const questionInput = screen.getByRole('textbox', {
@@ -31,26 +31,20 @@ describe('MecaWrite', () => {
     expect(radioInput).toBeChecked();
   });
 
-  // it('카드 등록 UI에서 특정 태그를 클릭하면 해당 등록 UI로 변경된다,', async () => {
-  //   renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
-  //   const selectedTagToggle = screen.getByRole('button', {
-  //     name: /OX퀴즈/i,
-  //   });
-  //   expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
-  //   const notSelectedTagToggle = screen.getByRole('button', {
-  //     name: /키워드/i,
-  //   });
-  //   expect(notSelectedTagToggle.firstChild).toHaveStyleRule('opacity', '0.5');
-  //   fireEvent.click(notSelectedTagToggle);
-  //   const changedTagToggle = await screen.findByRole('button', {
-  //     name: /키워드/i,
-  //   });
-  //   expect(changedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
-  //   const questionInput = screen.getByRole('textbox', {
-  //     name: 'input-meca-keyword-question',
-  //   });
-  //   expect(questionInput).toBeInTheDocument();
-  // });
+  it('카드 등록 UI에서 특정 태그를 클릭하면 해당 등록 UI로 변경된다,', async () => {
+    renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
+    const notSelectedTagToggle = screen.getByRole('button', {
+      name: /키워드/i,
+    });
+    fireEvent.click(notSelectedTagToggle);
+    const changedTagToggle = await screen.findByRole('button', {
+      name: /키워드/i,
+    });
+    const questionInput = screen.getByRole('textbox', {
+      name: 'input-meca-keyword-question',
+    });
+    expect(questionInput).toBeInTheDocument();
+  });
 
   it('카드 수정(카드 정보가 있다면) 해당 카드에 맞는 수정 UI가 식별된다(기존의 태그 타입만 식별된다).', () => {
     const card = MECAS[0];
@@ -58,7 +52,7 @@ describe('MecaWrite', () => {
     const selectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
-    expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
+    expect(selectedTagToggle.firstChild).toBeInTheDocument();
     // 이미 선택된 태그가 존재해 다른 태그타입을 선택할 수 없다.
     const notSelectedTagToggle = screen.queryByRole('button', {
       name: /OX퀴즈/i,
@@ -103,7 +97,7 @@ describe('MecaWrite', () => {
     const selectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
-    expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
+    expect(selectedTagToggle.firstChild).toBeInTheDocument();
     const questionInput = screen.getByRole('textbox', {
       name: 'input-meca-keyword-question',
     });

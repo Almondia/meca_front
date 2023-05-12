@@ -39,7 +39,7 @@ describe('MecaCard', () => {
       />,
     );
     const dotButton = screen.getByRole('button', {
-      name: /icon/i,
+      name: /verticaldot/i,
     });
     expect(dotButton).toBeInTheDocument();
   });
