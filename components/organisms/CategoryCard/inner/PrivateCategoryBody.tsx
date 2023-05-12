@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 
+import IconTag from '@/components/atoms/IconTag';
 import ProgressBar from '@/components/atoms/ProgressBar';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
 import DropdownMenu from '@/components/molcules/DropdownMenu';
@@ -7,7 +8,7 @@ import useModal from '@/hooks/useModal';
 import { COLOR } from '@/styles/constants';
 import { CategoryDetailType } from '@/types/domain';
 
-import { CategoryCardBodyContainer, ProgressesInfoContainer } from '../styled';
+import { CategoryCardBodyContainer, CategoryCardSharedTagBox, ProgressesInfoContainer } from '../styled';
 
 const CategoryDeleteDialog = dynamic(() => import('@/components/organisms/CategoryDeleteDialog'));
 const CategoryUpdateDialog = dynamic(() => import('@/components/organisms/CategoryUpdateDialog'));
@@ -43,7 +44,7 @@ const PrivateCategoryBody = ({
           backgroundColor={['#71D4B6', COLOR.success]}
         />
       </ProgressesInfoContainer>
-      <DotMenuOpener top="14px" right="14px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
+      <DotMenuOpener top="14px" right="6px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
         <DropdownMenu>
           <DropdownMenu.Contents href="" onClick={updateModalOpen}>
             수정하기
@@ -72,6 +73,11 @@ const PrivateCategoryBody = ({
           )}
         </DropdownMenu>
       </DotMenuOpener>
+      {!shared && (
+        <CategoryCardSharedTagBox data-testid="id-private-tag">
+          <IconTag icon="Lock" text="비공개" scale={0.85} />
+        </CategoryCardSharedTagBox>
+      )}
     </CategoryCardBodyContainer>
   );
 };

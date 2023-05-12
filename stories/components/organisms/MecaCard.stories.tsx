@@ -11,7 +11,7 @@ export default {
 } as ComponentMeta<typeof MecaCard>;
 
 const Template: ComponentStory<typeof MecaCard> = (args: MecaCardProps) => (
-  <div style={{ padding: '30px' }}>
+  <div style={{ padding: '30px', maxWidth: '380px' }}>
     <MecaCard {...args} />
   </div>
 );

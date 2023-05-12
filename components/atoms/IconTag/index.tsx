@@ -23,7 +23,7 @@ export interface IconTagProps {
 const IconTag = ({ icon, text, tagColor, textColor, scale = 1 }: IconTagProps) => (
   <IconTagWrapper scale={Math.min(scale, 2)} bgColor={tagColor}>
     <IconTagIconBox>
-      <Icon icon={icon} size="12px" color={tagColor} />
+      <Icon icon={icon} size="12px" color={tagColor ?? 'black'} />
     </IconTagIconBox>
     <IconTagText textColor={textColor}>{text}</IconTagText>
   </IconTagWrapper>

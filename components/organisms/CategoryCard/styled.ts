@@ -21,4 +21,10 @@ export const CategoryCardInfoBox = styled.div`
   margin-bottom: 5px;
 `;
 
+export const CategoryCardSharedTagBox = styled.div`
+  position: absolute;
+  top: -19px;
+  right: 0;
+`;
+
 export const CategoryCardBodyContainer = styled.div``;
