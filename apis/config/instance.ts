@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { IncomingMessage } from 'http';
 import { NextApiRequest } from 'next';
 
 import axios, { AxiosResponse, HttpStatusCode } from 'axios';
@@ -12,7 +11,7 @@ export interface AxiosErrorResponse {
   status: HttpStatusCode;
 }
 
-export type ServerRequestType = (IncomingMessage & { cookies: Partial<{ [key: string]: string }> }) | NextApiRequest;
+export type ServerRequestType = { cookies: Partial<{ [key: string]: string }> } | NextApiRequest;
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 const unauthInstance = axios.create({ baseURL });
