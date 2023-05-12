@@ -1,12 +1,15 @@
 /* eslint-disable react/no-array-index-key */
+import dynamic from 'next/dynamic';
+
 import { InfiniteData } from '@tanstack/react-query';
 
 import { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/categoryApi';
 import EmptyList from '@/components/atoms/EmptyList';
-import LoadSpinner from '@/components/atoms/LoadSpinner';
 import ListInfiniteScroller from '@/components/molcules/ListInfiniteScroller';
 import CategoryCard from '@/components/organisms/CategoryCard';
 import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
+
+const LoadSpinner = dynamic(() => import('@/components/atoms/LoadSpinner'));
 
 export interface CategoryListProps {
   categoryList?: InfiniteData<PrivateCategoriesResponse | SharedCategoriesResponse>;

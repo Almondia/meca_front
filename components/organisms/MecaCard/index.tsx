@@ -1,8 +1,9 @@
+import dynamic from 'next/dynamic';
+
 import MecaTag from '@/components/atoms/MecaTag';
 import Card from '@/components/molcules/Card';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
 import DropdownMenu from '@/components/molcules/DropdownMenu';
-import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 import useModal from '@/hooks/useModal';
 import { MecaTagType } from '@/types/domain';
 import { extractFirstImageSrc } from '@/utils/imageHandler';
@@ -10,6 +11,8 @@ import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
 import { MecaQuestionTextContainer, MecaTagContainer } from './styled';
+
+const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
 
 export interface MecaCardProps {
   cardId: string;

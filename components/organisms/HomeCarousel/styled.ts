@@ -5,7 +5,6 @@ import { FlexCenter, FlexColumn, FlexSpaceBetween } from '@/styles/layout';
 
 export const HomeCarouselWrapper = styled.section`
   width: 100%;
-  margin-bottom: -30px;
 `;
 
 export const HomeCarouselSlider = styled(Slider)`
