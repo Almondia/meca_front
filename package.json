@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:anz": "ANALYZE=true next build",
     "start": "next start",
     "test": "jest --watch",
     "test:ci": "jest --ci",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@mdx-js/react": "^1.6.22",
+    "@next/bundle-analyzer": "^13.4.1",
     "@next/eslint-plugin-next": "^13.2.1",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-docs": "^6.5.16",
@@ -72,6 +74,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "babel-loader": "^8.3.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.35.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",

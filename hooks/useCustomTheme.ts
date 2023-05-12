@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import storage from '@/utils/storageHandler';
 import { ThemeType } from '@/types/common';
+import storage from '@/utils/storageHandler';
 
 const useCustomTheme = () => {
   const [theme, setTheme] = useState<ThemeType>('light');

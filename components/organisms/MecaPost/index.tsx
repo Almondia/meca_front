@@ -1,8 +1,8 @@
 import React from 'react';
 
-import MecaTag from '@/components/atoms/MecaTag';
 import { RelativeDateText } from '@/components/common/RelativeDateText';
-import Editor from '@/components/molcules/Editor';
+import QuillNoSSRReader from '@/components/molcules/Editor/QuillNoSSRReader';
+import MecaTag from '@/components/molcules/MecaTag';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
 import { TextCaption } from '@/styles/common';
@@ -22,7 +22,7 @@ const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
 };
 
 const MecaPost = ({ cardType, question, answer, description, createdAt }: MecaPostProps) => {
-  const DescriptionEditor = Editor.Reader({ content: description || '내용이 없습니다.' });
+  const DescriptionEditor = QuillNoSSRReader({ content: description || '내용이 없습니다.' });
   const DateText = RelativeDateText({ date: createdAt });
   const MecaBody = ContentBody[cardType];
   return (

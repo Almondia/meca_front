@@ -1,15 +1,10 @@
-import { toast, ToastOptions } from 'react-toastify';
-
-const alertToast = (message: string, type: 'info' | 'success' | 'warning', options?: ToastOptions) => {
-  const dismissToast = () => {
-    toast.dismiss();
-  };
-
+const alertToast = (message: string, type: 'info' | 'success' | 'warning') => {
   const notify = () => {
-    dismissToast();
-    toast[type](message, {
-      ...options,
-    });
+    (async () => {
+      const { toast } = await import('react-toastify');
+      toast.dismiss();
+      toast[type](message);
+    })();
   };
 
   return notify();

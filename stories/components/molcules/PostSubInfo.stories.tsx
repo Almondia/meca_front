@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import MecaTag from '@/components/atoms/MecaTag';
+import MecaTag from '@/components/molcules/MecaTag';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
 import { TextCaption } from '@/styles/common';
 

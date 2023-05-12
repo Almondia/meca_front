@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TextBodySubtitle } from '@/styles/common';
 import { FlexCenter } from '@/styles/layout';
 
-export const MecaTagWrapper = styled.div<{ scale: number; isNotOpaque: boolean; themeColor: string }>`
+export const IconTagWrapper = styled.div<{ scale: number; bgColor?: string }>`
   position: relative;
   ${FlexCenter};
   width: 70px;
@@ -12,12 +12,11 @@ export const MecaTagWrapper = styled.div<{ scale: number; isNotOpaque: boolean; 
   margin-top: ${(props) => 15 * (props.scale - 1)}px;
   margin-left: ${(props) => 43 * (props.scale - 1)}px;
   border-radius: ${({ theme }) => theme.border.button};
-  background-color: ${(props) => props.themeColor};
-  opacity: ${(props) => (props.isNotOpaque ? 0.5 : 1)};
+  background-color: ${(props) => props.bgColor ?? 'black'};
   transform: ${(props) => `scale(${props.scale})`};
 `;
 
-export const TagIconBox = styled.div`
+export const IconTagIconBox = styled.div`
   position: absolute;
   top: 4px;
   left: 6px;
@@ -28,9 +27,9 @@ export const TagIconBox = styled.div`
   background-color: white;
 `;
 
-export const TagText = styled(TextBodySubtitle)`
+export const IconTagText = styled(TextBodySubtitle)<{ textColor?: string }>`
   margin-left: 6px;
   font-size: 11px;
   letter-spacing: 0.05rem;
-  color: white;
+  color: ${(props) => props.textColor ?? 'white'};
 `;

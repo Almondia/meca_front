@@ -10,18 +10,23 @@ import styled from 'styled-components';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import CountIndicator from '@/components/atoms/CountIndicator';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
-import PageTitle from '@/components/atoms/PageTitle';
-import TimerBar from '@/components/molcules/TimerBar';
-import QuizPost from '@/components/organisms/QuizPost';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { FlexSpaceBetween, PostSection } from '@/styles/layout';
 import { QuizPhaseType, QuizResultType, QuizSucceedType } from '@/types/domain';
 
+const QuizPost = dynamic(() => import('@/components/organisms/QuizPost'), {
+  loading: () => <LoadSpinner width="100%" />,
+  ssr: false,
+});
+
 const QuizResult = dynamic(() => import('@/components/organisms/QuizResult'), {
   loading: () => <LoadSpinner width="100%" />,
   ssr: false,
 });
+
+const TimerBar = dynamic(() => import('@/components/molcules/TimerBar'));
+const PageTitle = dynamic(() => import('@/components/atoms/PageTitle'));
 
 const QuizTitleBox = styled.div`
   ${FlexSpaceBetween};

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import React, { useCallback } from 'react';
@@ -10,7 +11,6 @@ import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
 import CardWriterInfo from '@/components/molcules/PostWriterInfo';
-import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
@@ -18,6 +18,8 @@ import useUser from '@/hooks/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';
+
+const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
 
 export interface MecaPageProps {
   cardId: string;

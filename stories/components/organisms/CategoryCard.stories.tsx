@@ -12,7 +12,7 @@ export default {
 } as ComponentMeta<typeof CategoryCard>;
 
 const Template: ComponentStory<typeof CategoryCard> = (args: CategoryCardProps) => (
-  <div style={{ padding: '30px' }}>
+  <div style={{ padding: '30px', maxWidth: '380px' }}>
     <CategoryCard {...args}>{args.children}</CategoryCard>
   </div>
 );
@@ -22,7 +22,7 @@ Private.args = {
   title: '카테고리 제목',
   children: (
     <CategoryCard.Private
-      shared
+      shared={false}
       thumbnail=""
       title="title"
       solveCount={5}

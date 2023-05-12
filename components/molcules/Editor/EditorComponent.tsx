@@ -9,7 +9,7 @@ import useImage from '@/hooks/useImage';
 import { IMAGE_SERVER } from '@/utils/constants';
 import alertToast from '@/utils/toastHandler';
 
-import { QuillNoSSRWriter } from './QuillNoSSRWrapper';
+import { QuillNoSSRWriter } from './QuillNoSSRWriter';
 
 const EditorComponentWrapper = styled.div`
   .ql-editor {

@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import categoryApi from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
 
 const useSharedCategory = () => {
@@ -16,11 +15,12 @@ const useSharedCategory = () => {
     fetchNextPage,
   } = useInfiniteQuery(
     [queryKey.categories, 'shared', query],
-    ({ pageParam }) => {
+    async ({ pageParam }) => {
       const props = {
         hasNext: pageParam,
       };
       !pageParam && delete props.hasNext;
+      const { default: categoryApi } = await import('@/apis/categoryApi');
       return categoryApi.getSharedCategoryList({ ...props, containTitle: query });
     },
     {
