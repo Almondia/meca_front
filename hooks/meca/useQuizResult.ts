@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import mecaApi from '@/apis/mecaApi';
 import statisticsApi from '@/apis/statisticsApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import { MECATAG_VALUES } from '@/components/atoms/MecaTag/type';
+import { MECATAG_VALUES } from '@/components/molcules/MecaTag/type';
 import queryKey from '@/query/queryKey';
 import { MECA_RESPONE_TO_TAG, MecaTagType, QuizType } from '@/types/domain';
 

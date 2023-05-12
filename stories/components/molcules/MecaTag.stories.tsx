@@ -1,12 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 
-import MecaTag, { MecaTagProps } from '@/components/atoms/MecaTag';
-import { MECATAG_VALUES } from '@/components/atoms/MecaTag/type';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import MecaTag, { MecaTagProps } from '@/components/molcules/MecaTag';
+import { MECATAG_VALUES } from '@/components/molcules/MecaTag/type';
 import { MecaTagType } from '@/types/domain';
 
 export default {
-  title: 'components/atoms/MecaTag',
+  title: 'components/molcules/MecaTag',
   component: MecaTag,
 } as ComponentMeta<typeof MecaTag>;
 

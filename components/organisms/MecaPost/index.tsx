@@ -1,8 +1,8 @@
 import React from 'react';
 
-import MecaTag from '@/components/atoms/MecaTag';
 import { RelativeDateText } from '@/components/common/RelativeDateText';
 import QuillNoSSRReader from '@/components/molcules/Editor/QuillNoSSRReader';
+import MecaTag from '@/components/molcules/MecaTag';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
 import { TextCaption } from '@/styles/common';
