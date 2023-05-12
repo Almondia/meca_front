@@ -15,7 +15,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 jest.mock('./components/common/Icon', () => {
-  const MockedIcon = () => <div>Icon</div>;
+  const MockedIcon = ({ icon }) => <div>{icon}</div>;
   return MockedIcon;
 });
 
