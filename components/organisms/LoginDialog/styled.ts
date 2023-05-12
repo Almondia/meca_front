@@ -44,7 +44,7 @@ export const SocialButton = styled.button<{ socialType: SocialType; hasBorder?: 
   :hover,
   :focus {
     & > * {
-      transform: scale(1.3);
+      transform: scale(1.2);
       transition: transform 0.4s ease-out;
     }
   }
