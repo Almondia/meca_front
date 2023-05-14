@@ -1,30 +1,20 @@
 import Chart from 'react-apexcharts';
-import styled from 'styled-components';
 
 import { COLOR } from '@/styles/constants';
+import { ElementSizeType } from '@/types/common';
 
-const GroupBarChartWrapper = styled.div`
-  position: relative;
-  min-height: 280px;
-  & > div {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
-  @media ${({ theme }) => theme.media.tablet} {
-    min-height: 190px;
-  }
-`;
+import { ChartWrapper } from './styled';
 
 export interface GroupBarChartProps {
   legends: string[];
   axisNames: string[];
   firstValues: number[];
   secondValues: number[];
+  /** [0: default, 1: tablet, 2: mobile] */
+  minHeights: ElementSizeType[];
 }
 
-const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupBarChartProps) => {
+const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeights }: GroupBarChartProps) => {
   const series = [
     {
       data: firstValues.map((val) => (val === 0 ? 0.2 : val)),
@@ -92,7 +82,7 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupB
       customLegendItems: legends,
       position: 'bottom',
       markers: {
-        radius: 6,
+        radius: 2,
       },
     },
     responsive: [
@@ -118,9 +108,9 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupB
     ],
   };
   return (
-    <GroupBarChartWrapper>
+    <ChartWrapper minHeights={minHeights}>
       <Chart series={series} options={options} type="bar" width="100%" height="100%" />
-    </GroupBarChartWrapper>
+    </ChartWrapper>
   );
 };
 

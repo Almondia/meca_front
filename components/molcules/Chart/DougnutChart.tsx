@@ -1,27 +1,17 @@
 import Chart from 'react-apexcharts';
-import styled from 'styled-components';
 
-const DoughnutChartWrapper = styled.div`
-  position: relative;
-  min-height: 240px;
-  & > div {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 10px;
-  }
-  @media ${({ theme }) => theme.media.tablet} {
-    min-height: 190px;
-  }
-`;
+import { ElementSizeType } from '@/types/common';
+
+import { ChartWrapper } from './styled';
 
 export interface DoughnutChartProps {
   fillColors: string[];
   labels: string[];
   values: ApexNonAxisChartSeries;
+  minHeights: ElementSizeType[];
 }
 
-const DoughnutChart = ({ fillColors, values, labels }: DoughnutChartProps) => {
+const DoughnutChart = ({ fillColors, values, labels, minHeights }: DoughnutChartProps) => {
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: 'pie',
@@ -73,9 +63,9 @@ const DoughnutChart = ({ fillColors, values, labels }: DoughnutChartProps) => {
     ],
   };
   return (
-    <DoughnutChartWrapper>
-      <Chart options={options} series={values} type="donut" width="100%" height="100%" />
-    </DoughnutChartWrapper>
+    <ChartWrapper minHeights={minHeights}>
+      <Chart options={options} series={values} type="donut" width="100%" height="120%" />
+    </ChartWrapper>
   );
 };
 
