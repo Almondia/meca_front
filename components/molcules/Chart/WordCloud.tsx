@@ -24,13 +24,13 @@ export interface WordCludProps {
     text: string;
     value: number;
   }[];
-  maxHeight: ElementSizeType;
+  maxheight: ElementSizeType;
 }
 
-const WordCloud = ({ words, maxHeight }: WordCludProps) => (
+const WordCloud = ({ words, maxheight }: WordCludProps) => (
   <WordCloudWrapper
     words={words}
-    maxHeight={maxHeight}
+    maxHeight={maxheight}
     options={{
       fontFamily: 'impact',
       fontSizes: [12, 36],

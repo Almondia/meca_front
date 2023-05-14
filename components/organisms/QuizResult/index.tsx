@@ -84,7 +84,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
             ) : (
               <Chart.WordCloud
                 words={Object.entries(quizKeywords.keywords).map(([text, value]) => ({ text, value }))}
-                maxHeight="140px"
+                maxheight="140px"
               />
             )}
           </Card.Body>
