@@ -17,10 +17,10 @@ export interface GroupBarChartProps {
 const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeights }: GroupBarChartProps) => {
   const series = [
     {
-      data: firstValues.map((val) => (val === 0 ? 0.2 : val)),
+      data: firstValues.map((val) => (val === 0 ? 0.025 : val)),
     },
     {
-      data: secondValues.map((val) => (val === 0 ? 0.2 : val)),
+      data: secondValues.map((val) => (val === 0 ? 0.025 : val)),
     },
   ];
   const options: ApexCharts.ApexOptions = {
@@ -38,7 +38,7 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeigh
           position: 'top',
         },
         columnWidth: '80px',
-        borderRadius: 6,
+        borderRadius: 2,
       },
     },
     colors: [COLOR.brand3, 'var(--color-brand)'],
@@ -50,7 +50,7 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeigh
         colors: ['#fff'],
       },
       formatter(value: number) {
-        return value === 0.2 ? 0 : value;
+        return value < 0.1 ? ' ' : value;
       },
     },
     stroke: {
@@ -82,7 +82,7 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeigh
       customLegendItems: legends,
       position: 'bottom',
       markers: {
-        radius: 2,
+        radius: 6,
       },
     },
     responsive: [
