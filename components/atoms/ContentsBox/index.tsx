@@ -1,5 +1,3 @@
-import { sahitya } from '@/styles/font';
-
 import { ContentsBoxBody, ContentsBoxHeader, ContentsBoxWrapper } from './styled';
 
 export interface ContentsBoxBoxProps {
@@ -16,7 +14,7 @@ export interface ContentsBoxBoxProps {
  */
 const ContentsBox = ({ body, header, isColumn }: ContentsBoxBoxProps) => (
   <ContentsBoxWrapper isColumn={isColumn ?? false}>
-    <ContentsBoxHeader className={sahitya.className}>{header}</ContentsBoxHeader>
+    <ContentsBoxHeader>{header}</ContentsBoxHeader>
     <ContentsBoxBody>{body}</ContentsBoxBody>
   </ContentsBoxWrapper>
 );

@@ -7,10 +7,10 @@ import { Hydrate, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RecoilRoot } from 'recoil';
 
+import FontProvider from '@/components/common/FontProvider';
 import Layout from '@/components/common/Layout';
 import useSSRInterception from '@/hooks/useSSRInterception';
 import { generateQueryClient } from '@/query/queryClient';
-import { pretendard } from '@/styles/font';
 import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
 
@@ -37,15 +37,14 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <RecoilRoot>
+          <FontProvider />
           <ThemeProvider theme={commonTheme}>
             <ToastProvider />
-            <div className={pretendard.className}>
-              <Layout>
-                {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
-              </Layout>
-              <div id="modal-root" />
-              <div id="image-crop-root" />
-            </div>
+            <Layout>
+              {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
+            </Layout>
+            <div id="modal-root" />
+            <div id="image-crop-root" />
           </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} />
