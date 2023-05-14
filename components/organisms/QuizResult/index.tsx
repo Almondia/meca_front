@@ -10,10 +10,11 @@ import { QuizType } from '@/types/domain';
 
 import {
   QuizResulDashBoard,
-  QuizResultFooterArea,
-  QuizResultLowerContentArea,
-  QuizResultSideArea,
-  QuizResultUpperContentArea,
+  QuizResultAnswerRateDougnutArea,
+  QuizResultContentArea,
+  QuizResultScoreRateBarArea,
+  QuizResultTimeRateDougnutArea,
+  QuizResultWordCloudArea,
 } from './styled';
 
 export interface QuizResultProps {
@@ -34,7 +35,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
 
   return (
     <QuizResulDashBoard>
-      <QuizResultSideArea>
+      <QuizResultAnswerRateDougnutArea>
         <Card>
           <Card.Title>전체 정답률</Card.Title>
           <Card.Body>
@@ -42,9 +43,25 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
               labels={['오답률', '정답률']}
               fillColors={[COLOR.success, COLOR.error]}
               values={[avgScore, 1 - avgScore]}
+              minHeights={['140px', '180px', '120px']}
             />
           </Card.Body>
         </Card>
+      </QuizResultAnswerRateDougnutArea>
+      <QuizResultTimeRateDougnutArea>
+        <Card>
+          <Card.Title>평균 소요 시간</Card.Title>
+          <Card.Body>
+            <Chart.RadialChart
+              value={avgTime}
+              maxValue={maxQuizTime}
+              label={{ pre: '평균', post: 'S' }}
+              minHeights={['140px', '180px', '180px']}
+            />
+          </Card.Body>
+        </Card>
+      </QuizResultTimeRateDougnutArea>
+      <QuizResultScoreRateBarArea>
         <Card>
           <Card.Title>유형별 점수 비율</Card.Title>
           <Card.Body>
@@ -53,49 +70,34 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
               axisNames={quizTypeRate.names}
               firstValues={quizTypeRate.answerRate}
               secondValues={quizTypeRate.count}
+              minHeights={['368px', '180px', '200px']}
             />
           </Card.Body>
         </Card>
-        <Card>
-          <Card.Title>평균 소요 시간</Card.Title>
-          <Card.Body>
-            <Chart.RadialChart value={avgTime} maxValue={maxQuizTime} label={{ pre: '평균', post: 'S' }} />
-          </Card.Body>
-        </Card>
-      </QuizResultSideArea>
-      <QuizResultUpperContentArea>
+      </QuizResultScoreRateBarArea>
+      <QuizResultWordCloudArea>
         <Card>
           <Card.Title>Keyword Cloud</Card.Title>
           <Card.Body>
             {isApplyKeywordLoading || !quizKeywords ? (
-              <LoadSpinner width="100%" height="200px" />
+              <LoadSpinner width="100%" height="80px" />
             ) : (
               <Chart.WordCloud
                 words={Object.entries(quizKeywords.keywords).map(([text, value]) => ({ text, value }))}
+                maxheight="140px"
               />
             )}
           </Card.Body>
         </Card>
-      </QuizResultUpperContentArea>
-      <QuizResultLowerContentArea>
+      </QuizResultWordCloudArea>
+      <QuizResultContentArea>
         <Card>
           <Card.Title>Quiz Timeline</Card.Title>
           <Card.Body>
             <QuizTimeline quizList={quizList} />
           </Card.Body>
         </Card>
-      </QuizResultLowerContentArea>
-      <QuizResultFooterArea>
-        <Card>
-          <Card.Title>추천 카테고리</Card.Title>
-          <Card.Body>
-            {/* TODO: 추천 카테고리 반영 */}
-            <div style={{ height: '300px' }}>
-              <p>준비즁</p>
-            </div>
-          </Card.Body>
-        </Card>
-      </QuizResultFooterArea>
+      </QuizResultContentArea>
     </QuizResulDashBoard>
   );
 };

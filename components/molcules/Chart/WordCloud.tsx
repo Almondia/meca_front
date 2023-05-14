@@ -1,9 +1,11 @@
 import ReactWordcloud from 'react-wordcloud';
 import styled from 'styled-components';
 
-const WordCloudWrapper = styled(ReactWordcloud)`
+import { ElementSizeType } from '@/types/common';
+
+const WordCloudWrapper = styled(ReactWordcloud)<{ maxHeight: ElementSizeType }>`
   width: 100% !important;
-  height: 200px !important;
+  height: ${(props) => props.maxHeight} !important;
   background-color: var(--color-brightgray);
   border-radius: ${({ theme }) => theme.border.card};
   svg {
@@ -22,14 +24,16 @@ export interface WordCludProps {
     text: string;
     value: number;
   }[];
+  maxheight: ElementSizeType;
 }
 
-const WordCloud = ({ words }: WordCludProps) => (
+const WordCloud = ({ words, maxheight }: WordCludProps) => (
   <WordCloudWrapper
     words={words}
+    maxHeight={maxheight}
     options={{
       fontFamily: 'impact',
-      fontSizes: [16, 40],
+      fontSizes: [12, 36],
       enableTooltip: false,
       deterministic: true,
       scale: 'sqrt',

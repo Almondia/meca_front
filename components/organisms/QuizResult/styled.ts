@@ -5,29 +5,57 @@ import { FlexColumn } from '@/styles/layout';
 export const QuizResulDashBoard = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 270px minmax(0px, auto) auto;
+  grid-template-rows: 210px minmax(0px, auto) auto;
   gap: 1rem;
   grid-template-areas:
-    'content-1 content-1 sidebar'
-    'content-2 content-2 sidebar'
-    'footer footer sidebar';
+    'wordcloud wordcloud ratebar'
+    'answer-rate time-rate ratebar'
+    'content-1 content-1 content-1';
   @media ${({ theme }) => theme.media.tablet} {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 3fr 4fr 3fr;
     grid-template-areas:
-      'content-1'
-      'sidebar'
-      'content-2'
-      'footer';
+      'wordcloud wordcloud wordcloud'
+      'answer-rate ratebar time-rate'
+      'content-1 content-1 content-1';
   }
+  @media ${({ theme }) => theme.media.mobile} {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'wordcloud'
+      'ratebar'
+      'answer-rate'
+      'time-rate'
+      'content-1';
+  }
+  position: relative;
 `;
 
-export const QuizResultUpperContentArea = styled.div`
+export const QuizResultContentArea = styled.div`
   grid-area: content-1;
 `;
 
-export const QuizResultLowerContentArea = styled.div`
-  grid-area: content-2;
+export const QuizResultWordCloudArea = styled.div`
+  grid-area: wordcloud;
+`;
+
+export const QuizResultAnswerRateDougnutArea = styled.div`
+  grid-area: answer-rate;
+  @media ${({ theme }) => theme.media.mobile} {
+    & > article > div > div {
+      transform: scale(0.9);
+    }
+  }
+`;
+
+export const QuizResultTimeRateDougnutArea = styled.div`
+  grid-area: time-rate;
+  @media ${({ theme }) => theme.media.mobile} {
+    display: none;
+  }
+`;
+
+export const QuizResultScoreRateBarArea = styled.div`
+  grid-area: ratebar;
 `;
 
 export const QuizResultSideArea = styled.div`
@@ -43,11 +71,4 @@ export const QuizResultSideArea = styled.div`
   @media ${({ theme }) => theme.media.mobile} {
     grid-template-columns: 1fr;
   }
-`;
-
-export const QuizResultFooterArea = styled.div`
-  grid-area: footer;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
