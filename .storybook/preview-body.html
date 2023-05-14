@@ -2,22 +2,17 @@
   @font-face {
     font-family: 'Pretendard';
     font-weight: 400;
-    src: url('../public/fonts/Pretendard-Regular.woff') format('woff');
+    src: url('/fonts/Pretendard-Regular.woff') format('woff');
   }
 
   @font-face {
     font-family: 'Sahitya';
     font-weight: 700;
-    src: url('../public/fonts/Sahitya-Bold.ttf') format('truetype');
+    src: url('/fonts/Sahitya-Bold.ttf') format('truetype');
   }
-  html {
-    font-family: 'Pretendard';
-    font-size: 16px;
-  }
-  @media (max-width: 564px) {
-    html {
-      font-size: 16px;
-    }
+  :root {
+    --font-base: 'Pretendard';
+    --font-sub: 'Sahitya';
   }
 </style>
 <div id="modal-root"></div>
