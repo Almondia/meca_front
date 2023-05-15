@@ -13,30 +13,28 @@ export const CardWrapper = styled.article`
   }
 `;
 
-export const CardThumbnailWrapper1 = styled.div`
-  width: 100%;
-  content: '';
-  background-color: red;
-`;
-
-export const CardThumbnailWrapper = styled.div<{ hasStaticHeight?: boolean }>`
+export const CardThumbnailWrapper = styled.div<{
+  preloadedSize?: {
+    width: number;
+    height: number;
+  };
+}>`
   position: relative;
   width: 100%;
   margin-bottom: -8px;
   overflow: hidden;
-  padding-top: ${(props) => props.hasStaticHeight && '50%'};
+  padding-top: ${(props) =>
+    props.preloadedSize &&
+    Math.min(150, Math.max(25, (props.preloadedSize.height / props.preloadedSize.width) * 100))}%;
   & > img {
     object-fit: cover;
-    ${(props) => !props.hasStaticHeight && 'min-height: 80px'};
-    ${(props) => !props.hasStaticHeight && 'max-height: 340px'};
-    ${(props) => !props.hasStaticHeight && 'position: relative !important'};
+    ${(props) => !props.preloadedSize && 'min-height: 80px'};
+    ${(props) => !props.preloadedSize && 'max-height: 400px'};
+    ${(props) => !props.preloadedSize && 'position: relative !important'};
     border-top-right-radius: ${({ theme }) => theme.border.card};
     border-top-left-radius: ${({ theme }) => theme.border.card};
     :hover {
       transform: scale(1.05);
-    }
-    @media ${({ theme }) => theme.media.mobile} {
-      ${(props) => !props.hasStaticHeight && 'min-height: 60px'};
     }
     transition: transform 0.75s ease-in-out;
   }
