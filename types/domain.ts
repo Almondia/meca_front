@@ -1,3 +1,5 @@
+import { PreloadedImageInfo } from './common';
+
 export type MecaTagType = 'ox' | 'desc' | 'keyword' | 'select';
 export type MecaTagResponseType = 'OX_QUIZ' | 'KEYWORD' | 'MULTI_CHOICE' | 'DESCRIPTION';
 
@@ -74,6 +76,7 @@ export interface MecaType {
   answer: string;
   createdAt: string;
   description: string;
+  blurThumbnail?: PreloadedImageInfo;
 }
 
 export type QuizAlgorithmType = 'score' | 'random';
