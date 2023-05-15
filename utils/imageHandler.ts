@@ -22,3 +22,5 @@ export const extractFirstImageSrc = (htmlString: string, remoteUrl?: string) => 
   );
   return regex.exec(htmlString)?.[1];
 };
+
+export const getRemoteImageUrl = (imageSrc: string) => `${REMOTE_IMAGE_URL}/${imageSrc}`;

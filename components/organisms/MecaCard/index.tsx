@@ -36,7 +36,6 @@ const MecaCard = ({
 }: MecaCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const thumbnailImageSrc = blurThumbnail?.src ?? extractFirstImageSrc(description);
-  console.log(blurThumbnail);
   return (
     <Card data-testid="id-meca-card">
       {thumbnailImageSrc && (
@@ -83,4 +82,4 @@ const MecaCard = ({
   );
 };
 
-export default MecaCard;
+export default React.memo(MecaCard);

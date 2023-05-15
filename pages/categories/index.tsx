@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
+import { getPlaiceholder } from 'plaiceholder';
+
 import categoryApi from '@/apis/categoryApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
@@ -10,6 +12,7 @@ import useCategory from '@/hooks/category/useCategory';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
+import { getRemoteImageUrl } from '@/utils/imageHandler';
 
 const Category = () => {
   const { categoires, hasNextPage, fetchNextPage } = useCategory();
@@ -27,9 +30,26 @@ const Category = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (_, queryClient) => {
-  await queryClient.prefetchInfiniteQuery([queryKey.categories, 'me'], () => categoryApi.getMyCategoryList({}), {
-    getNextPageParam: (lastPage) => lastPage.hasNext,
-  });
+  await queryClient.prefetchInfiniteQuery(
+    [queryKey.categories, 'me'],
+    async () => {
+      const categoryList = await categoryApi.getMyCategoryList({});
+      const categoryListContentWithBlurURL = await Promise.all(
+        categoryList.contents.map(async (category) => {
+          const { thumbnail } = category;
+          if (!thumbnail) {
+            return category;
+          }
+          const { base64: blurDataURL, img } = await getPlaiceholder(getRemoteImageUrl(thumbnail), { size: 12 });
+          return { ...category, blurThumbnail: { ...img, blurDataURL } };
+        }),
+      );
+      return { ...categoryList, contents: categoryListContentWithBlurURL };
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.hasNext,
+    },
+  );
 });
 
 export default Category;
