@@ -45,7 +45,7 @@ const DotMenuOpener = ({ children, top = '0px', right = '0px', name }: DotMenuOp
   return (
     <DotMenuOpenerWrapper ref={ref} top={top} right={right}>
       <IconButton icon="VerticalDot" iconSize="21px" onClick={() => setIsDotMenuVisible((prev) => !prev)} name={name} />
-      {isDotMenuVisible && children}
+      {isDotMenuVisible && <div onClick={() => setIsDotMenuVisible(false)}>{children}</div>}
     </DotMenuOpenerWrapper>
   );
 };

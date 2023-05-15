@@ -52,27 +52,27 @@ const PrivateCategoryBody = ({
           <DropdownMenu.Contents href="" onClick={deleteModalOpen}>
             삭제하기
           </DropdownMenu.Contents>
-          {isDeleteModalVisible && (
-            <CategoryDeleteDialog
-              categoryId={categoryId}
-              categoryTitle={title}
-              shared={shared}
-              visible={isDeleteModalVisible}
-              onClose={deleteModalClose}
-            />
-          )}
-          {isUpdateModalVisible && (
-            <CategoryUpdateDialog
-              categoryId={categoryId}
-              categoryTitle={title}
-              thumbnail={thumbnail}
-              isShared={shared}
-              visible={isUpdateModalVisible}
-              onClose={updateModalClose}
-            />
-          )}
         </DropdownMenu>
       </DotMenuOpener>
+      {isDeleteModalVisible && (
+        <CategoryDeleteDialog
+          categoryId={categoryId}
+          categoryTitle={title}
+          shared={shared}
+          visible={isDeleteModalVisible}
+          onClose={deleteModalClose}
+        />
+      )}
+      {isUpdateModalVisible && (
+        <CategoryUpdateDialog
+          categoryId={categoryId}
+          categoryTitle={title}
+          thumbnail={thumbnail}
+          isShared={shared}
+          visible={isUpdateModalVisible}
+          onClose={updateModalClose}
+        />
+      )}
       {!shared && (
         <CategoryCardSharedTagBox data-testid="id-private-tag">
           <IconTag icon="Lock" text="비공개" scale={0.85} />
