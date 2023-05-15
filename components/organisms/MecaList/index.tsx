@@ -31,14 +31,10 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProp
         pages.contents.map((meca) => (
           <MecaCard
             key={meca.cardId}
-            cardId={meca.cardId}
             categoryId={pages.category.categoryId}
-            memberId={meca.memberId}
-            title={meca.title}
-            question={meca.question}
-            description={meca.description}
             tagType={MECA_RESPONE_TO_TAG[meca.cardType]}
             isMine={isMine}
+            {...meca}
           />
         )),
       )}
