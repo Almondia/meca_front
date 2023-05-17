@@ -144,6 +144,10 @@ const GlobalStyle = createGlobalStyle<Theme>`
         font-size: 1rem;
         line-height: 1.5;
     }
+
+    .ql-bubble > .ql-editor {
+        padding: 0;
+    }
     
     .ql-editor.ql-blank::before {
         left: 1rem;
