@@ -45,9 +45,10 @@ export const getStaticProps: GetStaticProps = isrAspect(async (_, queryClient) =
       );
       return { ...categoryList, contents: categoryListContentWithBlurURL };
     },
-    {
-      getNextPageParam: (lastPage) => lastPage.hasNext,
-    },
+    { getNextPageParam: (lastPage) => lastPage.hasNext },
   );
-  return {};
+  const categoryList = queryClient.getQueryData([queryKey.categories, 'shared', '']);
+  return {
+    revalidate: !categoryList ? 60 : 3600,
+  };
 });
