@@ -8,3 +8,10 @@ export interface DefaultModalOptions {
   /** [필수] 모달을 닫는 함수입니다. */
   onClose: () => void;
 }
+
+export interface PreloadedImageInfo {
+  blurDataURL: string;
+  src?: string;
+  width: number;
+  height: number;
+}

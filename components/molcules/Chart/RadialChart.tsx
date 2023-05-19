@@ -1,18 +1,9 @@
 import Chart from 'react-apexcharts';
-import styled from 'styled-components';
 
 import { COLOR } from '@/styles/constants';
+import { ElementSizeType } from '@/types/common';
 
-const RadialChartWrapper = styled.div`
-  position: relative;
-  min-height: 190px;
-  & > div {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
-`;
+import { ChartWrapper } from './styled';
 
 export interface RadialChartProps {
   value: number;
@@ -21,9 +12,10 @@ export interface RadialChartProps {
     post: string;
   };
   maxValue: number;
+  minHeights: ElementSizeType[];
 }
 
-const RadialChart = ({ value, maxValue, label }: RadialChartProps) => {
+const RadialChart = ({ value, maxValue, label, minHeights }: RadialChartProps) => {
   const series = [(Number(value.toFixed(2)) / maxValue) * 100];
   const options: ApexCharts.ApexOptions = {
     chart: {
@@ -52,9 +44,9 @@ const RadialChart = ({ value, maxValue, label }: RadialChartProps) => {
     labels: label ? [`${label.pre} ${value.toFixed(2)}${label.post}`] : [`${value.toFixed(2)}%`],
   };
   return (
-    <RadialChartWrapper>
-      <Chart options={options} series={series} type="radialBar" width="100%" height="115%" />
-    </RadialChartWrapper>
+    <ChartWrapper minHeights={minHeights}>
+      <Chart options={options} series={series} type="radialBar" width="100%" height="120%" />
+    </ChartWrapper>
   );
 };
 

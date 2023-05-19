@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import useFetchImage from '@/hooks/useFetchImage';
 import useImage from '@/hooks/useImage';
-import { IMAGE_SERVER } from '@/utils/constants';
+import { getRemoteImageUrl } from '@/utils/imageHandler';
 import alertToast from '@/utils/toastHandler';
 
 import { QuillNoSSRWriter } from './QuillNoSSRWriter';
@@ -14,7 +14,7 @@ import { QuillNoSSRWriter } from './QuillNoSSRWriter';
 const EditorComponentWrapper = styled.div`
   .ql-editor {
     min-height: 360px;
-    max-height: 500px;
+    max-height: 1290px;
   }
   img {
     display: block;
@@ -52,9 +52,14 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
       return;
     }
     const index = quill.getSelection()?.index;
-    if (index !== undefined && index !== null) {
-      quill.insertEmbed(index, 'image', `${IMAGE_SERVER}/${imageFileUrl}`);
-      quill.setSelection(index, 1);
+    if (index !== undefined && index !== null && imageFileUrl) {
+      console.log(imageFileUrl);
+      quill.insertEmbed(index, 'image', {
+        src: getRemoteImageUrl(imageFileUrl),
+        alt: fileName,
+      });
+      quill.insertText(index + 1, '\n', 'text', '\n');
+      quill.setSelection(index + 2, 0);
       setIsImageUploadLoading(false);
     }
   }, []);

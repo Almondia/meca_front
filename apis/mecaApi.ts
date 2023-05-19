@@ -11,7 +11,7 @@ import { PAGINATION_NUM } from '@/utils/constants';
 
 import { authInstance, unauthInstance } from './config/instance';
 
-export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt'>>;
+export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt' | 'blurThumbnail'>>;
 
 export interface MecaWriteResponse {
   cardId: string;

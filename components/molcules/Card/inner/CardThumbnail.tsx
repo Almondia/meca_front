@@ -2,32 +2,31 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { MEDIA } from '@/styles/constants';
+import { PreloadedImageInfo } from '@/types/common';
 
-import { CardThumbnailWrapper, CardThumbnailWrapper1 } from '../styled';
+import { CardThumbnailWrapper } from '../styled';
 
 interface CardThumbnailProps {
   href: string;
   src: string;
   altText: string;
-  blurURL?: string;
-  hasStaticHeight?: boolean;
+  preloadedInfo?: PreloadedImageInfo;
   onError?: () => void;
 }
 
-export const CardThumbnail = ({ href, src, altText, blurURL, hasStaticHeight, onError }: CardThumbnailProps) => (
+export const CardThumbnail = ({ href, src, altText, preloadedInfo, onError }: CardThumbnailProps) => (
   <Link href={href}>
-    <CardThumbnailWrapper hasStaticHeight={hasStaticHeight}>
+    <CardThumbnailWrapper preloadedSize={preloadedInfo && { ...preloadedInfo }}>
       <Image
         src={src}
         fill
         alt={altText}
         onError={onError}
-        blurDataURL={blurURL ?? undefined}
-        placeholder={blurURL ? 'blur' : 'empty'}
+        blurDataURL={preloadedInfo?.blurDataURL}
+        placeholder={preloadedInfo ? 'blur' : 'empty'}
         sizes={`${MEDIA.mobile} 92vw, (max-width: 732px) 92vw, ${MEDIA.tablet} 46vw, 320px`}
       />
     </CardThumbnailWrapper>
-    <CardThumbnailWrapper1 />
   </Link>
 );
 

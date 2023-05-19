@@ -1,3 +1,5 @@
+import IconTag from '@/components/atoms/IconTag';
+
 import { MecaTagWrapper } from './styled';
 import { MECATAG_VALUES, MecaTagIconType } from './type';
 
@@ -15,13 +17,14 @@ export interface MecaTagProps {
  * - 종류: ox퀴즈, 설명퀴즈, 키워드, 객관식 (문제 종류는 언젠가 추가될 수도 있다.)
  */
 const MecaTag = ({ tagName, scale = 1, isNotOpaque = false }: MecaTagProps) => (
-  <MecaTagWrapper
-    scale={Math.min(scale, 2)}
-    isNotOpaque={isNotOpaque}
-    icon={MECATAG_VALUES[tagName].icon}
-    tagColor={MECATAG_VALUES[tagName].color}
-    text={MECATAG_VALUES[tagName].text}
-  />
+  <MecaTagWrapper isNotOpaque={isNotOpaque}>
+    <IconTag
+      scale={Math.min(scale, 2)}
+      icon={MECATAG_VALUES[tagName].icon}
+      tagColor={MECATAG_VALUES[tagName].color}
+      text={MECATAG_VALUES[tagName].text}
+    />
+  </MecaTagWrapper>
 );
 
 export default MecaTag;

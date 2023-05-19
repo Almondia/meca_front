@@ -18,6 +18,7 @@ export const PostBodyContainer = styled.div`
 
 export const PostBodyTitleWrapper = styled(TextBodyTitle)`
   margin: 0 0 6px 2px;
+  font-family: var(--font-sub);
   font-size: ${({ theme }) => theme.fontSize.large};
 `;
 

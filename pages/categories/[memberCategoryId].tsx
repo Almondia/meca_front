@@ -2,6 +2,7 @@
 import { GetServerSideProps } from 'next';
 
 import { QueryClient } from '@tanstack/react-query';
+import { getPlaiceholder } from 'plaiceholder';
 
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
@@ -14,6 +15,7 @@ import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { UserProfile } from '@/types/domain';
+import { extractFirstImageSrc } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface MyCategoryByIdPageProps {
@@ -64,7 +66,23 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   const isMine: boolean = memberId === currentMemberId ?? false;
   await queryClient.fetchInfiniteQuery(
     [queryKey.mecas, categoryId],
-    () => getMecaList(categoryId, isMine, queryClient),
+    async () => {
+      const mecaList = await getMecaList(categoryId, isMine, queryClient);
+      const mecaListContentsWithBlurURL = await Promise.all(
+        mecaList.contents.map(async (meca) => {
+          const thumbnail = extractFirstImageSrc(meca.description);
+          if (!thumbnail) {
+            return meca;
+          }
+          const { base64: blurDataURL, img } = await getPlaiceholder(thumbnail, { size: 12 });
+          return { ...meca, blurThumbnail: { ...img, blurDataURL } };
+        }),
+      );
+      return {
+        ...mecaList,
+        contents: mecaListContentsWithBlurURL,
+      };
+    },
     {
       getNextPageParam: (lastPage) => lastPage.hasNext,
     },

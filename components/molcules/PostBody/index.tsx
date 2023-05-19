@@ -1,9 +1,7 @@
-import { sahitya } from '@/styles/font';
-
 import { PostBodyContainer, PostBodyContentWrapper, PostBodyTitleWrapper, PostBodyWrapper } from './styled';
 
 const PostBodyTitle = ({ children }: { children: React.ReactNode }) => (
-  <PostBodyTitleWrapper className={sahitya.className}>{children}</PostBodyTitleWrapper>
+  <PostBodyTitleWrapper>{children}</PostBodyTitleWrapper>
 );
 
 const PostBodyContent = ({ children }: { children: React.ReactNode }) => (

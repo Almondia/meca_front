@@ -1,36 +1,26 @@
 import Chart from 'react-apexcharts';
-import styled from 'styled-components';
 
 import { COLOR } from '@/styles/constants';
+import { ElementSizeType } from '@/types/common';
 
-const GroupBarChartWrapper = styled.div`
-  position: relative;
-  min-height: 280px;
-  & > div {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
-  @media ${({ theme }) => theme.media.tablet} {
-    min-height: 190px;
-  }
-`;
+import { ChartWrapper } from './styled';
 
 export interface GroupBarChartProps {
   legends: string[];
   axisNames: string[];
   firstValues: number[];
   secondValues: number[];
+  /** [0: default, 1: tablet, 2: mobile] */
+  minHeights: ElementSizeType[];
 }
 
-const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupBarChartProps) => {
+const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeights }: GroupBarChartProps) => {
   const series = [
     {
-      data: firstValues.map((val) => (val === 0 ? 0.2 : val)),
+      data: firstValues.map((val) => (val === 0 ? 0.025 : val)),
     },
     {
-      data: secondValues.map((val) => (val === 0 ? 0.2 : val)),
+      data: secondValues.map((val) => (val === 0 ? 0.025 : val)),
     },
   ];
   const options: ApexCharts.ApexOptions = {
@@ -48,7 +38,7 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupB
           position: 'top',
         },
         columnWidth: '80px',
-        borderRadius: 6,
+        borderRadius: 2,
       },
     },
     colors: [COLOR.brand3, 'var(--color-brand)'],
@@ -60,7 +50,7 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupB
         colors: ['#fff'],
       },
       formatter(value: number) {
-        return value === 0.2 ? 0 : value;
+        return value < 0.1 ? ' ' : value;
       },
     },
     stroke: {
@@ -118,9 +108,9 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues }: GroupB
     ],
   };
   return (
-    <GroupBarChartWrapper>
+    <ChartWrapper minHeights={minHeights}>
       <Chart series={series} options={options} type="bar" width="100%" height="100%" />
-    </GroupBarChartWrapper>
+    </ChartWrapper>
   );
 };
 

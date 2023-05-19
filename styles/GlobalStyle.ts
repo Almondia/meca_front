@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-gray800: ${COLOR.gray800};
         --is-mobile: ${MEDIA.mobile};
         --is-tablet: ${MEDIA.tablet};
+        font-family: var(--font-base);
     }
 
     html {
@@ -102,7 +103,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     button {
-        font-family: inherit;
+        font-family: var(--font-base);
         cursor: pointer;
         border: none;
         outline: none;
@@ -111,7 +112,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     input, textarea {
-        font-family: inherit;
+        font-family: var(--font-base);
     }
 
     ul {
@@ -138,10 +139,14 @@ const GlobalStyle = createGlobalStyle<Theme>`
     }
 
     .ql-editor {
-        font-family: inherit;
+        font-family: var(--font-base);
         padding: 1rem;
         font-size: 1rem;
         line-height: 1.5;
+    }
+
+    .ql-bubble > .ql-editor {
+        padding: 0;
     }
     
     .ql-editor.ql-blank::before {
