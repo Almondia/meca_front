@@ -13,7 +13,7 @@ describe('MecaCard', () => {
         question={'question'}
         tagType={'ox'}
         description={
-          "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>"
+          "<p>161616<img src='/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>"
         }
       />,
     );
