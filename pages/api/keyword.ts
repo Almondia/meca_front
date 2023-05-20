@@ -21,7 +21,7 @@ async function handleGetById(req: NextApiRequest, res: NextApiResponse) {
     res.status(401).json({ message: 'unauthorized', status: 401 });
     return;
   }
-  const response = await axios.get(`${DATA_SERVER}/api/nouns/${id}`).then((r) => r.data);
+  const response = await axios.get(`${DATA_SERVER}/api/keywords/${id}`).then((r) => r.data);
   res.status(200).json({
     ...response,
   });
@@ -39,7 +39,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
   const response = await axios
-    .post(`${DATA_SERVER}/api/nouns`, {
+    .post(`${DATA_SERVER}/api/keywords`, {
       sentence,
       userId: id,
     })

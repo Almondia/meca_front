@@ -7,9 +7,8 @@ export interface KeywordResponse {
 }
 
 const statisticsApi = {
-  postKeywordBySentence: (sentence: string) =>
-    serverInstance.post<any, KeywordResponse>('/api/statistics/keyword', { sentence }),
-  getAllKeyword: () => serverInstance.get<any, KeywordResponse>('/api/statistics/keyword'),
+  postKeywordBySentence: (sentence: string) => serverInstance.post<any, KeywordResponse>('/api/keyword', { sentence }),
+  getAllKeyword: () => serverInstance.get<any, KeywordResponse>('/api/keyword'),
 };
 
 export default statisticsApi;
