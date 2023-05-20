@@ -6,11 +6,11 @@ import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
 import { MecaType, UserProfile } from '@/types/domain';
 
-const useMeca = (cardId?: string, shared?: boolean) => {
+const useMeca = (cardId: string, shared?: boolean) => {
   const hasAuth = useRecoilValue(hasAuthState);
   const { data, isLoading, isSuccess, isError } = useQuery(
     [queryKey.meca, cardId],
-    shared ? () => mecaApi.getSharedCardById(cardId as string) : () => mecaApi.getMyCardById(cardId as string),
+    shared ? () => mecaApi.getSharedCardById(cardId) : () => mecaApi.getMyCardById(cardId),
     {
       enabled: !!cardId && (shared ? true : hasAuth),
     },

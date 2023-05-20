@@ -1,40 +1,153 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent } from '@testing-library/react';
-import Home from '@/pages';
+import Home, { getStaticProps } from '@/pages';
 import { CATEGORIES } from '../__mocks__/msw/data';
+import { GetStaticPropsContext } from 'next';
+import { server } from '../__mocks__/msw/server';
+import { ENDPOINT } from '../__mocks__/msw/handlers';
+import { rest } from 'msw';
+import { getPlaiceholder } from 'plaiceholder';
+
+jest.mock('plaiceholder', () => ({
+  getPlaiceholder: jest.fn(),
+}));
 
 describe('Homepage', () => {
-  it('메인 UI 상단 Carousel이 보여진다', () => {
-    renderQuery(<Home />);
-    const text = screen.getByRole('heading', {
-      name: /내가 만드는 나를 위한 학습 카드/i,
+  describe('UI , Event test', () => {
+    it('메인 UI 상단 Carousel이 보여진다', () => {
+      renderQuery(<Home />);
+      const text = screen.getByRole('heading', {
+        name: /내가 만드는 나를 위한 학습 카드/i,
+      });
+      expect(text).toBeInTheDocument();
     });
-    expect(text).toBeInTheDocument();
+
+    it('공유 카테고리 목록이 보여진다.', async () => {
+      renderQuery(<Home />);
+      const categoryCards = await screen.findAllByRole('article');
+      const profileImages = await screen.findAllByRole('img', {
+        name: /profile-image/i,
+      });
+      expect(categoryCards.length).toEqual(24);
+      expect(profileImages.length).toEqual(24);
+    });
+
+    it('특정 제목 키워드로 검색 시 해당 카테고리 목록만 보여진다.', async () => {
+      const containTitle = 'title1';
+      const searchedCategories = CATEGORIES.filter((category) => category.title.indexOf(containTitle) !== -1);
+      renderQuery(<Home />);
+      const searchInput = screen.getByRole('textbox', {
+        name: 'input-category-search',
+      });
+      expect(searchInput).toHaveValue('');
+      fireEvent.change(searchInput, { target: { value: containTitle } });
+      expect(searchInput).toHaveValue(containTitle);
+      fireEvent.click(screen.getByRole('button', { name: '검색' }));
+      const categoryCards = await screen.findAllByRole('article');
+      expect(categoryCards.length).toEqual(searchedCategories.length);
+      categoryCards.forEach((card) => expect(card).toHaveTextContent(/title1/i));
+    });
   });
 
-  it('공유 카테고리 목록이 보여진다.', async () => {
-    renderQuery(<Home />);
-    const categoryCards = await screen.findAllByRole('article');
-    const profileImages = await screen.findAllByRole('img', {
-      name: /profile-image/i,
+  describe('ISR test', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
     });
-    expect(categoryCards.length).toEqual(24);
-    expect(profileImages.length).toEqual(24);
-  });
+    it('공유 카테고리 목록이 식별된다.', async () => {
+      const thumbnail1 = '/images/noimage.png';
+      (getPlaiceholder as jest.Mock).mockReturnValueOnce({
+        base64: 'base64',
+        img: { src: thumbnail1, width: 20, height: 20 },
+      });
+      server.resetHandlers(
+        rest.get(`${ENDPOINT}/categories/share`, (_, res, ctx) => {
+          return res(
+            ctx.json({
+              contents: [
+                {
+                  categoryInfo: {
+                    categoryId: '018819c4-e42d-1534-5c24-89c19a260cc9',
+                    memberId: '018819c4-e42d-1534-5c24-89c19a260cc8',
+                    thumbnail: thumbnail1,
+                    title: 'title1',
+                    createdAt: '2023-05-14T19:18:33.9016305',
+                    modifiedAt: '2023-05-14T19:18:33.9016305',
+                    shared: true,
+                    deleted: false,
+                  },
+                  memberInfo: {
+                    memberId: '018819c4-e42d-1534-5c24-89c19a260cca',
+                    name: 'name',
+                    email: 'www@gmail.com',
+                    profile: null,
+                    role: 'USER',
+                    createdAt: '2023-05-14T19:18:33.9016305',
+                    modifiedAt: '2023-05-14T19:18:33.9016305',
+                    deleted: false,
+                    oauthType: 'GOOGLE',
+                  },
+                },
+                {
+                  categoryInfo: {
+                    categoryId: '018819c4-e42d-1534-5c24-89c19a260cc0',
+                    memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
+                    thumbnail: null,
+                    title: 'title2',
+                    createdAt: '2023-05-14T19:18:33.9016305',
+                    modifiedAt: '2023-05-14T19:18:33.9016305',
+                    shared: true,
+                    deleted: false,
+                  },
+                  memberInfo: {
+                    memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
+                    name: 'name',
+                    email: 'www@gmail.com',
+                    profile: null,
+                    role: 'USER',
+                    createdAt: '2023-05-14T19:18:33.9016305',
+                    modifiedAt: '2023-05-14T19:18:33.9016305',
+                    deleted: false,
+                    oauthType: 'GOOGLE',
+                  },
+                },
+              ],
+              hasNext: null,
+              pageSize: 2,
+              sortOrder: 'DESC',
+            }),
+          );
+        }),
+      );
+      const context = {} as unknown as GetStaticPropsContext;
+      const { props, revalidate } = (await getStaticProps(context)) as any;
+      expect(revalidate).toEqual(3600);
+      expect(props).toHaveProperty('dehydratedState');
+      // 존재하는 썸네일에 대해 plaiceholder image를 생성한다
+      expect(getPlaiceholder).toHaveBeenCalledTimes(1);
+      renderQuery(<Home />, undefined, undefined, props.dehydratedState);
+      const cardImage = screen.getByRole('img', { name: /title1-category-thumbnail/i });
+      const categoryCards = screen.getAllByRole('article');
+      expect(cardImage).toBeInTheDocument();
+      expect(categoryCards.length).toEqual(2);
+    });
 
-  it('특정 제목 키워드로 검색 시 해당 카테고리 목록만 보여진다.', async () => {
-    const containTitle = 'title1';
-    const searchedCategories = CATEGORIES.filter((category) => category.title.indexOf(containTitle) !== -1);
-    renderQuery(<Home />);
-    const searchInput = screen.getByRole('textbox', {
-      name: 'input-category-search',
+    it('카테고리 목록 api 호출 실패 시 빈 목록 UI가 식별된다.', async () => {
+      server.resetHandlers(
+        rest.get(`${ENDPOINT}/categories/share`, (_, res, ctx) => {
+          return res(ctx.status(500), ctx.json({ status: 500, message: '서버오류' }));
+        }),
+      );
+      const context = {} as unknown as GetStaticPropsContext;
+      const { props, revalidate } = (await getStaticProps(context)) as any;
+      expect(revalidate).toEqual(60);
+      expect(props).toHaveProperty('dehydratedState');
+      renderQuery(<Home />, undefined, undefined, props.dehydratedState);
+      const carouselText = screen.queryByRole('heading', {
+        name: /내가 만드는 나를 위한 학습 카드/i,
+      });
+      const emptyListText = screen.queryByText(/목록이 존재하지 않습니다/i);
+      expect(carouselText).toBeInTheDocument();
+      expect(emptyListText).toBeInTheDocument();
     });
-    expect(searchInput).toHaveValue('');
-    fireEvent.change(searchInput, { target: { value: containTitle } });
-    expect(searchInput).toHaveValue(containTitle);
-    fireEvent.click(screen.getByRole('button', { name: '검색' }));
-    const categoryCards = await screen.findAllByRole('article');
-    expect(categoryCards.length).toEqual(searchedCategories.length);
-    categoryCards.forEach((card) => expect(card).toHaveTextContent(/title1/i));
   });
 });

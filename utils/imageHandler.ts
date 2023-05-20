@@ -1,4 +1,4 @@
-const REMOTE_IMAGE_URL = 'https://my-meca.s3.ap-northeast-2.amazonaws.com';
+const REMOTE_IMAGE_URL = process.env.NEXT_PUBLIC_REMOTE_IMAGE_URL ?? '';
 
 export const extractAllImageSrc = (htmlString: string, remoteUrl?: string): string[] | undefined => {
   const regex = new RegExp(
@@ -23,4 +23,5 @@ export const extractFirstImageSrc = (htmlString: string, remoteUrl?: string) => 
   return regex.exec(htmlString)?.[1];
 };
 
-export const getRemoteImageUrl = (imageSrc: string) => `${REMOTE_IMAGE_URL}/${imageSrc}`;
+export const getRemoteImageUrl = (imageSrc: string) =>
+  REMOTE_IMAGE_URL ? `${REMOTE_IMAGE_URL}/${imageSrc}` : imageSrc;
