@@ -13,7 +13,7 @@ export interface MecaWritePageProps {
   cardId?: string;
 }
 
-const MecaWritePage = ({ categoryId, cardId }: MecaWritePageProps) => {
+const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
   const { meca } = useMeca(cardId);
   return (
     <PostSection>
