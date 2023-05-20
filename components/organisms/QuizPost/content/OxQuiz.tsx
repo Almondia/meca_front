@@ -71,7 +71,7 @@ const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizConten
           {['O', 'X'].map((ox) => (
             <RadioGroup.Radio key={ox} name="quiz" value={ox} onChange={handleChange} disabled={isAnswerState}>
               <OxIconContainer>
-                {isAnswerState && ox === answer && <AnswerCircle />}
+                {isAnswerState && ox === answer && <AnswerCircle data-testid="id-oxquiz-post-answer-circle" />}
                 <Icon icon={ox === 'X' ? 'Ax' : 'O'} />
                 <SelectedIconContainer>
                   {value === ox && <Icon icon="Selected" color="var(--color-brand)" size="30px" />}

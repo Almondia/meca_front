@@ -61,7 +61,7 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
           header="C."
           isColumn
           body={
-            <QuizEditorWrapper>
+            <QuizEditorWrapper data-testid="id-quizpost-editor">
               <DescriptionEditor />
             </QuizEditorWrapper>
           }
