@@ -21,25 +21,26 @@ import { extractCombinedUUID } from '@/utils/uuidHandler';
 export interface MyCategoryByIdPageProps {
   categoryId: string;
   isMine: boolean;
+  writerInfo: UserProfile;
 }
 
-const CategoryById = ({ categoryId, isMine }: MyCategoryByIdPageProps) => {
+const CategoryById = ({ categoryId, isMine, writerInfo }: MyCategoryByIdPageProps) => {
   const { mecaList, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
   const { user } = useUser();
   const categoryTitle = mecaList?.pages[0].category.title ?? 'Category Title';
-  const username = (isMine ? user?.name : mecaList?.pages[0]?.contents[0]?.name) || 'username';
   const categoryThumbnail = mecaList?.pages[0].category.thumbnail;
   return (
     <>
-      <MetaHead title={categoryTitle} description={`${username}님의 MecaSet`} image={categoryThumbnail} />
+      <MetaHead title={categoryTitle} description={`${writerInfo.name}님의 MecaSet`} image={categoryThumbnail} />
       <ListSection>
         <PageTitle>{categoryTitle}</PageTitle>
         <MecaControl
           categoryId={categoryId}
           categoryTitle={categoryTitle}
-          name={username}
-          profile={(isMine ? user?.profile : mecaList?.pages[0]?.contents[0]?.profile) || '/images/noprofile.png'}
+          name={writerInfo.name}
+          profile={writerInfo.profile || '/images/noprofile.png'}
           isMine={isMine}
+          hasAuth={!!user}
         />
         <Devide />
         <MecaList mecaList={mecaList} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} isMine={isMine} />
@@ -60,11 +61,11 @@ const getMecaList = async (categoryId: string, isMine: boolean, queryClient: Que
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, currentMemberId) => {
   const memberCategoryId = context.params?.memberCategoryId;
   if (!memberCategoryId || typeof memberCategoryId !== 'string') {
-    throw { url: '/' };
+    throw { message: '잘못된 페이지 요청' };
   }
   const { uuid1: memberId, uuid2: categoryId } = extractCombinedUUID(memberCategoryId);
   const isMine: boolean = memberId === currentMemberId ?? false;
-  await queryClient.fetchInfiniteQuery(
+  const mecaListResponse = await queryClient.fetchInfiniteQuery(
     [queryKey.mecas, categoryId],
     async () => {
       const mecaList = await getMecaList(categoryId, isMine, queryClient);
@@ -87,7 +88,10 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
       getNextPageParam: (lastPage) => lastPage.hasNext,
     },
   );
-  return { categoryId, isMine };
+  const writerInfo: UserProfile = isMine
+    ? (queryClient.getQueryData<UserProfile>([queryKey.me]) as UserProfile)
+    : mecaListResponse.pages[0].contents[0];
+  return { categoryId, isMine, writerInfo };
 }, true);
 
 export default CategoryById;
