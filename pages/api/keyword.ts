@@ -7,16 +7,17 @@ import { getJWTPayload } from '@/utils/jwtHandler';
 
 const { DATA_SERVER } = process.env;
 
-function getUserIdFromRequest(req: NextApiRequest) {
+async function getUserIdFromRequest(req: NextApiRequest) {
   const { accessToken } = nookies.get({ req });
   if (!accessToken) {
     return undefined;
   }
-  return getJWTPayload(accessToken, 'id');
+  const id = await getJWTPayload(accessToken, 'id');
+  return id;
 }
 
 async function handleGetById(req: NextApiRequest, res: NextApiResponse) {
-  const id = getUserIdFromRequest(req);
+  const id = await getUserIdFromRequest(req);
   if (!id) {
     res.status(401).json({ message: 'unauthorized', status: 401 });
     return;
@@ -28,7 +29,7 @@ async function handleGetById(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
-  const id = getUserIdFromRequest(req);
+  const id = await getUserIdFromRequest(req);
   if (!id) {
     res.status(401).json({ message: 'unauthorized', status: 401 });
     return;
