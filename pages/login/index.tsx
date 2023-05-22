@@ -7,7 +7,7 @@ import nookies from 'nookies';
 
 import userApi from '@/apis/userApi';
 import { SOCIAL_TYPES, SocialType } from '@/types/domain';
-import parseQueryString from '@/utils/queryStringHandler';
+import { parseQueryString } from '@/utils/queryStringHandler';
 import alertToast from '@/utils/toastHandler';
 
 const isSocialType = (value: any): value is SocialType => SOCIAL_TYPES.includes(value);
