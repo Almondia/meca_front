@@ -143,6 +143,9 @@ const GlobalStyle = createGlobalStyle<Theme>`
         padding: 1rem;
         font-size: 1rem;
         line-height: 1.5;
+        img {
+            height: auto;
+        }
     }
 
     .ql-bubble > .ql-editor {
