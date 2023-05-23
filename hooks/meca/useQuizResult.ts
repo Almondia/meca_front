@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
@@ -7,6 +9,7 @@ import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import { MECATAG_VALUES } from '@/components/molcules/MecaTag/type';
 import queryKey from '@/query/queryKey';
 import { MECA_RESPONE_TO_TAG, MecaTagType, QuizType } from '@/types/domain';
+import alertToast from '@/utils/toastHandler';
 
 const useQuizResult = () => {
   const queryClient = useQueryClient();
@@ -31,27 +34,36 @@ const useQuizResult = () => {
     },
   });
 
-  const solveQuiz = (cardId: string, spendTime: number, answer?: string) => {
+  const applyScore = useCallback(async (inputAnswer: string, quizAnswer: string) => {
+    try {
+      const response = await statisticsApi.postScoreByAnswerInput(inputAnswer, quizAnswer);
+      return response.score;
+    } catch {
+      alertToast('점수를 계산하지 못했습니다.', 'warning');
+      return 0;
+    }
+  }, []);
+
+  const solveQuiz = async (cardId: string, spendTime: number, answer?: string) => {
     if (!quizList) {
       return;
     }
-    queryClient.setQueryData(
-      [queryKey.quiz],
-      quizList.map((quiz) =>
+    const solvedQuizList = await Promise.all(
+      quizList.map(async (quiz) =>
         quiz.cardId === cardId
           ? {
               ...quiz,
               result: {
                 cardId,
                 userAnswer: answer ?? '',
-                // TODO: 정답 스코어 세부 점수 로직 적용
-                score: answer === quiz.answer ? 100 : 0,
+                score: answer ? await applyScore(answer, quiz.answer) : 0,
                 spendTime,
               },
             }
           : quiz,
       ),
     );
+    queryClient.setQueryData([queryKey.quiz], solvedQuizList);
   };
 
   const getQuizTypeRateResult = () => {
