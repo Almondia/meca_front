@@ -25,3 +25,14 @@ export const extractFirstImageSrc = (htmlString: string, remoteUrl?: string) => 
 
 export const getRemoteImageUrl = (imageSrc: string) =>
   REMOTE_IMAGE_URL ? `${REMOTE_IMAGE_URL}/${imageSrc}` : imageSrc;
+
+export const getOriginImageSize = (image: File | string): Promise<{ width: number; height: number }> => {
+  const url = typeof image === 'string' ? image : URL.createObjectURL(image);
+  return new Promise((resolve) => {
+    const imageElement = document.createElement('img');
+    imageElement.src = url;
+    imageElement.onload = () => {
+      resolve({ width: imageElement.naturalWidth, height: imageElement.naturalHeight });
+    };
+  });
+};
