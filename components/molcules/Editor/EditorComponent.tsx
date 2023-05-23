@@ -5,8 +5,7 @@ import ReactQuill from 'react-quill';
 import styled from 'styled-components';
 
 import useFetchImage from '@/hooks/useFetchImage';
-import useImage from '@/hooks/useImage';
-import { getRemoteImageUrl } from '@/utils/imageHandler';
+import { getImageInfo, getOriginImageSize, getRemoteImageUrl, validImageFile } from '@/utils/imageHandler';
 import alertToast from '@/utils/toastHandler';
 
 import { QuillNoSSRWriter } from './QuillNoSSRWriter';
@@ -34,10 +33,13 @@ export interface EditorComponentProps {
 const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
   const quillInstance = useRef<ReactQuill>(null);
   const { uploadImage } = useFetchImage();
-  const { getImageInfo, validImageFile } = useImage('');
   const [isImageUploadLoading, setIsImageUploadLoading] = useState<boolean>(false);
 
-  const imageHandler = useCallback(async (_: any, blob: Blob) => {
+  const imageHandler = useCallback(async (base64: string, blob: Blob) => {
+    const quill = quillInstance.current?.getEditor();
+    if (!quill) {
+      return;
+    }
     const file = new File([blob], Date.now().toString() + blob.type.replace('image/', '.'), { type: blob.type });
     const checkImageValid = validImageFile(file);
     if (!checkImageValid.valid) {
@@ -46,20 +48,21 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
     }
     const { extension, fileName } = getImageInfo(file);
     setIsImageUploadLoading(true);
-    const imageFileUrl = await uploadImage({ extension, fileName, purpose: 'card' }, file);
-    const quill = quillInstance.current?.getEditor();
-    if (!quill) {
-      return;
-    }
+    const [imageFileUrl, { width, height }] = await Promise.all([
+      uploadImage({ extension, fileName, purpose: 'card' }, file),
+      getOriginImageSize(base64),
+    ]);
+    console.log(width);
     const index = quill.getSelection()?.index;
     if (index !== undefined && index !== null && imageFileUrl) {
-      console.log(imageFileUrl);
       quill.insertEmbed(index, 'image', {
         src: getRemoteImageUrl(imageFileUrl),
         alt: fileName,
+        width: width.toString(),
+        height: height.toString(),
       });
       quill.insertText(index + 1, '\n', 'text', '\n');
-      quill.setSelection(index + 2, 0);
+      quill.setSelection(index + 2, 1);
       setIsImageUploadLoading(false);
     }
   }, []);
@@ -75,9 +78,10 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
         ],
       },
       imageCompress: {
-        quality: 0.7,
-        maxWidth: 768,
-        maxHeight: 700,
+        quality: 0.9,
+        maxWidth: 1280,
+        maxHeight: 960,
+        imageType: 'image/png',
         keepImageTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
         ignoreImageTypes: ['image/gif'],
         debug: false,

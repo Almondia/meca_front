@@ -1,43 +1,41 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import useImage from '@/hooks/useImage';
+import { validImageFile } from '@/utils/imageHandler';
+
+jest.mock('@/utils/imageHandler', () => ({
+  validImageFile: jest.fn(),
+}));
 
 describe('useImage', () => {
-  it.each([['jpg'], ['jpeg'], ['png'], ['gif']])(
-    '지정된 (%s) 이미지 파일에 대해 validation이 통과한다.',
-    (arg0: string) => {
-      const { result } = renderHook(() => useImage(undefined));
-      const file = new File(['abc'], `file.${arg0}`, { type: `image/${arg0}` });
-      const { valid } = result.current.validImageFile(file);
-      expect(valid).toBeTruthy();
-    },
-  );
-
-  it('지정되지 않은 이미지 파일에 대해 validation이 실패한다.', () => {
+  it('이미지 변경 성공 시 image state가 변경 된다.', async () => {
+    (validImageFile as jest.Mock).mockReturnValueOnce({ valid: true });
     const { result } = renderHook(() => useImage(undefined));
-    const file = new File(['abc'], 'file.bmp', { type: 'image/bmp' });
-    const { valid } = result.current.validImageFile(file);
-    expect(valid).toBeFalsy();
+    const event = new CustomEvent<HTMLInputElement>('change') as unknown as React.ChangeEvent<HTMLInputElement>;
+    Object.defineProperty(event, 'target', {
+      value: {
+        files: ['abc.jpg'],
+      },
+    });
+    act(() => result.current.onChange(event));
+    expect(result.current.image).toEqual('abc.jpg');
   });
 
-  it('지정되지 않은 파일에 대해 validation이 실패한다.', () => {
+  it('이미지 변경 실패 시 image state가 변경되지 않는다.', async () => {
+    (validImageFile as jest.Mock).mockReturnValueOnce({ valid: false });
     const { result } = renderHook(() => useImage(undefined));
-    const file = new File(['abc'], 'file.txt', { type: 'text/plain' });
-    const { valid } = result.current.validImageFile(file);
-    expect(valid).toBeFalsy();
+    const event = new CustomEvent<HTMLInputElement>('change') as unknown as React.ChangeEvent<HTMLInputElement>;
+    Object.defineProperty(event, 'target', {
+      value: {
+        files: ['abc.jpg'],
+      },
+    });
+    act(() => result.current.onChange(event));
+    expect(result.current.image).toBeUndefined();
   });
 
-  it('이미지 이름에 "."이 포함되어있다면 validation이 실패한다.', () => {
-    const { result } = renderHook(() => useImage(undefined));
-    const file = new File(['abc'], 'img.img.jpeg', { type: 'image/jpeg' });
-    const { valid } = result.current.validImageFile(file);
-    expect(valid).toBeFalsy();
-  });
-
-  it('이미지 파일의 info를 얻을 수 있다.', () => {
-    const { result } = renderHook(() => useImage(undefined));
-    const file = new File(['abc'], 'name.jpeg', { type: 'image/jpeg' });
-    const { fileName, extension } = result.current.getImageInfo(file);
-    expect(fileName).toEqual('name');
-    expect(extension).toEqual('jpeg');
+  it('이미지 삭제 시 image state는 ""로 변경된다.', async () => {
+    const { result } = renderHook(() => useImage('abc.jpg'));
+    act(() => result.current.onDelete());
+    expect(result.current.image).toEqual('');
   });
 });
