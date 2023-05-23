@@ -1,4 +1,4 @@
-const parseQueryString = (url?: string): { [key: string]: string } => {
+export const parseQueryString = (url?: string): { [key: string]: string } => {
   if (!url) {
     return {};
   }
@@ -15,4 +15,7 @@ const parseQueryString = (url?: string): { [key: string]: string } => {
   return params;
 };
 
-export default parseQueryString;
+export const createQueryString = (params: Record<string, string>): string => {
+  const queryString = new URLSearchParams(params).toString();
+  return queryString ? `?${queryString}` : '';
+};

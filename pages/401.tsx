@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 
 import Button from '@/components/atoms/Button';
 import MetaHead from '@/components/common/MetaHead';
+import useLogout from '@/hooks/useLogout';
 import useModal from '@/hooks/useModal';
 import { HiddenText, TextBodySubtitle } from '@/styles/common';
 import { ErrorPageSection } from '@/styles/layout';
@@ -17,12 +18,11 @@ export interface UnauthorizedProps {
 
 const Unauthorized = ({ message }: UnauthorizedProps) => {
   const { visible, open, close } = useModal();
+  const { logout } = useLogout();
 
   useEffect(() => {
-    (async () => {
-      const { default: logout } = await import('@/hooks/useLogout');
-      logout();
-    })();
+    logout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

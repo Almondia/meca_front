@@ -50,12 +50,12 @@ const QuizPage = () => {
   };
 
   const solveQuizHandler = useCallback(
-    (answer?: string) => {
+    async (answer?: string) => {
       if (!quizList[quizIndex]) {
         return;
       }
       setQuizPhase(round === quizList.length ? 'end' : 'done');
-      solveQuiz(quizList[quizIndex].cardId, quizSpendTimeRef.current, answer);
+      await solveQuiz(quizList[quizIndex].cardId, quizSpendTimeRef.current, answer);
     },
     [round, quizIndex],
   );

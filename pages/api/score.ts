@@ -7,44 +7,38 @@ import { getJWTPayload } from '@/utils/jwtHandler';
 
 const { DATA_SERVER } = process.env;
 
-function getUserIdFromRequest(req: NextApiRequest) {
+async function getUserIdFromRequest(req: NextApiRequest) {
   const { accessToken } = nookies.get({ req });
   if (!accessToken) {
     return undefined;
   }
-  return getJWTPayload(accessToken, 'id');
+  const id = await getJWTPayload(accessToken, 'id');
+  return id;
 }
 
 async function handleGetById(req: NextApiRequest, res: NextApiResponse) {
-  const id = getUserIdFromRequest(req);
+  const id = await getUserIdFromRequest(req);
   if (!id) {
     res.status(401).json({ message: 'unauthorized', status: 401 });
     return;
   }
-  const response = await axios.get(`${DATA_SERVER}/api/nouns/${id}`).then((r) => r.data);
-  res.status(200).json({
-    ...response,
-  });
+  const { data: response } = await axios.get(`${DATA_SERVER}/api/scores/${id}`);
+  res.status(200).json({ ...response });
 }
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
-  const id = getUserIdFromRequest(req);
+  const id = await getUserIdFromRequest(req);
   if (!id) {
     res.status(401).json({ message: 'unauthorized', status: 401 });
     return;
   }
-  const { sentence }: { sentence: string } = await req.body;
-  if (!sentence || typeof sentence !== 'string') {
+  const { answer, inputValue: input }: { answer: string; inputValue: string } = await req.body;
+  if (!answer || !input) {
     res.status(400).json({ message: 'bad request', status: 400 });
     return;
   }
-  const response = await axios
-    .post(`${DATA_SERVER}/api/nouns`, {
-      sentence,
-      userId: id,
-    })
-    .then((r) => r.data);
-  res.status(200).json({ keywords: response.keyword });
+  const { data: response } = await axios.post(`${DATA_SERVER}/api/scores`, { answer, input, userId: id });
+  res.status(200).json({ ...response });
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

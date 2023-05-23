@@ -34,29 +34,18 @@ describe('MecaListPage with SSR', () => {
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', true);
     expect(props).toHaveProperty('dehydratedState');
-    renderQuery(
-      <CategoryById categoryId={props.categoryId} isMine={props.isMine} />,
-      undefined,
-      undefined,
-      props.dehydratedState,
-    );
-    const addButton = screen.getByRole('button', {
-      name: /추가하기/i,
-    });
-    const dotButtons = screen.getAllByRole('button', {
-      name: /카드 수정 삭제 메뉴 오프너/i,
-    });
+    renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState);
+    const addButton = screen.getByRole('button', { name: /추가하기/i });
+    const dotButtons = screen.getAllByRole('button', { name: /카드 수정 삭제 메뉴 오프너/i });
     const noListText = screen.queryByText(/목록이 존재하지 않습니다/i);
-    const profileImage = screen.queryByRole('img', {
-      name: /-profile-image/i,
-    });
+    const profileImage = screen.queryByRole('img', { name: /-profile-image/i });
     expect(addButton).toBeInTheDocument();
     expect(dotButtons[0]).toBeInTheDocument();
     expect(noListText).not.toBeInTheDocument();
     expect(profileImage).toBeInTheDocument();
   });
 
-  it('비정상적인 category params로의 접근이 루트(/)로 redirect 된다.', async () => {
+  it('비정상적인 category params로의 접근시 not-found 처리 된다.', async () => {
     const categoryId = ['5'];
     const mockedContext = {
       req: {
@@ -66,8 +55,8 @@ describe('MecaListPage with SSR', () => {
         memberCategoryId: categoryId,
       },
     } as unknown as GetServerSidePropsContext;
-    const { redirect } = (await getServerSideProps(mockedContext)) as any;
-    expect(redirect).toHaveProperty('destination', '/');
+    const { props } = (await getServerSideProps(mockedContext)) as any;
+    expect(props).toHaveProperty('errorMessage', '잘못된 페이지 요청');
   });
 
   it('공유되지 않은 타인의 카드 목록 요청에 대해 접근 시 not-found 처리 된다.', async () => {
@@ -163,23 +152,14 @@ describe('MecaListPage with SSR', () => {
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', false);
     expect(props).toHaveProperty('dehydratedState');
-    renderQuery(
-      <CategoryById categoryId={props.categoryId} isMine={props.isMine} />,
-      undefined,
-      undefined,
-      props.dehydratedState,
-    );
-    const addButton = screen.queryByRole('button', {
-      name: /추가하기/i,
-    });
-    const dotButton = screen.queryByRole('button', {
-      name: /카드 수정 삭제 메뉴 오프너/i,
-    });
-    const profileImage = screen.queryByRole('img', {
-      name: /임현규-profile-image/i,
-    });
+    renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState);
+    const addButton = screen.queryByRole('button', { name: /추가하기/i });
+    const playButton = screen.queryByRole('button', { name: /플레이/i });
+    const dotButton = screen.queryByRole('button', { name: /카드 수정 삭제 메뉴 오프너/i });
+    const profileImage = screen.queryByRole('img', { name: /임현규-profile-image/i });
     expect(addButton).not.toBeInTheDocument();
     expect(dotButton).not.toBeInTheDocument();
+    expect(playButton).not.toBeInTheDocument();
     expect(profileImage).toBeInTheDocument();
   });
 });

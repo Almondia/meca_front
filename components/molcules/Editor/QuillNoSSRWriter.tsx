@@ -20,6 +20,7 @@ export const QuillNoSSRWriter = dynamic(
     const { default: ImageCompress } = await import('quill-image-compress');
     const { default: ImageResize } = await import('quill-image-resize');
     const ImageBlot = await getCustomImageBlot(QuillComponent);
+    QuillComponent.Quill.debug('error');
     QuillComponent.Quill.register('modules/imageCompress', ImageCompress);
     QuillComponent.Quill.register('modules/imageResize', ImageResize);
     QuillComponent.Quill.register(ImageBlot);

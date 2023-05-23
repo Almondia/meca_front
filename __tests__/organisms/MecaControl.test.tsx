@@ -13,6 +13,7 @@ describe('MecaControl', () => {
     isMine: true,
     name: 'myName',
     profile: '',
+    hasAuth: true,
   };
 
   it('본인 MecaControl UI가 식별된다.', () => {
@@ -77,5 +78,13 @@ describe('MecaControl', () => {
     fireEvent.click(playButton);
     const toastText = await screen.findByText('플레이할 카드가 없어요!');
     expect(toastText).toBeInTheDocument();
+  });
+
+  it('인증상태가 아닌 경우 플레이 버튼이 식별되지 않는다.', () => {
+    renderQuery(<MecaControl {...props} hasAuth={false} />);
+    const addButton = screen.queryByRole('button', { name: /추가하기 /i });
+    const playButton = screen.queryByRole('button', { name: /플레이/i });
+    expect(addButton).toBeInTheDocument();
+    expect(playButton).not.toBeInTheDocument();
   });
 });

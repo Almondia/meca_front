@@ -16,7 +16,7 @@ import { MecaQuestionTextContainer, MecaTagContainer } from './styled';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
 
-export interface MecaCardProps extends Omit<MecaType, 'answer'> {
+export interface MecaCardProps extends Omit<MecaType, 'answer' | 'cardType' | 'createdAt'> {
   tagType: MecaTagType;
   memberId: string;
   isMine?: boolean;
