@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import MecaTag from '@/components/molcules/MecaTag';
-import PostSubInfo from '@/components/molcules/PostSubInfo';
+import PostSubInfo, { PostSubInfoProps } from '@/components/molcules/PostSubInfo';
 import { TextCaption } from '@/styles/common';
 
 export default {
@@ -12,9 +12,11 @@ export default {
   },
 } as ComponentMeta<typeof PostSubInfo>;
 
-const Template: ComponentStory<any> = ({ children }: { children: React.ReactNode }) => (
+const Template: ComponentStory<typeof PostSubInfo> = ({ children, columnGutter, rowGutter }: PostSubInfoProps) => (
   <div style={{ padding: '30px' }}>
-    <PostSubInfo>{children}</PostSubInfo>
+    <PostSubInfo columnGutter={columnGutter} rowGutter={rowGutter}>
+      {children}
+    </PostSubInfo>
   </div>
 );
 
@@ -30,4 +32,6 @@ Default.args = {
       </PostSubInfo.Content>
     </>
   ),
+  rowGutter: '16px',
+  columnGutter: '40px',
 };

@@ -1,4 +1,5 @@
 import { TextCaption } from '@/styles/common';
+import { ElementSizeType } from '@/types/common';
 
 import { PostSubInfoContentWrapper, PostSubInfoWrapper } from './styled';
 
@@ -9,14 +10,22 @@ const PostSubInfoContent = ({ title, children }: { title: string; children: Reac
   </PostSubInfoContentWrapper>
 );
 
+export interface PostSubInfoProps {
+  children: React.ReactNode;
+  rowGutter?: ElementSizeType;
+  columnGutter?: ElementSizeType;
+}
+
 /**
  *
  * @param children: PostSubInfoContent
  * @example <PostSubInfo.Content />
  * @returns
  */
-const PostSubInfo = ({ children }: { children: React.ReactNode }) => (
-  <PostSubInfoWrapper>{children}</PostSubInfoWrapper>
+const PostSubInfo = ({ children, rowGutter = '16px', columnGutter = '40px' }: PostSubInfoProps) => (
+  <PostSubInfoWrapper rowGutter={rowGutter} columnGutter={columnGutter}>
+    {children}
+  </PostSubInfoWrapper>
 );
 
 PostSubInfo.Content = PostSubInfoContent;
