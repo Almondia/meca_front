@@ -58,11 +58,3 @@ export const ThumbnailChangeBox = styled.div`
   max-width: 140px;
   column-gap: 10px;
 `;
-
-export const ThumbnailChangeLink = styled.a`
-  font-size: ${({ theme }) => theme.fontSize.caption};
-  cursor: pointer;
-  :hover {
-    text-decoration: underline;
-  }
-`;
