@@ -52,7 +52,7 @@ describe('useMecaWrite', () => {
         categoryId: 'cid01',
         description: 'desc',
       });
-      await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith('/'));
+      await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/']));
     });
 
     it('Meca 등록 전 해당 카테고리에 카드가 0개라면 revalidate가 동작한다', async () => {
@@ -68,7 +68,7 @@ describe('useMecaWrite', () => {
         categoryId: 'cid01',
         description: 'desc',
       });
-      await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith('/'));
+      await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/']));
     });
 
     it('Meca 등록 전 해당 카테고리에 카드가 1개 이상이면 revalidate가 동작하지 않는다.', async () => {
@@ -84,7 +84,7 @@ describe('useMecaWrite', () => {
         categoryId: 'cid01',
         description: 'desc',
       });
-      await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalledWith('/'));
+      await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalled());
     });
   });
 
@@ -111,7 +111,7 @@ describe('useMecaWrite', () => {
         question: 'question',
         title: 'title',
       });
-      await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith('/mecas/member01-card01'));
+      await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-card01']));
     });
   });
 });

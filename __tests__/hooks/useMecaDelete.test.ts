@@ -43,7 +43,7 @@ describe('useMecaDelete', () => {
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith('/'));
+    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/']));
   });
 
   it('Meca 삭제 후 해당 카테고리에 카드가 0개가 아니라면 revalidate가 동작하지 않는다', async () => {
@@ -60,7 +60,7 @@ describe('useMecaDelete', () => {
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalledWith('/'));
+    await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalledWith(['/']));
   });
 
   it('Meca 삭제 전 해당 카테고리에 카드가 1개라면 revalidate가 동작한다.', async () => {
@@ -69,7 +69,7 @@ describe('useMecaDelete', () => {
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper(queryClient) });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith('/'));
+    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/']));
   });
 
   it('Meca 삭제 전 mecas 페이지였다면 categories 페이지로 push된다.', async () => {

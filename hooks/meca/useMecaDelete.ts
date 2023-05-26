@@ -24,7 +24,7 @@ const useMecaDelete = () => {
         const { data, isCachedData } = await fetchOrGetQuery(countQuery, () =>
           mecaApi.getCountByCategoryId(categoryId),
         );
-        data.count === (isCachedData ? 1 : 0) && utilApi.revalidate('/');
+        data.count === (isCachedData ? 1 : 0) && utilApi.revalidate(['/']);
         isCachedData &&
           queryClient.setQueryData<{ count: number }>(countQuery, (prev) => ({ count: (prev?.count ?? 0) - 1 }));
         alertToast('삭제 완료', 'success');
