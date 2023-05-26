@@ -5,7 +5,7 @@ import { extractCombinedUUID } from './utils/uuidHandler';
 
 const authorizedPaths = ['/write', '/quiz', '/mypage'];
 
-function getCurrentUserId(token: string, pathname: string) {
+function getCurrentUserMecaId(token: string, pathname: string) {
   const combinedUUId = pathname.split('/')[2];
   const { uuid1: memberId, uuid2 } = extractCombinedUUID(combinedUUId);
   if (memberId && getJWTPayload(token, 'id') === memberId) {
@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
   }
   if (request.nextUrl.pathname.startsWith('/mecas/')) {
-    const requestId = getCurrentUserId(accessToken, request.nextUrl.pathname);
+    const requestId = getCurrentUserMecaId(accessToken, request.nextUrl.pathname);
     return requestId
       ? NextResponse.rewrite(new URL(`/mecas/me/${requestId}`, request.nextUrl.origin))
       : NextResponse.next();
@@ -36,5 +36,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/:path*/write/:path*', '/quiz', '/mypage/:path*'],
+  matcher: ['/mecas/:path*', '/:path*/write/:path*', '/quiz', '/mypage/:path*'],
 };
