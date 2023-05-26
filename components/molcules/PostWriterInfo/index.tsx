@@ -1,6 +1,6 @@
-import Image from 'next/image';
-
 import React from 'react';
+
+import Avatar from '@/components/atoms/Avatar';
 
 import { ModificationBoxWrapper, PostWriterInfoWrapper, WriterInfoBox } from './styled';
 
@@ -17,7 +17,7 @@ const ModificationBox = ({ children }: { children: React.ReactNode }) => (
 const PostWriterInfo = ({ name, profile, children }: PostWriterInfoProps) => (
   <PostWriterInfoWrapper>
     <WriterInfoBox>
-      <Image src={profile || '/images/noprofile.png'} alt={`${name}-profile-image`} width={36} height={36} />
+      <Avatar imgSrc={profile} imgName={name} imgSize={36} />
       <p>{name}</p>
     </WriterInfoBox>
     {children}

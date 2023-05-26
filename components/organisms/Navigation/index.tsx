@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { useCallback, useRef, useState } from 'react';
 
+import Avatar from '@/components/atoms/Avatar';
 import IconButton from '@/components/atoms/IconButton';
 import Logo from '@/components/atoms/Logo';
 import Icon from '@/components/common/Icon';
@@ -51,12 +52,7 @@ const Navigation = () => {
                 setIsNavSelectionVisible((prev) => !prev);
               }}
             >
-              <Image
-                src={user.profile ?? '/images/noprofile.png'}
-                alt={user.profile ?? 'profile-image'}
-                width={30}
-                height={30}
-              />
+              <Avatar imgSrc={user.profile} imgSize={30} imgName={user.name} />
               <Icon icon="CompactDown" size="12px" />
               {isNavSelectionVisible && <NavSelection />}
             </Profile>

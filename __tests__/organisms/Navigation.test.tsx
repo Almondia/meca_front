@@ -39,7 +39,7 @@ describe('Navigation', () => {
         }),
       ).not.toBeInTheDocument();
     });
-    const imageAltText = await screen.findByAltText('/user.jpg');
+    const imageAltText = await screen.findByAltText(/pds0309-avatar/i);
     expect(imageAltText).toBeInTheDocument();
   });
 
@@ -49,7 +49,7 @@ describe('Navigation', () => {
         <Navigation />
       </>,
     );
-    const imageAltText = await screen.findByAltText('/user.jpg');
+    const imageAltText = await screen.findByAltText(/pds0309-avatar/i);
     expect(imageAltText).toBeInTheDocument();
     fireEvent.click(imageAltText);
     const logoutLink = await screen.findByRole('link', {

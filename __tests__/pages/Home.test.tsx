@@ -26,7 +26,7 @@ describe('Homepage', () => {
       renderQuery(<Home />);
       const categoryCards = await screen.findAllByRole('article');
       const profileImages = await screen.findAllByRole('img', {
-        name: /profile-image/i,
+        name: /avatar/i,
       });
       expect(categoryCards.length).toEqual(24);
       expect(profileImages.length).toEqual(24);
