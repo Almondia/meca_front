@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, SetStateAction, useCallback, useMemo, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useMemo, useRef } from 'react';
 
 import ReactQuill from 'react-quill';
 import styled from 'styled-components';
@@ -20,51 +20,52 @@ const EditorComponentWrapper = styled.div`
   }
 `;
 
-const EditorImageUploadLoaderText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.caption};
-  color: var(--color-gray);
-`;
-
 export interface EditorComponentProps {
   contents: string;
   setContents: Dispatch<SetStateAction<string>>;
 }
 
+const IMAGE_UPLOAD_TEXT = '[이미지 업로드중...]' as const;
+
 const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
   const quillInstance = useRef<ReactQuill>(null);
   const { uploadImage } = useFetchImage();
-  const [isImageUploadLoading, setIsImageUploadLoading] = useState<boolean>(false);
 
   const imageHandler = useCallback(async (base64: string, blob: Blob) => {
     const quill = quillInstance.current?.getEditor();
     if (!quill) {
       return;
     }
+    const index = quill.getSelection()?.index;
+    if (index === undefined) {
+      return;
+    }
+    quill.insertText(index, IMAGE_UPLOAD_TEXT);
     const file = new File([blob], Date.now().toString() + blob.type.replace('image/', '.'), { type: blob.type });
     const checkImageValid = validImageFile(file);
     if (!checkImageValid.valid) {
+      quill.deleteText(index, IMAGE_UPLOAD_TEXT.length);
       alertToast(checkImageValid.message, 'warning');
       return;
     }
     const { extension, fileName } = getImageInfo(file);
-    setIsImageUploadLoading(true);
     const [imageFileUrl, { width, height }] = await Promise.all([
       uploadImage({ extension, fileName, purpose: 'card' }, file),
       getOriginImageSize(base64),
     ]);
-    console.log(width);
-    const index = quill.getSelection()?.index;
-    if (index !== undefined && index !== null && imageFileUrl) {
-      quill.insertEmbed(index, 'image', {
-        src: getRemoteImageUrl(imageFileUrl),
-        alt: fileName,
-        width: width.toString(),
-        height: height.toString(),
-      });
-      quill.insertText(index + 1, '\n', 'text', '\n');
-      quill.setSelection(index + 2, 1);
-      setIsImageUploadLoading(false);
+    if (!imageFileUrl) {
+      quill.deleteText(index, IMAGE_UPLOAD_TEXT.length);
+      return;
     }
+    quill.deleteText(index, IMAGE_UPLOAD_TEXT.length);
+    quill.insertEmbed(index, 'image', {
+      src: getRemoteImageUrl(imageFileUrl),
+      alt: fileName,
+      width: width.toString(),
+      height: height.toString(),
+    });
+    quill.insertText(index + 1, '\n', 'text', '\n');
+    quill.setSelection(index + 2, 1);
   }, []);
 
   const modules = useMemo(
@@ -107,9 +108,8 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
         theme="snow"
         placeholder="내용을 입력해주세요."
       />
-      <EditorImageUploadLoaderText>{isImageUploadLoading ? '이미지 업로드중...' : '.'}</EditorImageUploadLoaderText>
     </EditorComponentWrapper>
   );
 };
 
-export default EditorComponent;
+export { EditorComponent as QuillWriter };

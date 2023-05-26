@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 
 import NumberIncreaseToggle from '@/components/atoms/NumberIncreaseToggle';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
-import EditorComponent from '@/components/molcules/Editor/EditorComponent';
+import { QuillWriter } from '@/components/molcules/Editor/EditorComponent';
 import InputGroup from '@/components/molcules/InputGroup';
 import useMecaWrite from '@/hooks/meca/useMecaWrite';
 import useIncrease from '@/hooks/useCount';
@@ -120,7 +120,7 @@ const MecaWriteForm = ({
       <br />
       <InputGroup>
         <InputGroup.Label>문제를 설명하세요</InputGroup.Label>
-        <EditorComponent contents={descInput} setContents={setDescInput} />
+        <QuillWriter contents={descInput} setContents={setDescInput} />
       </InputGroup>
       <br />
       <br />

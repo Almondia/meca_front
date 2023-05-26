@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable react/no-danger */
 import dynamic from 'next/dynamic';
 
@@ -27,4 +28,4 @@ const QuillNoSSRReader = ({ content }: { content: string }) => {
   return Result;
 };
 
-export default QuillNoSSRReader;
+export { QuillNoSSRReader as QuillReader };
