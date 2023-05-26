@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AvatarWrapper } from './styled';
 
@@ -10,6 +10,10 @@ export interface AvatarProps {
 
 const Avatar = ({ imgSrc, imgSize, imgName }: AvatarProps) => {
   const [src, setSrc] = useState(imgSrc || '/images/noprofile.png');
+  useEffect(() => {
+    imgSrc && setSrc(imgSrc);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imgSrc]);
   return (
     <AvatarWrapper
       src={src}
