@@ -12,7 +12,7 @@ async function getUserIdFromRequest(req: NextApiRequest) {
   if (!accessToken) {
     return undefined;
   }
-  const id = await getJWTPayload(accessToken, 'id');
+  const id = getJWTPayload(accessToken, 'id');
   return id;
 }
 

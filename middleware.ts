@@ -1,24 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import jwtDecode, { JwtPayload } from 'jwt-decode';
-
+import { getJWTPayload } from './utils/jwtHandler';
 import { extractCombinedUUID } from './utils/uuidHandler';
 
 const authorizedPaths = ['/write', '/quiz', '/mypage'];
 
-function getUserPayload(token: string) {
-  try {
-    const { id } = jwtDecode<JwtPayload & { id?: string }>(token);
-    return id;
-  } catch {
-    return undefined;
-  }
-}
-
 function getCurrentUserId(token: string, pathname: string) {
   const combinedUUId = pathname.split('/')[2];
   const { uuid1: memberId, uuid2 } = extractCombinedUUID(combinedUUId);
-  if (memberId && getUserPayload(token) === memberId) {
+  if (memberId && getJWTPayload(token, 'id') === memberId) {
     return uuid2;
   }
   return undefined;
