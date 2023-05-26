@@ -29,7 +29,7 @@ const useMecaWrite = () => {
     onSuccess: async ({ categoryId, cardId }) => {
       const countQuery = [queryKey.mecas, categoryId, 'count'];
       const { data, isCachedData } = await fetchOrGetQuery(countQuery, () => mecaApi.getCountByCategoryId(categoryId));
-      data.count === (isCachedData ? 0 : 1) && utilApi.revalidate('/');
+      data.count === (isCachedData ? 0 : 1) && utilApi.revalidate(['/']);
       isCachedData &&
         queryClient.setQueryData<{ count: number }>(countQuery, (prev) => ({ count: (prev?.count ?? 0) + 1 }));
       successHandler(categoryId, cardId, '카드 등록 성공');
@@ -39,7 +39,7 @@ const useMecaWrite = () => {
   const { mutate: updateMeca } = useMutation(mecaApi.updateMeca, {
     onSuccess: ({ categoryId, cardId, memberId }) => {
       successHandler(categoryId, cardId, '카드 수정 성공');
-      utilApi.revalidate(`/mecas/${combineUUID(memberId, cardId)}`);
+      utilApi.revalidate([`/mecas/${combineUUID(memberId, cardId)}`]);
     },
   });
 

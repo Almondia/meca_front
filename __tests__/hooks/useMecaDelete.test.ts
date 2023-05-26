@@ -8,11 +8,17 @@ import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { server } from '../__mocks__/msw/server';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
+import useUser from '@/hooks/useUser';
 
 jest.mock('next/router', () => require('next-router-mock'));
 
 jest.mock('../../apis/utilApi', () => ({
   revalidate: jest.fn(),
+}));
+
+jest.mock('@/hooks/useUser', () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 
 describe('useMecaDelete', () => {
@@ -25,6 +31,7 @@ describe('useMecaDelete', () => {
       }),
     );
     (utilApi.revalidate as jest.Mock).mockReturnValueOnce(true);
+    (useUser as jest.Mock).mockReturnValue({ user: { memberId: 'member01' } });
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -43,7 +50,7 @@ describe('useMecaDelete', () => {
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith('/'));
+    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/', '/mecas/member01-cardId01']));
   });
 
   it('Meca 삭제 후 해당 카테고리에 카드가 0개가 아니라면 revalidate가 동작하지 않는다', async () => {
@@ -60,7 +67,7 @@ describe('useMecaDelete', () => {
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalledWith('/'));
+    await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalled());
   });
 
   it('Meca 삭제 전 해당 카테고리에 카드가 1개라면 revalidate가 동작한다.', async () => {
@@ -69,7 +76,7 @@ describe('useMecaDelete', () => {
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper(queryClient) });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith('/'));
+    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/', '/mecas/member01-cardId01']));
   });
 
   it('Meca 삭제 전 mecas 페이지였다면 categories 페이지로 push된다.', async () => {

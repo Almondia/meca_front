@@ -32,7 +32,7 @@ const useCategoryUpdate = () => {
           };
         });
         if (shared || prevShared !== shared) {
-          utilApi.revalidate('/');
+          utilApi.revalidate(['/']);
         }
       },
     },

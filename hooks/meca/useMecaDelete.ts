@@ -8,11 +8,13 @@ import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
 
 import useCachedOrFetchQuery from '../useCachedOrFetchQuery';
+import useUser from '../useUser';
 
 const useMecaDelete = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { fetchOrGetQuery } = useCachedOrFetchQuery();
+  const { user } = useUser();
 
   const { mutate: deleteMeca } = useMutation<never, unknown, { cardId: string; categoryId: string }>(
     ({ cardId }) => mecaApi.deleteMeca(cardId),
@@ -24,7 +26,9 @@ const useMecaDelete = () => {
         const { data, isCachedData } = await fetchOrGetQuery(countQuery, () =>
           mecaApi.getCountByCategoryId(categoryId),
         );
-        data.count === (isCachedData ? 1 : 0) && utilApi.revalidate('/');
+        if (user && data.count === (isCachedData ? 1 : 0)) {
+          utilApi.revalidate(['/', `/mecas/${user.memberId}-${cardId}`]);
+        }
         isCachedData &&
           queryClient.setQueryData<{ count: number }>(countQuery, (prev) => ({ count: (prev?.count ?? 0) - 1 }));
         alertToast('삭제 완료', 'success');
