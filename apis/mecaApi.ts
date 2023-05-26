@@ -60,7 +60,7 @@ const mecaApi = {
   getSharedCardById: (cardId: string): Promise<MecaType & UserProfile> =>
     unauthInstance
       .get<never, { cardInfo: MecaType; memberInfo: UserProfile }>(`/api/v1/cards/${cardId}/share`)
-      .then((res) => ({ ...res.cardInfo, ...res.memberInfo })),
+      .then((res) => ({ ...res.memberInfo, ...res.cardInfo })),
   getMyCardById: (cardId: string) => authInstance.get<never, MecaType>(`/api/v1/cards/${cardId}/me`),
   getQuizCards: ({ categoryId, limit, algorithm }: MecaQuizRequest) =>
     authInstance.get<never, QuizType[]>(`/api/v1/cards/categories/${categoryId}/simulation`, {
@@ -86,7 +86,7 @@ const mecaApi = {
           params,
         },
       )
-      .then((res) => ({ ...res, contents: [...res.contents.map((v) => ({ ...v.cardInfo, ...v.memberInfo }))] }));
+      .then((res) => ({ ...res, contents: [...res.contents.map((v) => ({ ...v.memberInfo, ...v.cardInfo }))] }));
   },
   getCountByCategoryId: (categoryId: string) =>
     authInstance.get<never, { count: number }>(`/api/v1/cards/categories/${categoryId}/me/count`),
