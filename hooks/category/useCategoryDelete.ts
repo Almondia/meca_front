@@ -14,7 +14,7 @@ const useCategoryDelete = () => {
       onSuccess: (_, { shared }) => {
         queryClient.invalidateQueries([queryKey.categories, 'me']);
         alertToast('삭제 완료', 'success');
-        shared && utilApi.revalidate('/');
+        shared && utilApi.revalidate(['/']);
       },
     },
   );

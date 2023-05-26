@@ -73,13 +73,19 @@ async function getCustomImageBlot(QuillComponent: typeof ReactQuill, readOnly?: 
     }
 
     static value(domNode: HTMLElement): CustomImageBlotProps {
-      console.log(domNode.style.width);
+      const width = domNode.getAttribute('width') || '100%';
+      const getAdjustedClientWidth = () => {
+        if (width === '100%') {
+          return width;
+        }
+        return parseInt(width, 10) > 730 ? '100%' : `${width}px`;
+      };
       return {
         alt: domNode.getAttribute('alt') || '',
         src: domNode.getAttribute('src') || '',
-        width: domNode.getAttribute('width') || '100%',
+        width,
         height: domNode.getAttribute('height') || 'auto',
-        clientWidth: domNode.style.width || '100%',
+        clientWidth: domNode.style.width || getAdjustedClientWidth(),
       };
     }
   }
