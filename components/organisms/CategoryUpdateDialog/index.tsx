@@ -28,7 +28,7 @@ const CategoryUpdateDialog = ({
   thumbnail,
 }: CategoryUpdateDialogProps) => {
   const { input: title, onInputChange: onTitleChange } = useInput(categoryTitle);
-  const { image, onChange: onChangeImage, onDelete: onDeleteImage } = useImage(thumbnail);
+  const { image, onChange: onChangeImage, onDelete: onDeleteImage, onUploadLocalImage } = useImage(thumbnail);
   const [shared, setShared] = useState<boolean>(isShared ?? false);
   const { uploadImage } = useFetchImage();
   const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
@@ -87,7 +87,12 @@ const CategoryUpdateDialog = ({
       <Modal.Body>
         <InputGroup>
           <InputGroup.Label>썸네일 업로드</InputGroup.Label>
-          <ThumbnailUploader image={image} onChange={onChangeImage} onDelete={onDeleteImage} />
+          <ThumbnailUploader
+            image={image}
+            onChange={onChangeImage}
+            onDelete={onDeleteImage}
+            onUpload={onUploadLocalImage}
+          />
           <InputGroup.Description
             descLists={['jpg, jpeg, png, gif 파일 업로드 가능', 'gif 이미지는 리사이징 할 수 없습니다.']}
           />

@@ -12,13 +12,6 @@ export const ThumbnailUploaderWrapper = styled.div`
   background-color: var(--color-lightgray);
 `;
 
-export const ThumbnailHiddenInputBox = styled.div`
-  position: absolute;
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-`;
-
 export const ThumbnailUploadButton = styled.button`
   position: relative;
   ${FlexColumnCenter};
