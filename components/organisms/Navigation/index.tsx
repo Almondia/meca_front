@@ -11,7 +11,7 @@ import Icon from '@/components/common/Icon';
 import useClickAway from '@/hooks/useClickAway';
 import useCustomTheme from '@/hooks/useCustomTheme';
 import useModal from '@/hooks/useModal';
-import useUser from '@/hooks/useUser';
+import useUser from '@/hooks/user/useUser';
 import { HiddenText } from '@/styles/common';
 
 import { LoginButton, LogoLink, NavBar, NavigationContentsSection, NavigationWrapper, Profile } from './styled';

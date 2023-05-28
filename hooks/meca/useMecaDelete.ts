@@ -4,11 +4,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import mecaApi from '@/apis/mecaApi';
 import utilApi from '@/apis/utilApi';
+import useCachedOrFetchQuery from '@/hooks/useCachedOrFetchQuery';
+import useUser from '@/hooks/user/useUser';
 import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
-
-import useCachedOrFetchQuery from '../useCachedOrFetchQuery';
-import useUser from '../useUser';
 
 const useMecaDelete = () => {
   const queryClient = useQueryClient();
