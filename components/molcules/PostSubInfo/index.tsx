@@ -3,7 +3,7 @@ import { ElementSizeType } from '@/types/common';
 
 import { PostSubInfoContentWrapper, PostSubInfoWrapper } from './styled';
 
-const PostSubInfoContent = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const PostSubInfoContent = ({ title, children }: { title: React.ReactNode; children: React.ReactNode }) => (
   <PostSubInfoContentWrapper>
     <TextCaption>{title}</TextCaption>
     {children}
