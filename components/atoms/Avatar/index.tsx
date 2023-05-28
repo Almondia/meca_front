@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import { AvatarWrapper } from './styled';
 
 export interface AvatarProps {
@@ -8,21 +6,16 @@ export interface AvatarProps {
   imgName: string;
 }
 
-const Avatar = ({ imgSrc, imgSize, imgName }: AvatarProps) => {
-  const [src, setSrc] = useState(imgSrc || '/images/noprofile.png');
-  useEffect(() => {
-    imgSrc && setSrc(imgSrc);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imgSrc]);
-  return (
-    <AvatarWrapper
-      src={src}
-      alt={`${imgName}-avatar`}
-      width={imgSize}
-      height={imgSize}
-      onError={() => setSrc('/images/noprofile.png')}
-    />
-  );
-};
-
+const Avatar = ({ imgSrc, imgSize, imgName }: AvatarProps) => (
+  <AvatarWrapper
+    src={imgSrc || '/images/noprofile.png'}
+    alt={`${imgName}-avatar`}
+    width={imgSize}
+    height={imgSize}
+    onError={(e) => {
+      const imageElement = e.target;
+      (imageElement as HTMLImageElement).src = '/images/noprofile.png';
+    }}
+  />
+);
 export default Avatar;
