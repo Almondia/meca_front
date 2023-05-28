@@ -17,6 +17,12 @@ DefaultButton.args = {
   children: 'Button',
 };
 
+export const SmallButton = Template.bind({});
+SmallButton.args = {
+  children: 'Button',
+  size: 'small',
+};
+
 export const CustomWidthButton = () => (
   <div style={{ display: 'flex', flexDirection: 'column', rowGap: '16px' }}>
     <Button colorTheme="primary" width="50%">
@@ -35,6 +41,13 @@ export const CustomWidthButton = () => (
 export const WithIconButton = () => (
   <Button colorTheme="success">
     <Button.RightIcon icon="Play" />
-    <Button.InnerText>플레이하기</Button.InnerText>
+    <Button.InnerText>플레이</Button.InnerText>
+  </Button>
+);
+
+export const WithIconSmallButton = () => (
+  <Button colorTheme="success" size="small">
+    <Button.RightIcon icon="Play" />
+    <Button.InnerText>플레이</Button.InnerText>
   </Button>
 );

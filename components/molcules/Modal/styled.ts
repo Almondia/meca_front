@@ -39,7 +39,7 @@ export const ModalContainer = styled.div`
   box-shadow: 0px 4px 8px 8px rgba(0, 0, 0, 0.05);
 
   @media ${({ theme }) => theme.media.mobile} {
-    padding: 16px 16px;
+    padding: 20px;
   }
   animation: ${fadeIn} 0.3s ease-in-out;
 `;
@@ -58,11 +58,10 @@ export const ModalButtonGroup = styled.div`
   ${Flex};
   justify-content: end;
   align-items: flex-end;
-  column-gap: 6px;
+  column-gap: 8px;
   margin-top: 26px;
-  & > * {
-    margin-bottom: -10px;
-    margin-right: -10px;
-    transform: scale(0.8);
+  margin-right: -8px;
+  @media ${({ theme }) => theme.media.mobile} {
+    margin-right: 0px;
   }
 `;
