@@ -5,7 +5,7 @@ import { authInstance, serverInstance, unauthInstance } from './config/instance'
 const userApi = {
   getMe: () => authInstance.get<never, MyProfile>('/api/v1/members/me'),
   getMeFromServer: () => serverInstance.get<never, MyProfile>('/api/user'),
-  updateProfile: ({ name, profile }: Omit<UserProfile, 'memberId'>) =>
+  updateProfile: ({ name, profile }: Partial<Omit<UserProfile, 'memberId'>>) =>
     authInstance.put<never, never>('/api/v1/members/me', { name, profile }),
   logout: () => serverInstance.post<never, { deleted: boolean }>('/api/logout'),
   kakaoLogin: (code: string) =>

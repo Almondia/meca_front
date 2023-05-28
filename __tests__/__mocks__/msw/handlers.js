@@ -23,7 +23,9 @@ export const handlers = [
       }),
     );
   }),
-
+  rest.put(`${ENDPOINT}/members/me`, (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
   rest.get('/api/user', (req, res, ctx) => {
     return res(
       ctx.json({
