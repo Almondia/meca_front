@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { FlexCenter } from '@/styles/layout';
+import { FlexCenter, FlexColumn } from '@/styles/layout';
 
 export const QuizHistoryListWrapper = styled.div<{ excludeRows: string[] }>`
   ${(props) => props.excludeRows.map((row) => `.${row} { display: none }`)};
@@ -12,20 +12,23 @@ export const QuizHistoryTable = styled.div`
   table {
     margin-top: 10px;
     width: 100%;
-    min-width: 768px;
+    min-width: 468px;
     border-collapse: collapse;
-    @media ${({ theme }) => theme.media.tablet} {
-      transform: scale(0.9);
-    }
   }
   th,
   td {
     text-align: left;
+    @media ${({ theme }) => theme.media.tablet} {
+      transform: scale(0.9);
+      transform-origin: 0% 0%;
+    }
+    @media ${({ theme }) => theme.media.mobile} {
+      transform: scale(0.8);
+      transform-origin: 0% 0%;
+    }
   }
   th {
     font-weight: ${({ theme }) => theme.fontWeight.bold};
-  }
-  thead {
   }
   tbody:before,
   tbody:after {
@@ -39,8 +42,21 @@ export const QuizHistoryTableContentRow = styled.tr`
   border-bottom: 1px solid var(--color-lightgray);
   border-top: 1px solid var(--color-lightgray);
   td {
-    padding: 18px 0;
     vertical-align: middle;
+    min-width: 60px;
+    padding: 18px 10px 18px 0;
+    @media ${({ theme }) => theme.media.mobile} {
+      padding: 18px 0 0 0;
+    }
+  }
+  .quiz-content-devide {
+    ${FlexColumn};
+    row-gap: 6px;
+    width: 50vw;
+    min-width: 380px;
+    @media ${({ theme }) => theme.media.mobile} {
+      min-width: 150px;
+    }
   }
   strong,
   em {

@@ -17,7 +17,7 @@ import {
 } from './styled';
 
 export interface QuizHistoryListProps {
-  excludeRows?: ('user' | 'question')[];
+  excludeRows?: ('user' | 'question' | 'card-id')[];
   historyList: InfiniteData<CardHistoryListResponse> | undefined;
   fetchNextPage: () => void;
 }
@@ -51,7 +51,7 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
               </th>
               <th scope="col">문제정보</th>
               <th scope="col">점수</th>
-              <th scope="col">풀이날짜</th>
+              <th scope="col">일시</th>
             </tr>
           </thead>
           <tbody>
@@ -69,14 +69,14 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                   });
                   return (
                     <QuizHistoryTableContentRow data-testid="id-history-list" key={content.cardHistoryId}>
-                      <td width="60px">{content.cardId.substring(32, 36)}</td>
-                      <td width="120px" className="user">
+                      <td className="card-id">{content.cardId}</td>
+                      <td width="130px" className="user">
                         {content.solvedUserName}
                       </td>
-                      <td width="100px" className="question">
+                      <td className="question">
                         <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} />
                       </td>
-                      <td width="380px">
+                      <td className="quiz-content-devide">
                         <p className="question">
                           <strong>{question}</strong>
                         </p>
@@ -87,7 +87,7 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                           제출: <em>{userAnswer}</em>
                         </p>
                       </td>
-                      <td width="60px">{content.score}</td>
+                      <td>{content.score}</td>
                       <td>{getRelativeDate(content.createdAt)}</td>
                     </QuizHistoryTableContentRow>
                   );
