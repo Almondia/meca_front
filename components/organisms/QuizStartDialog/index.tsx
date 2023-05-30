@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
