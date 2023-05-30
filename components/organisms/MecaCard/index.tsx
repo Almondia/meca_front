@@ -7,9 +7,9 @@ import DotMenuOpener from '@/components/molcules/DotMenuOpener';
 import DropdownMenu from '@/components/molcules/DropdownMenu';
 import MecaTag from '@/components/molcules/MecaTag';
 import useModal from '@/hooks/useModal';
-import { MecaTagType, MecaType } from '@/types/domain';
+import { MECA_TAG_TO_RESPONSE, MecaTagType, MecaType } from '@/types/domain';
 import { extractFirstImageSrc } from '@/utils/imageHandler';
-import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
+import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
 import { MecaQuestionTextContainer, MecaTagContainer } from './styled';
@@ -49,7 +49,7 @@ const MecaCard = ({
       <Card.Title link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</Card.Title>
       <Card.Body>
         <MecaQuestionTextContainer>
-          {tagType === 'select' ? stringToJsonStringArrayConverter(question)[0] : question}
+          {getQuestionAnswerByCardType({ question, cardType: MECA_TAG_TO_RESPONSE[tagType] }).question}
         </MecaQuestionTextContainer>
         <MecaTagContainer>
           <MecaTag tagName={tagType} />
