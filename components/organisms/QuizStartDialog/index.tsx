@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
@@ -30,7 +30,10 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
   const router = useRouter();
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
-  const { fetchQuizData } = useQuiz(categoryId, quizCountInputNumber, 'random');
+  const { initQuiz } = useQuiz(() => {
+    onClose();
+    router.push('/quiz');
+  });
 
   const isCountValid = (count: number) => count >= MIN_QUIZNUM && count <= quizNum;
 
@@ -49,9 +52,7 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
     }
     setQuizTime(parseInt(quizTimeInput, 10));
     setQuizTitle(title);
-    await fetchQuizData();
-    onClose();
-    router.push('/quiz');
+    initQuiz({ categoryId, limit: quizCountInputNumber, algorithm: 'random' });
   };
 
   return (
