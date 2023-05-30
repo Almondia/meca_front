@@ -29,15 +29,14 @@ const HISTORY_LIST: InfiniteData<CardHistoryListResponse> = {
           cardHistoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd01',
           solvedUserId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd02',
           solvedUserName: 'name',
-          userAnswer: 'answer',
+          userAnswer: '1',
           score: 0,
           categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd03',
           cardId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd04',
           createdAt: '2023-05-24T21:34:22.6543507',
           title: 'title',
-          question:
-            '질문이 엄청나게 길어서 짤릴수도 있으니까 이렇게 길게써보려는데 어느정도 길이까지 커버가 가능할까요',
-          answer: 'answer',
+          question: '["다음 중 박동석의 MBTI로 적절한 것은?","INFP","ENFJ","ISTJ"]',
+          answer: '1',
           cardType: 'MULTI_CHOICE',
         },
       ],
@@ -91,6 +90,7 @@ describe('QuizHistoryList', () => {
     expect(screen.getByText('문제정보')).toBeInTheDocument();
     expect(screen.getByText('점수')).toBeInTheDocument();
     expect(screen.getByText('박동석의 MBTI는 무엇일까요?')).toBeInTheDocument();
+    expect(screen.getByText('다음 중 박동석의 MBTI로 적절한 것은?')).toBeInTheDocument();
   });
 
   it('다음페이지가 있다면 로드 시 다음페이지를 호출한다.', async () => {

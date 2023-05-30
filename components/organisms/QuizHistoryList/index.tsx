@@ -7,6 +7,7 @@ import IconButton from '@/components/atoms/IconButton';
 import { RelativeDateText } from '@/components/common/RelativeDateText';
 import MecaTag from '@/components/molcules/MecaTag';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
+import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 
 import {
   QuizHistoryListWrapper,
@@ -60,30 +61,37 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
               </QuizHistoryTableContentRow>
             ) : (
               <>
-                {historyList.pages[page].contents.map((content) => (
-                  <QuizHistoryTableContentRow data-testid="id-history-list" key={content.cardHistoryId}>
-                    <td width="60px">{content.cardId.substring(32, 36)}</td>
-                    <td width="120px" className="user">
-                      {content.solvedUserName}
-                    </td>
-                    <td width="100px" className="question">
-                      <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} />
-                    </td>
-                    <td width="380px">
-                      <p className="question">
-                        <strong>{content.question}</strong>
-                      </p>
-                      <p>
-                        정답: <em>{content.answer}</em>
-                      </p>
-                      <p>
-                        제출: <em>{content.userAnswer}</em>
-                      </p>
-                    </td>
-                    <td width="60px">{content.score}</td>
-                    <td>{getRelativeDate(content.createdAt)}</td>
-                  </QuizHistoryTableContentRow>
-                ))}
+                {historyList.pages[page].contents.map((content) => {
+                  const { question, answer } = getQuestionAnswerByCardType({ ...content });
+                  const { answer: userAnswer } = getQuestionAnswerByCardType({
+                    ...content,
+                    answer: content.userAnswer,
+                  });
+                  return (
+                    <QuizHistoryTableContentRow data-testid="id-history-list" key={content.cardHistoryId}>
+                      <td width="60px">{content.cardId.substring(32, 36)}</td>
+                      <td width="120px" className="user">
+                        {content.solvedUserName}
+                      </td>
+                      <td width="100px" className="question">
+                        <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} />
+                      </td>
+                      <td width="380px">
+                        <p className="question">
+                          <strong>{question}</strong>
+                        </p>
+                        <p>
+                          정답: <em>{answer}</em>
+                        </p>
+                        <p>
+                          제출: <em>{userAnswer}</em>
+                        </p>
+                      </td>
+                      <td width="60px">{content.score}</td>
+                      <td>{getRelativeDate(content.createdAt)}</td>
+                    </QuizHistoryTableContentRow>
+                  );
+                })}
               </>
             )}
           </tbody>
