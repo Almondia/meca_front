@@ -12,7 +12,11 @@ const useProfileUpdate = () => {
       await queryClient.cancelQueries({ queryKey: [queryKey.me] });
       const previousUser = queryClient.getQueryData<MyProfile>([queryKey.me]);
       if (previousUser) {
-        queryClient.setQueryData([queryKey.me], { ...previousUser, name, profile });
+        queryClient.setQueryData([queryKey.me], {
+          ...previousUser,
+          name: name ?? previousUser.name,
+          profile: profile ?? previousUser.profile,
+        });
       }
       return { previousUser };
     },
@@ -21,7 +25,6 @@ const useProfileUpdate = () => {
       queryClient.setQueryData([queryKey.me], context?.previousUser);
     },
   });
-
   return { updateProfile };
 };
 

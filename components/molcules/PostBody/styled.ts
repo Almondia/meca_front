@@ -12,7 +12,7 @@ export const PostBodyWrapper = styled.section`
 
 export const PostBodyContainer = styled.div`
   ${FlexColumn};
-  row-gap: 8px;
+  row-gap: 12px;
 `;
 
 export const PostBodyTitleWrapper = styled(TextBodyTitle)`
