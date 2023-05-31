@@ -6,7 +6,7 @@ import { memo, useEffect, useState } from 'react';
 import LinkButton from '@/components/atoms/LinkButton';
 import Icon from '@/components/common/Icon';
 import useModal from '@/hooks/useModal';
-import { IMAGE_SERVER } from '@/utils/constants';
+import { getRemoteImageUrl } from '@/utils/imageHandler';
 
 import { ThumbnailChangeBox, ThumbnailImageContainer, ThumbnailUploadButton, ThumbnailUploaderWrapper } from './styled';
 
@@ -50,7 +50,7 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
           {isCropperVisible && (
             <ImageCropper
               image={
-                typeof currentImage === 'string' ? `${IMAGE_SERVER}/${currentImage}` : URL.createObjectURL(currentImage)
+                typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage)
               }
               setImage={setImage}
               isCropBoxResizable={false}
@@ -66,7 +66,7 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
           <ThumbnailImageContainer
             data-testid="id-thumbnail-background"
             image={
-              typeof currentImage === 'string' ? `${IMAGE_SERVER}/${currentImage}` : URL.createObjectURL(currentImage)
+              typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage)
             }
           />
         ) : (
