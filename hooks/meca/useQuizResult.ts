@@ -11,10 +11,12 @@ import queryKey from '@/query/queryKey';
 import { MECA_RESPONE_TO_TAG, MecaTagType, QuizType } from '@/types/domain';
 import alertToast from '@/utils/toastHandler';
 
+import useQuiz from './useQuiz';
+
 const useQuizResult = () => {
   const queryClient = useQueryClient();
   const fallback: QuizType[] = [];
-  const quizList = queryClient.getQueryData<QuizType[]>([queryKey.quiz]) ?? fallback;
+  const { quizList = fallback } = useQuiz();
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
 

@@ -8,7 +8,7 @@ import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { server } from '../__mocks__/msw/server';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
-import useUser from '@/hooks/useUser';
+import useUser from '@/hooks/user/useUser';
 
 jest.mock('next/router', () => require('next-router-mock'));
 
@@ -16,7 +16,7 @@ jest.mock('../../apis/utilApi', () => ({
   revalidate: jest.fn(),
 }));
 
-jest.mock('@/hooks/useUser', () => ({
+jest.mock('@/hooks/user/useUser', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

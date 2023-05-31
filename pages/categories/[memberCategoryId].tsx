@@ -10,7 +10,7 @@ import MetaHead from '@/components/common/MetaHead';
 import MecaControl from '@/components/organisms/MecaControl';
 import MecaList from '@/components/organisms/MecaList';
 import useMecaList from '@/hooks/meca/useMecaList';
-import useUser from '@/hooks/useUser';
+import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';

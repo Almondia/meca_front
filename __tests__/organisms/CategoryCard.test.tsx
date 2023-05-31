@@ -97,11 +97,12 @@ describe('CategoryCard', () => {
 
     it('다른사람의 카테고리 카드 UI가 식별된다.', () => {
       render(<CategoryCard.Shared memberId="memberId" name="사람" profile="" />);
-      const profileImage = screen.getByRole('img', { name: '사람-profile-image' });
+      const profileImage = screen.getByRole('img', { name: '사람-avatar' });
       const username = screen.getByText('사람');
       expect(profileImage).toBeInTheDocument();
+      expect((profileImage as HTMLImageElement).src).toContain('noprofile.png');
       expect(username).toBeInTheDocument();
-      //TODO: UI추가되면 assertion 추가할 것
+      //TODO: UI(좋아요)추가되면 assertion 추가할 것
     });
   });
 });

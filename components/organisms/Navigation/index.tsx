@@ -1,16 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 
 import { useCallback, useRef, useState } from 'react';
 
+import Avatar from '@/components/atoms/Avatar';
 import IconButton from '@/components/atoms/IconButton';
 import Logo from '@/components/atoms/Logo';
 import Icon from '@/components/common/Icon';
 import useClickAway from '@/hooks/useClickAway';
 import useCustomTheme from '@/hooks/useCustomTheme';
 import useModal from '@/hooks/useModal';
-import useUser from '@/hooks/useUser';
+import useUser from '@/hooks/user/useUser';
 import { HiddenText } from '@/styles/common';
 
 import { LoginButton, LogoLink, NavBar, NavigationContentsSection, NavigationWrapper, Profile } from './styled';
@@ -23,7 +22,7 @@ const Navigation = () => {
   const { theme, toggleTheme } = useCustomTheme();
   const [isNavSelectionVisible, setIsNavSelectionVisible] = useState<boolean>(false);
   const { visible: isLoginModalVisible, close: loginModalClose, open: loginModalOpen } = useModal();
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const closeSelection = useCallback(() => {
     setIsNavSelectionVisible(false);
   }, []);
@@ -51,13 +50,8 @@ const Navigation = () => {
                 setIsNavSelectionVisible((prev) => !prev);
               }}
             >
-              <Image
-                src={user.profile ?? '/images/noprofile.png'}
-                alt={user.profile ?? 'profile-image'}
-                width={30}
-                height={30}
-              />
-              <Icon icon="CompactDown" size="12px" />
+              <Avatar imgSrc={user.profile} imgSize={30} imgName={user.name} />
+              <Icon icon="CompactDown" size="14px" color="var(--color-text)" />
               {isNavSelectionVisible && <NavSelection />}
             </Profile>
           ) : (

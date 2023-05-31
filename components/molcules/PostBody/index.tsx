@@ -4,8 +4,16 @@ const PostBodyTitle = ({ children }: { children: React.ReactNode }) => (
   <PostBodyTitleWrapper>{children}</PostBodyTitleWrapper>
 );
 
-const PostBodyContent = ({ children }: { children: React.ReactNode }) => (
-  <PostBodyContentWrapper>{children}</PostBodyContentWrapper>
+export interface PostBodyContentProps {
+  children: React.ReactNode;
+  hasBackground?: boolean;
+  hasIndent?: boolean;
+}
+
+const PostBodyContent = ({ children, hasBackground = true, hasIndent = true }: PostBodyContentProps) => (
+  <PostBodyContentWrapper hasBackground={hasBackground} hasIndent={hasIndent}>
+    {children}
+  </PostBodyContentWrapper>
 );
 
 /**

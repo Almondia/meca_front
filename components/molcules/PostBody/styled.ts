@@ -5,7 +5,6 @@ import { FlexColumn, FlexColumnCenter, TextAreaBox } from '@/styles/layout';
 
 export const PostBodyWrapper = styled.section`
   ${FlexColumnCenter};
-  row-gap: 40px;
   & > * {
     width: 100%;
   }
@@ -13,7 +12,7 @@ export const PostBodyWrapper = styled.section`
 
 export const PostBodyContainer = styled.div`
   ${FlexColumn};
-  row-gap: 8px;
+  row-gap: 12px;
 `;
 
 export const PostBodyTitleWrapper = styled(TextBodyTitle)`
@@ -22,11 +21,11 @@ export const PostBodyTitleWrapper = styled(TextBodyTitle)`
   font-size: ${({ theme }) => theme.fontSize.large};
 `;
 
-export const PostBodyContentWrapper = styled(TextBody)`
+export const PostBodyContentWrapper = styled(TextBody)<{ hasBackground?: boolean; hasIndent?: boolean }>`
   ${TextAreaBox}
-  padding: 30px;
-  background-color: var(--color-brightgray);
+  padding: ${(props) => (props.hasIndent ? '30px' : '0px')};
+  background-color: ${(props) => (props.hasBackground ? 'var(--color-brightgray)' : 'transparent')};
   @media ${({ theme }) => theme.media.mobile} {
-    padding: 15px;
+    padding: ${(props) => (props.hasIndent ? '15px' : '0px')};
   }
 `;

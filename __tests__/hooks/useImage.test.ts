@@ -7,6 +7,9 @@ jest.mock('@/utils/imageHandler', () => ({
 }));
 
 describe('useImage', () => {
+  beforeAll(() => {
+    jest.clearAllMocks();
+  });
   it('이미지 변경 성공 시 image state가 변경 된다.', async () => {
     (validImageFile as jest.Mock).mockReturnValueOnce({ valid: true });
     const { result } = renderHook(() => useImage(undefined));
@@ -37,5 +40,18 @@ describe('useImage', () => {
     const { result } = renderHook(() => useImage('abc.jpg'));
     act(() => result.current.onDelete());
     expect(result.current.image).toEqual('');
+  });
+
+  it('로컬 이미지를 업로드할 수 있다.', async () => {
+    (validImageFile as jest.Mock).mockReturnValueOnce({ valid: true });
+    const { result } = renderHook(() => useImage(undefined));
+    const imageRef = result.current.hiddenImageRef;
+    expect(imageRef).not.toBeUndefined();
+    const imageElement = imageRef.current as HTMLInputElement;
+    expect(imageElement).not.toBeUndefined();
+    expect(imageElement).toHaveAttribute('type', 'file');
+    imageElement.click = jest.fn();
+    act(() => result.current.onUploadLocalImage());
+    expect(imageElement.click).toHaveBeenCalledTimes(1);
   });
 });

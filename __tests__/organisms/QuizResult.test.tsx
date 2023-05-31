@@ -1,10 +1,10 @@
 import statisticsApi from '@/apis/statisticsApi';
 import QuizResult from '@/components/organisms/QuizResult';
+import useQuiz from '@/hooks/meca/useQuiz';
 import { QuizType } from '@/types/domain';
 import { screen, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { renderQuery } from '../utils';
-import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { server } from '../__mocks__/msw/server';
 
 const MOCK_QUIZS: QuizType[] = [
@@ -40,14 +40,9 @@ const MOCK_QUIZS: QuizType[] = [
   },
 ];
 
-jest.mock('@tanstack/react-query', () => ({
-  ...jest.requireActual('@tanstack/react-query'),
-  useQueryClient: () => ({
-    ...jest.requireActual('@tanstack/react-query').useQueryClient(),
-    getQueryData: jest.fn().mockReturnValueOnce(MOCK_QUIZS),
-    setQueryData: jest.fn(),
-    invalidateQueries: jest.fn(),
-  }),
+jest.mock('@/hooks/meca/useQuiz', () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 
 jest.mock('@/components/molcules/Chart', () => ({
@@ -65,6 +60,7 @@ jest.mock('@/components/molcules/Chart', () => ({
 
 describe('QuizResult', () => {
   it('퀴즈 결과 UI가 식별된다.', async () => {
+    (useQuiz as jest.Mock).mockReturnValue({ quizList: MOCK_QUIZS });
     const spyApplyQuizKeywordFn = jest.spyOn(statisticsApi, 'postKeywordBySentence');
     server.use(
       rest.post('/api/keyword', (_, res, ctx) => {
