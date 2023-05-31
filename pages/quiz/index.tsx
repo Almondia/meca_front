@@ -71,7 +71,7 @@ const QuizPage = () => {
       return;
     }
     const timeoutId = setTimeout(() => {
-      solveQuizHandler('시간초과!');
+      solveQuizHandler('');
     }, quizPhaseTime * 1000);
     const intervalId = setInterval(() => {
       quizSpendTimeRef.current += 1;

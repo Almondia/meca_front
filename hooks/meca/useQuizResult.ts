@@ -97,7 +97,7 @@ const useQuizResult = () => {
   const clearQuizPhase = () => {
     setQuizTime(0);
     setQuizTitle('');
-    queryClient.setQueryData([queryKey.quiz], []);
+    queryClient.removeQueries([queryKey.quiz]);
   };
 
   return {
