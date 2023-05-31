@@ -5,17 +5,20 @@ import { QueryClient } from '@tanstack/react-query';
 import { getPlaiceholder } from 'plaiceholder';
 
 import mecaApi from '@/apis/mecaApi';
+import LikeButton from '@/components/atoms/LikeButton';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
+import ListControlGroup from '@/components/molcules/ListControlGroup';
 import MecaControl from '@/components/organisms/MecaControl';
 import MecaList from '@/components/organisms/MecaList';
+import useCategoryLike from '@/hooks/category/useCategoryLike';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { UserProfile } from '@/types/domain';
-import { extractFirstImageSrc } from '@/utils/imageHandler';
+import { extractFirstImageSrc, getRemoteImageUrl } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface MyCategoryByIdPageProps {
@@ -27,13 +30,29 @@ export interface MyCategoryByIdPageProps {
 const CategoryById = ({ categoryId, isMine, writerInfo }: MyCategoryByIdPageProps) => {
   const { mecaList, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
   const { user } = useUser();
+  const initialLikeCount = mecaList?.pages[0].categoryLikeCount ?? 0;
+  const { hasLike, likeCount, postLike } = useCategoryLike(categoryId, initialLikeCount);
+
   const categoryTitle = mecaList?.pages[0].category.title ?? 'Category Title';
   const categoryThumbnail = mecaList?.pages[0].category.thumbnail;
   return (
     <>
-      <MetaHead title={categoryTitle} description={`${writerInfo.name}님의 MecaSet`} image={categoryThumbnail} />
+      <MetaHead
+        title={categoryTitle}
+        description={`${writerInfo.name}님의 MecaSet`}
+        image={categoryThumbnail && getRemoteImageUrl(categoryThumbnail)}
+      />
       <ListSection>
-        <PageTitle>{categoryTitle}</PageTitle>
+        <ListControlGroup>
+          <ListControlGroup.Left>
+            <PageTitle>{categoryTitle}</PageTitle>
+          </ListControlGroup.Left>
+          <ListControlGroup.Right>
+            <LikeButton onClick={postLike} defaultActiveState={hasLike} />
+            {likeCount}
+          </ListControlGroup.Right>
+        </ListControlGroup>
+        <br />
         <MecaControl
           categoryId={categoryId}
           categoryTitle={categoryTitle}
@@ -79,14 +98,9 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
           return { ...meca, blurThumbnail: { ...img, blurDataURL } };
         }),
       );
-      return {
-        ...mecaList,
-        contents: mecaListContentsWithBlurURL,
-      };
+      return { ...mecaList, contents: mecaListContentsWithBlurURL };
     },
-    {
-      getNextPageParam: (lastPage) => lastPage.hasNext,
-    },
+    { getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined },
   );
   const writerInfo: UserProfile = isMine
     ? (queryClient.getQueryData<UserProfile>([queryKey.me]) as UserProfile)
