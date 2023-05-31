@@ -76,6 +76,9 @@ describe('User MyPage', () => {
       params: {
         memberId: ['0187934c-bd9d-eb51-758f-3b3723a0d3a7'],
       },
+      res: {
+        setHeader: jest.fn(),
+      },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('memberId');
@@ -140,6 +143,9 @@ describe('User MyPage', () => {
     const mockedContext = {
       params: {
         memberId: ['0187934c-bd9d-eb51-758f-3b3723a0d3a7'],
+      },
+      res: {
+        setHeader: jest.fn(),
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;

@@ -78,6 +78,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
       getNextPageParam: (lastPage) => lastPage.hasNext,
     },
   );
+  context.res.setHeader('Cache-Control', 'public, max-age=1, stale-while-revalidate=179');
   return {
     memberId,
   };
