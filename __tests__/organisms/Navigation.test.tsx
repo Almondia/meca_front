@@ -27,11 +27,7 @@ describe('Navigation', () => {
   });
 
   it('로그인 사용자일 경우 navigation에 프로필이 식별된다.', async () => {
-    renderQuery(
-      <>
-        <Navigation />
-      </>,
-    );
+    renderQuery(<Navigation />);
     await waitFor(() => {
       expect(
         screen.queryByRole('button', {
@@ -43,12 +39,26 @@ describe('Navigation', () => {
     expect(imageAltText).toBeInTheDocument();
   });
 
+  it('로그인 된 사용자가 navigation 프로필을 클릭해 mypage로 이동할 수 있다.', async () => {
+    renderQuery(<Navigation />);
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('button', {
+          name: '로그인',
+        }),
+      ).not.toBeInTheDocument();
+    });
+    const imageAltText = await screen.findByAltText(/pds0309-avatar/i);
+    fireEvent.click(imageAltText);
+    const mypageLink = await screen.findByRole('link', {
+      name: /내 정보/i,
+    });
+    fireEvent.click(mypageLink);
+    await waitFor(() => expect(mockRouter.pathname).toEqual('/mypage'));
+  });
+
   it('로그인 된 사용자가 navigation 프로필을 클릭해 logout하면 메인페이지로 이동한다.', async () => {
-    renderQuery(
-      <>
-        <Navigation />
-      </>,
-    );
+    renderQuery(<Navigation />);
     const imageAltText = await screen.findByAltText(/pds0309-avatar/i);
     expect(imageAltText).toBeInTheDocument();
     fireEvent.click(imageAltText);
@@ -64,12 +74,8 @@ describe('Navigation', () => {
     expect(loginButton).toBeInTheDocument();
   });
 
-  it('로그인된 사용자가 회원 정보 조회에 실패할 경우 메인페이지로 강제 이동하며 비로그인 사용자 UI가 식별된다.', async () => {
-    renderQuery(
-      <>
-        <Navigation />
-      </>,
-    );
+  it('로그인된 사용자가 회원 정보 조회에 실패할 경우 메인페이지로 이동하며 비로그인 사용자 UI가 식별된다.', async () => {
+    renderQuery(<Navigation />);
     server.resetHandlers(
       rest.get('/api/user', (req, res, ctx) => {
         return res(

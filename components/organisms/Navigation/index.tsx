@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 
 import { useCallback, useRef, useState } from 'react';
 
@@ -24,7 +22,7 @@ const Navigation = () => {
   const { theme, toggleTheme } = useCustomTheme();
   const [isNavSelectionVisible, setIsNavSelectionVisible] = useState<boolean>(false);
   const { visible: isLoginModalVisible, close: loginModalClose, open: loginModalOpen } = useModal();
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const closeSelection = useCallback(() => {
     setIsNavSelectionVisible(false);
   }, []);
@@ -53,7 +51,7 @@ const Navigation = () => {
               }}
             >
               <Avatar imgSrc={user.profile} imgSize={30} imgName={user.name} />
-              <Icon icon="CompactDown" size="12px" />
+              <Icon icon="CompactDown" size="14px" color="var(--color-text)" />
               {isNavSelectionVisible && <NavSelection />}
             </Profile>
           ) : (
