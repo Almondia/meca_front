@@ -49,12 +49,12 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile, hasAuth
       </ListControlGroup.Left>
       <ListControlGroup.Right>
         {isMine && (
-          <Button colorTheme="primary" onClick={() => router.push(`/mecas/write/${categoryId}`)}>
+          <Button colorTheme="primary" onClick={() => router.push(`/mecas/write/${categoryId}`)} size="small">
             추가하기 +
           </Button>
         )}
         {hasAuth && (
-          <Button colorTheme="success" onClick={handlePlayClick}>
+          <Button colorTheme="success" onClick={handlePlayClick} size="small">
             <Button.RightIcon icon="Play" />
             <Button.InnerText>플레이</Button.InnerText>
           </Button>

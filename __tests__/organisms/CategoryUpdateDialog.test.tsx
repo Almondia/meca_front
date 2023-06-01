@@ -38,7 +38,7 @@ describe('CategoryUpdateDialog', () => {
       />,
     );
     const backgroundThumbnailElement = screen.getByTestId('id-thumbnail-background');
-    expect(backgroundThumbnailElement).toHaveStyleRule('background-image', /url\(.*\/abc\.jpg\)/i);
+    expect(backgroundThumbnailElement).toHaveStyleRule('background-image', 'url(abc.jpg)');
   });
 
   it('카테고리 수정이라면 공유 여부 토글이 식별되며 기존 공유 상태가 반영되어있다.', () => {

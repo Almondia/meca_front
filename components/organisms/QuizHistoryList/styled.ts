@@ -52,8 +52,8 @@ export const QuizHistoryTableContentRow = styled.tr`
   .quiz-content-devide {
     ${FlexColumn};
     row-gap: 6px;
-    width: 50vw;
-    min-width: 380px;
+    width: 25vw;
+    min-width: 100px;
     @media ${({ theme }) => theme.media.mobile} {
       min-width: 150px;
     }

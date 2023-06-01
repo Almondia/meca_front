@@ -10,7 +10,7 @@ export const InputWrapper = styled.div``;
 export const TextInputWrapper = styled.div`
   ${FlexCenter};
   width: auto;
-  padding: 4px 15px;
+  padding: 2px 12px;
   border: 1px solid var(--color-gray);
   border-radius: ${({ theme }) => theme.border.button};
   color: var(--color-text);

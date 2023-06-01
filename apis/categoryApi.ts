@@ -11,6 +11,7 @@ interface CategoriesResponse extends CursorPaginationType {
 interface SharedCategoryContentType {
   memberInfo: UserProfile;
   categoryInfo: CategoryType;
+  likeCount: number;
 }
 
 export interface PrivateCategoriesResponse extends CategoriesResponse {
@@ -55,8 +56,25 @@ const categoryApi = {
       )
       .then((response) => ({
         ...response,
-        contents: response.contents.map((v) => ({ ...v.categoryInfo, ...v.memberInfo })),
+        contents: response.contents.map((v) => ({ ...v.categoryInfo, ...v.memberInfo, likeCount: v.likeCount })),
       })),
+  postCategoryLike: async (categoryId: string) => {
+    await authInstance.post<never, never>(`/api/v1/categories/${categoryId}/like/like`);
+    return { hasLike: true, count: 1 };
+  },
+  postCategoryUnlike: async (categoryId: string) => {
+    await authInstance.post<never, never>(`/api/v1/categories/${categoryId}/like/unlike`);
+    return { hasLike: false, count: -1 };
+  },
+  getCategoriesLikeState: async (categoryIds: string[]) =>
+    authInstance.get<never, { recommendedCategories: string[]; unRecommendedCategories: string[] }>(
+      `/api/v1/categories/like`,
+      {
+        params: {
+          categoryIds: categoryIds.join(','),
+        },
+      },
+    ),
 };
 
 export default categoryApi;

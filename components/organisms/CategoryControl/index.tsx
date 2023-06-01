@@ -36,14 +36,14 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
           placeholder="제목으로 검색"
           ariaLabel="input-category-search"
         />
-        <Button colorTheme="primary" onClick={handleSearchQuery}>
+        <Button colorTheme="primary" onClick={handleSearchQuery} size="small">
           검색
         </Button>
       </ListControlGroup.Right>
       <ListControlGroup.Left>
         {!isShared && (
           <>
-            <Button colorTheme="primary" onClick={addCategoryOpen}>
+            <Button colorTheme="primary" onClick={addCategoryOpen} size="small">
               추가하기 +
             </Button>
             {addCategoryVisible && (

@@ -40,8 +40,8 @@ const useUser = () => {
       (async () => {
         const setAccessToken = await import('@/apis/config/instance').then((res) => res.setAccessToken);
         setAccessToken(token);
+        setHasAuth(true);
       })();
-      setHasAuth(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
