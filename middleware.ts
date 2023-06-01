@@ -5,7 +5,7 @@ import { extractCombinedUUID } from './utils/uuidHandler';
 
 const AUTH_PATHS = ['/write', '/quiz', '/mypage'] as const;
 
-const PRIVATE_PATH_MATCHER = /\/[a-z]+\/me/;
+const PRIVATE_PATH_MATCHER = /\/[a-z]+\/me\//;
 
 function getCurrentUserMecaId(token: string, pathname: string) {
   const combinedUUId = pathname.split('/')[2];
