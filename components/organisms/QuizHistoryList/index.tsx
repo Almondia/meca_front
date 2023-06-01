@@ -42,7 +42,9 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
         <table>
           <thead>
             <tr>
-              <th scope="col">문제ID</th>
+              <th scope="col" className="card-id">
+                문제ID
+              </th>
               <th scope="col" className="user">
                 푼사람
               </th>
@@ -74,7 +76,7 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                         {content.solvedUserName}
                       </td>
                       <td className="question">
-                        <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} />
+                        <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} scale={0.8} />
                       </td>
                       <td className="quiz-content-devide">
                         <p className="question">
