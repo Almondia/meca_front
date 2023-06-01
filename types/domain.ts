@@ -46,6 +46,7 @@ export interface CategoryType {
   thumbnail: string;
   shared: boolean;
   blurThumbnail?: PreloadedImageInfo;
+  likeCount: number;
 }
 
 export interface CategoryDetailType extends CategoryType {
