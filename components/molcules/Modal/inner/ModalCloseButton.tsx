@@ -7,7 +7,7 @@ export const ModalCloseButtonWrapper = styled(Button)`
 `;
 
 const ModalCloseButton = ({ children, onClick }: { children: React.ReactNode; onClick: () => void }) => (
-  <ModalCloseButtonWrapper colorTheme="cancel" onClick={onClick}>
+  <ModalCloseButtonWrapper colorTheme="cancel" size="small" onClick={onClick}>
     {children}
   </ModalCloseButtonWrapper>
 );

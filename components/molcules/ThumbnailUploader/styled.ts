@@ -12,13 +12,6 @@ export const ThumbnailUploaderWrapper = styled.div`
   background-color: var(--color-lightgray);
 `;
 
-export const ThumbnailHiddenInputBox = styled.div`
-  position: absolute;
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-`;
-
 export const ThumbnailUploadButton = styled.button`
   position: relative;
   ${FlexColumnCenter};
@@ -57,12 +50,4 @@ export const ThumbnailChangeBox = styled.div`
   margin-top: 4px;
   max-width: 140px;
   column-gap: 10px;
-`;
-
-export const ThumbnailChangeLink = styled.a`
-  font-size: ${({ theme }) => theme.fontSize.caption};
-  cursor: pointer;
-  :hover {
-    text-decoration: underline;
-  }
 `;

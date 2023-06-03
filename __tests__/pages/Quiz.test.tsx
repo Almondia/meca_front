@@ -7,20 +7,18 @@ import { quizTimeState } from '@/atoms/quiz';
 import { server } from '../__mocks__/msw/server';
 import { rest } from 'msw';
 import statisticsApi from '@/apis/statisticsApi';
+import useQuiz from '@/hooks/meca/useQuiz';
 
 const mockQuizs = MECAS.slice(0, 2);
 
-jest.mock('@tanstack/react-query', () => ({
-  ...jest.requireActual('@tanstack/react-query'),
-  useQueryClient: () => ({
-    ...jest.requireActual('@tanstack/react-query').useQueryClient(),
-    getQueryData: jest.fn().mockReturnValueOnce(mockQuizs),
-    setQueryData: jest.fn(),
-  }),
+jest.mock('@/hooks/meca/useQuiz', () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 
 describe('QuizPage', () => {
   beforeEach(() => {
+    (useQuiz as jest.Mock).mockReturnValue({ quizList: mockQuizs });
     server.use(
       rest.post('/api/score', (_, res, ctx) => {
         return res(ctx.status(200), ctx.json({ score: 50 }));

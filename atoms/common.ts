@@ -5,3 +5,8 @@ export const hasAuthState = atom<boolean>({
   key: 'hasAuthState',
   default: false,
 });
+
+export const isGlobalLoadingState = atom<boolean>({
+  key: 'isGlobalLoadingState',
+  default: false,
+});

@@ -22,6 +22,7 @@ export interface MecaWriteResponse {
 export interface MecaListResponse extends CursorPaginationType {
   contents: Omit<MecaType, 'categoryId'>[];
   category: CategoryType;
+  categoryLikeCount: number;
 }
 
 export interface MecaUserListResponse extends Omit<MecaListResponse, 'contents'> {

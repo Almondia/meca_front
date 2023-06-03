@@ -46,6 +46,7 @@ export interface CategoryType {
   thumbnail: string;
   shared: boolean;
   blurThumbnail?: PreloadedImageInfo;
+  likeCount: number;
 }
 
 export interface CategoryDetailType extends CategoryType {
@@ -98,6 +99,14 @@ export interface QuizResultType {
 
 export interface QuizType extends MecaType {
   result?: Omit<QuizResultType, 'cardId'>;
+}
+
+export interface CardHistoryType extends Omit<MecaType, 'description'> {
+  cardHistoryId: string;
+  solvedUserId: string;
+  solvedUserName: string;
+  userAnswer: string;
+  score: number;
 }
 
 export const IMAGE_EXTENTIONS = ['jpg', 'jpeg', 'gif', 'png'] as const;

@@ -3,17 +3,27 @@ import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { MOCK_CATEGORY_ID, MOCK_MEMBERI_ID } from '../__mocks__/msw/data';
 import CategoryById, { getServerSideProps } from '@/pages/categories/[memberCategoryId]';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { server } from '../__mocks__/msw/server';
 import { rest } from 'msw';
 import { ENDPOINT } from '../__mocks__/msw/handlers';
 import { combineUUID } from '@/utils/uuidHandler';
+import useCategoryLike from '@/hooks/category/useCategoryLike';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
 
-describe('MecaListPage with SSR', () => {
+jest.mock('@/hooks/category/useCategoryLike', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+describe('MecaListPage', () => {
+  const mockedPostLike = jest.fn();
+  beforeEach(() => {
+    (useCategoryLike as jest.Mock).mockReturnValue({ hasLike: false, likeCount: 5, postLike: mockedPostLike });
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -34,15 +44,17 @@ describe('MecaListPage with SSR', () => {
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', true);
     expect(props).toHaveProperty('dehydratedState');
-    renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState);
+    await waitFor(() => renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState));
     const addButton = screen.getByRole('button', { name: /추가하기/i });
     const dotButtons = screen.getAllByRole('button', { name: /카드 수정 삭제 메뉴 오프너/i });
     const noListText = screen.queryByText(/목록이 존재하지 않습니다/i);
-    const profileImage = screen.queryByRole('img', { name: /-profile-image/i });
+    const profileImage = screen.queryByRole('img', { name: /avatar/i });
+    const likeButton = screen.getByRole('button', { name: /Like/i });
     expect(addButton).toBeInTheDocument();
     expect(dotButtons[0]).toBeInTheDocument();
     expect(noListText).not.toBeInTheDocument();
     expect(profileImage).toBeInTheDocument();
+    expect(likeButton).toBeInTheDocument();
   });
 
   it('비정상적인 category params로의 접근시 not-found 처리 된다.', async () => {
@@ -156,7 +168,7 @@ describe('MecaListPage with SSR', () => {
     const addButton = screen.queryByRole('button', { name: /추가하기/i });
     const playButton = screen.queryByRole('button', { name: /플레이/i });
     const dotButton = screen.queryByRole('button', { name: /카드 수정 삭제 메뉴 오프너/i });
-    const profileImage = screen.queryByRole('img', { name: /임현규-profile-image/i });
+    const profileImage = screen.queryByRole('img', { name: /임현규-avatar/i });
     expect(addButton).not.toBeInTheDocument();
     expect(dotButton).not.toBeInTheDocument();
     expect(playButton).not.toBeInTheDocument();

@@ -16,10 +16,6 @@ export interface IconTagProps {
   scale?: number;
 }
 
-/**
- * 문제 태그를 나타내는 컴포넌트로 여러 종류의 `타입(tagName)`이 정해져있다.
- * - 종류: ox퀴즈, 설명퀴즈, 키워드, 객관식 (문제 종류는 언젠가 추가될 수도 있다.)
- */
 const IconTag = ({ icon, text, tagColor, textColor, scale = 1 }: IconTagProps) => (
   <IconTagWrapper scale={Math.min(scale, 2)} bgColor={tagColor}>
     <IconTagIconBox>

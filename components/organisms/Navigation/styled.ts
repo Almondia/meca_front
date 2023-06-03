@@ -31,13 +31,14 @@ export const NavBar = styled.nav`
   }
 `;
 
-export const Profile = styled.div`
+export const Profile = styled.button`
   position: relative;
   ${FlexCenter};
   column-gap: 6px;
   cursor: pointer;
+  margin-top: -2px;
   & > div:nth-child(2) {
-    padding-top: 3px;
+    padding-top: 5px;
     :hover {
       opacity: 0.8;
     }

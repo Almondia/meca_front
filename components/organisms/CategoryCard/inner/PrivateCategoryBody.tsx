@@ -2,9 +2,11 @@ import dynamic from 'next/dynamic';
 
 import IconTag from '@/components/atoms/IconTag';
 import ProgressBar from '@/components/atoms/ProgressBar';
+import Icon from '@/components/common/Icon';
 import DotMenuOpener from '@/components/molcules/DotMenuOpener';
 import DropdownMenu from '@/components/molcules/DropdownMenu';
 import useModal from '@/hooks/useModal';
+import { TextOverline } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 import { CategoryDetailType } from '@/types/domain';
 
@@ -18,6 +20,7 @@ const PrivateCategoryBody = ({
   title,
   solveCount,
   totalCount,
+  likeCount,
   scoreAvg,
   thumbnail,
   shared,
@@ -26,24 +29,30 @@ const PrivateCategoryBody = ({
   const { visible: isUpdateModalVisible, open: updateModalOpen, close: updateModalClose } = useModal();
   return (
     <CategoryCardBodyContainer>
-      <ProgressesInfoContainer>
-        <p>문제개수</p>
-        <ProgressBar
-          type="devision"
-          maxValue={totalCount}
-          currentValue={solveCount}
-          backgroundColor={[COLOR.brand3, COLOR.brand1]}
-        />
-      </ProgressesInfoContainer>
-      <ProgressesInfoContainer>
-        <p> 정답률 </p>
-        <ProgressBar
-          type="percentage"
-          maxValue={100}
-          currentValue={scoreAvg}
-          backgroundColor={['#71D4B6', COLOR.success]}
-        />
-      </ProgressesInfoContainer>
+      <div>
+        <ProgressesInfoContainer>
+          <p>문제개수</p>
+          <ProgressBar
+            type="devision"
+            maxValue={totalCount}
+            currentValue={solveCount}
+            backgroundColor={[COLOR.brand3, COLOR.brand1]}
+          />
+        </ProgressesInfoContainer>
+        <ProgressesInfoContainer>
+          <p> 정답률 </p>
+          <ProgressBar
+            type="percentage"
+            maxValue={100}
+            currentValue={scoreAvg}
+            backgroundColor={['#71D4B6', COLOR.success]}
+          />
+        </ProgressesInfoContainer>
+      </div>
+      <div>
+        <Icon icon="Like" size="1rem" />
+        <TextOverline style={{ textAlign: 'center' }}>{likeCount}</TextOverline>
+      </div>
       <DotMenuOpener top="14px" right="6px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
         <DropdownMenu>
           <DropdownMenu.Contents href="" onClick={updateModalOpen}>

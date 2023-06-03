@@ -11,6 +11,17 @@ interface CategoriesResponse extends CursorPaginationType {
 interface SharedCategoryContentType {
   memberInfo: UserProfile;
   categoryInfo: CategoryType;
+  likeCount: number;
+}
+
+export interface AddCategoryType {
+  title: string;
+  thumbnail: string;
+}
+
+export interface UpdateCategoryType extends AddCategoryType {
+  categoryId: string;
+  shared: boolean;
 }
 
 export interface PrivateCategoriesResponse extends CategoriesResponse {
@@ -29,13 +40,13 @@ const categoryApi = {
         hasNext: props.hasNext,
       },
     }),
-  addCategory: ({ title, thumbnail }: Omit<CategoryType, 'categoryId' | 'shared'>) =>
+  addCategory: ({ title, thumbnail }: AddCategoryType) =>
     authInstance.post<never, { categoryId: string }>('/api/v1/categories', {
       title,
       thumbnail,
     }),
   deleteCategory: (id: string) => authInstance.delete<never, never>(`/api/v1/categories/${id}`),
-  updateCategory: ({ categoryId, title, thumbnail, shared }: CategoryType) =>
+  updateCategory: ({ categoryId, title, thumbnail, shared }: UpdateCategoryType) =>
     authInstance.put<never, CategoryType>(`/api/v1/categories/${categoryId}`, {
       title,
       thumbnail,
@@ -55,8 +66,25 @@ const categoryApi = {
       )
       .then((response) => ({
         ...response,
-        contents: response.contents.map((v) => ({ ...v.categoryInfo, ...v.memberInfo })),
+        contents: response.contents.map((v) => ({ ...v.categoryInfo, ...v.memberInfo, likeCount: v.likeCount })),
       })),
+  postCategoryLike: async (categoryId: string) => {
+    await authInstance.post<never, never>(`/api/v1/categories/${categoryId}/like/like`);
+    return { hasLike: true, count: 1 };
+  },
+  postCategoryUnlike: async (categoryId: string) => {
+    await authInstance.post<never, never>(`/api/v1/categories/${categoryId}/like/unlike`);
+    return { hasLike: false, count: -1 };
+  },
+  getCategoriesLikeState: async (categoryIds: string[]) =>
+    authInstance.get<never, { recommendedCategories: string[]; unRecommendedCategories: string[] }>(
+      `/api/v1/categories/like`,
+      {
+        params: {
+          categoryIds: categoryIds.join(','),
+        },
+      },
+    ),
 };
 
 export default categoryApi;

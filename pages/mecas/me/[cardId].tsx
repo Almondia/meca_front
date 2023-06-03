@@ -14,7 +14,7 @@ import CardWriterInfo from '@/components/molcules/PostWriterInfo';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
-import useUser from '@/hooks/useUser';
+import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';

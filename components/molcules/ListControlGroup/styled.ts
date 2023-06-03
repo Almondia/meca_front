@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { FlexSpaceBetween } from '@/styles/layout';
+import { FlexCenter, FlexSpaceBetween } from '@/styles/layout';
 
 export const ListControlGroupWrapper = styled.div`
   ${FlexSpaceBetween};
@@ -9,6 +9,6 @@ export const ListControlGroupWrapper = styled.div`
 `;
 
 export const ListControlBetweenContainer = styled.div`
-  display: flex;
+  ${FlexCenter};
   column-gap: 10px;
 `;

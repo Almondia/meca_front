@@ -7,7 +7,7 @@ export const ModalConfirmButtonWrapper = styled(Button)`
 `;
 
 const ModalConfirmButton = ({ children, onClick }: { children: React.ReactNode; onClick: () => void }) => (
-  <ModalConfirmButtonWrapper colorTheme="primary" onClick={onClick}>
+  <ModalConfirmButtonWrapper colorTheme="primary" size="small" onClick={onClick}>
     {children}
   </ModalConfirmButtonWrapper>
 );

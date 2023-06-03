@@ -22,6 +22,9 @@ const Triangle = dynamic(() => import('@/public/icons/triangle.svg'));
 const VerticalDot = dynamic(() => import('@/public/icons/verticaldot.svg'));
 const Zoomin = dynamic(() => import('@/public/icons/zoomin.svg'));
 const Lock = dynamic(() => import('@/public/icons/lock.svg'));
+const Next = dynamic(() => import('@/public/icons/next.svg'));
+const Prev = dynamic(() => import('@/public/icons/prev.svg'));
+const Like = dynamic(() => import('@/public/icons/like.svg'));
 
 const Icons = {
   Lightmode,
@@ -46,6 +49,9 @@ const Icons = {
   Selected,
   Logo,
   Lock,
+  Next,
+  Prev,
+  Like,
 };
 
 export default Icons;

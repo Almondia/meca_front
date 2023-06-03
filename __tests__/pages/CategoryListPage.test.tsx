@@ -1,5 +1,5 @@
 import { RecoilObserver, renderQuery } from '../utils';
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { PAGINATION_NUM } from '@/utils/constants';
 import { hasAuthState } from '@/atoms/common';
 import Category, { getServerSideProps } from '@/pages/categories';
@@ -59,11 +59,13 @@ describe('CategoryListPage', () => {
     const categoryCards = await screen.findAllByRole('article');
     expect(categoryCards).toHaveLength(PAGINATION_NUM);
     expect(categoryCards[0]).toHaveTextContent(inputTitleText);
-    expect(
-      screen.queryByRole('button', {
-        name: /등록하기/i,
-      }),
-    ).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('button', {
+          name: /등록하기/i,
+        }),
+      ).not.toBeInTheDocument(),
+    );
   });
 
   it('카테고리 추가 시 비정상적인 title을 입력하면 카테고리 추가가 되지 않고 toast가 식별된다.', async () => {

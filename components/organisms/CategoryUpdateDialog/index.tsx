@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
 import InputGroup from '@/components/molcules/InputGroup';
@@ -7,6 +7,7 @@ import ThumbnailUploader from '@/components/molcules/ThumbnailUploader';
 import useCategoryPost from '@/hooks/category/useCategoryPost';
 import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
 import useFetchImage from '@/hooks/useFetchImage';
+import useGlobalLoading from '@/hooks/useGlobalLoading';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
@@ -28,15 +29,19 @@ const CategoryUpdateDialog = ({
   thumbnail,
 }: CategoryUpdateDialogProps) => {
   const { input: title, onInputChange: onTitleChange } = useInput(categoryTitle);
-  const { image, onChange: onChangeImage, onDelete: onDeleteImage } = useImage(thumbnail);
+  const { image, onChange: onChangeImage, onDelete: onDeleteImage, onUploadLocalImage } = useImage(thumbnail);
   const [shared, setShared] = useState<boolean>(isShared ?? false);
   const { uploadImage } = useFetchImage();
   const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
   const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
+  const { asyncCallbackLoader } = useGlobalLoading();
 
-  if (isUpdateSuccess || isPostSuccess) {
-    onClose();
-  }
+  useEffect(() => {
+    if (isUpdateSuccess || isPostSuccess) {
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateSuccess, isPostSuccess]);
 
   const getUploadedThumbnail = useCallback(async () => {
     let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
@@ -65,7 +70,7 @@ const CategoryUpdateDialog = ({
       onClose();
       return;
     }
-    const requestedThumbnail = await getUploadedThumbnail();
+    const requestedThumbnail = await asyncCallbackLoader<string | undefined>(getUploadedThumbnail);
     if (requestedThumbnail === undefined) {
       return;
     }
@@ -87,7 +92,12 @@ const CategoryUpdateDialog = ({
       <Modal.Body>
         <InputGroup>
           <InputGroup.Label>썸네일 업로드</InputGroup.Label>
-          <ThumbnailUploader image={image} onChange={onChangeImage} onDelete={onDeleteImage} />
+          <ThumbnailUploader
+            image={image}
+            onChange={onChangeImage}
+            onDelete={onDeleteImage}
+            onUpload={onUploadLocalImage}
+          />
           <InputGroup.Description
             descLists={['jpg, jpeg, png, gif 파일 업로드 가능', 'gif 이미지는 리사이징 할 수 없습니다.']}
           />

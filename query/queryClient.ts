@@ -10,7 +10,7 @@ export function generateQueryClient(): QueryClient {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 180000,
+        staleTime: 30000,
         cacheTime: 360000,
         refetchOnMount: true,
         refetchOnReconnect: false,
@@ -20,6 +20,8 @@ export function generateQueryClient(): QueryClient {
       },
       mutations: {
         onError: queryErrorHandler,
+        mutationKey: ['default'],
+        cacheTime: 0,
       },
     },
   });

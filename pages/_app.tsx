@@ -17,6 +17,7 @@ import ThemeProvider from '@/styles/ThemeProvider';
 const Unauthorized = dynamic(() => import('./401'), { ssr: false });
 const NotFound = dynamic(() => import('./404'), { ssr: false });
 const ToastProvider = dynamic(() => import('@/components/common/ToastProvider'), { ssr: false });
+const GlobalLoadingSpinner = dynamic(() => import('@/components/molcules/GlobalLoadingSpinner'), { ssr: false });
 
 interface ErrorProps {
   errorStatus?: 401 | 404;
@@ -45,6 +46,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </Layout>
             <div id="modal-root" />
             <div id="image-crop-root" />
+            <GlobalLoadingSpinner />
           </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} />
