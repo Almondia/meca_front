@@ -31,6 +31,7 @@ Private.args = {
       categoryId={Private.args?.categoryId ?? 'cid'}
       createdAt=""
       memberId="memberId"
+      likeCount={15}
     />
   ),
 };
@@ -38,5 +39,5 @@ Private.args = {
 export const Shared = Template.bind({});
 Shared.args = {
   title: '카테고리 제목',
-  children: <CategoryCard.Shared memberId="memberId" name="name" profile="" />,
+  children: <CategoryCard.Shared memberId="memberId" name="name" profile="" likeCount={5} />,
 };

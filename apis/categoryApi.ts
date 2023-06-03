@@ -14,6 +14,16 @@ interface SharedCategoryContentType {
   likeCount: number;
 }
 
+export interface AddCategoryType {
+  title: string;
+  thumbnail: string;
+}
+
+export interface UpdateCategoryType extends AddCategoryType {
+  categoryId: string;
+  shared: boolean;
+}
+
 export interface PrivateCategoriesResponse extends CategoriesResponse {
   contents: CategoryDetailType[];
 }
@@ -30,13 +40,13 @@ const categoryApi = {
         hasNext: props.hasNext,
       },
     }),
-  addCategory: ({ title, thumbnail }: Omit<CategoryType, 'categoryId' | 'shared'>) =>
+  addCategory: ({ title, thumbnail }: AddCategoryType) =>
     authInstance.post<never, { categoryId: string }>('/api/v1/categories', {
       title,
       thumbnail,
     }),
   deleteCategory: (id: string) => authInstance.delete<never, never>(`/api/v1/categories/${id}`),
-  updateCategory: ({ categoryId, title, thumbnail, shared }: CategoryType) =>
+  updateCategory: ({ categoryId, title, thumbnail, shared }: UpdateCategoryType) =>
     authInstance.put<never, CategoryType>(`/api/v1/categories/${categoryId}`, {
       title,
       thumbnail,

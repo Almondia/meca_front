@@ -1,6 +1,6 @@
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import categoryApi, { PrivateCategoriesResponse } from '@/apis/categoryApi';
+import categoryApi, { PrivateCategoriesResponse, UpdateCategoryType } from '@/apis/categoryApi';
 import utilApi from '@/apis/utilApi';
 import queryKey from '@/query/queryKey';
 import { CategoryType } from '@/types/domain';
@@ -11,7 +11,7 @@ const useCategoryUpdate = () => {
   const { mutate: updateCategory, isSuccess } = useMutation<
     CategoryType,
     unknown,
-    CategoryType & { prevShared: boolean }
+    UpdateCategoryType & { prevShared: boolean }
   >(
     ({ categoryId, title, thumbnail, shared }) => categoryApi.updateCategory({ categoryId, title, thumbnail, shared }),
     {
