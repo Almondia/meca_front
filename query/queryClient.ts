@@ -20,6 +20,8 @@ export function generateQueryClient(): QueryClient {
       },
       mutations: {
         onError: queryErrorHandler,
+        mutationKey: ['default'],
+        cacheTime: 0,
       },
     },
   });

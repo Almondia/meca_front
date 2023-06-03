@@ -7,7 +7,7 @@ import alertToast from '@/utils/toastHandler';
 
 const useProfileUpdate = () => {
   const queryClient = useQueryClient();
-  const { mutate: updateProfile } = useMutation(userApi.updateProfile, {
+  const { mutate: updateProfile } = useMutation(['updateuser'], userApi.updateProfile, {
     onMutate: async ({ name, profile }) => {
       await queryClient.cancelQueries({ queryKey: [queryKey.me] });
       const previousUser = queryClient.getQueryData<MyProfile>([queryKey.me]);

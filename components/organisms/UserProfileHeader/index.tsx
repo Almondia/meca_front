@@ -63,7 +63,7 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
     if (nameInput.length > 20) {
       return;
     }
-    updateProfile({ name: nameInput || name });
+    name !== nameInput && updateProfile({ name: nameInput || name });
     setIsNameChangeClicked(false);
   };
 
