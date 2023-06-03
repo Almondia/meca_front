@@ -33,7 +33,7 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
     },
     {
       enabled: isEnabled,
-      getNextPageParam: (lastPage) => lastPage.hasNext,
+      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
 

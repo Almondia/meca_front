@@ -15,7 +15,7 @@ const useMecaHistory = (keyId: 'cardId' | 'memberId', id: string) => {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery([queryKey.history, id], ({ pageParam }) => QUERY_FN[keyId]({ id, hasNext: pageParam }), {
-    getNextPageParam: (lastPage) => lastPage.hasNext,
+    getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
   });
 
   return { cardHistoryList, isLoading, hasNextPage, fetchNextPage };

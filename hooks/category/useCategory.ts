@@ -24,7 +24,7 @@ const useCategory = () => {
     },
     {
       enabled: hasAuth,
-      getNextPageParam: (lastPage) => lastPage.hasNext,
+      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
 
