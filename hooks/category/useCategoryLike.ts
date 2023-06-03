@@ -32,16 +32,20 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
     },
   );
 
-  const { mutate } = useMutation(data.hasLike ? categoryApi.postCategoryUnlike : categoryApi.postCategoryLike, {
-    onSuccess: ({ hasLike, count }) => {
-      queryClient.setQueryData<LikeQueryType>([queryKey.categories, categoryId, 'like'], (prev) => {
-        if (!prev) {
-          return prev;
-        }
-        return { hasLike, likeCount: prev.likeCount + count };
-      });
+  const { mutate } = useMutation(
+    ['updateCategoryLike'],
+    data.hasLike ? categoryApi.postCategoryUnlike : categoryApi.postCategoryLike,
+    {
+      onSuccess: ({ hasLike, count }) => {
+        queryClient.setQueryData<LikeQueryType>([queryKey.categories, categoryId, 'like'], (prev) => {
+          if (!prev) {
+            return prev;
+          }
+          return { hasLike, likeCount: prev.likeCount + count };
+        });
+      },
     },
-  });
+  );
 
   const postLike = () => {
     if (!hasAuth) {

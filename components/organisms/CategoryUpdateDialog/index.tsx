@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
 import InputGroup from '@/components/molcules/InputGroup';
@@ -7,6 +7,7 @@ import ThumbnailUploader from '@/components/molcules/ThumbnailUploader';
 import useCategoryPost from '@/hooks/category/useCategoryPost';
 import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
 import useFetchImage from '@/hooks/useFetchImage';
+import useGlobalLoading from '@/hooks/useGlobalLoading';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
@@ -33,10 +34,14 @@ const CategoryUpdateDialog = ({
   const { uploadImage } = useFetchImage();
   const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
   const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
+  const { asyncCallbackLoader } = useGlobalLoading();
 
-  if (isUpdateSuccess || isPostSuccess) {
-    onClose();
-  }
+  useEffect(() => {
+    if (isUpdateSuccess || isPostSuccess) {
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateSuccess, isPostSuccess]);
 
   const getUploadedThumbnail = useCallback(async () => {
     let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
@@ -65,7 +70,7 @@ const CategoryUpdateDialog = ({
       onClose();
       return;
     }
-    const requestedThumbnail = await getUploadedThumbnail();
+    const requestedThumbnail = await asyncCallbackLoader<string | undefined>(getUploadedThumbnail);
     if (requestedThumbnail === undefined) {
       return;
     }

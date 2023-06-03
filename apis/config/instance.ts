@@ -14,9 +14,9 @@ export interface AxiosErrorResponse {
 export type ServerRequestType = { cookies: Partial<{ [key: string]: string }> } | NextApiRequest;
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
-const unauthInstance = axios.create({ baseURL });
-const authInstance = axios.create({ baseURL });
-const serverInstance = axios.create({ baseURL: '' });
+const unauthInstance = axios.create({ baseURL, timeout: 8000 });
+const authInstance = axios.create({ baseURL, timeout: 8000 });
+const serverInstance = axios.create({ baseURL: '', timeout: 8000 });
 
 let request = <ServerRequestType>{};
 let accessTokenInstace = '';
@@ -41,8 +41,8 @@ function getObject(response: AxiosResponse) {
 
 function genErrorResponse(error: any) {
   const errorResponse = {
-    ...error.response.data,
-    status: error.response.status,
+    ...error.response?.data,
+    status: error.response?.status,
   };
   return Promise.reject(errorResponse);
 }
