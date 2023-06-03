@@ -25,7 +25,7 @@ const useSharedCategory = () => {
     },
     {
       enabled: true,
-      getNextPageParam: (lastPage) => lastPage.hasNext,
+      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
 

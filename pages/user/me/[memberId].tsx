@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     [queryKey.history, memberId],
     () => cardHistoryApi.getHistoriesByMemberId({ id: memberId }),
     {
-      getNextPageParam: (lastPage) => lastPage.hasNext,
+      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
   context.res.setHeader('Cache-Control', 'public, max-age=1, stale-while-revalidate=179');

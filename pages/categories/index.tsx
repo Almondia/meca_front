@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (_, queryC
       return { ...categoryList, contents: categoryListContentWithBlurURL };
     },
     {
-      getNextPageParam: (lastPage) => lastPage.hasNext,
+      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
 });
