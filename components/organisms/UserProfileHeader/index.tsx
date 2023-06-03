@@ -38,7 +38,10 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
       return;
     }
     (async () => {
-      const newProfile = await uploadImage({ purpose: 'profile', extension: 'png', fileName: memberId }, image);
+      const newProfile = await uploadImage(
+        { purpose: 'profile', extension: 'png', fileName: Date.now().toString() },
+        image,
+      );
       newProfile && updateProfile({ profile: getRemoteImageUrl(newProfile) });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

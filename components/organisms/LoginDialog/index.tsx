@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Logo from '@/components/atoms/Logo';
 import Icon from '@/components/common/Icon';
 import Modal from '@/components/molcules/Modal';
+import useGlobalLoading from '@/hooks/useGlobalLoading';
 import { HiddenText, TextBodyTitle, TextCaption } from '@/styles/common';
 import { DefaultModalOptions } from '@/types/common';
 
@@ -10,7 +11,9 @@ import { SocialButton, SocialButtonContainer } from './styled';
 
 const LoginDialog = ({ visible, onClose }: DefaultModalOptions) => {
   const router = useRouter();
+  const { startLoading } = useGlobalLoading();
   const handleLogin = (envValue?: string) => {
+    startLoading();
     router.push(envValue ?? '/');
   };
   return (
