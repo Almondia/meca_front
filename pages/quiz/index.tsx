@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -9,6 +10,7 @@ import styled from 'styled-components';
 
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import CountIndicator from '@/components/atoms/CountIndicator';
+import LinkButton from '@/components/atoms/LinkButton';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import useCount from '@/hooks/useCount';
@@ -36,6 +38,7 @@ const QuizTitleBox = styled.div`
 type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhaseType, QuizSucceedType>, 'result'>;
 
 const QuizPage = () => {
+  const router = useRouter();
   const quizTitle = useRecoilValue(quizTitleState);
   const quizPhaseTime = useRecoilValue(quizTimeState);
   const { quizList, solveQuiz, applyQuizResult, clearQuizPhase } = useQuizResult();
@@ -55,7 +58,8 @@ const QuizPage = () => {
         return;
       }
       setQuizPhase(round === quizList.length ? 'end' : 'done');
-      await solveQuiz(quizList[quizIndex].cardId, quizSpendTimeRef.current, answer);
+      // quizList[quizIndex].cardId, quizSpendTimeRef.current, answer
+      solveQuiz({ cardId: quizList[quizIndex].cardId, spendTime: quizSpendTimeRef.current, answer });
     },
     [round, quizIndex],
   );
@@ -119,7 +123,9 @@ const QuizPage = () => {
       <PostSection>
         <QuizTitleBox>
           <PageTitle>{quizTitle}</PageTitle>
-          <Link href="/categories">목록으로</Link>
+          <LinkButton onClick={() => router.back()} textSize="main">
+            목록으로
+          </LinkButton>
         </QuizTitleBox>
         <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
       </PostSection>
