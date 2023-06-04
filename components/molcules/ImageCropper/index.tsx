@@ -36,7 +36,7 @@ const ImageCropper = ({
   const handleCrop = useCallback(() => {
     if (cropperRef.current) {
       const croppedCanvas = cropperRef.current.cropper.getCroppedCanvas();
-      const width = document.querySelector<HTMLElement>('.cropper-face')?.offsetWidth ?? croppedCanvas.height / 2;
+      const width = document.querySelector<HTMLElement>('.cropper-face')?.offsetWidth ?? croppedCanvas.width / 2;
       const height = document.querySelector<HTMLElement>('.cropper-face')?.offsetHeight ?? croppedCanvas.height / 2;
       croppedCanvas.toBlob((blob) => {
         if (!blob) {
@@ -74,8 +74,8 @@ const ImageCropper = ({
                 <Button
                   colorTheme="cancel"
                   onClick={() => {
-                    setIsPreviewState((prev) => !prev);
                     handleCrop();
+                    setIsPreviewState((prev) => !prev);
                   }}
                 >
                   자르기
