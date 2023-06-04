@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   const { urls }: { urls: string[] } = await req.body;
   urls.forEach((url) => {
-    res.revalidate(url);
+    res.revalidate(url, { unstable_onlyGenerated: true });
   });
   res.status(200).json({ revalidated: true });
 }

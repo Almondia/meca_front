@@ -72,7 +72,19 @@ describe('middleware', () => {
     expect(response.headers.get('x-middleware-rewrite')).toBe('http://localhost:3000/user/me/' + memberId);
   });
 
-  it.each([['/mecas/me/abc123-abc123', '/user/me?abc=123', '/user/me']])(
+  it('내 Category 목록 요청 시 해당 페이지로 rewrite 되어야 한다.', () => {
+    const memberId = '01879c33-ebf3-6056-952f-d6d831d4b0bb';
+    const jwt =
+      'eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjAxODc5YzMzLWViZjMtNjA1Ni05NTJmLWQ2ZDgzMWQ0YjBiYiIsImV4cCI6MTY4MjAzOTI2MX0.5h4MeDu94mJIfNU3wvCODZYw1dWxJgrruFAkFdjNiYJlpwOm7WPBawo3Y76crwfrKXuo8D1LiDrc90Ys12l2Qg';
+    (mockNextRequest.cookies.get as jest.Mock).mockReturnValue({ value: jwt });
+    mockNextRequest.nextUrl.pathname = '/categories';
+    const response = middleware(mockNextRequest);
+    expect(response.status).toBe(200);
+    expect(response.headers.get('x-middleware-next')).toBeFalsy();
+    expect(response.headers.get('x-middleware-rewrite')).toBe('http://localhost:3000/categories/me/' + memberId);
+  });
+
+  it.each([['/mecas/me/abc123-abc123', '/user/me?abc=123', '/user/me', '/categories/me/ab1234-abc116', '/categories/me']])(
     'Private Path에 직접 접근한다면 404 페이지로 rewrite된다.',
     (requestUrl: string) => {
       mockNextRequest.nextUrl.pathname = requestUrl;

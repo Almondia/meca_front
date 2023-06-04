@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import dynamic from 'next/dynamic';
 
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 import LinkButton from '@/components/atoms/LinkButton';
 import Icon from '@/components/common/Icon';
@@ -14,12 +14,12 @@ const ImageCropper = dynamic(() => import('../ImageCropper'));
 
 export interface ThumbnailUploaderProps {
   image?: string | File;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSetImage: (image: File) => void;
   onDelete: () => void;
   onUpload: () => void;
 }
 
-const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUploaderProps) => {
+const ThumbnailUploader = ({ image, onSetImage, onDelete, onUpload }: ThumbnailUploaderProps) => {
   const [currentImage, setCurrentImage] = useState<string | File | undefined>();
   const { visible: isCropperVisible, close: onCloseCropper, open: onOpenCropper } = useModal();
 
@@ -27,35 +27,28 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
     setCurrentImage(image);
   }, [image]);
 
-  const setImage = (newImage: File) => {
-    setCurrentImage(newImage);
-    const event = new CustomEvent<HTMLInputElement>('change') as unknown as React.ChangeEvent<HTMLInputElement>;
-    Object.defineProperty(event, 'target', {
-      value: {
-        files: [newImage],
-      },
-    });
-    onChange(event);
-  };
+  const genVisibleImageUrl = useCallback(
+    (urlOrFileImage: File | string) =>
+      typeof urlOrFileImage === 'string' ? getRemoteImageUrl(urlOrFileImage) : URL.createObjectURL(urlOrFileImage),
+    [],
+  );
 
   return (
     <>
       {currentImage && (
         <>
           <ThumbnailChangeBox>
-            <LinkButton onClick={onOpenCropper}>리사이징</LinkButton>
+            <LinkButton onClick={onOpenCropper}>편집</LinkButton>
             <LinkButton onClick={onUpload}>재업로드</LinkButton>
             <LinkButton onClick={onDelete}>제거</LinkButton>
           </ThumbnailChangeBox>
           {isCropperVisible && (
             <ImageCropper
-              image={
-                typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage)
-              }
-              setImage={setImage}
-              isCropBoxResizable={false}
-              minCropBoxHeight={150}
-              minCropBoxWidth={300}
+              image={genVisibleImageUrl(currentImage)}
+              setImage={onSetImage}
+              isCropBoxRatioChangeable={false}
+              minCropBoxHeight={75}
+              minCropBoxWidth={150}
               onClose={onCloseCropper}
             />
           )}
@@ -63,12 +56,7 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
       )}
       <ThumbnailUploaderWrapper>
         {currentImage ? (
-          <ThumbnailImageContainer
-            data-testid="id-thumbnail-background"
-            image={
-              typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage)
-            }
-          />
+          <ThumbnailImageContainer data-testid="id-thumbnail-background" image={genVisibleImageUrl(currentImage)} />
         ) : (
           <ThumbnailUploadButton onClick={onUpload}>
             <Icon size="30px" icon="Logo" color="var(--color-gray)" />

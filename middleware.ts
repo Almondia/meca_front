@@ -7,10 +7,10 @@ const AUTH_PATHS = ['/write', '/quiz', '/mypage'] as const;
 
 const PRIVATE_PATH_MATCHER = /\/[a-z]+\/me\//;
 
-function getCurrentUserMecaId(token: string, pathname: string) {
+function getCurrentUserMecaId(pathname: string, payloadUserId?: string) {
   const combinedUUId = pathname.split('/')[2];
   const { uuid1: memberId, uuid2 } = extractCombinedUUID(combinedUUId);
-  if (memberId && getJWTPayload(token, 'id') === memberId) {
+  if (memberId && payloadUserId === memberId) {
     return uuid2;
   }
   return undefined;
@@ -34,22 +34,30 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
   }
 
+  const userId = getJWTPayload(accessToken, 'id');
+
   if (request.nextUrl.pathname.startsWith('/mecas/')) {
-    const requestId = getCurrentUserMecaId(accessToken, request.nextUrl.pathname);
+    const requestId = getCurrentUserMecaId(request.nextUrl.pathname, userId);
     return requestId
       ? NextResponse.rewrite(new URL(`/mecas/me/${requestId}`, request.nextUrl.origin))
       : NextResponse.next();
   }
 
   if (request.nextUrl.pathname.startsWith('/mypage')) {
-    const userId = getJWTPayload(accessToken, 'id');
     return userId
       ? NextResponse.rewrite(new URL(`/user/me/${userId}`, request.nextUrl.origin))
       : NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
   }
+
+  if (request.nextUrl.pathname === '/categories') {
+    return userId
+      ? NextResponse.rewrite(new URL(`/categories/me/${userId}`, request.nextUrl.origin))
+      : NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/mecas/:path*', '/:path*/write/:path*', '/quiz', '/mypage', '/:path/me/:path*'],
+  matcher: ['/mecas/:path*', '/:path*/write/:path*', '/quiz', '/mypage', '/:path/me/:path*', '/categories'],
 };
