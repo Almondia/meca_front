@@ -22,9 +22,9 @@ const useImage = (initalImage: string | undefined) => {
     setImage('');
   }, []);
 
-  const onUploadLocalImage = () => {
+  const onUploadLocalImage = useCallback(() => {
     hiddenImageRef.current?.click();
-  };
+  }, []);
 
   useEffect(() => {
     const imageInputElement = document.createElement('input');
