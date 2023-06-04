@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { FlexCenter, FlexSpaceBetween } from '@/styles/layout';
 
-export const ImageCropperWrapper = styled.div`
+export const ImageCropperWrapper = styled.div<{ roundness: string }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -65,6 +65,11 @@ export const ImageCropperWrapper = styled.div`
     outline-color: rgba(51, 153, 255, 0.75);
     overflow: hidden;
     width: 100%;
+  }
+
+  .cropper-crop-box,
+  .cropper-view-box {
+    border-radius: ${(props) => props.roundness};
   }
 
   .cropper-dashed {
@@ -227,26 +232,8 @@ export const ImageCropperWrapper = styled.div`
     &.point-se {
       bottom: -3px;
       cursor: nwse-resize;
-      height: 20px;
       opacity: 1;
       right: -3px;
-      width: 20px;
-
-      @media (min-width: 768px) {
-        height: 15px;
-        width: 15px;
-      }
-
-      @media (min-width: 992px) {
-        height: 10px;
-        width: 10px;
-      }
-
-      @media (min-width: 1200px) {
-        height: 5px;
-        opacity: 0.75;
-        width: 5px;
-      }
     }
 
     &.point-se::before {
