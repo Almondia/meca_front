@@ -6,6 +6,7 @@ import Cropper, { ReactCropperElement } from 'react-cropper';
 import { createPortal } from 'react-dom';
 
 import Button from '@/components/atoms/Button';
+import { ElementSizeType } from '@/types/common';
 import alertToast from '@/utils/toastHandler';
 
 import { CropPreviewContainer, CropSideContainer, ImageCropperWrapper } from './styled';
@@ -13,19 +14,21 @@ import { CropPreviewContainer, CropSideContainer, ImageCropperWrapper } from './
 export interface ImageCropperProps {
   image: string;
   setImage: (image: File) => void;
-  isCropBoxResizable: boolean;
+  isCropBoxRatioChangeable: boolean;
   minCropBoxWidth?: number;
   minCropBoxHeight?: number;
+  roundness?: ElementSizeType;
   onClose: () => void;
 }
 
 const ImageCropper = ({
-  onClose,
   image,
   setImage,
-  isCropBoxResizable,
+  isCropBoxRatioChangeable,
   minCropBoxWidth = 20,
   minCropBoxHeight = 20,
+  roundness = '0px',
+  onClose,
 }: ImageCropperProps) => {
   const cropperRef = useRef<ReactCropperElement>(null);
   const [cropData, setCropData] = useState<File>();
@@ -36,7 +39,7 @@ const ImageCropper = ({
   const handleCrop = useCallback(() => {
     if (cropperRef.current) {
       const croppedCanvas = cropperRef.current.cropper.getCroppedCanvas();
-      const width = document.querySelector<HTMLElement>('.cropper-face')?.offsetWidth ?? croppedCanvas.height / 2;
+      const width = document.querySelector<HTMLElement>('.cropper-face')?.offsetWidth ?? croppedCanvas.width / 2;
       const height = document.querySelector<HTMLElement>('.cropper-face')?.offsetHeight ?? croppedCanvas.height / 2;
       croppedCanvas.toBlob((blob) => {
         if (!blob) {
@@ -66,7 +69,7 @@ const ImageCropper = ({
   return (
     <>
       {createPortal(
-        <ImageCropperWrapper>
+        <ImageCropperWrapper roundness={roundness}>
           <div>
             <CropSideContainer>
               <div>&nbsp;</div>
@@ -74,8 +77,8 @@ const ImageCropper = ({
                 <Button
                   colorTheme="cancel"
                   onClick={() => {
-                    setIsPreviewState((prev) => !prev);
                     handleCrop();
+                    setIsPreviewState((prev) => !prev);
                   }}
                 >
                   자르기
@@ -95,13 +98,13 @@ const ImageCropper = ({
               ref={cropperRef}
               src={image}
               style={{ opacity: isPreviewState ? '0' : '1' }}
-              zoomTo={0.5}
+              zoomTo={0.7}
               viewMode={1}
               initialAspectRatio={minCropBoxWidth / minCropBoxHeight}
-              aspectRatio={isCropBoxResizable ? NaN : minCropBoxWidth / minCropBoxHeight}
+              aspectRatio={isCropBoxRatioChangeable ? NaN : minCropBoxWidth / minCropBoxHeight}
               minCropBoxHeight={minCropBoxHeight}
               minCropBoxWidth={minCropBoxWidth}
-              dragMode={isCropBoxResizable ? 'crop' : 'move'}
+              dragMode={isCropBoxRatioChangeable ? 'crop' : 'move'}
               checkOrientation={false}
               guides
               background={false}
@@ -110,7 +113,13 @@ const ImageCropper = ({
             {isPreviewState && (
               <CropPreviewContainer>
                 {cropData && (
-                  <Image alt="preview" src={URL.createObjectURL(cropData)} width={cropWidth} height={cropHeight} />
+                  <Image
+                    alt="preview"
+                    src={URL.createObjectURL(cropData)}
+                    width={cropWidth}
+                    height={cropHeight}
+                    style={{ borderRadius: roundness }}
+                  />
                 )}
               </CropPreviewContainer>
             )}

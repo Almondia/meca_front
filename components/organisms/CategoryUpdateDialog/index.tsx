@@ -29,7 +29,7 @@ const CategoryUpdateDialog = ({
   thumbnail,
 }: CategoryUpdateDialogProps) => {
   const { input: title, onInputChange: onTitleChange } = useInput(categoryTitle);
-  const { image, onChange: onChangeImage, onDelete: onDeleteImage, onUploadLocalImage } = useImage(thumbnail);
+  const { image, onSetFileImage, onDelete: onDeleteImage, onUploadLocalImage } = useImage(thumbnail);
   const [shared, setShared] = useState<boolean>(isShared ?? false);
   const { uploadImage } = useFetchImage();
   const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
@@ -94,7 +94,7 @@ const CategoryUpdateDialog = ({
           <InputGroup.Label>썸네일 업로드</InputGroup.Label>
           <ThumbnailUploader
             image={image}
-            onChange={onChangeImage}
+            onSetImage={onSetFileImage}
             onDelete={onDeleteImage}
             onUpload={onUploadLocalImage}
           />
