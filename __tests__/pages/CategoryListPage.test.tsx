@@ -1,10 +1,13 @@
 import { RecoilObserver, renderQuery } from '../utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { PAGINATION_NUM } from '@/utils/constants';
+import { PAGINATION_NUM, PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import { hasAuthState } from '@/atoms/common';
-import Category, { getServerSideProps } from '@/pages/categories';
+import Category, { getServerSideProps } from '@/pages/categories/me/[memberId]';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
+import { server } from '../__mocks__/msw/server';
+import { rest } from 'msw';
+import { ENDPOINT } from '../__mocks__/msw/handlers';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),
@@ -100,17 +103,43 @@ describe('CategoryListPage', () => {
       jest.clearAllMocks();
     });
     it('인증된 회원 본인의 category 목록 path에 접근하면 정상적으로 동작한다.', async () => {
+      const mockedSetHeader = jest.fn();
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',
       });
       const mockedContext = {
-        req: {
-          url: '/categories',
+        res: {
+          setHeader: mockedSetHeader,
         },
-        res: {},
       } as unknown as GetServerSidePropsContext;
-      const props = (await getServerSideProps(mockedContext)) as any;
-      expect(props?.redirect).toBeUndefined();
+      const { props } = (await getServerSideProps(mockedContext)) as any;
+      expect(props).toHaveProperty('dehydratedState');
+      expect(mockedSetHeader).toHaveBeenCalledWith('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
+    });
+
+    it('회원 category 목록 조회에 실패하면 빈 목록이 식별된다.', async () => {
+      const mockedSetHeader = jest.fn();
+      (nookies.get as jest.Mock).mockReturnValue({
+        accessToken: 'token',
+      });
+      server.use(
+        rest.get(`${ENDPOINT}/categories/me`, (req, res, ctx) => {
+          const hasNext = req.url.searchParams.get('hasNext');
+          const pageSize = req.url.searchParams.get('pageSize');
+          return res(ctx.status(400), ctx.json({ message: 'bad-request', status: 400 }));
+        }),
+      );
+      const mockedContext = {
+        res: {
+          setHeader: mockedSetHeader,
+        },
+      } as unknown as GetServerSidePropsContext;
+      const { props } = (await getServerSideProps(mockedContext)) as any;
+      expect(props).toHaveProperty('dehydratedState');
+      expect(mockedSetHeader).not.toHaveBeenCalled();
+      renderQuery(<Category />, undefined, undefined, props.dehydratedState);
+      const emptyListText = screen.getByText('목록이 존재하지 않습니다');
+      expect(emptyListText).toBeInTheDocument();
     });
   });
 });

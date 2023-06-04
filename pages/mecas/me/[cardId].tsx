@@ -18,6 +18,7 @@ import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';
+import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
 
@@ -74,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     throw { message: '잘못된 요청' };
   }
   const meca = await queryClient.fetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId));
-  context.res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate=59');
+  context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   return {
     cardId,
     categoryId: meca.categoryId,

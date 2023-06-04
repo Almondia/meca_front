@@ -14,6 +14,7 @@ import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { TextCaption } from '@/styles/common';
 import { Devide, PostSection } from '@/styles/layout';
+import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const NotFound = dynamic(() => import('@/pages/404'), { ssr: false });
 
@@ -78,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
-  context.res.setHeader('Cache-Control', 'public, max-age=1, stale-while-revalidate=179');
+  context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   return {
     memberId,
   };

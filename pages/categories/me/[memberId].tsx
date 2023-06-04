@@ -12,6 +12,7 @@ import useCategory from '@/hooks/category/useCategory';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
+import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 
 const Category = () => {
@@ -29,7 +30,7 @@ const Category = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = ssrAspect(async (_, queryClient) => {
+export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   await queryClient.prefetchInfiniteQuery(
     [queryKey.categories, 'me'],
     async () => {
@@ -50,6 +51,10 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (_, queryC
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
+  const categoryList = queryClient.getQueryData([queryKey.categories, 'me']);
+  if (categoryList) {
+    context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
+  }
 });
 
 export default Category;

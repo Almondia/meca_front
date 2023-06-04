@@ -46,27 +46,34 @@ const useQuizResult = () => {
     }
   }, []);
 
-  const solveQuiz = async (cardId: string, spendTime: number, answer?: string) => {
-    if (!quizList) {
-      return;
-    }
-    const solvedQuizList = await Promise.all(
-      quizList.map(async (quiz) =>
-        quiz.cardId === cardId
-          ? {
-              ...quiz,
-              result: {
-                cardId,
-                userAnswer: answer ?? '',
-                score: answer ? await applyScore(answer, quiz.answer) : 0,
-                spendTime,
-              },
-            }
-          : quiz,
-      ),
-    );
-    queryClient.setQueryData([queryKey.quiz], solvedQuizList);
-  };
+  const { mutate: solveQuiz } = useMutation<any, never, { cardId: string; spendTime: number; answer?: string }>(
+    async ({ cardId, spendTime, answer }) => {
+      if (!quizList) {
+        return quizList;
+      }
+      const solvedQuizList = await Promise.all(
+        quizList.map(async (quiz) =>
+          quiz.cardId === cardId
+            ? {
+                ...quiz,
+                result: {
+                  cardId,
+                  userAnswer: answer ?? '',
+                  score: answer ? await applyScore(answer, quiz.answer) : 0,
+                  spendTime,
+                },
+              }
+            : quiz,
+        ),
+      );
+      return solvedQuizList;
+    },
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData([queryKey.quiz], data);
+      },
+    },
+  );
 
   const getQuizTypeRateResult = () => {
     // TODO: 주관식 문제 구현되면 filter 삭제
