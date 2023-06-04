@@ -26,6 +26,17 @@ const useImage = (initalImage: string | undefined) => {
     hiddenImageRef.current?.click();
   }, []);
 
+  const onSetFileImage = useCallback((newImage: File) => {
+    const event = new CustomEvent<HTMLInputElement>('change') as unknown as React.ChangeEvent<HTMLInputElement>;
+    Object.defineProperty(event, 'target', {
+      value: {
+        files: [newImage],
+      },
+    });
+    onChange(event);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     const imageInputElement = document.createElement('input');
     imageInputElement.setAttribute('type', 'file');
@@ -42,7 +53,7 @@ const useImage = (initalImage: string | undefined) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { hiddenImageRef, image, onChange, onDelete, onUploadLocalImage };
+  return { hiddenImageRef, image, onChange, onDelete, onUploadLocalImage, onSetFileImage };
 };
 
 export default useImage;

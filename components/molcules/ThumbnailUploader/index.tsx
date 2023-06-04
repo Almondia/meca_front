@@ -14,29 +14,18 @@ const ImageCropper = dynamic(() => import('../ImageCropper'));
 
 export interface ThumbnailUploaderProps {
   image?: string | File;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSetImage: (image: File) => void;
   onDelete: () => void;
   onUpload: () => void;
 }
 
-const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUploaderProps) => {
+const ThumbnailUploader = ({ image, onSetImage, onDelete, onUpload }: ThumbnailUploaderProps) => {
   const [currentImage, setCurrentImage] = useState<string | File | undefined>();
   const { visible: isCropperVisible, close: onCloseCropper, open: onOpenCropper } = useModal();
 
   useEffect(() => {
     setCurrentImage(image);
   }, [image]);
-
-  const setImage = (newImage: File) => {
-    setCurrentImage(newImage);
-    const event = new CustomEvent<HTMLInputElement>('change') as unknown as React.ChangeEvent<HTMLInputElement>;
-    Object.defineProperty(event, 'target', {
-      value: {
-        files: [newImage],
-      },
-    });
-    onChange(event);
-  };
 
   const genVisibleImageUrl = useCallback(
     (urlOrFileImage: File | string) =>
@@ -56,8 +45,8 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
           {isCropperVisible && (
             <ImageCropper
               image={genVisibleImageUrl(currentImage)}
-              setImage={setImage}
-              isCropBoxResizable={false}
+              setImage={onSetImage}
+              isCropBoxRatioChangeable={false}
               minCropBoxHeight={75}
               minCropBoxWidth={150}
               onClose={onCloseCropper}

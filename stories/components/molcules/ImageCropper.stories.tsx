@@ -15,7 +15,7 @@ const Template: ComponentStory<typeof ImageCropper> = (args: ImageCropperProps) 
 export const Default = Template.bind({});
 Default.args = {
   image: 'https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg',
-  isCropBoxResizable: true,
+  isCropBoxRatioChangeable: true,
   minCropBoxWidth: 40,
   minCropBoxHeight: 100,
 };

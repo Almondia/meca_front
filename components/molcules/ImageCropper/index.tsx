@@ -13,7 +13,7 @@ import { CropPreviewContainer, CropSideContainer, ImageCropperWrapper } from './
 export interface ImageCropperProps {
   image: string;
   setImage: (image: File) => void;
-  isCropBoxResizable: boolean;
+  isCropBoxRatioChangeable: boolean;
   minCropBoxWidth?: number;
   minCropBoxHeight?: number;
   onClose: () => void;
@@ -23,7 +23,7 @@ const ImageCropper = ({
   onClose,
   image,
   setImage,
-  isCropBoxResizable,
+  isCropBoxRatioChangeable,
   minCropBoxWidth = 20,
   minCropBoxHeight = 20,
 }: ImageCropperProps) => {
@@ -98,10 +98,10 @@ const ImageCropper = ({
               zoomTo={0.5}
               viewMode={1}
               initialAspectRatio={minCropBoxWidth / minCropBoxHeight}
-              aspectRatio={isCropBoxResizable ? NaN : minCropBoxWidth / minCropBoxHeight}
+              aspectRatio={isCropBoxRatioChangeable ? NaN : minCropBoxWidth / minCropBoxHeight}
               minCropBoxHeight={minCropBoxHeight}
               minCropBoxWidth={minCropBoxWidth}
-              dragMode={isCropBoxResizable ? 'crop' : 'move'}
+              dragMode={isCropBoxRatioChangeable ? 'crop' : 'move'}
               checkOrientation={false}
               guides
               background={false}
