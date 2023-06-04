@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import dynamic from 'next/dynamic';
 
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 import LinkButton from '@/components/atoms/LinkButton';
 import Icon from '@/components/common/Icon';
@@ -38,6 +38,12 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
     onChange(event);
   };
 
+  const genVisibleImageUrl = useCallback(
+    (urlOrFileImage: File | string) =>
+      typeof urlOrFileImage === 'string' ? getRemoteImageUrl(urlOrFileImage) : URL.createObjectURL(urlOrFileImage),
+    [],
+  );
+
   return (
     <>
       {currentImage && (
@@ -49,9 +55,7 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
           </ThumbnailChangeBox>
           {isCropperVisible && (
             <ImageCropper
-              image={
-                typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage)
-              }
+              image={genVisibleImageUrl(currentImage)}
               setImage={setImage}
               isCropBoxResizable={false}
               minCropBoxHeight={150}
@@ -63,12 +67,7 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
       )}
       <ThumbnailUploaderWrapper>
         {currentImage ? (
-          <ThumbnailImageContainer
-            data-testid="id-thumbnail-background"
-            image={
-              typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage)
-            }
-          />
+          <ThumbnailImageContainer data-testid="id-thumbnail-background" image={genVisibleImageUrl(currentImage)} />
         ) : (
           <ThumbnailUploadButton onClick={onUpload}>
             <Icon size="30px" icon="Logo" color="var(--color-gray)" />
