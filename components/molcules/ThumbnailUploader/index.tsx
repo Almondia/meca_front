@@ -49,7 +49,7 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
       {currentImage && (
         <>
           <ThumbnailChangeBox>
-            <LinkButton onClick={onOpenCropper}>리사이징</LinkButton>
+            <LinkButton onClick={onOpenCropper}>편집</LinkButton>
             <LinkButton onClick={onUpload}>재업로드</LinkButton>
             <LinkButton onClick={onDelete}>제거</LinkButton>
           </ThumbnailChangeBox>
@@ -58,8 +58,8 @@ const ThumbnailUploader = ({ image, onChange, onDelete, onUpload }: ThumbnailUpl
               image={genVisibleImageUrl(currentImage)}
               setImage={setImage}
               isCropBoxResizable={false}
-              minCropBoxHeight={150}
-              minCropBoxWidth={300}
+              minCropBoxHeight={75}
+              minCropBoxWidth={150}
               onClose={onCloseCropper}
             />
           )}

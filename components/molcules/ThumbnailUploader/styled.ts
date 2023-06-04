@@ -46,8 +46,9 @@ export const ThumbnailImageContainer = styled(ThumbnailUploadButton.withComponen
 
 export const ThumbnailChangeBox = styled.div`
   ${FlexCenter};
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: 4px;
+  margin-left: 4px;
   max-width: 140px;
   column-gap: 10px;
 `;
