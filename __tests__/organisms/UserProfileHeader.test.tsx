@@ -61,7 +61,7 @@ describe('UserProfileHeader', () => {
     renderQuery(<UserProfileHeaderWrapper />, undefined, queryClient);
     const avatar = screen.getByRole('img', { name: `${USER.memberId}-avatar` }) as HTMLImageElement;
     expect(avatar.src).toContain('noimage.png');
-    const imageDeleteButton = screen.getByRole('button', { name: '제거하기' });
+    const imageDeleteButton = screen.getByRole('button', { name: '제거' });
     fireEvent.click(imageDeleteButton);
     await waitFor(() => {
       const changedAvatar = screen.getByRole('img', { name: `${USER.memberId}-avatar` }) as HTMLImageElement;

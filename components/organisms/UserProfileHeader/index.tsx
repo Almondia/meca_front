@@ -1,13 +1,15 @@
 /* eslint-disable react/button-has-type */
+import dynamic from 'next/dynamic';
+
 import { useEffect, useState } from 'react';
 
 import Avatar from '@/components/atoms/Avatar';
-import Input from '@/components/atoms/Input';
 import LinkButton from '@/components/atoms/LinkButton';
 import InputGroup from '@/components/molcules/InputGroup';
 import useFetchImage from '@/hooks/useFetchImage';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
+import useModal from '@/hooks/useModal';
 import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 import { UserProfile as UserProfileType } from '@/types/domain';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
@@ -20,6 +22,8 @@ import {
   UserProfileWrapper,
 } from './styled';
 
+const ImageCropper = dynamic(() => import('@/components/molcules/ImageCropper'));
+
 // TODO: 본인 외 사용자 조회가 있다면 리팩터링
 export interface UserProfileProps extends UserProfileType {
   isMe?: boolean;
@@ -29,9 +33,10 @@ export interface UserProfileProps extends UserProfileType {
 const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) => {
   const [isNameChangeClicked, setIsNameChangeClicked] = useState(false);
   const { updateProfile } = useProfileUpdate();
-  const { image, onUploadLocalImage, onDelete: onDeleteImage } = useImage(profile);
+  const { image, onUploadLocalImage, onDelete: onDeleteImage, onSetFileImage } = useImage(profile);
   const { uploadImage } = useFetchImage();
   const { input: nameInput, onInputChange: nameInputChange } = useInput(name);
+  const { visible: isImageCropperVisible, open: openImageCropper, close: closeImageCropper } = useModal();
 
   useEffect(() => {
     if (!image || typeof image === 'string') {
@@ -72,9 +77,21 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
       <UserProfileAvatarContainer>
         <Avatar imgSrc={profile} imgName={memberId} imgSize={120} />
         <div>
-          <LinkButton onClick={onUploadLocalImage}>업로드</LinkButton>
-          <LinkButton onClick={handleProfileImageDelete}>제거하기</LinkButton>
+          <LinkButton onClick={onUploadLocalImage}>등록</LinkButton>
+          <LinkButton onClick={handleProfileImageDelete}>제거</LinkButton>
+          <LinkButton onClick={openImageCropper}>편집</LinkButton>
         </div>
+        {isImageCropperVisible && image && (
+          <ImageCropper
+            isCropBoxRatioChangeable={false}
+            onClose={closeImageCropper}
+            image={typeof image === 'string' ? image : URL.createObjectURL(image)}
+            setImage={onSetFileImage}
+            minCropBoxWidth={36}
+            minCropBoxHeight={36}
+            roundness="100%"
+          />
+        )}
       </UserProfileAvatarContainer>
       <UserProfileInfoContainer>
         {!isNameChangeClicked ? (
@@ -82,7 +99,7 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
         ) : (
           <UserProfileNameChangeBox>
             <InputGroup>
-              <Input.Title
+              <InputGroup.Input.Title
                 name="input-name"
                 ariaLabel="id-input-name"
                 value={nameInput}
