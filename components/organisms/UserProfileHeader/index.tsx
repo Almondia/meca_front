@@ -78,8 +78,8 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
         <Avatar imgSrc={profile} imgName={memberId} imgSize={120} />
         <div>
           <LinkButton onClick={onUploadLocalImage}>등록</LinkButton>
-          <LinkButton onClick={handleProfileImageDelete}>제거</LinkButton>
-          <LinkButton onClick={openImageCropper}>편집</LinkButton>
+          {profile && <LinkButton onClick={handleProfileImageDelete}>제거</LinkButton>}
+          {profile && <LinkButton onClick={openImageCropper}>편집</LinkButton>}
         </div>
         {isImageCropperVisible && image && (
           <ImageCropper
