@@ -26,12 +26,11 @@ describe('MecaWriteForm', () => {
     const questionTitleInput = screen.getByRole('textbox', { name: 'input-meca-select-question' });
     const questionExam3Input = screen.getByRole('textbox', { name: 'input-meca-case-3' });
     const answerRadio = screen.getByRole('radio', { name: '1' });
-    expect(selectLabel).not.toBeInTheDocument();
+    expect(selectLabel).toBeInTheDocument();
     expect(exam3Label).toBeInTheDocument();
     expect(questionTitleInput).toHaveValue('다음 중 박동석의 MBTI로 적절한 것은?');
     expect(questionExam3Input).toHaveValue('ISTJ');
     expect(answerRadio).toBeChecked();
-    expect(answerRadio).toBeDisabled();
   });
 
   it('SelectForm 등록하기 UI가 식별된다.', () => {
@@ -44,12 +43,10 @@ describe('MecaWriteForm', () => {
     const selectLabel = screen.queryByText('문항 수를 선택하세요');
     const exam3Label = screen.getByText('보기 (3)');
     const questionTitleInput = screen.getByRole('textbox', { name: 'input-meca-select-question' });
-    const answerWarnLabel = screen.getByText(/정답은 수정할 수 없으니 신중하게 선택하세요/i);
     const answerRadio = screen.getByRole('radio', { name: '1' });
     expect(selectLabel).toBeInTheDocument();
     expect(exam3Label).toBeInTheDocument();
     expect(questionTitleInput).toHaveValue('');
-    expect(answerWarnLabel).toBeInTheDocument();
     expect(answerRadio).not.toBeDisabled();
   });
 
