@@ -3,9 +3,10 @@ import QuizResult from '@/components/organisms/QuizResult';
 import useQuiz from '@/hooks/meca/useQuiz';
 import { QuizType } from '@/types/domain';
 import { screen, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
 import { renderQuery } from '../utils';
-import { server } from '../__mocks__/msw/server';
+import { mockedPostKeywords } from '../__mocks__/msw/api';
+import { restHandler } from '../__mocks__/msw/handlers';
+import { implementServer } from '../__mocks__/msw/server';
 
 const MOCK_QUIZS: QuizType[] = [
   {
@@ -62,11 +63,7 @@ describe('QuizResult', () => {
   it('퀴즈 결과 UI가 식별된다.', async () => {
     (useQuiz as jest.Mock).mockReturnValue({ quizList: MOCK_QUIZS });
     const spyApplyQuizKeywordFn = jest.spyOn(statisticsApi, 'postKeywordBySentence');
-    server.use(
-      rest.post('/api/keyword', (_, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ keywords: { hello: 25, world: 10 } }));
-      }),
-    );
+    implementServer([restHandler(() => mockedPostKeywords({ hello: 25, world: 10 }))]);
     renderQuery(<QuizResult quizList={MOCK_QUIZS} maxQuizTime={20} />);
     const loadSpinner = screen.getByTestId('id-scroll-load-spinner');
     expect(screen.getByRole('heading', { name: 'Quiz Timeline' })).toBeInTheDocument();

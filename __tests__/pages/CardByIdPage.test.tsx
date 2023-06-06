@@ -2,12 +2,12 @@ import { renderQuery } from '../utils';
 import { screen, waitFor } from '@testing-library/react';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { combineUUID } from '@/utils/uuidHandler';
-import { server } from '../__mocks__/msw/server';
-import { rest } from 'msw';
-import { ENDPOINT } from '../__mocks__/msw/handlers';
+import { implementServer, resetServer } from '../__mocks__/msw/server';
+import { restHandler } from '../__mocks__/msw/handlers';
 import nookies from 'nookies';
 import * as SharedCardPage from '@/pages/mecas/[memberCardId]';
 import * as PrivateCardPage from '@/pages/mecas/me/[cardId]';
+import { mockedGetAuthUserdMecaApi, mockedGetSharedMecaApi, mockedGetUserApi } from '../__mocks__/msw/api';
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
@@ -28,6 +28,7 @@ describe('MecaById', () => {
         "cardType": "OX_QUIZ",
   */
     it('존재하는 공유된 단일 카드 페이지가 식별된다.', async () => {
+      implementServer([restHandler(mockedGetSharedMecaApi)]);
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: '',
       });
@@ -51,16 +52,12 @@ describe('MecaById', () => {
     });
 
     it('접근 권한이 없는(비공개인) 공개 카드 요청 시 404 처리된다.', async () => {
+      implementServer([restHandler(mockedGetSharedMecaApi, { status: 403, message: '접근 권한 없음' })]);
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: '',
       });
       const memberId = '0187934c-bd9d-eb51-758f-3b3723a0d3a7';
       const cardId = '0187934d-1046-4527-9fca-e9072ee8f9fe';
-      server.resetHandlers(
-        rest.get(`${ENDPOINT}/cards/:cardId/share`, (_, res, ctx) => {
-          return res(ctx.status(403), ctx.json({ message: '접근 권한 없음', status: 403 }));
-        }),
-      );
       const mockedContext = {
         params: {
           memberCardId: combineUUID(memberId, cardId),
@@ -85,6 +82,9 @@ describe('MecaById', () => {
   });
 
   describe('private Page test', () => {
+    beforeEach(() => {
+      implementServer([restHandler(mockedGetUserApi), restHandler(mockedGetAuthUserdMecaApi)]);
+    });
     afterEach(() => {
       jest.clearAllMocks();
     });
@@ -93,20 +93,6 @@ describe('MecaById', () => {
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',
       });
-      server.use(
-        rest.get(`${ENDPOINT}/members/me`, (_, res, ctx) => {
-          return res(
-            ctx.json({
-              memberId: '0187934c-bd9d-eb51-758f-3b3723a0d3a7',
-              name: '임현규',
-              email: 'abc@abc.com',
-              role: 'USER',
-              oauthType: 'KAKAO',
-              createdAt: '2023-03-11T12:56:22.954816',
-            }),
-          );
-        }),
-      );
       const mockedSetHeader = jest.fn();
       const cardId = '0187934d-1046-4527-9fca-e9072ee8f9fe';
       const mockedContext = {
@@ -148,15 +134,11 @@ describe('MecaById', () => {
     });
 
     it('인증되지 않은 사용자가 요청하면 401 처리된다.', async () => {
+      resetServer([restHandler(mockedGetUserApi, { status: 401, message: 'unauthorized' })]);
       const cardId = '0187934d-1046-4527-9fca-e9072ee8f9fe';
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',
       });
-      server.use(
-        rest.get(`${ENDPOINT}/members/me`, (_, res, ctx) => {
-          return res(ctx.status(401), ctx.json({ message: 'unauthorized', status: 401 }));
-        }),
-      );
       const mockedContext = {
         params: {
           cardId,
@@ -168,27 +150,11 @@ describe('MecaById', () => {
     });
 
     it('존재하지 않는 본인 카드 요청에 대해 404 처리된다.', async () => {
+      implementServer([restHandler(mockedGetAuthUserdMecaApi, { status: 400, message: '해당 자원을 찾을 수 없음' })]);
       const cardId = '0187934c-d471-9365-fe25-9fa63e4ba45c';
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',
       });
-      server.use(
-        rest.get(`${ENDPOINT}/members/me`, (_, res, ctx) => {
-          return res(
-            ctx.json({
-              memberId: '0187934c-bd9d-eb51-758f-3b3723a0d3a7',
-              name: '임현규',
-              email: 'abc@abc.com',
-              role: 'USER',
-              oauthType: 'KAKAO',
-              createdAt: '2023-03-11T12:56:22.954816',
-            }),
-          );
-        }),
-        rest.get(`${ENDPOINT}/cards/:cardId/me`, (_, res, ctx) => {
-          return res(ctx.status(400), ctx.json({ message: '해당 자원을 찾을 수 없음', status: 400 }));
-        }),
-      );
       const mockedContext = {
         params: {
           cardId,

@@ -1,18 +1,35 @@
 import { renderQuery } from '../utils';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import MecaWrite from '@/components/organisms/MecaWrite';
-import { CATEGORIES, MECAS } from '../__mocks__/msw/data';
+import { MOCK_CATEGORIES, MOCK_MECAS } from '../__mocks__/msw/data';
 import { useRouter } from 'next/router';
+import { implementServer } from '../__mocks__/msw/server';
+import { restHandler } from '../__mocks__/msw/handlers';
+import {
+  mockedGetMecaCountApi,
+  mockedPostMecaApi,
+  mockedPostRevalidateApi,
+  mockedPutMecaUpdateApi,
+} from '../__mocks__/msw/api';
 
-const EXISTS_CATEGORY = CATEGORIES[CATEGORIES.length - 1];
+const EXISTS_CATEGORY = MOCK_CATEGORIES[MOCK_CATEGORIES.length - 1];
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
 describe('MecaWrite', () => {
-  it('카드 등록이면(카드 정보가 없다면) 최초에 OX퀴즈 등록 UI가 식별된다,', () => {
-    renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
+  beforeEach(() => {
+    implementServer([
+      restHandler(mockedPostMecaApi),
+      restHandler(mockedPutMecaUpdateApi),
+      restHandler(() => mockedGetMecaCountApi(1)),
+      restHandler(() => mockedPostRevalidateApi(true)),
+    ]);
+  });
+
+  it('카드 등록이면(카드 정보가 없다면) 최초에 OX퀴즈 등록 UI가 식별된다,', async () => {
+    await waitFor(() => renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />));
     const selectedTagToggle = screen.getByRole('button', {
       name: /OX퀴즈/i,
     });
@@ -32,7 +49,7 @@ describe('MecaWrite', () => {
   });
 
   it('카드 등록 UI에서 특정 태그를 클릭하면 해당 등록 UI로 변경된다,', async () => {
-    renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
+    await waitFor(() => renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />));
     const notSelectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
@@ -43,9 +60,9 @@ describe('MecaWrite', () => {
     expect(questionInput).toBeInTheDocument();
   });
 
-  it('카드 수정(카드 정보가 있다면) 해당 카드에 맞는 수정 UI가 식별된다(기존의 태그 타입만 식별된다).', () => {
-    const card = MECAS[0];
-    renderQuery(<MecaWrite {...card} cardType="KEYWORD" />);
+  it('카드 수정(카드 정보가 있다면) 해당 카드에 맞는 수정 UI가 식별된다(기존의 태그 타입만 식별된다).', async () => {
+    const card = MOCK_MECAS[0];
+    await waitFor(() => renderQuery(<MecaWrite {...card} cardType="KEYWORD" />));
     const selectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
@@ -89,7 +106,7 @@ describe('MecaWrite', () => {
   });
 
   it('카드 수정(카드 정보가 있다면)을 정상적으로 시도하면 수정 toast가 식별된다.', async () => {
-    const card = MECAS[0];
+    const card = MOCK_MECAS[0];
     renderQuery(<MecaWrite {...card} cardType="KEYWORD" />);
     const selectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,

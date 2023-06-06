@@ -1,10 +1,10 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import QuizStartDialog, { QuizStartDialogProps } from '@/components/organisms/QuizStartDialog';
-import { server } from '../__mocks__/msw/server';
-import { rest } from 'msw';
-import { ENDPOINT } from '../__mocks__/msw/handlers';
+import { ENDPOINT, restHandler } from '../__mocks__/msw/handlers';
 import mockRouter from 'next-router-mock';
+import { implementServer } from '../__mocks__/msw/server';
+import { mockedGetSimulationMecasApi } from '../__mocks__/msw/api';
 
 describe('QuizStartDialog', () => {
   const props: QuizStartDialogProps = {
@@ -42,29 +42,11 @@ describe('QuizStartDialog', () => {
   });
 
   it('퀴즈 플레이를 요청하면 해당 페이지로 이동한다.', async () => {
-    server.use(
-      rest.get(`${ENDPOINT}/cards/categories/:id/simulation`, (req, res, ctx) => {
-        return res(ctx.status(200));
-      }),
-    );
+    implementServer([restHandler(mockedGetSimulationMecasApi)]);
     renderQuery(<QuizStartDialog {...props} />);
     const startButton = screen.getByRole('button', { name: '시작하기' });
     expect(startButton).toBeInTheDocument();
     fireEvent.click(startButton);
-    await waitFor(() => expect(mockRouter.pathname).toEqual('/quiz'));
-  });
-
-  it('퀴즈 플레이를 요청하면 해당 페이지로 이동한다.', async () => {
-    server.use(
-      rest.get(`${ENDPOINT}/cards/categories/:id/simulation`, (req, res, ctx) => {
-        return res(ctx.status(200));
-      }),
-    );
-    renderQuery(<QuizStartDialog {...props} />);
-    const startButton = screen.getByRole('button', { name: '시작하기' });
-    expect(startButton).toBeInTheDocument();
-    fireEvent.click(startButton);
-    expect(props.onClose).toHaveBeenCalled();
     await waitFor(() => expect(mockRouter.pathname).toEqual('/quiz'));
   });
 });

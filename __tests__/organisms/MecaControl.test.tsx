@@ -1,10 +1,10 @@
 import MecaControl, { MecaControlProps } from '@/components/organisms/MecaControl';
 import { renderQuery } from '../utils';
 import { screen, fireEvent } from '@testing-library/react';
-import { server } from '../__mocks__/msw/server';
-import { rest } from 'msw';
-import { ENDPOINT } from '../__mocks__/msw/handlers';
+import { implementServer } from '../__mocks__/msw/server';
+import { restHandler } from '../__mocks__/msw/handlers';
 import mockRouter from 'next-router-mock';
+import { mockedGetMecaCountApi } from '../__mocks__/msw/api';
 
 describe('MecaControl', () => {
   const props: MecaControlProps = {
@@ -45,16 +45,7 @@ describe('MecaControl', () => {
 
   it('카드 목록이 존재할 때 플레이를 누르면 QuizStartDialog가 식별된다.', async () => {
     const count = 15;
-    server.use(
-      rest.get(`${ENDPOINT}/cards/categories/:id/me/count`, async (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
-            count,
-          }),
-        );
-      }),
-    );
+    implementServer([restHandler(() => mockedGetMecaCountApi(count))]);
     renderQuery(<MecaControl {...props} isMine />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     fireEvent.click(playButton);
@@ -63,16 +54,7 @@ describe('MecaControl', () => {
   });
 
   it('카드 목록이 존재하지 않을 때 플레이를 누르면 toast가 식별된다.', async () => {
-    server.use(
-      rest.get(`${ENDPOINT}/cards/categories/:id/me/count`, async (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
-            count: 0,
-          }),
-        );
-      }),
-    );
+    implementServer([restHandler(() => mockedGetMecaCountApi(0))]);
     renderQuery(<MecaControl {...props} isMine />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     fireEvent.click(playButton);
