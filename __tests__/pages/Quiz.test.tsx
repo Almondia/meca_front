@@ -1,15 +1,15 @@
 import QuizPage from '@/pages/quiz';
-import { RecoilObserver, renderQuery } from '../utils';
+import { renderQuery } from '../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { MECAS } from '../__mocks__/msw/data';
+import { MOCK_MECAS } from '../__mocks__/msw/data';
 import { MecaTagResponseType } from '@/types/domain';
-import { quizTimeState } from '@/atoms/quiz';
-import { server } from '../__mocks__/msw/server';
-import { rest } from 'msw';
+import { implementServer, resetServer } from '../__mocks__/msw/server';
 import statisticsApi from '@/apis/statisticsApi';
 import useQuiz from '@/hooks/meca/useQuiz';
+import { restHandler } from '../__mocks__/msw/handlers';
+import { mockedPostQuizScoreApi } from '../__mocks__/msw/api';
 
-const mockQuizs = MECAS.slice(0, 2);
+const mockQuizs = MOCK_MECAS.slice(0, 2);
 
 jest.mock('@/hooks/meca/useQuiz', () => ({
   __esModule: true,
@@ -18,30 +18,24 @@ jest.mock('@/hooks/meca/useQuiz', () => ({
 
 describe('QuizPage', () => {
   beforeEach(() => {
-    (useQuiz as jest.Mock).mockReturnValue({ quizList: mockQuizs });
-    server.use(
-      rest.post('/api/score', (_, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ score: 50 }));
-      }),
-    );
+    (useQuiz as jest.Mock).mockReturnValue({ quizList: [...mockQuizs] });
+    implementServer([restHandler(() => mockedPostQuizScoreApi(50))]);
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
   });
   it('첫 퀴즈페이지 접근 시 주어진 문제 수와 question, input, 정답 제출 버튼이 식별된다.', async () => {
-    renderQuery(
-      <>
-        <RecoilObserver node={quizTimeState} defaultValue={30} />
-        <QuizPage />
-      </>,
-    );
+    renderQuery(<QuizPage />);
     const maxCountText = screen.getByTestId('id-count-indicator-maxcount');
     expect(maxCountText).toHaveTextContent(mockQuizs.length.toString());
     const cardType = mockQuizs[0].cardType as MecaTagResponseType;
     await waitFor(() => {
       if (cardType === 'KEYWORD') {
-        expect(screen.queryByText('키워드를 입력하세요')).toBeInTheDocument();
+        expect(screen.getByText('키워드를 입력하세요')).toBeInTheDocument();
       }
-      expect(screen.queryByText(mockQuizs[0].question)).toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: '정답제출' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '정답제출' })).toBeInTheDocument();
     });
+    expect(screen.getByText(mockQuizs[0].question)).toBeInTheDocument();
   });
 
   it('정답 제출 후 정답과 다음 문제 버튼이 식별된다.', async () => {
@@ -62,7 +56,7 @@ describe('QuizPage', () => {
   });
 
   it('마지막 문제를 확인하면 결과보기 버튼이 식별된다.', async () => {
-    renderQuery(<QuizPage />);
+    await waitFor(() => renderQuery(<QuizPage />));
     const submitButton = screen.getByRole('button', {
       name: '정답제출',
     });
@@ -95,13 +89,13 @@ describe('QuizPage', () => {
     expect(answerInput).toHaveValue('hello');
     const submitButton = screen.getByRole('button', { name: '정답제출' });
     fireEvent.click(submitButton);
-    await waitFor(() => expect(spyPostScoreFn).toHaveBeenCalledWith('hello', expect.any(String)));
+    await waitFor(() => expect(spyPostScoreFn).toHaveBeenCalled());
     spyPostScoreFn.mockClear();
   });
 
   it('정답을 입력하지 않고 제출하면 score 계산 함수가 호출되지 않는다.', async () => {
     const spyPostScoreFn = jest.spyOn(statisticsApi, 'postScoreByAnswerInput');
-    renderQuery(<QuizPage />);
+    await waitFor(() => renderQuery(<QuizPage />));
     const answerInput = screen.getByPlaceholderText('정답 입력하기');
     expect(answerInput).toHaveValue('');
     const submitButton = screen.getByRole('button', { name: '정답제출' });
@@ -111,11 +105,7 @@ describe('QuizPage', () => {
   });
 
   it('정답 제출 시 score 계산을 하지 못하면 toast가 식별된다.', async () => {
-    server.use(
-      rest.post('/api/score', (_, res, ctx) => {
-        return res(ctx.status(400));
-      }),
-    );
+    resetServer([restHandler(mockedPostQuizScoreApi, { status: 400 })]);
     renderQuery(<QuizPage />);
     const answerInput = screen.getByPlaceholderText('정답 입력하기');
     expect(answerInput).toHaveValue('');

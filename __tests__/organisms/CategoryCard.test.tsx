@@ -1,4 +1,4 @@
-import { renderQuery, render } from '../utils';
+import { render } from '../utils';
 
 import { screen, fireEvent } from '@testing-library/react';
 import CategoryCard from '@/components/organisms/CategoryCard';
@@ -7,8 +7,8 @@ import mockRouter from 'next-router-mock';
 describe('CategoryCard', () => {
   describe('CardContainer', () => {
     it('Category Card가 UI에 보여진다.', () => {
-      renderQuery(
-        <CategoryCard categoryId="c01" title="title1" thumbnail="" memberId="mid">
+      render(
+        <CategoryCard categoryId="c01" title="title1" thumbnail="" memberId="mid" likeCount={5}>
           card
         </CategoryCard>,
       );
@@ -21,8 +21,8 @@ describe('CategoryCard', () => {
     });
 
     it('Category Card 타이틀을 클릭하면 해당 카테고리의 카드 목록 페이지로 이동한다.', () => {
-      renderQuery(
-        <CategoryCard categoryId="c01" title="title1" thumbnail="" memberId="mid">
+      render(
+        <CategoryCard categoryId="c01" title="title1" thumbnail="" memberId="mid" likeCount={5}>
           card
         </CategoryCard>,
       );
@@ -33,8 +33,8 @@ describe('CategoryCard', () => {
     });
 
     it('Category Card Thumbnail을 클릭하면 해당 카테고리의 카드 목록 페이지로 이동한다.', () => {
-      renderQuery(
-        <CategoryCard categoryId="c01" title="title1" thumbnail="" memberId="mid">
+      render(
+        <CategoryCard categoryId="c01" title="title1" thumbnail="" memberId="mid" likeCount={5}>
           card
         </CategoryCard>,
       );
@@ -48,7 +48,7 @@ describe('CategoryCard', () => {
 
   describe('CardBody', () => {
     it('공유된 개인 카테고리 카드 UI가 식별된다.', () => {
-      renderQuery(
+      render(
         <CategoryCard.Private
           title="title"
           categoryId="c01"
@@ -59,6 +59,7 @@ describe('CategoryCard', () => {
           totalCount={5}
           solveCount={4}
           scoreAvg={50}
+          likeCount={5}
         />,
       );
       const quizCountLabel = screen.getByText('문제개수');
@@ -74,7 +75,7 @@ describe('CategoryCard', () => {
     });
 
     it('공유되지 않은 개인 카테고리 카드 UI가 식별된다.', () => {
-      renderQuery(
+      render(
         <CategoryCard.Private
           title="title"
           categoryId="c01"
@@ -84,6 +85,7 @@ describe('CategoryCard', () => {
           createdAt="2023"
           totalCount={5}
           solveCount={4}
+          likeCount={5}
           scoreAvg={45}
         />,
       );
@@ -96,7 +98,7 @@ describe('CategoryCard', () => {
     });
 
     it('다른사람의 카테고리 카드 UI가 식별된다.', () => {
-      render(<CategoryCard.Shared memberId="memberId" name="사람" profile="" />);
+      render(<CategoryCard.Shared memberId="memberId" name="사람" profile="" likeCount={5} />);
       const profileImage = screen.getByRole('img', { name: '사람-avatar' });
       const username = screen.getByText('사람');
       expect(profileImage).toBeInTheDocument();

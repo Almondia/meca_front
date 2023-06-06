@@ -1,12 +1,12 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent } from '@testing-library/react';
 import Home, { getStaticProps } from '@/pages';
-import { CATEGORIES } from '../__mocks__/msw/data';
+import { MOCK_CATEGORIES } from '../__mocks__/msw/data';
 import { GetStaticPropsContext } from 'next';
-import { server } from '../__mocks__/msw/server';
-import { ENDPOINT } from '../__mocks__/msw/handlers';
-import { rest } from 'msw';
+import { implementServer } from '../__mocks__/msw/server';
+import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
 import { getPlaiceholder } from 'plaiceholder';
+import { mockedGetSharedCategoryListApi } from '../__mocks__/msw/api';
 
 jest.mock('plaiceholder', () => ({
   getPlaiceholder: jest.fn(),
@@ -14,6 +14,9 @@ jest.mock('plaiceholder', () => ({
 
 describe('Homepage', () => {
   describe('UI , Event test', () => {
+    beforeEach(() => {
+      implementServer([restHandler(mockedGetSharedCategoryListApi)]);
+    });
     it('메인 UI 상단 Carousel이 보여진다', () => {
       renderQuery(<Home />);
       const text = screen.getByRole('heading', {
@@ -34,7 +37,7 @@ describe('Homepage', () => {
 
     it('특정 제목 키워드로 검색 시 해당 카테고리 목록만 보여진다.', async () => {
       const containTitle = 'title1';
-      const searchedCategories = CATEGORIES.filter((category) => category.title.indexOf(containTitle) !== -1);
+      const searchedCategories = MOCK_CATEGORIES.filter((category) => category.title.indexOf(containTitle) !== -1);
       renderQuery(<Home />);
       const searchInput = screen.getByRole('textbox', {
         name: 'input-category-search',
@@ -59,65 +62,61 @@ describe('Homepage', () => {
         base64: 'base64',
         img: { src: thumbnail1, width: 20, height: 20 },
       });
-      server.resetHandlers(
-        rest.get(`${ENDPOINT}/categories/share`, (_, res, ctx) => {
-          return res(
-            ctx.json({
-              contents: [
-                {
-                  categoryInfo: {
-                    categoryId: '018819c4-e42d-1534-5c24-89c19a260cc9',
-                    memberId: '018819c4-e42d-1534-5c24-89c19a260cc8',
-                    thumbnail: thumbnail1,
-                    title: 'title1',
-                    createdAt: '2023-05-14T19:18:33.9016305',
-                    modifiedAt: '2023-05-14T19:18:33.9016305',
-                    shared: true,
-                    deleted: false,
-                  },
-                  memberInfo: {
-                    memberId: '018819c4-e42d-1534-5c24-89c19a260cca',
-                    name: 'name',
-                    email: 'www@gmail.com',
-                    profile: null,
-                    role: 'USER',
-                    createdAt: '2023-05-14T19:18:33.9016305',
-                    modifiedAt: '2023-05-14T19:18:33.9016305',
-                    deleted: false,
-                    oauthType: 'GOOGLE',
-                  },
-                },
-                {
-                  categoryInfo: {
-                    categoryId: '018819c4-e42d-1534-5c24-89c19a260cc0',
-                    memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
-                    thumbnail: null,
-                    title: 'title2',
-                    createdAt: '2023-05-14T19:18:33.9016305',
-                    modifiedAt: '2023-05-14T19:18:33.9016305',
-                    shared: true,
-                    deleted: false,
-                  },
-                  memberInfo: {
-                    memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
-                    name: 'name',
-                    email: 'www@gmail.com',
-                    profile: null,
-                    role: 'USER',
-                    createdAt: '2023-05-14T19:18:33.9016305',
-                    modifiedAt: '2023-05-14T19:18:33.9016305',
-                    deleted: false,
-                    oauthType: 'GOOGLE',
-                  },
-                },
-              ],
-              hasNext: null,
-              pageSize: 2,
-              sortOrder: 'DESC',
-            }),
-          );
+      implementServer([
+        restOverridedResponseHandler(mockedGetSharedCategoryListApi, {
+          contents: [
+            {
+              categoryInfo: {
+                categoryId: '018819c4-e42d-1534-5c24-89c19a260cc9',
+                memberId: '018819c4-e42d-1534-5c24-89c19a260cc8',
+                thumbnail: thumbnail1,
+                title: 'title1',
+                createdAt: '2023-05-14T19:18:33.9016305',
+                modifiedAt: '2023-05-14T19:18:33.9016305',
+                shared: true,
+                deleted: false,
+              },
+              memberInfo: {
+                memberId: '018819c4-e42d-1534-5c24-89c19a260cca',
+                name: 'name',
+                email: 'www@gmail.com',
+                profile: null,
+                role: 'USER',
+                createdAt: '2023-05-14T19:18:33.9016305',
+                modifiedAt: '2023-05-14T19:18:33.9016305',
+                deleted: false,
+                oauthType: 'GOOGLE',
+              },
+            },
+            {
+              categoryInfo: {
+                categoryId: '018819c4-e42d-1534-5c24-89c19a260cc0',
+                memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
+                thumbnail: null,
+                title: 'title2',
+                createdAt: '2023-05-14T19:18:33.9016305',
+                modifiedAt: '2023-05-14T19:18:33.9016305',
+                shared: true,
+                deleted: false,
+              },
+              memberInfo: {
+                memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
+                name: 'name',
+                email: 'www@gmail.com',
+                profile: null,
+                role: 'USER',
+                createdAt: '2023-05-14T19:18:33.9016305',
+                modifiedAt: '2023-05-14T19:18:33.9016305',
+                deleted: false,
+                oauthType: 'GOOGLE',
+              },
+            },
+          ],
+          hasNext: null,
+          pageSize: 2,
+          sortOrder: 'DESC',
         }),
-      );
+      ]);
       const context = {} as unknown as GetStaticPropsContext;
       const { props, revalidate } = (await getStaticProps(context)) as any;
       expect(revalidate).toEqual(3600);
@@ -132,11 +131,7 @@ describe('Homepage', () => {
     });
 
     it('카테고리 목록 api 호출 실패 시 빈 목록 UI가 식별된다.', async () => {
-      server.resetHandlers(
-        rest.get(`${ENDPOINT}/categories/share`, (_, res, ctx) => {
-          return res(ctx.status(500), ctx.json({ status: 500, message: '서버오류' }));
-        }),
-      );
+      implementServer([restHandler(mockedGetSharedCategoryListApi, { status: 500, message: '서버오류' })]);
       const context = {} as unknown as GetStaticPropsContext;
       const { props, revalidate } = (await getStaticProps(context)) as any;
       expect(revalidate).toEqual(60);
