@@ -31,8 +31,10 @@ describe('UserProfileHeader', () => {
     renderQuery(<UserProfileHeader {...USER} />, undefined, queryClient);
     const avatar = screen.getByRole('img', { name: `${USER.memberId}-avatar` });
     const name = screen.getByRole('heading', { name: USER.name });
+    const editImageLinkButton = screen.getByRole('button', { name: '편집' });
     expect(avatar).toBeInTheDocument();
     expect(name).toBeInTheDocument();
+    expect(editImageLinkButton).toBeInTheDocument();
   });
 
   it('UserProfile 이름을 변경하면 name heading이 변경된다.', async () => {
@@ -72,9 +74,10 @@ describe('UserProfileHeader', () => {
     fireEvent.click(imageDeleteButton);
     await waitFor(() => {
       const changedAvatar = screen.getByRole('img', { name: `${USER.memberId}-avatar` }) as HTMLImageElement;
-      expect(changedAvatar).toBeInTheDocument();
       expect(changedAvatar.src).toContain('noprofile.png');
     });
+    const editImageLinkButton = screen.queryByRole('button', { name: '편집' });
+    expect(editImageLinkButton).not.toBeInTheDocument();
   });
 
   it('UserProfile 프로필 수정 실패 시 사용자 변경이 반영되지 않으며 toast가 식별된다.', async () => {
