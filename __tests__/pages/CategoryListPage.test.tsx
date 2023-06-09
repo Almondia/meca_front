@@ -5,14 +5,17 @@ import { hasAuthState } from '@/atoms/common';
 import Category, { getServerSideProps } from '@/pages/categories/me/[memberId]';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import { server } from '../__mocks__/msw/server';
-import { rest } from 'msw';
-import { ENDPOINT } from '../__mocks__/msw/handlers';
+import { implementServer } from '../__mocks__/msw/server';
+import { restHandler } from '../__mocks__/msw/handlers';
+import { mockedGetAuthUserCategoryListApi, mockedGetUserApi, mockedPostCategoryApi } from '../__mocks__/msw/api';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
 
+beforeEach(() => {
+  implementServer([restHandler(mockedGetAuthUserCategoryListApi)]);
+});
 describe('CategoryListPage', () => {
   it('카테고리 목록 페이지에서 목록 Control UI와 카테고리 목록이 식별된다.', async () => {
     renderQuery(
@@ -34,6 +37,7 @@ describe('CategoryListPage', () => {
   });
 
   it('카테고리 하나를 정상적으로 추가하면 카테고리 목록에 새로운 데이터가 추가된다.', async () => {
+    implementServer([restHandler(mockedPostCategoryApi)]);
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
@@ -71,20 +75,20 @@ describe('CategoryListPage', () => {
     );
   });
 
-  it('카테고리 추가 시 비정상적인 title을 입력하면 카테고리 추가가 되지 않고 toast가 식별된다.', async () => {
+  it('카테고리 추가 시 비정상적인 입력으로 등록 실패 시 카테고리 추가가 되지 않고 toast가 식별된다.', async () => {
+    implementServer([restHandler(mockedPostCategoryApi, { status: 400, message: '제목 오류' })]);
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
         <Category />
       </>,
     );
-    // should not over 20
     const inputTitleText = 'geaighalgiahglaghalgahglaghalghalghalghaglhalgahglaghalghalghag';
     const addButton = screen.getByRole('button', {
       name: /추가하기/i,
     });
     fireEvent.click(addButton);
-    const categoryTitleInput = screen.getByRole('textbox', {
+    const categoryTitleInput = await screen.findByRole('textbox', {
       name: 'input-category-title',
     });
     expect(categoryTitleInput).toBeInTheDocument();
@@ -99,6 +103,9 @@ describe('CategoryListPage', () => {
   });
 
   describe('SSR Test', () => {
+    beforeEach(() => {
+      implementServer([restHandler(mockedGetUserApi), restHandler(mockedGetAuthUserCategoryListApi)]);
+    });
     afterEach(() => {
       jest.clearAllMocks();
     });
@@ -118,17 +125,11 @@ describe('CategoryListPage', () => {
     });
 
     it('회원 category 목록 조회에 실패하면 빈 목록이 식별된다.', async () => {
+      implementServer([restHandler(mockedGetAuthUserCategoryListApi, { status: 400 })]);
       const mockedSetHeader = jest.fn();
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',
       });
-      server.use(
-        rest.get(`${ENDPOINT}/categories/me`, (req, res, ctx) => {
-          const hasNext = req.url.searchParams.get('hasNext');
-          const pageSize = req.url.searchParams.get('pageSize');
-          return res(ctx.status(400), ctx.json({ message: 'bad-request', status: 400 }));
-        }),
-      );
       const mockedContext = {
         res: {
           setHeader: mockedSetHeader,

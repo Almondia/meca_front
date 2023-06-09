@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import InputGroup from '@/components/molcules/InputGroup';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
@@ -29,6 +29,11 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
     });
     onChange(event);
   };
+
+  useEffect(() => {
+    handleBlur();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectionNum]);
 
   return (
     <div>

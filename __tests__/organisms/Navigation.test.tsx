@@ -1,18 +1,23 @@
 import Navigation from '@/components/organisms/Navigation';
 import { renderQuery } from '../utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { server } from '../__mocks__/msw/server';
-import { rest } from 'msw';
+import { implementServer, resetServer } from '../__mocks__/msw/server';
 import mockRouter from 'next-router-mock';
+import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
+import { MOCK_MEMBER } from '../__mocks__/msw/data';
+import { mockedGetUserWithServerApi, mockedPostLogoutApi } from '../__mocks__/msw/api';
 
 describe('Navigation', () => {
+  beforeEach(() => {
+    implementServer([
+      restHandler(() => mockedGetUserWithServerApi({ ...MOCK_MEMBER, name: 'pds0309' })),
+      restHandler(mockedPostLogoutApi),
+    ]);
+  });
+
   it('비로그인 사용자일 경우 navigation에 로그인 버튼이 식별된다.', async () => {
     renderQuery(<Navigation />);
-    server.resetHandlers(
-      rest.get('/api/user', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(null));
-      }),
-    );
+    resetServer([restOverridedResponseHandler(mockedGetUserWithServerApi, null)]);
     const loginButton = screen.getByRole('button', {
       name: '로그인',
     });
@@ -75,25 +80,9 @@ describe('Navigation', () => {
   });
 
   it('로그인된 사용자가 회원 정보 조회에 실패할 경우 메인페이지로 이동하며 비로그인 사용자 UI가 식별된다.', async () => {
-    renderQuery(<Navigation />);
-    server.resetHandlers(
-      rest.get('/api/user', (req, res, ctx) => {
-        return res(
-          ctx.status(401),
-          ctx.json({
-            message: '사용자 정보 조회 실패',
-            status: 401,
-          }),
-        );
-      }),
-    );
+    resetServer([restHandler(mockedGetUserWithServerApi, { status: 400 })]);
+    await waitFor(() => renderQuery(<Navigation />));
     await waitFor(() => expect(mockRouter.pathname).toEqual('/'));
-    await waitFor(() => {
-      expect(
-        screen.queryByRole('button', {
-          name: '로그인',
-        }),
-      ).toBeInTheDocument();
-    });
+    expect(screen.getByRole('button', { name: '로그인' })).toBeInTheDocument();
   });
 });

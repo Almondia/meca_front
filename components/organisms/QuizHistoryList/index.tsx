@@ -11,6 +11,7 @@ import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 
 import {
   QuizHistoryListWrapper,
+  QuizHistoryPageCursorButtonContainer,
   QuizHistoryTable,
   QuizHistoryTableContentRow,
   QuizHistoryTablePageController,
@@ -100,22 +101,22 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
         </table>
       </QuizHistoryTable>
       <QuizHistoryTablePageController>
-        <div style={{ visibility: page !== 0 ? 'visible' : 'hidden' }}>
+        <QuizHistoryPageCursorButtonContainer isEnabled={page !== 0}>
           <IconButton
             icon="Prev"
             name="이전 퀴즈 기록 목록 보기 버튼"
             iconSize="1rem"
-            onClick={() => setPage((prev) => prev - 1)}
+            onClick={() => page !== 0 && setPage((prev) => prev - 1)}
           />
-        </div>
-        <div style={{ visibility: historyList?.pages[page].hasNext ? 'visible' : 'hidden' }}>
+        </QuizHistoryPageCursorButtonContainer>
+        <QuizHistoryPageCursorButtonContainer isEnabled={!!historyList?.pages[page].hasNext}>
           <IconButton
             icon="Next"
             name="다음 퀴즈 기록 목록 보기 버튼"
             iconSize="1rem"
-            onClick={() => setPage((prev) => prev + 1)}
+            onClick={() => !!historyList?.pages[page].hasNext && setPage((prev) => prev + 1)}
           />
-        </div>
+        </QuizHistoryPageCursorButtonContainer>
       </QuizHistoryTablePageController>
     </QuizHistoryListWrapper>
   );

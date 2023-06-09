@@ -71,3 +71,10 @@ export const QuizHistoryTablePageController = styled.div`
     background-color: var(--color-lightgray);
   }
 `;
+
+export const QuizHistoryPageCursorButtonContainer = styled.div<{ isEnabled: boolean }>`
+  button {
+    cursor: ${(props) => (props.isEnabled ? 'pointer' : 'default')};
+  }
+  opacity: ${(props) => (props.isEnabled ? '1' : '0.4')};
+`;

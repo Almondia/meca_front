@@ -54,7 +54,9 @@ const mockMecaList: InfiniteData<MecaUserListResponse> | undefined = {
         memberId: 'memberId',
         shared: true,
         thumbnail: '',
+        likeCount: 0,
       },
+      categoryLikeCount: 0,
     },
   ],
 };

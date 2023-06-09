@@ -1,14 +1,17 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { CATEGORIES } from '../__mocks__/msw/data';
-import { ENDPOINT } from '../__mocks__/msw/handlers';
-import { rest } from 'msw';
-import { server } from '../__mocks__/msw/server';
+import { MOCK_CATEGORIES } from '../__mocks__/msw/data';
+import { restHandler } from '../__mocks__/msw/handlers';
+import { implementServer, resetServer } from '../__mocks__/msw/server';
 import CategoryUpdateDialog from '@/components/organisms/CategoryUpdateDialog';
+import { mockedPostCategoryApi, mockedPutCategoryApi } from '../__mocks__/msw/api';
 
 describe('CategoryUpdateDialog', () => {
+  beforeEach(() => {
+    implementServer([restHandler(mockedPutCategoryApi), restHandler(mockedPostCategoryApi)]);
+  });
   it('기존 이미지가 없다면 썸네일 등록 버튼이 식별된다.', () => {
-    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    const { categoryId, title } = MOCK_CATEGORIES[MOCK_CATEGORIES.length - 1];
     renderQuery(
       <CategoryUpdateDialog
         categoryId={categoryId}
@@ -27,7 +30,7 @@ describe('CategoryUpdateDialog', () => {
   });
 
   it('기존 이미지가 있다면 썸네일 등록 UI에 미리보기 이미지가 식별된다.', () => {
-    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    const { categoryId, title } = MOCK_CATEGORIES[MOCK_CATEGORIES.length - 1];
     renderQuery(
       <CategoryUpdateDialog
         categoryId={categoryId}
@@ -42,7 +45,7 @@ describe('CategoryUpdateDialog', () => {
   });
 
   it('카테고리 수정이라면 공유 여부 토글이 식별되며 기존 공유 상태가 반영되어있다.', () => {
-    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    const { categoryId, title } = MOCK_CATEGORIES[MOCK_CATEGORIES.length - 1];
     renderQuery(
       <CategoryUpdateDialog
         categoryId={categoryId}
@@ -71,7 +74,7 @@ describe('CategoryUpdateDialog', () => {
   });
 
   it('카테고리 제목을 수정하면 모달창이 닫힌다.', async () => {
-    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 1];
+    const { categoryId, title } = MOCK_CATEGORIES[MOCK_CATEGORIES.length - 1];
     const inputTitle = 'HELLO';
     const close = jest.fn();
     renderQuery(
@@ -96,22 +99,11 @@ describe('CategoryUpdateDialog', () => {
     await waitFor(() => expect(close).toHaveBeenCalledTimes(1));
   });
 
-  it('카테고리 제목을 비정상적으로 수정하려고 시도하면 에러 toast와 함께 모달창이 닫히지 않는다.', async () => {
-    const { categoryId, title } = CATEGORIES[CATEGORIES.length - 2];
+  it('카테고리 제목 수정 실패 시 에러 toast와 함께 모달창이 닫히지 않는다.', async () => {
+    const { categoryId, title } = MOCK_CATEGORIES[MOCK_CATEGORIES.length - 2];
     const inputTitle = 'HELLOOOOOOOOOOOOOOOOOOOOOO';
     const close = jest.fn();
-    server.resetHandlers(
-      rest.put(`${ENDPOINT}/categories/:id`, async (req, res, ctx) => {
-        const { id } = req.params;
-        const { title } = await req.json();
-        return res(
-          ctx.status(400),
-          ctx.json({
-            message: '20글자가 넘으면 안됩니다.',
-          }),
-        );
-      }),
-    );
+    resetServer([restHandler(mockedPutCategoryApi, { status: 400, message: '20글자가 넘으면 안됩니다.' })]);
     renderQuery(
       <CategoryUpdateDialog
         categoryId={categoryId}
