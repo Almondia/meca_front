@@ -9,10 +9,12 @@ import InputGroup from '@/components/molcules/InputGroup';
 import useFetchImage from '@/hooks/useFetchImage';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
+import useInputValidation from '@/hooks/useInputValidation';
 import useModal from '@/hooks/useModal';
 import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 import { UserProfile as UserProfileType } from '@/types/domain';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
+import { Constraints } from '@/utils/validation';
 
 import {
   UserProfileAvatarContainer,
@@ -37,6 +39,7 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
   const { uploadImage } = useFetchImage();
   const { input: nameInput, onInputChange: nameInputChange } = useInput(name);
   const { visible: isImageCropperVisible, open: openImageCropper, close: closeImageCropper } = useModal();
+  const { inputsValidState, validateAll, resetValidateState } = useInputValidation(1);
 
   useEffect(() => {
     if (!image || typeof image === 'string') {
@@ -65,10 +68,12 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
       setIsNameChangeClicked(true);
       return;
     }
-    if (nameInput.length > 20) {
+    const { hasInvalid } = validateAll([() => Constraints.username(nameInput)]);
+    if (hasInvalid) {
       return;
     }
-    name !== nameInput && updateProfile({ name: nameInput || name });
+    name !== nameInput && updateProfile({ name: nameInput });
+    resetValidateState();
     setIsNameChangeClicked(false);
   };
 
@@ -105,8 +110,11 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
                 value={nameInput}
                 onChange={nameInputChange}
                 placeholder={name}
-                isValid={nameInput.length <= 20}
+                isValid={inputsValidState[0].isValid}
               />
+              <InputGroup.Validation visible={!inputsValidState[0].isValid}>
+                {inputsValidState[0].message}
+              </InputGroup.Validation>
             </InputGroup>
           </UserProfileNameChangeBox>
         )}
