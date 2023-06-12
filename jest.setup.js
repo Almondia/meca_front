@@ -33,4 +33,5 @@ if (typeof window !== 'undefined') {
 
 if (typeof window !== 'undefined') {
   window.document.execCommand = jest.fn();
+  window.HTMLElement.prototype.scrollIntoView = jest.fn();
 }

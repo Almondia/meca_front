@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import Input from '@/components/atoms/Input';
 
 import { DescriptionWrapper, InputGroupWrapper, LabelWrapper, ValidationWrapper } from './styled';
@@ -9,8 +11,15 @@ export interface ValidationProps {
 
 const Label = ({ children }: { children: React.ReactNode }) => <LabelWrapper>{children}</LabelWrapper>;
 
-const Validation = ({ children, visible = false }: ValidationProps) =>
-  visible ? <ValidationWrapper>{children}</ValidationWrapper> : <div />;
+const Validation = ({ children, visible = false }: ValidationProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (visible) {
+      visible && ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [visible]);
+  return visible ? <ValidationWrapper ref={ref}>{children}</ValidationWrapper> : <div />;
+};
 
 const Description = ({ descLists }: { descLists: string[] }) => (
   <DescriptionWrapper>

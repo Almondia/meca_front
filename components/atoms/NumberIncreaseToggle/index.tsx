@@ -7,9 +7,11 @@ export interface NumberIncreaseToggleProps {
 
 const NumberIncreaseToggle = ({ value, onChange }: NumberIncreaseToggleProps) => (
   <NumberIncreaseToggleWrapper>
-    <NumberIncreaseToggleButton onClick={() => onChange(true)}>+</NumberIncreaseToggleButton>
-    <NumberIncreaseToggleInnerContainer>{value}</NumberIncreaseToggleInnerContainer>
-    <NumberIncreaseToggleButton onClick={() => onChange(false)}>-</NumberIncreaseToggleButton>
+    <div>
+      <NumberIncreaseToggleButton onClick={() => onChange(true)}>+</NumberIncreaseToggleButton>
+      <NumberIncreaseToggleInnerContainer>{value}</NumberIncreaseToggleInnerContainer>
+      <NumberIncreaseToggleButton onClick={() => onChange(false)}>-</NumberIncreaseToggleButton>
+    </div>
   </NumberIncreaseToggleWrapper>
 );
 

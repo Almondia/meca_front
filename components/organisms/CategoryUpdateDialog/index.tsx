@@ -10,8 +10,10 @@ import useFetchImage from '@/hooks/useFetchImage';
 import useGlobalLoading from '@/hooks/useGlobalLoading';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
+import useInputValidation from '@/hooks/useInputValidation';
 import { DefaultModalOptions } from '@/types/common';
 import { IMAGE_EXTENTIONS } from '@/types/domain';
+import { Constraints } from '@/utils/validation';
 
 export interface CategoryUpdateDialogProps extends DefaultModalOptions {
   categoryId?: string;
@@ -35,6 +37,7 @@ const CategoryUpdateDialog = ({
   const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
   const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
   const { asyncCallbackLoader } = useGlobalLoading();
+  const { inputsValidState, validateAll } = useInputValidation(1);
 
   useEffect(() => {
     if (isUpdateSuccess || isPostSuccess) {
@@ -62,11 +65,11 @@ const CategoryUpdateDialog = ({
   }, [image]);
 
   const handleUpdateClick = async () => {
-    const inputTitle = title.trim();
-    if (inputTitle === '') {
+    const { hasInvalid } = validateAll([() => Constraints.categoryTitle(title)]);
+    if (hasInvalid) {
       return;
     }
-    if (inputTitle === categoryTitle && image === thumbnail && shared === isShared) {
+    if (title === categoryTitle && image === thumbnail && shared === isShared) {
       onClose();
       return;
     }
@@ -77,12 +80,12 @@ const CategoryUpdateDialog = ({
     categoryId
       ? updateCategory({
           categoryId,
-          title: inputTitle,
+          title,
           thumbnail: requestedThumbnail,
           shared,
           prevShared: isShared ?? false,
         })
-      : addCategory({ title: inputTitle, thumbnail: requestedThumbnail });
+      : addCategory({ title, thumbnail: requestedThumbnail });
   };
 
   const keyword = categoryId ? '수정' : '추가';
@@ -98,9 +101,7 @@ const CategoryUpdateDialog = ({
             onDelete={onDeleteImage}
             onUpload={onUploadLocalImage}
           />
-          <InputGroup.Description
-            descLists={['jpg, jpeg, png, gif 파일 업로드 가능', 'gif 이미지는 리사이징 할 수 없습니다.']}
-          />
+          <InputGroup.Description descLists={['jpg, jpeg, png, gif 파일 업로드 가능']} />
         </InputGroup>
         <InputGroup>
           <InputGroup.Label>제목 {keyword}하기</InputGroup.Label>
@@ -111,6 +112,9 @@ const CategoryUpdateDialog = ({
             placeholder="카테고리 제목 입력"
             ariaLabel="input-category-title"
           />
+          <InputGroup.Validation visible={!inputsValidState[0].isValid}>
+            {inputsValidState[0].message}
+          </InputGroup.Validation>
         </InputGroup>
         {categoryId && (
           <InputGroup>
