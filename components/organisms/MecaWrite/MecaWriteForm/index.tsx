@@ -2,7 +2,6 @@ import { RefObject, useEffect, useState } from 'react';
 
 import { createPortal } from 'react-dom';
 
-import Input from '@/components/atoms/Input';
 import NumberIncreaseToggle from '@/components/atoms/NumberIncreaseToggle';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import { QuillWriter } from '@/components/molcules/Editor/EditorComponent';
