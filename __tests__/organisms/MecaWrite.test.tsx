@@ -95,6 +95,8 @@ describe('MecaWrite', () => {
     fireEvent.click(radioInput);
     const checkedRadioInput = await screen.findByRole('radio', { name: 'X' });
     expect(checkedRadioInput).toBeChecked();
+    const titleInput = screen.getByRole('textbox', { name: 'input-meca-title' });
+    fireEvent.change(titleInput, { target: { value: 'title' } });
     const submitButton = screen.getByRole('button', {
       name: /작성 완료/i,
     });
@@ -127,5 +129,25 @@ describe('MecaWrite', () => {
     expect(successToastText).toBeInTheDocument();
   });
 
-  // TODO: 등록 시 validation fail 테스트 추가하기
+  it('항목을 입력하지 않고 등록을 시도하면 등록되지 않고 invalid text가 식별된다.', async () => {
+    const mockBack = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({
+      back: mockBack,
+    });
+    renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
+    const submitButton = screen.getByRole('button', {
+      name: /작성 완료/i,
+    });
+    expect(submitButton).toBeInTheDocument();
+    fireEvent.click(submitButton);
+    await waitFor(() => expect(screen.queryByText(/카드 등록 성공/i)).not.toBeInTheDocument());
+    const invalidTitle = screen.getByText('제목을 2글자 이상 40글자이하로 작성해주세요');
+    expect(invalidTitle).toBeInTheDocument();
+
+    const titleInput = screen.getByRole('textbox', { name: 'input-meca-title' });
+    fireEvent.change(titleInput, { target: { value: 'title' } });
+    fireEvent.click(submitButton);
+    const invalidQuestion = screen.getByText('문제를 입력했는지 확인해주세요!');
+    expect(invalidQuestion).toBeInTheDocument();
+  });
 });
