@@ -52,9 +52,7 @@ const CategoryUpdateDialog = ({
       requestedThumbnail = await uploadImage(
         {
           purpose: 'thumbnail',
-          extension: thumbnail
-            ? (thumbnail.split('/thumbnail/')[1].split('.')[1] as (typeof IMAGE_EXTENTIONS)[number])
-            : (image.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number]),
+          extension: image.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number],
           fileName: `${Date.now()}-category-thumbnail`,
         },
         image as File,
