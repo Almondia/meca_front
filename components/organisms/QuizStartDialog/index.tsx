@@ -61,7 +61,7 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
       <Modal.Body>
         <InputGroup>
           <InputGroup.Label>문제 수 (최대 {quizNum})</InputGroup.Label>
-          {parseInt(quizCountInput, 10) > 1 ? (
+          {quizNum > 1 ? (
             <>
               <InputGroup.Input.Range
                 name="quiz-count"
