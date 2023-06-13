@@ -4,14 +4,19 @@ import ThemeProvider from '../styles/ThemeProvider';
 import { DecoratorFn } from '@storybook/react';
 import React, { useEffect } from 'react';
 import { RouterContext } from 'next/dist/shared/lib/router-context'; // next 12
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useQueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useCustomTheme from '../hooks/useCustomTheme';
 import commonTheme from '../styles/theme';
 import { ToastContainer } from 'react-toastify';
-
+import { worker } from '../__tests__/__mocks__/msw/worker';
+import { generateQueryClient } from '../query/queryClient';
 import 'react-toastify/dist/ReactToastify.css';
 
-const queryClient = new QueryClient();
+const queryClient = generateQueryClient();
+
+if (typeof global.process === 'undefined') {
+  worker.start();
+}
 
 const customViewports = {
   mobile: {
@@ -87,25 +92,38 @@ const ThemeChanger = ({ theme }) => {
   return <></>;
 };
 
+const ApiCacheClearProvider = ({ children }) => {
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    return () => {
+      // worker.resetHandlers();
+      queryClient.clear();
+    };
+  }, []);
+  return <>{children}</>;
+};
+
 const withDecorator: DecoratorFn = (StoryFn, context) => {
   const theme = context.parameters.theme || context.globals.theme;
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <ThemeChanger theme={theme} />
-        <ThemeProvider theme={commonTheme}>
-          <ToastContainer
-            closeOnClick
-            autoClose={2000}
-            position="top-center"
-            rtl={false}
-            theme="dark"
-            limit={2}
-            newestOnTop={false}
-            hideProgressBar
-          />
-          <StoryFn />
-        </ThemeProvider>
+        <ApiCacheClearProvider>
+          <ThemeChanger theme={theme} />
+          <ThemeProvider theme={commonTheme}>
+            <ToastContainer
+              closeOnClick
+              autoClose={2000}
+              position="top-center"
+              rtl={false}
+              theme="dark"
+              limit={2}
+              newestOnTop={false}
+              hideProgressBar
+            />
+            <StoryFn />
+          </ThemeProvider>
+        </ApiCacheClearProvider>
       </RecoilRoot>
     </QueryClientProvider>
   );

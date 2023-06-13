@@ -6,7 +6,10 @@ export default {
   title: 'components/organisms/MecaCard',
   component: MecaCard,
   parameters: {
-    componentSubtitle: '메모리 카드',
+    componentSubtitle: 'Meca',
+    controls: {
+      exclude: ['isMine', 'blurThumbnail'],
+    },
   },
 } as ComponentMeta<typeof MecaCard>;
 
@@ -20,10 +23,11 @@ export const Default = Template.bind({});
 Default.args = {
   cardId: '',
   categoryId: '',
-  title: '문제 타이틀',
-  question: '이러쿵 저러쿵 한 문제를 문제라고 하는데 그것은 너무너무 그것은 스토리북인데 그것은 말이지',
+  title: '그 많던 싱아를 누가 다 먹었을까',
+  question:
+    '이러쿵 저러쿵 한 문제를 문제라고 하는데 그것은 너무너무 그것은 스토리북인데 그것은 말이지 누가 취업좀 시켜줘 제발 열심히할게요',
   tagType: 'keyword',
-  isMine: true,
+  isMine: false,
   description:
-    "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>",
+    "<p>161616<img src='https://github.com/Almondia/meca_front/assets/76927397/b2ee4537-330f-4fc8-9360-c8902f2b2ce5'></p>",
 };
