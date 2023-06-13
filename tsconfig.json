@@ -16,6 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@/mock/*": ["./__tests__/__mocks__/msw/*"],
       "@/*": ["*"]
     }
   },
