@@ -57,7 +57,7 @@ export const mockedDeleteMecaApi = () => {
   const [uri, method] = [`${ENDPOINT}/cards/:id`, 'delete'];
   const responseResolver = async (req, res, ctx) => {
     const { id } = req.params;
-    const idx = MOCK_MECAS.findIndex((v) => v.categoryId === id);
+    const idx = MOCK_MECAS.findIndex((v) => v.cardId === id);
     MOCK_MECAS.splice(idx, 1);
     return res(ctx.status(200));
   };
@@ -71,14 +71,15 @@ export const mockedGetAuthUserMecaListApi = () => {
   const [uri, method] = [`${ENDPOINT}/cards/categories/:categoryId/me`, 'get'];
   const responseResolver = async (req, res, ctx) => {
     const { categoryId } = req.params;
-    const pageSize = req.url.searchParams.get('pageSize');
+    const pageSize = parseInt(req.url.searchParams.get('pageSize'), 10);
     const hasNext = req.url.searchParams.get('hasNext');
     const result = MOCK_MECAS.sort((o1, o2) => o2.cardId - o1.cardId).filter((card) => card.categoryId === categoryId);
-    const nextIndex = result.findIndex((v) => v.cardId === hasNext) ?? 0;
+    const index = result.findIndex((v) => v.cardId === hasNext);
+    const nextIndex = index === -1 ? 0 : index;
     const resData = {
-      contents: [...result].slice(nextIndex, pageSize + 1),
-      pageSize,
-      hasNext: result[nextIndex + 1] ? result[nextIndex + 1].cardId : undefined,
+      contents: [...result].slice(nextIndex, nextIndex + pageSize + 1),
+      pageSize: pageSize,
+      hasNext: result[nextIndex + pageSize + 1] ? result[nextIndex + pageSize + 1].cardId : undefined,
       category: {
         categoryId,
         title: MOCK_CATEGORIES.find((c) => c.categoryId === categoryId).title,
@@ -86,7 +87,7 @@ export const mockedGetAuthUserMecaListApi = () => {
         likeCount: 0,
       },
     };
-    return res(ctx.status(200), ctx.json({ ...resData }));
+    return res(ctx.status(200), ctx.json(resData));
   };
   return { uri, method, responseResolver };
 };

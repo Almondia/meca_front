@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { InfiniteData } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
 
-import { MecaUserListResponse } from '@/apis/mecaApi';
+import { hasAuthState } from '@/atoms/common';
 import MecaList, { MecaListProps } from '@/components/organisms/MecaList';
+import useMecaList from '@/hooks/meca/useMecaList';
+import {
+  mockedDeleteMecaApi,
+  mockedGetAuthUserMecaListApi,
+  mockedGetMecaCountApi,
+  mockedGetUserWithServerApi,
+} from '@/mock/api';
+import { MOCK_CATEGORY_ID } from '@/mock/data';
+import { restHandler } from '@/mock/handlers';
+import { implementWorker } from '@/mock/worker';
 
 export default {
   title: 'components/organisms/MecaList',
@@ -17,141 +27,32 @@ export default {
   },
 } as ComponentMeta<typeof MecaList>;
 
-const MecaListSample = {
-  pageParams: [null],
-  pages: [
-    {
-      contents: [
-        {
-          cardId: '1',
-          title: 'title1',
-          question: 'question',
-          categoryId: 'c1',
-          cardType: 'KEYWORD',
-          answer: '1',
-          description:
-            '<p>161616</p><p><br></p><p>&lt;img src="hello"/&gt;</p><p><br></p><p><img src=\'https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png\'></p>',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
-        },
-        {
-          cardId: '2',
-          title: 'title2',
-          question: 'question',
-          categoryId: 'c1',
-          cardType: 'OX_QUIZ',
-          answer: 'O',
-          description:
-            "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>",
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
-        },
-        {
-          cardId: '3',
-          title: 'title3',
-          question: 'questi1111111111111111111111111111on',
-          categoryId: 'c1',
-          cardType: 'OX_QUIZ',
-          answer: 'O',
-          description: '',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
-        },
-        {
-          cardId: '4',
-          title: 'title4',
-          question: 'question',
-          categoryId: 'c1',
-          cardType: 'KEYWORD',
-          answer: '1',
-          description: '',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
-        },
-        {
-          cardId: '5',
-          title: 'title5',
-          question: 'question',
-          categoryId: 'c1',
-          cardType: 'OX_QUIZ',
-          answer: 'O',
-          description: '',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
-        },
-        {
-          cardId: '6',
-          title: 'title6',
-          question: 'questi1111111111111111111111111111on',
-          categoryId: 'c1',
-          cardType: 'OX_QUIZ',
-          answer: 'O',
-          description: '',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
-        },
-      ],
-      category: {
-        categoryId: 'c1',
-        title: 'TITLE',
-        memberId: 'memberId',
-      },
-      hasNext: '6',
-      pageSize: 6,
-    },
-  ],
-} as unknown as InfiniteData<MecaUserListResponse>;
+const Template: ComponentStory<typeof MecaList> = (args: MecaListProps) => <MecaList {...args} />;
 
-const Template: ComponentStory<typeof MecaList> = (args: MecaListProps) => (
-  <div style={{ width: '100%' }}>
-    <MecaList {...args} />
-  </div>
-);
-
-export const Default = ({ hasNextPage, isMine }: { hasNextPage: boolean; isMine: boolean }) => {
-  const [mecaList, setMecaList] = useState<InfiniteData<MecaUserListResponse>>(MecaListSample);
-  const fetchNextPage = () => {
-    if (!hasNextPage) {
-      return;
-    }
-    const pageParam = mecaList.pages[mecaList.pages.length - 1].hasNext;
-    const contents = [...Array(6).fill(Number(pageParam))].map((v, i) => {
-      const meca = {
-        cardId: (v + i).toString(),
-        title: `title${v + i}`,
-        question: Date.now().toString(),
-        categoryId: 'c1',
-        cardType: 'OX_QUIZ',
-        answer: 'O',
-      };
-      return meca;
-    });
-    const newMecaList = {
-      ...mecaList,
-      pageParams: mecaList.pageParams.concat(pageParam),
-      pages: [
-        ...mecaList.pages,
-        {
-          contents,
-          hasNext: (Number(pageParam) + 6).toString(),
-          pageSize: 6,
-          category: {
-            categoryId: 'c1',
-            title: 'TITLE',
-            memberId: 'memberId',
-          },
-        },
-      ],
-    } as unknown as InfiniteData<MecaUserListResponse>;
-    setMecaList(newMecaList);
-  };
-  return <Template mecaList={mecaList} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} isMine={isMine} />;
+export const Default = ({ isMine, hasNextPage }: { isMine: boolean; hasNextPage: boolean }) => {
+  const setHasAuth = useSetRecoilState(hasAuthState);
+  useEffect(() => {
+    implementWorker([
+      restHandler(mockedGetUserWithServerApi),
+      restHandler(() => mockedGetMecaCountApi(50)),
+      restHandler(mockedGetAuthUserMecaListApi),
+      restHandler(mockedDeleteMecaApi),
+    ]);
+    setHasAuth(true);
+    return () => {
+      setHasAuth(false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const { mecaList, fetchNextPage, hasNextPage: hasMockedNextPage } = useMecaList(MOCK_CATEGORY_ID, true);
+  return (
+    <Template
+      mecaList={mecaList}
+      fetchNextPage={fetchNextPage}
+      hasNextPage={hasNextPage && hasMockedNextPage}
+      isMine={isMine}
+    />
+  );
 };
 
 export const Empty = Template.bind({});
