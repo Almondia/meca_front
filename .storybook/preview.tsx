@@ -8,10 +8,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useCustomTheme from '../hooks/useCustomTheme';
 import commonTheme from '../styles/theme';
 import { ToastContainer } from 'react-toastify';
+import { worker } from '../__tests__/__mocks__/msw/worker';
 
 import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
+
+if (typeof global.process === 'undefined') {
+  worker.start();
+}
 
 const customViewports = {
   mobile: {
