@@ -19,19 +19,13 @@ const Template: ComponentStory<typeof ToggleButton> = <T extends number>(args: T
   </div>
 );
 
-export const Default = Template.bind({});
-Default.args = {
-  innerTexts: ['abc', 'hel', 'abc'],
-  minWidth: '100px',
-};
-
-export const ChangeValue = () => {
+export const Default = () => {
   const values = ['30', '60', '90'];
   const [currentValue, setCurrentValue] = useState<string>(values[0]);
   return (
-    <div style={{ padding: '30px' }}>
-      <ToggleButton innerTexts={[...values]} onClicks={values.map((v) => () => setCurrentValue(v))} />
+    <>
+      <Template innerTexts={[...values]} onClicks={values.map((v) => () => setCurrentValue(v))} />
       <p>selected value:{currentValue} </p>
-    </div>
+    </>
   );
 };
