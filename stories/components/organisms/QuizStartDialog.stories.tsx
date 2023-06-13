@@ -1,6 +1,11 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import QuizStartDialog, { QuizStartDialogProps } from '@/components/organisms/QuizStartDialog';
+import { mockedGetSimulationMecasApi } from '@/mock/api';
+import { restHandler } from '@/mock/handlers';
+import { implementWorker } from '@/mock/worker';
+
+implementWorker([restHandler(mockedGetSimulationMecasApi, { status: 400, message: '퀴즈풀이 시작!' })]);
 
 export default {
   title: 'components/organisms/QuizStartDialog',
