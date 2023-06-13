@@ -9,7 +9,9 @@ import InputGroup from '@/components/molcules/InputGroup';
 import useMecaWrite from '@/hooks/meca/useMecaWrite';
 import useIncrease from '@/hooks/useCount';
 import useInput from '@/hooks/useInput';
+import useInputValidation from '@/hooks/useInputValidation';
 import { MECA_TAG_TO_RESPONSE, MecaTagType, MecaType } from '@/types/domain';
+import { Constraints } from '@/utils/validation';
 
 import KeywordAnswer from './answer/KeywordAnswer';
 import OxAnswer from './answer/OxAnswer';
@@ -65,11 +67,12 @@ const MecaWriteForm = ({
   );
   const [Question, setQuestion] = useState<MecaWriteInputComponentType | undefined>(undefined);
   const [Answer, setAnswer] = useState<MecaWriteInputComponentType | undefined>(undefined);
+  const { inputsValidState, validateAll, resetValidateState } = useInputValidation(3);
 
   useEffect(() => {
     setQuestion(() => QUESTION_COMPONENTS[mecaTagType]);
     setAnswer(() => ANSWER_COMPONENTS[mecaTagType]);
-
+    resetValidateState();
     return () => {
       setQuestionInput(question ?? '');
       setAnswerInput(answer ?? '');
@@ -80,8 +83,15 @@ const MecaWriteForm = ({
   if (!titleRef.current) {
     return null;
   }
-
   const handleCreateButtonClick = () => {
+    const { hasInvalid } = validateAll([
+      () => Constraints.cardTitle(titleInput),
+      () => Constraints.cardQuestion(questionInput),
+      () => Constraints.cardAnswer(answerInput),
+    ]);
+    if (hasInvalid) {
+      return;
+    }
     // TODO: validation 로직 추가
     const body = {
       title: titleInput,
@@ -102,20 +112,37 @@ const MecaWriteForm = ({
             onChange={onTitleChange}
             placeholder="제목 추가"
             name="meca-title"
-            isValid
+            isValid={inputsValidState[0].isValid}
             ariaLabel="input-meca-title"
           />
+          <InputGroup.Validation visible={!inputsValidState[0].isValid}>
+            {inputsValidState[0].message}
+          </InputGroup.Validation>
         </InputGroup>,
         titleRef.current,
       )}
-      {Question && <Question value={questionInput} onChange={onQuestionChange} selectionNum={caseNum} />}
+      {Question && (
+        <InputGroup>
+          <Question value={questionInput} onChange={onQuestionChange} selectionNum={caseNum} />
+          <InputGroup.Validation visible={!inputsValidState[1].isValid}>
+            {inputsValidState[1].message}
+          </InputGroup.Validation>
+        </InputGroup>
+      )}
       {mecaTagType === 'select' && (
         <InputGroup>
           <InputGroup.Label>문항 수를 선택하세요</InputGroup.Label>
           <NumberIncreaseToggle value={caseNum} onChange={changeCaseNum} />
         </InputGroup>
       )}
-      {Answer && <Answer value={answerInput} onChange={onAnswerChange} selectionNum={caseNum} />}
+      {Answer && (
+        <InputGroup>
+          <Answer value={answerInput} onChange={onAnswerChange} selectionNum={caseNum} />
+          <InputGroup.Validation visible={!inputsValidState[2].isValid}>
+            {inputsValidState[2].message}
+          </InputGroup.Validation>
+        </InputGroup>
+      )}
       <br />
       <InputGroup>
         <InputGroup.Label>문제를 설명하세요</InputGroup.Label>

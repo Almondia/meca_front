@@ -90,16 +90,23 @@ export const mockedPutCategoryApi = () => {
   const [uri, method] = [`${ENDPOINT}/categories/:id`, 'put'];
   const responseResolver = async (req, res, ctx) => {
     const { id } = req.params;
-    const { title } = await req.json();
+    let { title, thumbnail, isShared } = await req.json();
     const idx = MOCK_CATEGORIES.findIndex((v) => v.categoryId === id);
     const category = MOCK_CATEGORIES[idx];
     MOCK_CATEGORIES.splice(idx, 1);
-    MOCK_CATEGORIES.push({ ...category, title: title });
+    MOCK_CATEGORIES.push({
+      ...category,
+      title,
+      thumbnail,
+      shared: isShared ?? category.shared,
+    });
     return res(
       ctx.status(200),
       ctx.json({
         title: title,
         categoryId: id,
+        shared: isShared ?? category.shared,
+        thumbnail,
       }),
     );
   };

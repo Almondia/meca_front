@@ -61,22 +61,30 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
       <Modal.Body>
         <InputGroup>
           <InputGroup.Label>문제 수 (최대 {quizNum})</InputGroup.Label>
-          <InputGroup.Input.Range
-            name="quiz-count"
-            value={quizCountInput === '' ? '1' : quizCountInput}
-            min={MIN_QUIZNUM}
-            max={quizNum}
-            onChange={onQuizCountChange}
-            ariaLabel="input-quizcount-range"
-          />
-          <InputGroup.Input.Text
-            type="number"
-            name="quiz-count2"
-            value={quizCountInput}
-            placeholder=""
-            onChange={handleCountChange}
-            ariaLabel="input-quizcount-text"
-          />
+          {quizNum > 1 ? (
+            <>
+              <InputGroup.Input.Range
+                name="quiz-count"
+                value={quizCountInput === '' ? '1' : quizCountInput}
+                min={MIN_QUIZNUM}
+                max={quizNum}
+                onChange={onQuizCountChange}
+                ariaLabel="input-quizcount-range"
+              />
+              <InputGroup.Input.Text
+                type="number"
+                name="quiz-count2"
+                value={quizCountInput}
+                placeholder=""
+                onChange={handleCountChange}
+                ariaLabel="input-quizcount-text"
+              />
+            </>
+          ) : (
+            <p>
+              <br />
+            </p>
+          )}
         </InputGroup>
         <InputGroup>
           <InputGroup.Label>문제 풀이 시간</InputGroup.Label>

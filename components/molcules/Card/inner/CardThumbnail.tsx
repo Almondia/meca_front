@@ -21,7 +21,14 @@ export const CardThumbnail = ({ href, src, altText, preloadedInfo, onError }: Ca
         src={src}
         fill
         alt={altText}
-        onError={onError}
+        onError={(e) => {
+          if (onError) {
+            onError();
+            return;
+          }
+          const imageElement = e.target;
+          (imageElement as HTMLImageElement).src = '/images/noimage.png';
+        }}
         blurDataURL={preloadedInfo?.blurDataURL}
         placeholder={preloadedInfo ? 'blur' : 'empty'}
         sizes={`${MEDIA.mobile} 92vw, (max-width: 732px) 92vw, ${MEDIA.tablet} 46vw, 320px`}

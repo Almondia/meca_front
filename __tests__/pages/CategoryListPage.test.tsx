@@ -83,7 +83,7 @@ describe('CategoryListPage', () => {
         <Category />
       </>,
     );
-    const inputTitleText = 'geaighalgiahglaghalgahglaghalghalghalghaglhalgahglaghalghalghag';
+    const inputTitleText = 'geaighalgiahglaghalgah';
     const addButton = screen.getByRole('button', {
       name: /추가하기/i,
     });

@@ -17,7 +17,7 @@ export const MOCK_CATEGORIES = [...Array(36)].map((v, i) => {
 /**
  * 목록 카드 조회 및 CUD에 사용
  */
-export const MOCK_MECAS = [...Array(24)].map((v, i) => {
+export const MOCK_MECAS = [...Array(36)].map((v, i) => {
   const obj = {};
   obj.categoryId = MOCK_CATEGORY_ID;
   obj.cardId = '01234567-89ab-cdef-0123-456789abcd' + i.toString().padStart(2, '0');

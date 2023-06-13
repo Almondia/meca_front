@@ -18,6 +18,7 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve.alias,
       jsonwebtoken: '../__tests__/__mocks__/jwt.js',
+      '@/mock': path.resolve(__dirname, '../__tests__/__mocks__/msw'),
     };
     config.resolve.plugins = [
       new TsconfigPathsPlugin({
