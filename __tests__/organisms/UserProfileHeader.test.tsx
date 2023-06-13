@@ -76,8 +76,7 @@ describe('UserProfileHeader', () => {
       const changedAvatar = screen.getByRole('img', { name: `${USER.memberId}-avatar` }) as HTMLImageElement;
       expect(changedAvatar.src).toContain('noprofile.png');
     });
-    const editImageLinkButton = screen.queryByRole('button', { name: '편집' });
-    expect(editImageLinkButton).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByRole('button', { name: '편집' })).not.toBeInTheDocument());
   });
 
   it('UserProfile 프로필 수정 실패 시 사용자 변경이 반영되지 않으며 toast가 식별된다.', async () => {

@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import dynamic from 'next/dynamic';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Avatar from '@/components/atoms/Avatar';
 import LinkButton from '@/components/atoms/LinkButton';
@@ -77,10 +77,17 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
     setIsNameChangeClicked(false);
   };
 
+  const urlImage = useMemo(() => {
+    if (!image || typeof image === 'string') {
+      return image ?? '';
+    }
+    return URL.createObjectURL(image);
+  }, [image]);
+
   return (
     <UserProfileWrapper>
       <UserProfileAvatarContainer>
-        <Avatar imgSrc={profile} imgName={memberId} imgSize={120} />
+        <Avatar imgSrc={urlImage} imgName={memberId} imgSize={120} />
         <div>
           <LinkButton onClick={onUploadLocalImage}>등록</LinkButton>
           {profile && <LinkButton onClick={handleProfileImageDelete}>제거</LinkButton>}
@@ -90,7 +97,7 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
           <ImageCropper
             isCropBoxRatioChangeable={false}
             onClose={closeImageCropper}
-            image={typeof image === 'string' ? image : URL.createObjectURL(image)}
+            image={urlImage}
             setImage={onSetFileImage}
             minCropBoxWidth={36}
             minCropBoxHeight={36}
