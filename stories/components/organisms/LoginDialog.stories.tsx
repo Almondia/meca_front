@@ -13,7 +13,7 @@ export default {
   },
 } as ComponentMeta<typeof LoginDialog>;
 
-const Template: ComponentStory<typeof LoginDialog> = ({ visible, onClose }: DefaultModalOptions) => {
+const Template: ComponentStory<typeof LoginDialog> = ({ visible }: DefaultModalOptions) => {
   const [isVisible, setVisible] = useState(visible);
   useEffect(() => {
     setVisible(visible);
@@ -22,3 +22,6 @@ const Template: ComponentStory<typeof LoginDialog> = ({ visible, onClose }: Defa
 };
 
 export const Default = Template.bind({});
+Default.args = {
+  visible: true,
+};
