@@ -5,14 +5,15 @@ import { mockedGetSimulationMecasApi } from '@/mock/api';
 import { restHandler } from '@/mock/handlers';
 import { implementWorker } from '@/mock/worker';
 
-implementWorker([restHandler(mockedGetSimulationMecasApi, { status: 400, message: '퀴즈풀이 시작!' })]);
-
 export default {
   title: 'components/organisms/QuizStartDialog',
   component: QuizStartDialog,
 } as ComponentMeta<typeof QuizStartDialog>;
 
-const Template: ComponentStory<typeof QuizStartDialog> = (args: QuizStartDialogProps) => <QuizStartDialog {...args} />;
+const Template: ComponentStory<typeof QuizStartDialog> = (args: QuizStartDialogProps) => {
+  implementWorker([restHandler(mockedGetSimulationMecasApi, { status: 400, message: '퀴즈풀이 시작!' })]);
+  return <QuizStartDialog {...args} />;
+};
 
 export const Default = Template.bind({});
 Default.args = {
