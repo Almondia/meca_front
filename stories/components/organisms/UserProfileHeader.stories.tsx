@@ -13,7 +13,7 @@ import { MOCK_MEMBER } from '@/mock/data';
 import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
 import { implementWorker } from '@/mock/worker';
 
-const baseProfileUrl = 'https://github.com/Almondia/meca_front/assets/76927397/19ebdb39-a192-4156-ae5b-8d2500116140';
+const baseProfileUrl = 'https://avatars.githubusercontent.com/u/76927397?v=4';
 const changedProfileUrl = 'https://avatars.githubusercontent.com/u/76927397?v=4';
 
 export default {
@@ -26,7 +26,7 @@ const Template: ComponentStory<typeof UserProfileHeader> = () => {
     restHandler(() =>
       mockedGetUserWithServerApi({
         ...MOCK_MEMBER,
-        name: '박동석',
+        name: '박동섞',
         profile: baseProfileUrl,
       }),
     ),
