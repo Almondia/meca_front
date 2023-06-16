@@ -31,7 +31,6 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-
   const getRelativeDate = useCallback((date: string) => {
     const DateText = RelativeDateText({ date });
     return <DateText />;
@@ -74,7 +73,7 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                     <QuizHistoryTableContentRow data-testid="id-history-list" key={content.cardHistoryId}>
                       <td className="card-id">{content.cardId}</td>
                       <td width="130px" className="user">
-                        {content.solvedUserName}
+                        {content.solvedMemberName}
                       </td>
                       <td className="question">
                         <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} scale={0.8} />

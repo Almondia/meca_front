@@ -103,10 +103,11 @@ export interface QuizType extends MecaType {
 
 export interface CardHistoryType extends Omit<MecaType, 'description'> {
   cardHistoryId: string;
-  solvedUserId: string;
-  solvedUserName: string;
   userAnswer: string;
   score: number;
+  solvedMemberId: string;
+  solvedMemberName: string;
+  memberId: string;
 }
 
 export const IMAGE_EXTENTIONS = ['jpg', 'jpeg', 'gif', 'png'] as const;
