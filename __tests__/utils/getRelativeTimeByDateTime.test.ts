@@ -21,11 +21,11 @@ describe('getRelativeTimeByDateTime', () => {
     expect(getRelativeTimeByDateTime(time)).toBe('2일전');
   });
 
-  it('3일보다 오래되었다면 "{year}년 {month}월 {date}일"을 리턴한다.', () => {
+  it('3일보다 오래되었다면 "{year}.{month}.{date}"을 리턴한다.', () => {
     const time = new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString();
     const year = time.substring(0, 4);
     const month = time.substring(5, 7);
     const date = time.substring(8, 10);
-    expect(getRelativeTimeByDateTime(time)).toBe(`${year}년 ${month}월 ${date}일`);
+    expect(getRelativeTimeByDateTime(time)).toBe(`${year.substring(2)}.${month}.${date}`);
   });
 });

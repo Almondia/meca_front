@@ -1,6 +1,13 @@
 // eslint-disable-next-line import/prefer-default-export
 export const hasBrowser = () => typeof window !== 'undefined';
 
+export const getYYMMDDFromDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year.toString().substring(2)}.${month}.${day}`;
+};
+
 export const getRelativeTimeByDateTime = (time: string) => {
   const today = new Date();
   const timeValue = new Date(time);
@@ -17,9 +24,5 @@ export const getRelativeTimeByDateTime = (time: string) => {
   if (betweenTimeDay < 3) {
     return `${betweenTimeDay}일전`;
   }
-
-  const year = timeValue.getFullYear();
-  const month = (timeValue.getMonth() + 1).toString().padStart(2, '0');
-  const date = timeValue.getDate().toString().padStart(2, '0');
-  return `${year}년 ${month}월 ${date}일`;
+  return getYYMMDDFromDate(timeValue);
 };
