@@ -26,7 +26,7 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
   };
   return (
     <ListControlGroup>
-      <ListControlGroup.Right>
+      <ListControlGroup.Left>
         <Input.Text
           width="155px"
           iconLeft="Zoomin"
@@ -39,8 +39,8 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
         <Button colorTheme="primary" onClick={handleSearchQuery} size="small">
           검색
         </Button>
-      </ListControlGroup.Right>
-      <ListControlGroup.Left>
+      </ListControlGroup.Left>
+      <ListControlGroup.Right>
         {!isShared && (
           <>
             <Button colorTheme="primary" onClick={addCategoryOpen} size="small">
@@ -56,7 +56,7 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
             )}
           </>
         )}
-      </ListControlGroup.Left>
+      </ListControlGroup.Right>
     </ListControlGroup>
   );
 };
