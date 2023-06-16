@@ -21,7 +21,7 @@ export const ListInfiniteScrollerGridContainer = styled.div`
   @media ${({ theme }) => theme.media.tablet} {
     grid-template-columns: 1fr 1fr;
   }
-  @media (max-width: 732px) {
+  @media (max-width: 632px) {
     grid-template-columns: 1fr;
   }
 `;

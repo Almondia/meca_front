@@ -31,7 +31,7 @@ export const CardThumbnail = ({ href, src, altText, preloadedInfo, onError }: Ca
         }}
         blurDataURL={preloadedInfo?.blurDataURL}
         placeholder={preloadedInfo ? 'blur' : 'empty'}
-        sizes={`${MEDIA.mobile} 92vw, (max-width: 732px) 92vw, ${MEDIA.tablet} 46vw, 320px`}
+        sizes={`${MEDIA.mobile} 92vw, (max-width: 632px) 92vw, ${MEDIA.tablet} 46vw, 320px`}
       />
     </CardThumbnailWrapper>
   </Link>

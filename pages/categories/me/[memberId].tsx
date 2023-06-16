@@ -16,13 +16,13 @@ import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 
 const Category = () => {
-  const { categoires, hasNextPage, fetchNextPage } = useCategory();
+  const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
   return (
     <>
       <MetaHead title="내 카테고리 목록" description="로그인 후 이용할 수 있어요!" />
       <ListSection>
         <PageTitle>내 카테고리 목록</PageTitle>
-        <CategoryControl />
+        <CategoryControl onChangeQuery={changeSearchQuery} />
         <Devide />
         <CategoryList categoryList={categoires} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
       </ListSection>
@@ -32,7 +32,7 @@ const Category = () => {
 
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   await queryClient.prefetchInfiniteQuery(
-    [queryKey.categories, 'me'],
+    [queryKey.categories, 'me', ''],
     async () => {
       const categoryList = await categoryApi.getMyCategoryList({});
       const categoryListContentWithBlurURL = await Promise.all(
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
-  const categoryList = queryClient.getQueryData([queryKey.categories, 'me']);
+  const categoryList = queryClient.getQueryData([queryKey.categories, 'me', '']);
   if (categoryList) {
     context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   }
