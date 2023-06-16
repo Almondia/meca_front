@@ -57,11 +57,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
       <PostBody>
         <PostBody.Title>퀴즈 기록</PostBody.Title>
         <PostBody.Content hasBackground={false} hasIndent={false}>
-          <QuizHistoryList
-            excludeRows={['user', 'card-id']}
-            historyList={cardHistoryList}
-            fetchNextPage={fetchNextPage}
-          />
+          <QuizHistoryList excludeRows={['user']} historyList={cardHistoryList} fetchNextPage={fetchNextPage} />
         </PostBody.Content>
       </PostBody>
     </PostSection>

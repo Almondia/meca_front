@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 
 const getYYMMDD = (date: string) => {
   const [year, month, day] = date.split('T')[0].split('-');
-  return `${year}년 ${month.padStart(2, '0')}월 ${day.padStart(2, '0')}일`;
+  return `${year.substring(2)}.${month.padStart(2, '0')}.${day.padStart(2, '0')}`;
 };
 
 export const RelativeDateText = ({ date }: { date: string }) => {
