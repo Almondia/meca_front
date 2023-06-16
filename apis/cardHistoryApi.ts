@@ -18,9 +18,9 @@ const cardHistoryApi = {
     return {
       ...response,
       contents: response.contents.map((content: any) => ({
-        ...content.cardHistory,
         ...content.solvedMember,
         ...content.card,
+        ...content.cardHistory,
       })),
     } as CardHistoryListResponse;
   },
@@ -31,9 +31,9 @@ const cardHistoryApi = {
     return {
       ...response,
       contents: response.contents.map((content: any) => ({
-        ...content.cardHistory,
         ...content.solvedMember,
         ...content.card,
+        ...content.cardHistory,
       })),
     } as CardHistoryListResponse;
   },
