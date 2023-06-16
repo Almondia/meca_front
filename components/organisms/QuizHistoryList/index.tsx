@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { useCallback, useEffect, useState } from 'react';
 
 import { InfiniteData } from '@tanstack/react-query';
@@ -8,6 +10,7 @@ import { RelativeDateText } from '@/components/common/RelativeDateText';
 import MecaTag from '@/components/molcules/MecaTag';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
+import { combineUUID } from '@/utils/uuidHandler';
 
 import {
   QuizHistoryListWrapper,
@@ -18,7 +21,7 @@ import {
 } from './styled';
 
 export interface QuizHistoryListProps {
-  excludeRows?: ('user' | 'question' | 'card-id')[];
+  excludeRows?: ('user' | 'question' | 'card-id' | 'quiz-type')[];
   historyList: InfiniteData<CardHistoryListResponse> | undefined;
   fetchNextPage: () => void;
 }
@@ -31,7 +34,6 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-
   const getRelativeDate = useCallback((date: string) => {
     const DateText = RelativeDateText({ date });
     return <DateText />;
@@ -49,7 +51,7 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
               <th scope="col" className="user">
                 푼사람
               </th>
-              <th scope="col" className="question">
+              <th scope="col" className="quiz-type">
                 문제유형
               </th>
               <th scope="col">문제정보</th>
@@ -72,11 +74,15 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                   });
                   return (
                     <QuizHistoryTableContentRow data-testid="id-history-list" key={content.cardHistoryId}>
-                      <td className="card-id">{content.cardId}</td>
-                      <td width="130px" className="user">
-                        {content.solvedUserName}
+                      <td className="card-id">
+                        <Link href={`/mecas/${combineUUID(content.memberId, content.cardId)}`} prefetch={false}>
+                          {content.cardId.slice(-4)}
+                        </Link>
                       </td>
-                      <td className="question">
+                      <td width="130px" className="user">
+                        {content.solvedMemberName}
+                      </td>
+                      <td className="quiz-type">
                         <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} scale={0.8} />
                       </td>
                       <td className="quiz-content-devide">

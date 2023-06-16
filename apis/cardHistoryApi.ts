@@ -11,14 +11,32 @@ export interface CardHistoryListRequest extends CursorPaginationType {
 }
 
 const cardHistoryApi = {
-  getHistoriesByMemberId: ({ id, hasNext, pageSize }: CardHistoryListRequest) =>
-    unauthInstance.get<never, CardHistoryListResponse>(`/api/v1/histories/members/${id}`, {
+  getHistoriesByMemberId: async ({ id, hasNext, pageSize }: CardHistoryListRequest) => {
+    const response = await unauthInstance.get<never, any>(`/api/v2/histories/members/${id}`, {
       params: { pageSize: pageSize ?? 5, hasNext },
-    }),
-  getHistoriesByCardId: ({ id, hasNext, pageSize }: CardHistoryListRequest) =>
-    unauthInstance.get<never, CardHistoryListResponse>(`/api/v1/histories/cards/${id}`, {
+    });
+    return {
+      ...response,
+      contents: response.contents.map((content: any) => ({
+        ...content.solvedMember,
+        ...content.card,
+        ...content.cardHistory,
+      })),
+    } as CardHistoryListResponse;
+  },
+  getHistoriesByCardId: async ({ id, hasNext, pageSize }: CardHistoryListRequest) => {
+    const response = await unauthInstance.get<never, any>(`/api/v2/histories/cards/${id}`, {
       params: { pageSize: pageSize ?? 5, hasNext },
-    }),
+    });
+    return {
+      ...response,
+      contents: response.contents.map((content: any) => ({
+        ...content.solvedMember,
+        ...content.card,
+        ...content.cardHistory,
+      })),
+    } as CardHistoryListResponse;
+  },
 };
 
 export default cardHistoryApi;

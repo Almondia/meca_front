@@ -16,8 +16,8 @@ const HISTORY_LIST: InfiniteData<CardHistoryListResponse> = {
       contents: [
         {
           cardHistoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd00',
-          solvedUserId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd01',
-          solvedUserName: '이름이엄청길수도있어요',
+          solvedMemberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd01',
+          solvedMemberName: '이름이엄청길수도있어요',
           userAnswer: 'answer',
           score: 62,
           categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd02',
@@ -27,11 +27,12 @@ const HISTORY_LIST: InfiniteData<CardHistoryListResponse> = {
           question: '박동석의 MBTI는 무엇일까요?',
           answer: 'answer',
           cardType: 'KEYWORD',
+          memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
         },
         {
           cardHistoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd01',
-          solvedUserId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd02',
-          solvedUserName: 'name',
+          solvedMemberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd02',
+          solvedMemberName: 'name',
           userAnswer: '1',
           score: 0,
           categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd03',
@@ -41,6 +42,7 @@ const HISTORY_LIST: InfiniteData<CardHistoryListResponse> = {
           question: '["다음 중 박동석의 MBTI로 적절한 것은?","INFP","ENFJ","ISTJ"]',
           answer: '1',
           cardType: 'MULTI_CHOICE',
+          memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
         },
       ],
       hasNext: '0188625a-433e-f7f6-0eb4-e24ef9a5bd04',
@@ -50,8 +52,8 @@ const HISTORY_LIST: InfiniteData<CardHistoryListResponse> = {
       contents: [
         {
           cardHistoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd04',
-          solvedUserId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
-          solvedUserName: 'name',
+          solvedMemberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
+          solvedMemberName: 'name',
           userAnswer: 'answer',
           score: 35,
           categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd07',
@@ -62,6 +64,7 @@ const HISTORY_LIST: InfiniteData<CardHistoryListResponse> = {
             '질문이 엄청나게 길어서 짤릴수도 있으니까 이렇게 길게써보려는데 어느정도 길이까지 커버가 가능할까요',
           answer: '정답이아주길면어떡하지어떡해어떡해해야할까요',
           cardType: 'KEYWORD',
+          memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
         },
       ],
       hasNext: undefined,

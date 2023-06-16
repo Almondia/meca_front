@@ -22,7 +22,7 @@ const ListInfiniteScroller = ({ children, loader, loadMore, hasMore, type }: Lis
       {type === 'grid' ? (
         <ListInfiniteScrollerGridContainer>{children}</ListInfiniteScrollerGridContainer>
       ) : (
-        <ResponsiveMasonry columnsCountBreakPoints={{ 360: 1, 732: 2, 992: 3, 1440: 4 }}>
+        <ResponsiveMasonry columnsCountBreakPoints={{ 360: 1, 632: 2, 992: 3, 1440: 4 }}>
           <Masonry gutter="32px">{children}</Masonry>
         </ResponsiveMasonry>
       )}

@@ -7,7 +7,12 @@ import { restHandler } from '../__mocks__/msw/handlers';
 import nookies from 'nookies';
 import * as SharedCardPage from '@/pages/mecas/[memberCardId]';
 import * as PrivateCardPage from '@/pages/mecas/me/[cardId]';
-import { mockedGetAuthUserdMecaApi, mockedGetSharedMecaApi, mockedGetUserApi } from '../__mocks__/msw/api';
+import {
+  mockedGetAuthUserdMecaApi,
+  mockedGetMecaHistoryByCardApi,
+  mockedGetSharedMecaApi,
+  mockedGetUserApi,
+} from '../__mocks__/msw/api';
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
@@ -28,7 +33,7 @@ describe('MecaById', () => {
         "cardType": "OX_QUIZ",
   */
     it('존재하는 공유된 단일 카드 페이지가 식별된다.', async () => {
-      implementServer([restHandler(mockedGetSharedMecaApi)]);
+      implementServer([restHandler(mockedGetSharedMecaApi), restHandler(mockedGetMecaHistoryByCardApi)]);
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: '',
       });
@@ -83,7 +88,11 @@ describe('MecaById', () => {
 
   describe('private Page test', () => {
     beforeEach(() => {
-      implementServer([restHandler(mockedGetUserApi), restHandler(mockedGetAuthUserdMecaApi)]);
+      implementServer([
+        restHandler(mockedGetUserApi),
+        restHandler(mockedGetAuthUserdMecaApi),
+        restHandler(mockedGetMecaHistoryByCardApi),
+      ]);
     });
     afterEach(() => {
       jest.clearAllMocks();

@@ -38,6 +38,7 @@ const categoryApi = {
       params: {
         pageSize: props.pageSize ?? PAGINATION_NUM,
         hasNext: props.hasNext,
+        containTitle: props.containTitle,
       },
     }),
   addCategory: ({ title, thumbnail }: AddCategoryType) =>
