@@ -1,18 +1,27 @@
+import { useCallback } from 'react';
+
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import categoryApi, { PrivateCategoriesResponse, UpdateCategoryType } from '@/apis/categoryApi';
 import utilApi from '@/apis/utilApi';
 import queryKey from '@/query/queryKey';
-import { CategoryType } from '@/types/domain';
+import { CategoryType, IMAGE_EXTENTIONS } from '@/types/domain';
 
-const useCategoryUpdate = () => {
+import useFetchImage from '../useFetchImage';
+
+interface CategoryUpdateType {
+  categoryId?: string;
+  title: string;
+  thumbnail: string;
+  shared: boolean;
+  prevShared?: boolean;
+}
+
+const useCategoryUpdate = (successHandler?: () => void) => {
   const queryClient = useQueryClient();
+  const { uploadImage } = useFetchImage();
 
-  const { mutate: updateCategory, isSuccess } = useMutation<
-    CategoryType,
-    unknown,
-    UpdateCategoryType & { prevShared: boolean }
-  >(
+  const { mutate: putCategory } = useMutation<CategoryType, unknown, UpdateCategoryType & { prevShared: boolean }>(
     ({ categoryId, title, thumbnail, shared }) => categoryApi.updateCategory({ categoryId, title, thumbnail, shared }),
     {
       onSuccess: (data: CategoryType, { prevShared, shared }) => {
@@ -34,10 +43,46 @@ const useCategoryUpdate = () => {
         if (shared || prevShared !== shared) {
           utilApi.revalidate(['/']);
         }
+        successHandler?.();
       },
     },
   );
-  return { updateCategory, isSuccess };
+
+  const uploadThumbnail = useCallback(async (image: File) => {
+    const uploadedImage = await uploadImage(
+      {
+        purpose: 'thumbnail',
+        extension: image.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number],
+        fileName: `${Date.now()}-category-thumbnail`,
+      },
+      image as File,
+    );
+    return uploadedImage;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { mutate: postCategory } = useMutation(categoryApi.addCategory, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([queryKey.categories, 'me']);
+      successHandler?.();
+    },
+  });
+
+  const updateCategory = ({ categoryId, title, thumbnail, shared, prevShared }: CategoryUpdateType) => {
+    if (categoryId) {
+      putCategory({
+        categoryId,
+        title,
+        thumbnail,
+        shared,
+        prevShared: prevShared ?? false,
+      });
+      return;
+    }
+    postCategory({ title, thumbnail });
+  };
+
+  return { updateCategory, uploadThumbnail };
 };
 
 export default useCategoryUpdate;
