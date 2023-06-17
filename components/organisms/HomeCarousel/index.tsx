@@ -2,6 +2,8 @@ import 'slick-carousel/slick/slick.css';
 
 import Image from 'next/image';
 
+import React from 'react';
+
 import MainImage from '@/public/images/mainimg1.png';
 import { TextBody } from '@/styles/common';
 import { COLOR, MEDIA } from '@/styles/constants';
@@ -37,8 +39,8 @@ const HomeCarousel = () => (
           <div>
             <h4>내가 만드는 너를 위한 학습 카드</h4>
             <TextBody>
-              나(Me)를 위해 기억(Memory)해야 할 것들을 <br />
-              카드로 만들어 학습하고 복습해요
+              너를 위해 기억해야 할 것들을 <br />
+              카드로 만들어 같이 공유해요
             </TextBody>
           </div>
           <div>
@@ -57,4 +59,4 @@ const HomeCarousel = () => (
   </HomeCarouselWrapper>
 );
 
-export default HomeCarousel;
+export default React.memo(HomeCarousel);
