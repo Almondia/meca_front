@@ -1,3 +1,5 @@
+import React from 'react';
+
 import styled from 'styled-components';
 
 import Icons, { IconType } from '../Icons';
@@ -11,8 +13,6 @@ export interface IconProps {
   color?: string;
   /** [선택] 아이콘 크기 */
   size?: string;
-  /** [선택] 클래스 */
-  className?: string;
 }
 
 const IconLayout = styled.div<Pick<IconProps, 'color' | 'size'>>`
@@ -30,13 +30,13 @@ const IconLayout = styled.div<Pick<IconProps, 'color' | 'size'>>`
  * - size는 기본 24px이며 폭과 너비는 같습니다. string으로 사이즈를 지정할 수 있습니다.
  * - color는 기본으로 제공되는 색상 또는 theme text color이며 rgb또는 코드를 입력하여 색상을 설정합니다.
  */
-const Icon = ({ icon, color, size, className = '' }: IconProps) => {
+const Icon = ({ icon, color, size }: IconProps) => {
   const SVGIcon = Icons[icon] as any;
   return (
     <IconLayout color={color} size={size}>
-      <SVGIcon className={className} viewBox="0 0 24 24" />
+      <SVGIcon viewBox="0 0 24 24" />
     </IconLayout>
   );
 };
 
-export default Icon;
+export default React.memo(Icon);
