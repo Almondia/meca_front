@@ -3,19 +3,16 @@ import { useState } from 'react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import ToggleButton, { ToggleButtonProps } from '@/components/atoms/ToggleButton';
+import Selection, { SelectionProps } from '@/components/atoms/Selection';
 
 export default {
-  title: 'components/atoms/ToggleButton',
-  component: ToggleButton,
-  parameters: {
-    componentSubtitle: '토글 버튼',
-  },
-} as ComponentMeta<typeof ToggleButton>;
+  title: 'components/atoms/Selection',
+  component: Selection,
+} as ComponentMeta<typeof Selection>;
 
-const Template: ComponentStory<typeof ToggleButton> = <T extends number>(args: ToggleButtonProps<T>) => (
+const Template: ComponentStory<typeof Selection> = <T extends number>(args: SelectionProps<T>) => (
   <div style={{ padding: '30px' }}>
-    <ToggleButton {...args} />
+    <Selection {...args} />
   </div>
 );
 

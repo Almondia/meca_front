@@ -3,17 +3,17 @@ import { useState } from 'react';
 
 import { ElementSizeType } from '@/types/common';
 
-import { InnerToggleButton, ToggleButtonWrapper } from './styled';
+import { SelectionToggle, SelectionWrapper } from './styled';
 
 type FixedArray<T, L extends number> = [...T[]] & { length: L };
 
-export interface ToggleButtonProps<T extends number> {
+export interface SelectionProps<T extends number> {
   innerTexts: FixedArray<string, T>;
   onClicks: FixedArray<() => void, T>;
   minWidth?: ElementSizeType;
 }
 
-const ToggleButtonGroup = <T extends number>({ innerTexts, onClicks, minWidth }: ToggleButtonProps<T>) => {
+const Selection = <T extends number>({ innerTexts, onClicks, minWidth }: SelectionProps<T>) => {
   const [selected, setSelected] = useState(0);
 
   const handleClick = (index: number) => {
@@ -21,19 +21,19 @@ const ToggleButtonGroup = <T extends number>({ innerTexts, onClicks, minWidth }:
     onClicks[index]?.();
   };
   return (
-    <ToggleButtonWrapper>
+    <SelectionWrapper>
       {innerTexts.map((text, index) => (
-        <InnerToggleButton
+        <SelectionToggle
           key={index}
           onClick={() => handleClick(index)}
           isSelected={selected === index}
           minWidth={minWidth}
         >
           {text}
-        </InnerToggleButton>
+        </SelectionToggle>
       ))}
-    </ToggleButtonWrapper>
+    </SelectionWrapper>
   );
 };
 
-export default ToggleButtonGroup;
+export default Selection;

@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import ToggleButton from '@/components/atoms/ToggleButton';
+import Selection from '@/components/atoms/Selection';
 import useQuiz from '@/hooks/meca/useQuiz';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
@@ -88,7 +88,7 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
         </InputGroup>
         <InputGroup>
           <InputGroup.Label>문제 풀이 시간</InputGroup.Label>
-          <ToggleButton
+          <Selection
             innerTexts={[...QUIZ_SECONDS]}
             onClicks={QUIZ_SECONDS.map((quiz) => () => setQuizTimeInput(quiz))}
           />
