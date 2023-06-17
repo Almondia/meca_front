@@ -120,12 +120,12 @@ describe('MecaById', () => {
       });
       const cardTitle = screen.getByRole('heading', { name: 'Small Soft Computer' });
       const username = screen.getByText('임현규');
-      const updateLink = screen.getByRole('link', { name: '수정하기' });
-      const deleteLink = screen.getByRole('link', { name: '삭제하기' });
+      const updateLinkButton = screen.getByRole('button', { name: '수정하기' });
+      const deleteLinkButton = screen.getByRole('button', { name: '삭제하기' });
       expect(cardTitle).toBeInTheDocument();
       expect(username).toBeInTheDocument();
-      expect(updateLink).toBeInTheDocument();
-      expect(deleteLink).toBeInTheDocument();
+      expect(updateLinkButton).toBeInTheDocument();
+      expect(deleteLinkButton).toBeInTheDocument();
     });
 
     it('잘못된 param 요청에 대해서 404 처리된다.', async () => {

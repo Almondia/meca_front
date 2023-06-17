@@ -3,15 +3,14 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
-
-import React, { useCallback } from 'react';
+import { useRouter } from 'next/router';
 
 import mecaApi from '@/apis/mecaApi';
+import LinkButton from '@/components/atoms/LinkButton';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
 import AvatarUser from '@/components/molcules/AvatarUser';
-import ListControlGroup from '@/components/molcules/ListControlGroup';
+import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
@@ -31,11 +30,17 @@ const MecaById = ({ cardId }: MecaPageProps) => {
   const { meca } = useMeca(cardId);
   const { user } = useUser();
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
+  const router = useRouter();
 
-  const handleDeleteLinkClick = useCallback((e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    deleteModalOpen();
-  }, []);
+  const handleUpdateCardButtonClick = () => {
+    if (meca) {
+      router.push(`/mecas/write/${meca.categoryId}?cardId=${cardId}`);
+    }
+  };
+
+  const handleDeleteCardButtonClick = () => {
+    !isDeleteModalVisible && deleteModalOpen();
+  };
 
   return (
     <>
@@ -45,17 +50,19 @@ const MecaById = ({ cardId }: MecaPageProps) => {
           <PostSection>
             <PageTitle>{meca.title}</PageTitle>
             <br />
-            <ListControlGroup>
-              <ListControlGroup.Left>
+            <BetweenControlGroup>
+              <BetweenControlGroup.Left>
                 <AvatarUser name={user.name} profile={user.profile} />
-              </ListControlGroup.Left>
-              <ListControlGroup.Right>
-                <Link href={`/mecas/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
-                <Link href="/" onClick={handleDeleteLinkClick}>
+              </BetweenControlGroup.Left>
+              <BetweenControlGroup.Right>
+                <LinkButton onClick={handleUpdateCardButtonClick} textSize="main">
+                  수정하기
+                </LinkButton>
+                <LinkButton onClick={handleDeleteCardButtonClick} textSize="main">
                   삭제하기
-                </Link>
-              </ListControlGroup.Right>
-            </ListControlGroup>
+                </LinkButton>
+              </BetweenControlGroup.Right>
+            </BetweenControlGroup>
             <MecaDeleteDialog
               cardId={cardId}
               categoryId={meca.categoryId}

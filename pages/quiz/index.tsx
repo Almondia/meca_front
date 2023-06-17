@@ -6,15 +6,15 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
 
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import CountIndicator from '@/components/atoms/CountIndicator';
 import LinkButton from '@/components/atoms/LinkButton';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
+import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import useCount from '@/hooks/useCount';
-import { FlexSpaceBetween, PostSection } from '@/styles/layout';
+import { PostSection } from '@/styles/layout';
 import { QuizPhaseType, QuizResultType, QuizSucceedType } from '@/types/domain';
 
 const QuizPost = dynamic(() => import('@/components/organisms/QuizPost'), {
@@ -29,11 +29,6 @@ const QuizResult = dynamic(() => import('@/components/organisms/QuizResult'), {
 
 const TimerBar = dynamic(() => import('@/components/molcules/TimerBar'));
 const PageTitle = dynamic(() => import('@/components/atoms/PageTitle'));
-
-const QuizTitleBox = styled.div`
-  ${FlexSpaceBetween};
-  align-items: center;
-`;
 
 type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhaseType, QuizSucceedType>, 'result'>;
 
@@ -118,36 +113,39 @@ const QuizPage = () => {
       </PostSection>
     );
   }
-  if (quizPhase === 'result') {
-    return (
-      <PostSection>
-        <QuizTitleBox>
-          <PageTitle>{quizTitle}</PageTitle>
-          <LinkButton onClick={() => router.back()} textSize="main">
-            목록으로
-          </LinkButton>
-        </QuizTitleBox>
-        <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
-      </PostSection>
-    );
-  }
   return (
     <PostSection>
-      <QuizTitleBox>
-        <PageTitle>{quizTitle}</PageTitle>
-        <CountIndicator currentCount={round} maxCount={quizList.length} />
-      </QuizTitleBox>
-      {quizPhase === 'progress' ? <TimerBar second={quizPhaseTime ?? undefined} /> : <TimerBar />}
-      <br />
-      <br />
-      <QuizPost
-        isAnswerState={quizPhase !== 'progress'}
-        question={quizList[quizIndex].question}
-        answer={quizList[quizIndex].answer}
-        description={quizList[quizIndex].description}
-        handleSucceed={quizPhaseSucceed[quizPhase]}
-        quizType={quizList[quizIndex].cardType}
-      />
+      <BetweenControlGroup>
+        <BetweenControlGroup.Left>
+          <PageTitle>{quizTitle}</PageTitle>
+        </BetweenControlGroup.Left>
+        <BetweenControlGroup.Right>
+          {quizPhase === 'result' ? (
+            <LinkButton onClick={() => router.back()} textSize="main">
+              목록으로
+            </LinkButton>
+          ) : (
+            <CountIndicator currentCount={round} maxCount={quizList.length} />
+          )}
+        </BetweenControlGroup.Right>
+      </BetweenControlGroup>
+      {quizPhase === 'result' ? (
+        <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
+      ) : (
+        <>
+          <TimerBar second={quizPhase === 'progress' ? quizPhaseTime : undefined} />
+          <br />
+          <br />
+          <QuizPost
+            isAnswerState={quizPhase !== 'progress'}
+            question={quizList[quizIndex].question}
+            answer={quizList[quizIndex].answer}
+            description={quizList[quizIndex].description}
+            handleSucceed={quizPhaseSucceed[quizPhase]}
+            quizType={quizList[quizIndex].cardType}
+          />
+        </>
+      )}
     </PostSection>
   );
 };
