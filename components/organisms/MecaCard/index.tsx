@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import Card from '@/components/molcules/Card';
 import CardMenu from '@/components/molcules/CardMenu';
@@ -34,7 +34,10 @@ const MecaCard = ({
   blurThumbnail,
 }: MecaCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
-  const thumbnailImageSrc = blurThumbnail?.src ?? extractFirstImageSrc(description);
+  const thumbnailImageSrc = useMemo(
+    () => blurThumbnail?.src ?? extractFirstImageSrc(description),
+    [description, blurThumbnail],
+  );
   return (
     <Card data-testid="id-meca-card">
       {thumbnailImageSrc && (
