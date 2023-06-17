@@ -10,7 +10,8 @@ import React, { useCallback } from 'react';
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
-import CardWriterInfo from '@/components/molcules/PostWriterInfo';
+import AvatarUser from '@/components/molcules/AvatarUser';
+import ListControlGroup from '@/components/molcules/ListControlGroup';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
@@ -44,14 +45,17 @@ const MecaById = ({ cardId }: MecaPageProps) => {
           <PostSection>
             <PageTitle>{meca.title}</PageTitle>
             <br />
-            <CardWriterInfo name={user.name} profile={user.profile}>
-              <CardWriterInfo.Modification>
+            <ListControlGroup>
+              <ListControlGroup.Left>
+                <AvatarUser name={user.name} profile={user.profile} />
+              </ListControlGroup.Left>
+              <ListControlGroup.Right>
                 <Link href={`/mecas/write/${meca.categoryId}?cardId=${cardId}`}>수정하기</Link>
                 <Link href="/" onClick={handleDeleteLinkClick}>
                   삭제하기
                 </Link>
-              </CardWriterInfo.Modification>
-            </CardWriterInfo>
+              </ListControlGroup.Right>
+            </ListControlGroup>
             <MecaDeleteDialog
               cardId={cardId}
               categoryId={meca.categoryId}

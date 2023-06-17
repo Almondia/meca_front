@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import Button from '@/components/atoms/Button';
+import AvatarUser from '@/components/molcules/AvatarUser';
 import ListControlGroup from '@/components/molcules/ListControlGroup';
-import PostWriterInfo from '@/components/molcules/PostWriterInfo';
 import useCachedOrFetchQuery from '@/hooks/useCachedOrFetchQuery';
 import useModal from '@/hooks/useModal';
 import queryKey from '@/query/queryKey';
@@ -45,7 +45,7 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile, hasAuth
   return (
     <ListControlGroup>
       <ListControlGroup.Left>
-        <PostWriterInfo name={name ?? 'user'} profile={profile} />
+        <AvatarUser name={name ?? 'user'} profile={profile} />
       </ListControlGroup.Left>
       <ListControlGroup.Right>
         {isMine && (
