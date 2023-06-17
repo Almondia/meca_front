@@ -1,18 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import ToggleSwitch from '@/components/atoms/ToggleSwitch';
 import InputGroup from '@/components/molcules/InputGroup';
 import Modal from '@/components/molcules/Modal';
 import ThumbnailUploader from '@/components/molcules/ThumbnailUploader';
-import useCategoryPost from '@/hooks/category/useCategoryPost';
 import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
-import useFetchImage from '@/hooks/useFetchImage';
 import useGlobalLoading from '@/hooks/useGlobalLoading';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
 import { DefaultModalOptions } from '@/types/common';
-import { IMAGE_EXTENTIONS } from '@/types/domain';
 import { Constraints } from '@/utils/validation';
 
 export interface CategoryUpdateDialogProps extends DefaultModalOptions {
@@ -30,37 +27,13 @@ const CategoryUpdateDialog = ({
   isShared,
   thumbnail,
 }: CategoryUpdateDialogProps) => {
-  const { input: title, onInputChange: onTitleChange } = useInput(categoryTitle);
-  const { image, onSetFileImage, onDelete: onDeleteImage, onUploadLocalImage } = useImage(thumbnail);
   const [shared, setShared] = useState<boolean>(isShared ?? false);
-  const { uploadImage } = useFetchImage();
-  const { updateCategory, isSuccess: isUpdateSuccess } = useCategoryUpdate();
-  const { addCategory, isSuccess: isPostSuccess } = useCategoryPost();
-  const { asyncCallbackLoader } = useGlobalLoading();
+  const { input: title, onInputChange: onTitleChange } = useInput(categoryTitle);
   const { inputsValidState, validateAll } = useInputValidation(1);
-
-  useEffect(() => {
-    if (isUpdateSuccess || isPostSuccess) {
-      onClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUpdateSuccess, isPostSuccess]);
-
-  const getUploadedThumbnail = useCallback(async () => {
-    let requestedThumbnail: string | undefined = typeof image === 'string' ? image : thumbnail;
-    if (image instanceof File) {
-      requestedThumbnail = await uploadImage(
-        {
-          purpose: 'thumbnail',
-          extension: image.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number],
-          fileName: `${Date.now()}-category-thumbnail`,
-        },
-        image as File,
-      );
-    }
-    return requestedThumbnail;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image]);
+  const { asyncCallbackLoader } = useGlobalLoading();
+  const { image, onSetFileImage, onDelete: onDeleteImage, onUploadLocalImage } = useImage(thumbnail);
+  const { updateCategory, uploadThumbnail } = useCategoryUpdate(onClose);
+  const actionKeyword = categoryId ? '수정' : '추가';
 
   const handleUpdateClick = async () => {
     const { hasInvalid } = validateAll([() => Constraints.categoryTitle(title)]);
@@ -71,25 +44,19 @@ const CategoryUpdateDialog = ({
       onClose();
       return;
     }
-    const requestedThumbnail = await asyncCallbackLoader<string | undefined>(getUploadedThumbnail);
+    const requestedThumbnail =
+      typeof image === 'string' || !image
+        ? image
+        : await asyncCallbackLoader<string | undefined>(() => uploadThumbnail(image));
     if (requestedThumbnail === undefined) {
       return;
     }
-    categoryId
-      ? updateCategory({
-          categoryId,
-          title,
-          thumbnail: requestedThumbnail,
-          shared,
-          prevShared: isShared ?? false,
-        })
-      : addCategory({ title, thumbnail: requestedThumbnail });
+    updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared, prevShared: isShared });
   };
 
-  const keyword = categoryId ? '수정' : '추가';
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false}>
-      <Modal.Title>카테고리 {keyword}하기</Modal.Title>
+      <Modal.Title>카테고리 {actionKeyword}하기</Modal.Title>
       <Modal.Body>
         <InputGroup>
           <InputGroup.Label>썸네일 업로드</InputGroup.Label>
@@ -102,7 +69,7 @@ const CategoryUpdateDialog = ({
           <InputGroup.Description descLists={['jpg, jpeg, png, gif 파일 업로드 가능']} />
         </InputGroup>
         <InputGroup>
-          <InputGroup.Label>제목 {keyword}하기</InputGroup.Label>
+          <InputGroup.Label>제목 {actionKeyword}하기</InputGroup.Label>
           <InputGroup.Input.Text
             name="category-title"
             value={title}
@@ -125,7 +92,7 @@ const CategoryUpdateDialog = ({
           </InputGroup>
         )}
       </Modal.Body>
-      <Modal.ConfirmButton onClick={handleUpdateClick}>{categoryId ? '수정하기' : '등록하기'}</Modal.ConfirmButton>
+      <Modal.ConfirmButton onClick={handleUpdateClick}>등록하기</Modal.ConfirmButton>
       <Modal.CloseButton onClick={onClose}>취소</Modal.CloseButton>
     </Modal>
   );

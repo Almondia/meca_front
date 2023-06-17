@@ -1,5 +1,5 @@
 import Icon from '@/components/common/Icon';
-import PostWriterInfo from '@/components/molcules/PostWriterInfo';
+import AvatarUser from '@/components/molcules/AvatarUser';
 import { HiddenText, TextOverline } from '@/styles/common';
 import { UserProfile } from '@/types/domain';
 
@@ -12,7 +12,7 @@ export interface SharedCategoryBodyProps extends Omit<UserProfile, 'email'> {
 const SharedCategoryBody = ({ memberId, name, profile, likeCount }: SharedCategoryBodyProps) => (
   <CategoryCardBodyContainer>
     <CategoryCardInfoBox>
-      <PostWriterInfo name={name} profile={profile} />
+      <AvatarUser name={name} profile={profile} />
     </CategoryCardInfoBox>
     <div>
       <Icon icon="Like" size="1rem" />

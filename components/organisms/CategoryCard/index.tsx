@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import Card from '@/components/molcules/Card';
 import { CategoryType } from '@/types/domain';
 import { CATEGORY_THUMBNAIL_BLUR_URL } from '@/utils/constants';
@@ -17,22 +15,14 @@ export interface CategoryCardProps extends Omit<CategoryType, 'shared'> {
 }
 
 const CategoryCard = ({ categoryId, title, thumbnail, memberId, children, blurThumbnail }: CategoryCardProps) => {
-  const [src, setSrc] = useState<string>(thumbnail ? getRemoteImageUrl(thumbnail) : '/images/noimage.png');
   const PrivateBody = getInnerComponents(children, PrivateCategoryBodyComponentType);
   const SharedBody = getInnerComponents(children, SharedCategoryBodyComponentType);
-
-  useEffect(() => {
-    if (thumbnail) {
-      setSrc(getRemoteImageUrl(thumbnail));
-      return;
-    }
-    setSrc('/images/noimage.png');
-  }, [thumbnail]);
+  const srcImage = thumbnail ? getRemoteImageUrl(thumbnail) : '/images/noimage.png';
 
   return (
     <Card data-testid="id-category-card">
       <Card.Thumbnail
-        src={src}
+        src={srcImage}
         href={`/categories/${combineUUID(memberId, categoryId)}`}
         altText={`${title}-category-thumbnail`}
         preloadedInfo={{
@@ -40,7 +30,6 @@ const CategoryCard = ({ categoryId, title, thumbnail, memberId, children, blurTh
           width: 320,
           height: 160,
         }}
-        onError={() => setSrc('/images/noimage.png')}
       />
       <Card.Title link={`/categories/${combineUUID(memberId, categoryId)}`}>{title}</Card.Title>
       <Card.Body>{PrivateBody || SharedBody}</Card.Body>

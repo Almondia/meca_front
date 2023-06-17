@@ -1,4 +1,4 @@
-import DotMenuOpener from '@/components/molcules/DotMenuOpener';
+import CardMenu from '@/components/molcules/CardMenu';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { render } from '../utils';
 
@@ -6,9 +6,9 @@ describe('DotMenuOpener', () => {
   it('Opener 내부 클릭 시 클릭 이벤트가 발생하고 Opener가 close 된다.', () => {
     const mockClick = jest.fn();
     render(
-      <DotMenuOpener name="name">
+      <CardMenu name="name">
         <button onClick={mockClick}>hello</button>
-      </DotMenuOpener>,
+      </CardMenu>,
     );
     const dotButton = screen.getByRole('button', { name: /verticaldot/i });
     fireEvent.click(dotButton);
@@ -24,9 +24,9 @@ describe('DotMenuOpener', () => {
     render(
       <div>
         <p onClick={mockClick}>hello</p>
-        <DotMenuOpener name="name">
+        <CardMenu name="name">
           <h3>inner</h3>
-        </DotMenuOpener>
+        </CardMenu>
       </div>,
     );
     const dotButton = screen.getByRole('button', { name: /verticaldot/i });
@@ -40,9 +40,9 @@ describe('DotMenuOpener', () => {
 
   it('Opener Dot Button을 두번 클릭하면 close된다.', () => {
     render(
-      <DotMenuOpener name="name">
+      <CardMenu name="name">
         <p>hello</p>
-      </DotMenuOpener>,
+      </CardMenu>,
     );
     const dotButton = screen.getByRole('button', { name: /verticaldot/i });
     fireEvent.click(dotButton);

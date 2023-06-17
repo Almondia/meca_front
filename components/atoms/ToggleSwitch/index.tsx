@@ -19,7 +19,7 @@ const ToggleSwitch = ({ initialState, toggleName, onClick }: ToggleSwitchProps) 
   const didMountRef = useRef<boolean>(false);
   const [toggle, setToggle] = useState<boolean>(initialState);
   const debouncedToggle = useDebounce(toggle, 300);
-  const handleToggleButtonClick = useCallback(() => {
+  const handleToggleClick = useCallback(() => {
     setToggle((prev) => !prev);
   }, []);
   useEffect(() => {
@@ -38,7 +38,7 @@ const ToggleSwitch = ({ initialState, toggleName, onClick }: ToggleSwitchProps) 
 
   return (
     <ToggleSwitchWrapper>
-      <ToggleSwitchBackground isOn={toggle} onClick={handleToggleButtonClick}>
+      <ToggleSwitchBackground isOn={toggle} onClick={handleToggleClick}>
         <HiddenText>{toggleName}</HiddenText>
         <div className="toggle-switch-circle" />
       </ToggleSwitchBackground>

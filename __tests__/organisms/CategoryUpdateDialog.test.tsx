@@ -93,7 +93,7 @@ describe('CategoryUpdateDialog', () => {
     expect(titleUpdateInput).toHaveValue(title);
     fireEvent.change(titleUpdateInput, { target: { value: inputTitle } });
     const updateButton = screen.getByRole('button', {
-      name: /수정하기/i,
+      name: /등록하기/i,
     });
     fireEvent.click(updateButton);
     await waitFor(() => expect(close).toHaveBeenCalledTimes(1));
@@ -121,7 +121,7 @@ describe('CategoryUpdateDialog', () => {
     expect(titleUpdateInput).toHaveValue(inputTitle);
 
     const updateButton = screen.getByRole('button', {
-      name: /수정하기/i,
+      name: /등록하기/i,
     });
     fireEvent.click(updateButton);
     await waitFor(

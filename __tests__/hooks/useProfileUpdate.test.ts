@@ -5,13 +5,10 @@ import queryKey from '@/query/queryKey';
 import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 import { MyProfile } from '@/types/domain';
 import { implementServer, resetServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
-import { mockedPutUserApi } from '../__mocks__/msw/api';
+import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
+import { mockedGetPresignImageUrlApi, mockedPutImageUploadApi, mockedPutUserApi } from '../__mocks__/msw/api';
 
-describe('useUpdateProfile', () => {
-  beforeEach(() => {
-    implementServer([restHandler(mockedPutUserApi)]);
-  });
+describe('useProfileUpdate', () => {
   const USER: MyProfile = {
     memberId: '0187934c-bd9d-eb51-758f-3b3723a0d3a7',
     name: '임현규',
@@ -22,38 +19,58 @@ describe('useUpdateProfile', () => {
     oauthType: 'kakao',
   };
   const inputName = '김갑환';
-  const inputProfile = 'new-profile';
-  it('사용자의 프로필을 변경할 수 있다.', async () => {
+  const inputProfile = 'new-profile.png';
+  beforeEach(() => {
+    implementServer([
+      restHandler(mockedPutUserApi),
+      restOverridedResponseHandler(mockedGetPresignImageUrlApi, {
+        url: inputProfile,
+        objectKey: inputProfile,
+      }),
+      restHandler(() => mockedPutImageUploadApi(inputProfile)),
+    ]);
+  });
+  it('사용자의 프로필 이름을 변경할 수 있다.', async () => {
     const queryClient = new QueryClient();
     queryClient.setQueryData([queryKey.me], USER);
     const { result } = renderHook(() => useProfileUpdate(), { wrapper: createQueryClientWrapper(queryClient) });
-    await waitFor(() => result.current.updateProfile({ name: inputName, profile: inputProfile }));
+    await waitFor(() => result.current.updateProfileName(inputName));
     const changedUser = queryClient.getQueryData<MyProfile>([queryKey.me]);
     expect(changedUser).not.toEqual(USER);
     expect(changedUser).toHaveProperty('name', inputName);
-    expect(changedUser).toHaveProperty('profile', inputProfile);
+    expect(changedUser).toHaveProperty('profile', USER.profile);
   });
 
-  it('프로필 변경에 실패하면 변경이 rollback 된다', async () => {
+  it('프로필 이름 변경에 실패하면 변경이 rollback 된다', async () => {
     resetServer([restHandler(mockedPutUserApi, { status: 400 })]);
     const queryClient = new QueryClient();
     queryClient.setQueryData([queryKey.me], USER);
     const { result } = renderHook(() => useProfileUpdate(), { wrapper: createQueryClientWrapper(queryClient) });
-    await waitFor(() => result.current.updateProfile({ name: inputName, profile: inputProfile }));
+    await waitFor(() => result.current.updateProfileName(inputName));
     const changedUser = queryClient.getQueryData<MyProfile>([queryKey.me]);
     expect(changedUser).toEqual(USER);
     expect(changedUser).toHaveProperty('name', USER.name);
     expect(changedUser).toHaveProperty('profile', USER.profile);
   });
 
-  it('없는 param에 대해서는 업데이트 하지 않는다.', async () => {
+  it('사용자의 프로필 이미지를 변경할 수 있다.', async () => {
     const queryClient = new QueryClient();
     queryClient.setQueryData([queryKey.me], USER);
     const { result } = renderHook(() => useProfileUpdate(), { wrapper: createQueryClientWrapper(queryClient) });
-    await waitFor(() => result.current.updateProfile({ profile: inputProfile }));
+    const imageFile = new File(['abc'], inputProfile, { type: 'image/png' });
+    await waitFor(() => result.current.updateProfileImage(imageFile));
     const changedUser = queryClient.getQueryData<MyProfile>([queryKey.me]);
     expect(changedUser).not.toEqual(USER);
     expect(changedUser).toHaveProperty('name', USER.name);
     expect(changedUser).toHaveProperty('profile', inputProfile);
+  });
+
+  it('사용자 프로필 이미지를 제거할 수 있다.', async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData([queryKey.me], USER);
+    const { result } = renderHook(() => useProfileUpdate(), { wrapper: createQueryClientWrapper(queryClient) });
+    await waitFor(() => result.current.deleteProfileImage());
+    const changedUser = queryClient.getQueryData<MyProfile>([queryKey.me]);
+    expect(changedUser).toHaveProperty('profile', '');
   });
 });

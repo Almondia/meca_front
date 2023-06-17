@@ -1,43 +1,40 @@
 /* eslint-disable no-alert */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import DotMenuOpener, { DotMenuOpenerProps } from '@/components/molcules/DotMenuOpener';
-import DropdownMenu from '@/components/molcules/DropdownMenu';
+import CardMenu, { CardMenuProps } from '@/components/molcules/CardMenu';
 
 export default {
-  title: 'components/molcules/DotMenuOpener',
-  component: DotMenuOpener,
+  title: 'components/molcules/CardMenu',
+  component: CardMenu,
   parameters: {
-    componentSubtitle: '메뉴 오픈 컴포넌트',
+    componentSubtitle: '카드 메뉴 컴포넌트',
     controls: {
       exclude: ['children'],
     },
   },
-} as ComponentMeta<typeof DotMenuOpener>;
+} as ComponentMeta<typeof CardMenu>;
 
-const Template: ComponentStory<typeof DotMenuOpener> = (args: DotMenuOpenerProps) => (
+const Template: ComponentStory<typeof CardMenu> = (args: CardMenuProps) => (
   <div
     style={{
       width: '100px',
       height: '100px',
     }}
   >
-    <DotMenuOpener {...args} />
+    <CardMenu {...args} />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
   children: (
-    <DropdownMenu>
-      <DropdownMenu.Contents href="">hello</DropdownMenu.Contents>
-    </DropdownMenu>
+    <CardMenu.Dropdown>
+      <CardMenu.Dropdown.Content href="">hello</CardMenu.Dropdown.Content>
+      <CardMenu.Dropdown.Content href="">world</CardMenu.Dropdown.Content>
+      <CardMenu.Dropdown.Content href="">StoryBook</CardMenu.Dropdown.Content>
+    </CardMenu.Dropdown>
   ),
-};
-
-export const Empty = Template.bind({});
-Empty.args = {
-  children: 'hello',
+  right: '10px',
   top: '10px',
-  right: '100px',
+  name: 'name',
 };
