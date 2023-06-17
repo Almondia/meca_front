@@ -1,8 +1,8 @@
-import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
+import { JSXElementConstructor, ReactElement } from 'react';
 
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-
-import { ListInfiniteScrollerGridContainer, ListInfiniteScrollerWrapper } from './styled';
+import GridList from './listType/GridList';
+import MasonryList from './listType/MasonryList';
+import { ListInfiniteScrollerWrapper } from './styled';
 
 export interface ListInfiniteScrollerProps {
   loader: ReactElement<any, string | JSXElementConstructor<any>>;
@@ -12,22 +12,15 @@ export interface ListInfiniteScrollerProps {
   type: 'grid' | 'masonry';
 }
 
-const ListInfiniteScroller = ({ children, loader, loadMore, hasMore, type }: ListInfiniteScrollerProps) => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(type === 'grid');
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-  return (
-    <ListInfiniteScrollerWrapper loader={loader} loadMore={loadMore} hasMore={hasMore} visible={isLoaded.toString()}>
-      {type === 'grid' ? (
-        <ListInfiniteScrollerGridContainer>{children}</ListInfiniteScrollerGridContainer>
-      ) : (
-        <ResponsiveMasonry columnsCountBreakPoints={{ 360: 1, 632: 2, 992: 3, 1440: 4 }}>
-          <Masonry gutter="32px">{children}</Masonry>
-        </ResponsiveMasonry>
-      )}
-    </ListInfiniteScrollerWrapper>
-  );
-};
+const ListByType = {
+  grid: GridList,
+  masonry: MasonryList,
+} as const;
+
+const ListInfiniteScroller = ({ children, loader, loadMore, hasMore, type }: ListInfiniteScrollerProps) => (
+  <ListInfiniteScrollerWrapper loader={loader} loadMore={loadMore} hasMore={hasMore}>
+    {ListByType[type]({ children })}
+  </ListInfiniteScrollerWrapper>
+);
 
 export default ListInfiniteScroller;
