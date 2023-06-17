@@ -3,8 +3,7 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 
 import Card from '@/components/molcules/Card';
-import DotMenuOpener from '@/components/molcules/DotMenuOpener';
-import DropdownMenu from '@/components/molcules/DropdownMenu';
+import CardMenu from '@/components/molcules/CardMenu';
 import MecaTag from '@/components/molcules/MecaTag';
 import useModal from '@/hooks/useModal';
 import { MECA_TAG_TO_RESPONSE, MecaTagType, MecaType } from '@/types/domain';
@@ -56,16 +55,16 @@ const MecaCard = ({
         </MecaTagContainer>
         {isMine && (
           <>
-            <DotMenuOpener top="14px" right="6px" name={`${title}카드 수정 삭제 메뉴 오프너`}>
-              <DropdownMenu>
-                <DropdownMenu.Contents href={`/mecas/write/${categoryId}?cardId=${cardId}`}>
+            <CardMenu top="14px" right="6px" name={`${title}카드 수정 삭제 메뉴 오프너`}>
+              <CardMenu.Dropdown>
+                <CardMenu.Dropdown.Content href={`/mecas/write/${categoryId}?cardId=${cardId}`}>
                   수정하기
-                </DropdownMenu.Contents>
-                <DropdownMenu.Contents href="" onClick={deleteModalOpen}>
+                </CardMenu.Dropdown.Content>
+                <CardMenu.Dropdown.Content href="" onClick={deleteModalOpen}>
                   삭제하기
-                </DropdownMenu.Contents>
-              </DropdownMenu>
-            </DotMenuOpener>
+                </CardMenu.Dropdown.Content>
+              </CardMenu.Dropdown>
+            </CardMenu>
             {isDeleteModalVisible && (
               <MecaDeleteDialog
                 cardId={cardId}
