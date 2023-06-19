@@ -51,7 +51,7 @@ const categoryApi = {
     authInstance.put<never, CategoryType>(`/api/v1/categories/${categoryId}`, {
       title,
       thumbnail,
-      isShared: shared,
+      shared,
     }),
   getSharedCategoryList: (props: CursorPaginationType): Promise<SharedCategoriesResponse> =>
     unauthInstance
