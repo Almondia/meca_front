@@ -12,13 +12,16 @@ const useLogout = () => {
   const queryClient = useQueryClient();
   const setHasAuth = useSetRecoilState(hasAuthState);
   const router = useRouter();
+
   const logout = useCallback(async (pushUrl?: string) => {
     const { default: userApi } = await import('@/apis/userApi');
     const { deleted } = await userApi.logout();
     if (deleted) {
-      queryClient.setQueryData([queryKey.me], null);
+      if (pushUrl) {
+        await router.push(pushUrl);
+      }
+      queryClient.setQueriesData([queryKey.me], null);
       setHasAuth(false);
-      pushUrl && router.push(pushUrl);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

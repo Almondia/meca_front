@@ -1,3 +1,4 @@
+import Icon from '@/components/common/Icon';
 import { IconType } from '@/components/common/Icons';
 import { ElementSizeType } from '@/types/common';
 
@@ -37,7 +38,11 @@ const TextInput = ({
   ariaLabel,
 }: TextInputProps) => (
   <TextInputWrapper>
-    {iconLeft && <TextInputLeftIconBox icon={iconLeft} size="1rem" />}
+    {iconLeft && (
+      <TextInputLeftIconBox>
+        <Icon icon={iconLeft} size="0.9rem" />
+      </TextInputLeftIconBox>
+    )}
     <TextInputBox
       name={name}
       width={width}
@@ -49,7 +54,11 @@ const TextInput = ({
       disabled={disabled}
       aria-label={ariaLabel}
     />
-    {iconRight && <TextInputRightIconBox icon={iconRight} size="1rem" />}
+    {iconRight && (
+      <TextInputRightIconBox>
+        <Icon icon={iconRight} size="0.9rem" />
+      </TextInputRightIconBox>
+    )}
   </TextInputWrapper>
 );
 
