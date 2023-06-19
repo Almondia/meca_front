@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import Button from '@/components/atoms/Button';
-import ListControlGroup from '@/components/molcules/ListControlGroup';
-import PostWriterInfo from '@/components/molcules/PostWriterInfo';
+import AvatarUser from '@/components/molcules/AvatarUser';
+import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
 import useCachedOrFetchQuery from '@/hooks/useCachedOrFetchQuery';
 import useModal from '@/hooks/useModal';
 import queryKey from '@/query/queryKey';
@@ -43,11 +43,11 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile, hasAuth
     playModalOpen();
   };
   return (
-    <ListControlGroup>
-      <ListControlGroup.Left>
-        <PostWriterInfo name={name ?? 'user'} profile={profile} />
-      </ListControlGroup.Left>
-      <ListControlGroup.Right>
+    <BetweenControlGroup>
+      <BetweenControlGroup.Left>
+        <AvatarUser name={name ?? 'user'} profile={profile} />
+      </BetweenControlGroup.Left>
+      <BetweenControlGroup.Right>
         {isMine && (
           <Button colorTheme="primary" onClick={() => router.push(`/mecas/write/${categoryId}`)} size="small">
             추가하기 +
@@ -68,8 +68,8 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile, hasAuth
             onClose={playModalClose}
           />
         )}
-      </ListControlGroup.Right>
-    </ListControlGroup>
+      </BetweenControlGroup.Right>
+    </BetweenControlGroup>
   );
 };
 

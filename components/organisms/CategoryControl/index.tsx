@@ -4,7 +4,7 @@ import React from 'react';
 
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
-import ListControlGroup from '@/components/molcules/ListControlGroup';
+import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
 
@@ -25,8 +25,8 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
     onChangeQuery?.(searchKeyword);
   };
   return (
-    <ListControlGroup>
-      <ListControlGroup.Left>
+    <BetweenControlGroup>
+      <BetweenControlGroup.Left>
         <Input.Text
           width="155px"
           iconLeft="Zoomin"
@@ -39,8 +39,8 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
         <Button colorTheme="primary" onClick={handleSearchQuery} size="small">
           검색
         </Button>
-      </ListControlGroup.Left>
-      <ListControlGroup.Right>
+      </BetweenControlGroup.Left>
+      <BetweenControlGroup.Right>
         {!isShared && (
           <>
             <Button colorTheme="primary" onClick={addCategoryOpen} size="small">
@@ -56,8 +56,8 @@ const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
             )}
           </>
         )}
-      </ListControlGroup.Right>
-    </ListControlGroup>
+      </BetweenControlGroup.Right>
+    </BetweenControlGroup>
   );
 };
 

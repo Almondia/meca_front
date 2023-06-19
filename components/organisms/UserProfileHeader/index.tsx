@@ -6,14 +6,12 @@ import { useEffect, useMemo, useState } from 'react';
 import Avatar from '@/components/atoms/Avatar';
 import LinkButton from '@/components/atoms/LinkButton';
 import InputGroup from '@/components/molcules/InputGroup';
-import useFetchImage from '@/hooks/useFetchImage';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
 import useModal from '@/hooks/useModal';
 import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 import { UserProfile as UserProfileType } from '@/types/domain';
-import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { Constraints } from '@/utils/validation';
 
 import {
@@ -34,32 +32,28 @@ export interface UserProfileProps extends UserProfileType {
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) => {
   const [isNameChangeClicked, setIsNameChangeClicked] = useState(false);
-  const { updateProfile } = useProfileUpdate();
+  const { updateProfileName, updateProfileImage, deleteProfileImage } = useProfileUpdate();
   const { image, onUploadLocalImage, onDelete: onDeleteImage, onSetFileImage } = useImage(profile);
-  const { uploadImage } = useFetchImage();
   const { input: nameInput, onInputChange: nameInputChange } = useInput(name);
   const { visible: isImageCropperVisible, open: openImageCropper, close: closeImageCropper } = useModal();
   const { inputsValidState, validateAll, resetValidateState } = useInputValidation(1);
 
   useEffect(() => {
+    updateProfileImage(image);
+  }, [image, updateProfileImage]);
+
+  const urlImage = useMemo(() => {
     if (!image || typeof image === 'string') {
-      return;
+      return image ?? '';
     }
-    (async () => {
-      const newProfile = await uploadImage(
-        { purpose: 'profile', extension: 'png', fileName: Date.now().toString() },
-        image,
-      );
-      newProfile && updateProfile({ profile: getRemoteImageUrl(newProfile) });
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return URL.createObjectURL(image);
   }, [image]);
 
   const handleProfileImageDelete = () => {
     if (!profile) {
       return;
     }
-    updateProfile({ profile: '' });
+    deleteProfileImage();
     onDeleteImage();
   };
 
@@ -72,17 +66,10 @@ const UserProfileHeader = ({ memberId, name, profile, isMe }: UserProfileProps) 
     if (hasInvalid) {
       return;
     }
-    name !== nameInput && updateProfile({ name: nameInput });
+    name !== nameInput && updateProfileName(nameInput);
     resetValidateState();
     setIsNameChangeClicked(false);
   };
-
-  const urlImage = useMemo(() => {
-    if (!image || typeof image === 'string') {
-      return image ?? '';
-    }
-    return URL.createObjectURL(image);
-  }, [image]);
 
   return (
     <UserProfileWrapper>

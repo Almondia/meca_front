@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
-import PostWriterInfo from '@/components/molcules/PostWriterInfo';
+import AvatarUser from '@/components/molcules/AvatarUser';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import { isrAspect } from '@/libs/renderAspect';
@@ -30,7 +30,7 @@ const MecaById = ({ cardId }: MecaByIdProps) => {
       <PostSection>
         <PageTitle>{meca.title}</PageTitle>
         <br />
-        <PostWriterInfo name={meca.name} profile={meca.profile} />
+        <AvatarUser name={meca.name} profile={meca.profile} />
         <Devide />
         <MecaPost {...meca} />
       </PostSection>

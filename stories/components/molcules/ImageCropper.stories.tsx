@@ -1,6 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import ImageCropper, { ImageCropperProps } from '@/components/molcules/ImageCropper';
+import useImage from '@/hooks/useImage';
 
 export default {
   title: 'components/molcules/ImageCropper',
@@ -10,7 +12,10 @@ export default {
   },
 } as ComponentMeta<typeof ImageCropper>;
 
-const Template: ComponentStory<typeof ImageCropper> = (args: ImageCropperProps) => <ImageCropper {...args} />;
+const Template: ComponentStory<typeof ImageCropper> = (args: ImageCropperProps) => {
+  const { onSetFileImage } = useImage(args.image);
+  return <ImageCropper {...args} setImage={onSetFileImage} />;
+};
 
 export const Default = Template.bind({});
 Default.args = {

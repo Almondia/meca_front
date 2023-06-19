@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { FlexCenter } from '@/styles/layout';
 
-export const NumberIncreaseToggleWrapper = styled.div`
+export const NumberIncrementerWrapper = styled.div`
   display: inline-flex;
   align-items: center;
   & > div {
@@ -11,7 +11,7 @@ export const NumberIncreaseToggleWrapper = styled.div`
   }
 `;
 
-export const NumberIncreaseToggleInnerContainer = styled.div`
+export const NumberIncrementerCount = styled.div`
   ${FlexCenter};
   padding: 6px 8px;
   border-left: 1px solid var(--color-lightgray);
@@ -21,7 +21,7 @@ export const NumberIncreaseToggleInnerContainer = styled.div`
   color: var(--color-brand);
 `;
 
-export const NumberIncreaseToggleButton = styled(NumberIncreaseToggleInnerContainer.withComponent('button'))`
+export const NumberIncrementerButton = styled(NumberIncrementerCount.withComponent('button'))`
   border-radius: 0;
   border: none;
   color: var(--color-text);

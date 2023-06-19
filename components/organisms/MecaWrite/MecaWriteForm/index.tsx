@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from 'react';
 
 import { createPortal } from 'react-dom';
 
-import NumberIncreaseToggle from '@/components/atoms/NumberIncreaseToggle';
+import NumberIncrementer from '@/components/atoms/NumberIncrementer';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import { QuillWriter } from '@/components/molcules/Editor/EditorComponent';
 import InputGroup from '@/components/molcules/InputGroup';
@@ -132,7 +132,7 @@ const MecaWriteForm = ({
       {mecaTagType === 'select' && (
         <InputGroup>
           <InputGroup.Label>문항 수를 선택하세요</InputGroup.Label>
-          <NumberIncreaseToggle value={caseNum} onChange={changeCaseNum} />
+          <NumberIncrementer value={caseNum} onChange={changeCaseNum} />
         </InputGroup>
       )}
       {Answer && (

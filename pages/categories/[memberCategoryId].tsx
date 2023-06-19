@@ -8,7 +8,7 @@ import mecaApi from '@/apis/mecaApi';
 import LikeButton from '@/components/atoms/LikeButton';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
-import ListControlGroup from '@/components/molcules/ListControlGroup';
+import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
 import MecaControl from '@/components/organisms/MecaControl';
 import MecaList from '@/components/organisms/MecaList';
 import useCategoryLike from '@/hooks/category/useCategoryLike';
@@ -43,15 +43,15 @@ const CategoryById = ({ categoryId, isMine, writerInfo }: MyCategoryByIdPageProp
         image={categoryThumbnail && getRemoteImageUrl(categoryThumbnail)}
       />
       <ListSection>
-        <ListControlGroup>
-          <ListControlGroup.Left>
+        <BetweenControlGroup>
+          <BetweenControlGroup.Left>
             <PageTitle>{categoryTitle}</PageTitle>
-          </ListControlGroup.Left>
-          <ListControlGroup.Right>
+          </BetweenControlGroup.Left>
+          <BetweenControlGroup.Right>
             <LikeButton onClick={postLike} defaultActiveState={hasLike} />
             {likeCount}
-          </ListControlGroup.Right>
-        </ListControlGroup>
+          </BetweenControlGroup.Right>
+        </BetweenControlGroup>
         <br />
         <MecaControl
           categoryId={categoryId}

@@ -2,10 +2,7 @@ import { useRouter } from 'next/router';
 
 import { useCallback, useState } from 'react';
 
-import { useSetRecoilState } from 'recoil';
-
-import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import ToggleButton from '@/components/atoms/ToggleButton';
+import Selection from '@/components/atoms/Selection';
 import useQuiz from '@/hooks/meca/useQuiz';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
@@ -28,8 +25,6 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
 
   const quizCountInputNumber = parseInt(quizCountInput, 10);
   const router = useRouter();
-  const setQuizTime = useSetRecoilState(quizTimeState);
-  const setQuizTitle = useSetRecoilState(quizTitleState);
   const { initQuiz } = useQuiz(() => {
     onClose();
     router.push('/quiz');
@@ -50,9 +45,13 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
     if (!isCountValid(quizCountInputNumber)) {
       return;
     }
-    setQuizTime(parseInt(quizTimeInput, 10));
-    setQuizTitle(title);
-    initQuiz({ categoryId, limit: quizCountInputNumber, algorithm: 'random' });
+    initQuiz({
+      categoryId,
+      limit: quizCountInputNumber,
+      algorithm: 'random',
+      title,
+      quizTime: parseInt(quizTimeInput, 10),
+    });
   };
 
   return (
@@ -88,7 +87,7 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
         </InputGroup>
         <InputGroup>
           <InputGroup.Label>문제 풀이 시간</InputGroup.Label>
-          <ToggleButton
+          <Selection
             innerTexts={[...QUIZ_SECONDS]}
             onClicks={QUIZ_SECONDS.map((quiz) => () => setQuizTimeInput(quiz))}
           />
