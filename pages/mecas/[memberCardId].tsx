@@ -5,6 +5,7 @@ import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
 import AvatarUser from '@/components/molcules/AvatarUser';
+import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
 import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import { isrAspect } from '@/libs/renderAspect';
@@ -30,7 +31,11 @@ const MecaById = ({ cardId }: MecaByIdProps) => {
       <PostSection>
         <PageTitle>{meca.title}</PageTitle>
         <br />
-        <AvatarUser name={meca.name} profile={meca.profile} />
+        <BetweenControlGroup>
+          <BetweenControlGroup.Left>
+            <AvatarUser name={meca.name} profile={meca.profile} />
+          </BetweenControlGroup.Left>
+        </BetweenControlGroup>
         <Devide />
         <MecaPost {...meca} />
       </PostSection>
