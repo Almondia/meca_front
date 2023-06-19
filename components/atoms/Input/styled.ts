@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import Icon from '@/components/common/Icon';
 import { COLOR } from '@/styles/constants';
 import { FlexCenter, FlexColumn } from '@/styles/layout';
 import { ElementSizeType } from '@/types/common';
@@ -35,15 +34,16 @@ export const TextInputBox = styled.input<{ width?: ElementSizeType }>`
   }
 `;
 
-const TextInputIconBox = styled(Icon)`
+const TextInputIconBox = styled.div`
   fill: var(--color-gray);
+  margin-bottom: -2px;
 `;
 
 export const TextInputLeftIconBox = styled(TextInputIconBox)`
-  margin-right: 10px;
+  margin-right: 6px;
 `;
 export const TextInputRightIconBox = styled(TextInputIconBox)`
-  margin-left: 10px;
+  margin-left: 6px;
 `;
 
 export const RadioGroupWrapper = styled.fieldset`
