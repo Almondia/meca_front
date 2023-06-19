@@ -7,7 +7,7 @@ export const NavSelectionWrapper = styled.div`
   z-index: 2;
   top: 45px;
   right: -5px;
-  width: 140px;
+  width: 120px;
   border-radius: 2px;
   box-shadow: var(--shadow-normal);
   background-color: var(--color-background);
@@ -15,8 +15,9 @@ export const NavSelectionWrapper = styled.div`
 
 export const NavSelectionItem = styled(Link)`
   display: block;
-  padding: 12px 16px;
+  padding: 12px 16px 12px 24px;
   font-size: ${({ theme }) => theme.fontSize.sub};
+  text-align: left;
   color: var(--color-text);
   :hover {
     background-color: var(--color-gray100);
