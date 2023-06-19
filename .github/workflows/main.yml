@@ -1,24 +1,49 @@
-name: main deploy
-
+name: docker-build
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 jobs:
-  build:
+  build-image:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: remove git
-        run: rm -r .git
-      - name: push
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          source-directory: '.'
-          destination-github-username: ${{ secrets.PRV_USER }}
-          destination-repository-name: ${{ secrets.PRV_REP }}
-          user-email: ${{ secrets.PRV_EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+          node-version: '18.x'
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install unplugged dependencies
+        run: yarn install
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/meca-front:latest
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+  cd-pipeline:
+    needs: build-image
+    name: cd
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_NAME }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_PORT }}
+          script: 'sudo docker-compose pull && sudo docker-compose up -d'
