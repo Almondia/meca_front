@@ -119,12 +119,14 @@ function staticRegenerateRenderAspect(
             destination: error.url,
             permanent: false,
           },
+          revalidate: 1,
         };
       }
       return {
         props: {
           errorMessage: (error as any)?.message ?? 'next server error',
         },
+        revalidate: 1,
       };
     }
   };
