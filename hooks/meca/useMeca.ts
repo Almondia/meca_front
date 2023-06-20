@@ -23,7 +23,6 @@ const useMeca = (cardId: string, shared?: boolean) => {
             const { default: utilApi } = await import('@/apis/utilApi');
             utilApi.revalidate([router.asPath]);
           }
-          router.push('/');
         })();
       },
     },
