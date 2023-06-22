@@ -8,6 +8,7 @@ import useInput from '@/hooks/useInput';
 import { TextCaption } from '@/styles/common';
 import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaTagType, QuizSucceedType } from '@/types/domain';
 
+import DescriptionQuiz from './content/DescriptionQuiz';
 import KeywordQuiz from './content/KeywordQuiz';
 import OxQuiz from './content/OxQuiz';
 import SelectQuiz from './content/SelectQuiz';
@@ -25,7 +26,7 @@ export interface QuizPostProps {
 
 const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
   ox: OxQuiz,
-  desc: OxQuiz,
+  desc: DescriptionQuiz,
   keyword: KeywordQuiz,
   select: SelectQuiz,
 };
