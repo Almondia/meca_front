@@ -14,7 +14,7 @@ export interface MecaTagProps {
 
 /**
  * 문제 태그를 나타내는 컴포넌트로 여러 종류의 `타입(tagName)`이 정해져있다.
- * - 종류: ox퀴즈, 설명퀴즈, 키워드, 객관식 (문제 종류는 언젠가 추가될 수도 있다.)
+ * - 종류: ox퀴즈, 주관식, 키워드, 객관식 (문제 종류는 언젠가 추가될 수도 있다.)
  */
 const MecaTag = ({ tagName, scale = 1, isNotOpaque = false }: MecaTagProps) => (
   <MecaTagWrapper isNotOpaque={isNotOpaque}>
