@@ -19,5 +19,5 @@ export const Default = Template.bind({});
 Default.args = {
   title: 'title',
   quizNum: 20,
-  visible: false,
+  visible: true,
 };
