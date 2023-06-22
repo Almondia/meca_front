@@ -13,7 +13,7 @@ const KeywordAnswerInputContainer = styled.div<{ isAnswerState: boolean }>`
 
 const DescriptionQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
   <QuizContentWrapper>
-    <ConetentsBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
+    <ConetentsBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} />
     {isAnswerState && <ConetentsBox header="A." body={answer} isColumn />}
     <KeywordAnswerInputContainer isAnswerState={isAnswerState}>
       <InputGroup>
