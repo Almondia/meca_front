@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 
 import MecaTag from '@/components/molcules/MecaTag';
 import { MecaTagType } from '@/types/domain';
-import alertToast from '@/utils/toastHandler';
 
 import { MecaTagButton, MecaTagToggleGroupWrapper } from './styled';
 
@@ -16,11 +15,6 @@ export interface MecaTagToggleGroupProps {
 
 const MecaTagToggleGroup = ({ options, selected, onToggle, onlySelected }: MecaTagToggleGroupProps) => {
   const handleButtonClick = (value: MecaTagType) => {
-    // FIXME: 구현되면 제거\
-    if (value === 'desc') {
-      alertToast('준비중입니다!', 'warning');
-      return;
-    }
     onToggle(value);
   };
   const tagOptions = useMemo(
