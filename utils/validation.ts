@@ -7,7 +7,7 @@ export interface ContraintsResultType {
 
 const isBlank = (value: string) => !value || !value.trim();
 
-export const Constraints: Record<string, (value: string) => ContraintsResultType> = {
+export const Constraints: Record<string, (value: string, ...args: any[]) => ContraintsResultType> = {
   cardTitle: (title: string) => ({
     message: '제목을 2글자 이상 40글자이하로 작성해주세요',
     isValid: title.length >= 2 && title.length <= 40,
@@ -27,7 +27,15 @@ export const Constraints: Record<string, (value: string) => ContraintsResultType
       };
     }
   },
-  cardAnswer: (answer: string) => ({ message: '정답을 입력했는지 확인해주세요!', isValid: !isBlank(answer) }),
+  cardAnswer: (answer: string, multipleBy?: string) => {
+    if (multipleBy) {
+      return {
+        message: '정답에 공백이 있는지 확인해주세요!',
+        isValid: answer.split(multipleBy).every((a) => !isBlank(a)),
+      };
+    }
+    return { message: '정답을 입력했는지 확인해주세요!', isValid: !isBlank(answer) };
+  },
   categoryTitle: (title: string) => ({
     message: '제목을 2글자 이상 40글자 이하로 작성해주세요',
     isValid: title.length >= 2 && title.length <= 40,
