@@ -42,18 +42,25 @@ export const QuizHistoryTableContentRow = styled.tr`
   border-bottom: 1px solid var(--color-lightgray);
   border-top: 1px solid var(--color-lightgray);
   td {
-    vertical-align: middle;
+    vertical-align: top;
     min-width: 60px;
     padding: 18px 10px 18px 0;
+    font-size: ${({ theme }) => theme.fontSize.caption};
     @media ${({ theme }) => theme.media.mobile} {
       padding: 18px 0 0 0;
+    }
+  }
+  td.quiz-type {
+    transform: translateY(3px);
+    @media ${({ theme }) => theme.media.mobile} {
+      transform: translateY(2px) scale(0.8);
     }
   }
   .quiz-content-devide {
     ${FlexColumn};
     row-gap: 6px;
     width: 25vw;
-    min-width: 100px;
+    min-width: 120px;
     @media ${({ theme }) => theme.media.mobile} {
       min-width: 150px;
     }

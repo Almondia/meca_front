@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useCallback, useEffect, useState } from 'react';
 
@@ -6,6 +6,7 @@ import { InfiniteData } from '@tanstack/react-query';
 
 import { CardHistoryListResponse } from '@/apis/cardHistoryApi';
 import IconButton from '@/components/atoms/IconButton';
+import LinkButton from '@/components/atoms/LinkButton';
 import { RelativeDateText } from '@/components/common/RelativeDateText';
 import MecaTag from '@/components/molcules/MecaTag';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
@@ -28,6 +29,8 @@ export interface QuizHistoryListProps {
 
 const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistoryListProps) => {
   const [page, setPage] = useState<number>(0);
+  const router = useRouter();
+
   useEffect(() => {
     if (historyList?.pages[page].hasNext) {
       fetchNextPage();
@@ -38,6 +41,11 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
     const DateText = RelativeDateText({ date });
     return <DateText />;
   }, []);
+
+  const handleCardLinkClick = ({ memberId, cardId }: { memberId: string; cardId: string }) => {
+    const cardPath = combineUUID(memberId, cardId);
+    router.push(`/mecas/${cardPath}`);
+  };
 
   return (
     <QuizHistoryListWrapper excludeRows={excludeRows ?? []}>
@@ -75,9 +83,9 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                   return (
                     <QuizHistoryTableContentRow data-testid="id-history-list" key={content.cardHistoryId}>
                       <td className="card-id">
-                        <Link href={`/mecas/${combineUUID(content.memberId, content.cardId)}`} prefetch={false}>
+                        <LinkButton onClick={() => handleCardLinkClick({ ...content })}>
                           {content.cardId.slice(-4)}
-                        </Link>
+                        </LinkButton>
                       </td>
                       <td width="130px" className="user">
                         {content.solvedMemberName}
@@ -89,12 +97,12 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                         <p className="question">
                           <strong>{question}</strong>
                         </p>
-                        <p>
-                          정답: <em>{answer}</em>
-                        </p>
-                        <p>
-                          제출: <em>{userAnswer}</em>
-                        </p>
+                        <div>
+                          <p>[정답]</p> <em>{answer}</em>
+                        </div>
+                        <div>
+                          <p>[제출]</p> <em>{userAnswer}</em>
+                        </div>
                       </td>
                       <td>{content.score}</td>
                       <td>{getRelativeDate(content.createdAt)}</td>

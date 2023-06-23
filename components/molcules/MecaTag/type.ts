@@ -18,7 +18,7 @@ export const MECATAG_VALUES: MecaTagIconType = {
   desc: {
     icon: 'Bubble',
     color: '#E78565',
-    text: '설명퀴즈',
+    text: '주관식',
   },
   keyword: {
     icon: 'Check',

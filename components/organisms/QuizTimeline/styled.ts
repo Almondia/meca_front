@@ -50,7 +50,7 @@ export const QuizTimelineBadge = styled.div<{ color: string }>`
     right: 0;
     margin: 0 auto;
     width: 4px;
-    height: 120px;
+    height: 220px;
     background-color: var(--color-lightgray);
     z-index: -1;
   }
@@ -60,18 +60,6 @@ export const QuizTimelineContent = styled.div`
   ${FlexColumn};
   row-gap: 6px;
   width: 80%;
-  & > * {
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    word-break: break-all;
-  }
-  & > *:first-child {
-    -webkit-line-clamp: 2;
-  }
 `;
 
 export const QuizTimeMoreButton = styled.button`

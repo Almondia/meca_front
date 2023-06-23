@@ -21,7 +21,7 @@ export type MecaPostProps = Omit<MecaType, 'categoryId' | 'title'>;
 
 const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
   MULTI_CHOICE: MecaPostBody.SelectPostBody,
-  DESCRIPTION: MecaPostBody.DefaultPostBody,
+  ESSAY: MecaPostBody.DefaultPostBody,
   KEYWORD: MecaPostBody.DefaultPostBody,
   OX_QUIZ: MecaPostBody.OxPostBody,
 };

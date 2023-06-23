@@ -64,7 +64,7 @@ const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizConten
   );
   return (
     <QuizContentWrapper>
-      <ContentsBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
+      <ContentsBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} />
       <InputGroup>
         <InputGroup.Label>정답을 선택하세요</InputGroup.Label>
         <SelectGroup ref={fieldsetRef}>

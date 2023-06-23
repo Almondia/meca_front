@@ -13,9 +13,11 @@ import useInputValidation from '@/hooks/useInputValidation';
 import { MECA_TAG_TO_RESPONSE, MecaTagType, MecaType } from '@/types/domain';
 import { Constraints } from '@/utils/validation';
 
+import DescriptionAnswer from './answer/DescriptionAnswer';
 import KeywordAnswer from './answer/KeywordAnswer';
 import OxAnswer from './answer/OxAnswer';
 import SelectAnswer from './answer/SelectAnswer';
+import DescriptionQuestion from './question/DescriptionQuestion';
 import KeywordQuestion from './question/KeywordQuestion';
 import OxQuestion from './question/OxQuestion';
 import SelectQuestion from './question/SelectQuestion';
@@ -23,14 +25,14 @@ import { MecaWriteInputComponentType } from './type';
 
 const QUESTION_COMPONENTS: Record<MecaTagType, MecaWriteInputComponentType> = {
   ox: OxQuestion,
-  desc: OxQuestion,
+  desc: DescriptionQuestion,
   keyword: KeywordQuestion,
   select: SelectQuestion,
 };
 
 const ANSWER_COMPONENTS: Record<MecaTagType, MecaWriteInputComponentType> = {
   ox: OxAnswer,
-  desc: OxAnswer,
+  desc: DescriptionAnswer,
   keyword: KeywordAnswer,
   select: SelectAnswer,
 };
@@ -87,7 +89,7 @@ const MecaWriteForm = ({
     const { hasInvalid } = validateAll([
       () => Constraints.cardTitle(titleInput),
       () => Constraints.cardQuestion(questionInput),
-      () => Constraints.cardAnswer(answerInput),
+      () => Constraints.cardAnswer(answerInput, mecaTagType === 'keyword' && ','),
     ]);
     if (hasInvalid) {
       return;
