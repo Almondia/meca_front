@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import LoadSpinner from '@/components/atoms/LoadSpinner';
 import Card from '@/components/molcules/Card';
 import Chart from '@/components/molcules/Chart';
 import QuizTimeline from '@/components/organisms/QuizTimeline';
@@ -80,14 +79,11 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
         <Card>
           <Card.Title>Keyword Cloud</Card.Title>
           <Card.Body>
-            {isQuizPhaseKeywordsLoading ? (
-              <LoadSpinner width="100%" height="80px" />
-            ) : (
-              <Chart.WordCloud
-                words={Object.entries(quizKeywords.keywords).map(([text, value]) => ({ text, value }))}
-                maxheight="140px"
-              />
-            )}
+            <Chart.WordCloud
+              words={[...Object.entries(quizKeywords.keywords).map(([text, value]) => ({ text, value }))]}
+              maxheight="140px"
+              isLoading={isQuizPhaseKeywordsLoading}
+            />
           </Card.Body>
         </Card>
       </QuizResultWordCloudArea>
