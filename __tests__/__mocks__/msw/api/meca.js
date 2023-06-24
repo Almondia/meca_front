@@ -155,3 +155,15 @@ export const mockedGetSimulationMecasApi = () => {
   };
   return { uri, method, responseResolver };
 };
+
+/**
+ * @param {number} score
+ */
+export const mockedPostQuizResultApi = (score) => {
+  const [uri, method] = [`${ENDPOINT}/histories/simulation`, 'post'];
+  const responseResolver = async (req, res, ctx) => {
+    const { cardId, userAnswer } = await req.json();
+    return res(ctx.status(200), ctx.json({ score }));
+  };
+  return { uri, method, responseResolver };
+};

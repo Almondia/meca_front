@@ -52,17 +52,6 @@ export const mockedPutImageUploadApi = (url) => {
 };
 
 /**
- * @param {number} score
- */
-export const mockedPostQuizScoreApi = (score) => {
-  const [uri, method] = ['/api/score', 'post'];
-  const responseResolver = (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ score }));
-  };
-  return { uri, method, responseResolver };
-};
-
-/**
  * @param {[key: string]: number} body
  * @property {Object} keywords
  */

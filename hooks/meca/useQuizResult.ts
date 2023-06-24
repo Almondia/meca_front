@@ -30,16 +30,10 @@ const useQuizResult = () => {
     return response;
   });
 
-  const { mutate: applyQuizResult } = useMutation(mecaApi.applyQuizResult, {
-    onSuccess: () => {
-      queryClient.invalidateQueries([queryKey.categories, 'me']);
-    },
-  });
-
-  const applyScore = useCallback(async (inputAnswer: string, quizAnswer: string) => {
+  const applyScore = useCallback(async (userAnswer: string, cardId: string) => {
     try {
-      const response = await statisticsApi.postScoreByAnswerInput(inputAnswer, quizAnswer);
-      return response.score;
+      const { score } = await mecaApi.applyQuizResult({ cardId, userAnswer });
+      return score;
     } catch {
       alertToast('점수를 계산하지 못했습니다.', 'warning');
       return 0;
@@ -59,7 +53,7 @@ const useQuizResult = () => {
                 result: {
                   cardId,
                   userAnswer: answer ?? '',
-                  score: answer ? await applyScore(answer, quiz.answer) : 0,
+                  score: await applyScore(answer ?? '', cardId),
                   spendTime,
                 },
               }
@@ -110,7 +104,6 @@ const useQuizResult = () => {
   return {
     quizList,
     solveQuiz,
-    applyQuizResult,
     applyQuizKeyword,
     quizKeywords,
     getQuizTypeRateResult,
