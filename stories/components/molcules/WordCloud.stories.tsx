@@ -7,11 +7,14 @@ export default {
   component: WordCloud,
   parameters: {
     componentSubtitle: '워드클라우드',
+    controls: {
+      exclude: ['isLoading'],
+    },
   },
 } as ComponentMeta<typeof WordCloud>;
 
 const Template: ComponentStory<typeof WordCloud> = (args: WordCludProps) => (
-  <div style={{ padding: '30px' }}>
+  <div style={{ padding: '30px', maxWidth: '700px' }}>
     <WordCloud {...args} />
   </div>
 );
@@ -37,4 +40,19 @@ Default.args = {
     { text: '박동석', value: 3 },
     { text: 'MECA', value: 17 },
   ],
+  isLoading: false,
+};
+
+export const Empty = Template.bind({});
+Empty.args = {
+  maxheight: '300px',
+  words: [],
+  isLoading: false,
+};
+
+export const IsLoading = Template.bind({});
+IsLoading.args = {
+  maxheight: '300px',
+  words: [],
+  isLoading: true,
 };
