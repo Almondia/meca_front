@@ -6,6 +6,7 @@ const queryKey = {
   quiz: 'quiz',
   imageUrl: 'preUrl',
   history: 'history',
+  keyword: 'keyword',
 };
 
 export default queryKey;

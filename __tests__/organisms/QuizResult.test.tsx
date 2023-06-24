@@ -1,7 +1,8 @@
 import statisticsApi from '@/apis/statisticsApi';
 import QuizResult from '@/components/organisms/QuizResult';
-import useQuiz from '@/hooks/meca/useQuiz';
+import queryKey from '@/query/queryKey';
 import { QuizType } from '@/types/domain';
+import { QueryClient } from '@tanstack/react-query';
 import { screen, waitFor } from '@testing-library/react';
 import { renderQuery } from '../utils';
 import { mockedPostKeywords } from '../__mocks__/msw/api';
@@ -41,11 +42,6 @@ const MOCK_QUIZS: QuizType[] = [
   },
 ];
 
-jest.mock('@/hooks/meca/useQuiz', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
-
 jest.mock('@/components/molcules/Chart', () => ({
   WordCloud: ({ words }: { words: { text: string; value: number }[] }) => (
     <div data-testid="id-wordcloud">{words.map((word) => `${word.text}-${word.value}`)}</div>
@@ -61,25 +57,19 @@ jest.mock('@/components/molcules/Chart', () => ({
 
 describe('QuizResult', () => {
   it('퀴즈 결과 UI가 식별된다.', async () => {
-    (useQuiz as jest.Mock).mockReturnValue({ quizList: MOCK_QUIZS });
+    const queryClient = new QueryClient();
+    queryClient.setQueryData([queryKey.quiz], MOCK_QUIZS);
     const spyApplyQuizKeywordFn = jest.spyOn(statisticsApi, 'postKeywordBySentence');
     implementServer([restHandler(() => mockedPostKeywords({ hello: 25, world: 10 }))]);
-    renderQuery(<QuizResult quizList={MOCK_QUIZS} maxQuizTime={20} />);
-    const loadSpinner = screen.getByTestId('id-scroll-load-spinner');
+    renderQuery(<QuizResult quizList={MOCK_QUIZS} maxQuizTime={20} />, undefined, queryClient);
     expect(screen.getByRole('heading', { name: 'Quiz Timeline' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Keyword Cloud' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '유형별 점수 비율' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '전체 정답률' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '평균 소요 시간' })).toBeInTheDocument();
-    expect(loadSpinner).toBeInTheDocument();
-    await waitFor(() => {
-      expect(spyApplyQuizKeywordFn).toHaveBeenCalledWith(expect.any(String));
-      expect(loadSpinner).not.toBeInTheDocument();
-    });
-    const mockedWordCloud = screen.queryByTestId('id-wordcloud');
+
     const mockedDChart = screen.queryByTestId('id-dchart');
     const mockedRChart = screen.queryByTestId('id-rchart');
-    expect(mockedWordCloud).toHaveTextContent(/hello-25/i);
     expect(mockedDChart).toHaveTextContent('0.5%');
     // case 2 : [5, 10]
     expect(mockedRChart).toHaveTextContent('7.5-20');
@@ -91,6 +81,8 @@ describe('QuizResult', () => {
     expect(timelineMySolutions[0].children.item(0)).toHaveTextContent('X');
     expect(timelineAnswers[1].children.item(0)).toHaveTextContent('INFP');
     expect(timelineMySolutions[1].children.item(0)).toHaveTextContent('INFP');
+    await waitFor(() => expect(screen.queryByTestId('id-wordcloud')).toHaveTextContent(/hello-25/i));
+    expect(spyApplyQuizKeywordFn).toHaveBeenCalledWith(expect.any(String));
     spyApplyQuizKeywordFn.mockClear();
   });
 });

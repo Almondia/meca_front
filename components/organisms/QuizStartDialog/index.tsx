@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import Selection from '@/components/atoms/Selection';
-import useQuiz from '@/hooks/meca/useQuiz';
+import useQuiz from '@/hooks/quiz/useQuiz';
 import useInput from '@/hooks/useInput';
 import { DefaultModalOptions } from '@/types/common';
 

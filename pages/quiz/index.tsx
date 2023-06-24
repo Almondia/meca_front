@@ -12,7 +12,7 @@ import CountIndicator from '@/components/atoms/CountIndicator';
 import LinkButton from '@/components/atoms/LinkButton';
 import LoadSpinner from '@/components/atoms/LoadSpinner';
 import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
-import useQuizResult from '@/hooks/meca/useQuizResult';
+import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { PostSection } from '@/styles/layout';
 import { QuizPhaseType, QuizSucceedType } from '@/types/domain';

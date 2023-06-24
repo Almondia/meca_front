@@ -4,14 +4,14 @@ import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { MOCK_MECAS } from '../__mocks__/msw/data';
 import { MecaTagResponseType } from '@/types/domain';
 import { implementServer, resetServer } from '../__mocks__/msw/server';
-import useQuiz from '@/hooks/meca/useQuiz';
+import useQuiz from '@/hooks/quiz/useQuiz';
 import { restHandler } from '../__mocks__/msw/handlers';
 import { mockedPostQuizResultApi } from '../__mocks__/msw/api';
 import mecaApi from '@/apis/mecaApi';
 
 const mockQuizs = MOCK_MECAS.slice(0, 2);
 
-jest.mock('@/hooks/meca/useQuiz', () => ({
+jest.mock('@/hooks/quiz/useQuiz', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
