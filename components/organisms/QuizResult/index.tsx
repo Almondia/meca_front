@@ -4,6 +4,7 @@ import LoadSpinner from '@/components/atoms/LoadSpinner';
 import Card from '@/components/molcules/Card';
 import Chart from '@/components/molcules/Chart';
 import QuizTimeline from '@/components/organisms/QuizTimeline';
+import useQuizKeyword from '@/hooks/quiz/useQuizKeyword';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import { COLOR } from '@/styles/constants';
 import { QuizType } from '@/types/domain';
@@ -23,13 +24,13 @@ export interface QuizResultProps {
 }
 
 const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
-  const { getQuizTypeRateResult, getAnswerRateResult, applyQuizKeyword, isApplyKeywordLoading, quizKeywords } =
-    useQuizResult();
+  const { getQuizTypeRateResult, getAnswerRateResult } = useQuizResult();
+  const { quizPhaseKeywords: quizKeywords, isQuizPhaseKeywordsLoading, fetchQuizPhaseKeywords } = useQuizKeyword();
   const [{ avgTime, avgScore }] = useState(getAnswerRateResult());
   const [quizTypeRate] = useState(getQuizTypeRateResult());
 
   useEffect(() => {
-    applyQuizKeyword();
+    fetchQuizPhaseKeywords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,7 +80,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
         <Card>
           <Card.Title>Keyword Cloud</Card.Title>
           <Card.Body>
-            {isApplyKeywordLoading || !quizKeywords ? (
+            {isQuizPhaseKeywordsLoading ? (
               <LoadSpinner width="100%" height="80px" />
             ) : (
               <Chart.WordCloud

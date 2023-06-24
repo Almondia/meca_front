@@ -1,7 +1,8 @@
 import statisticsApi from '@/apis/statisticsApi';
 import QuizResult from '@/components/organisms/QuizResult';
-import useQuiz from '@/hooks/quiz/useQuiz';
+import queryKey from '@/query/queryKey';
 import { QuizType } from '@/types/domain';
+import { QueryClient } from '@tanstack/react-query';
 import { screen, waitFor } from '@testing-library/react';
 import { renderQuery } from '../utils';
 import { mockedPostKeywords } from '../__mocks__/msw/api';
@@ -41,11 +42,6 @@ const MOCK_QUIZS: QuizType[] = [
   },
 ];
 
-jest.mock('@/hooks/quiz/useQuiz', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
-
 jest.mock('@/components/molcules/Chart', () => ({
   WordCloud: ({ words }: { words: { text: string; value: number }[] }) => (
     <div data-testid="id-wordcloud">{words.map((word) => `${word.text}-${word.value}`)}</div>
@@ -61,10 +57,11 @@ jest.mock('@/components/molcules/Chart', () => ({
 
 describe('QuizResult', () => {
   it('퀴즈 결과 UI가 식별된다.', async () => {
-    (useQuiz as jest.Mock).mockReturnValue({ quizList: MOCK_QUIZS });
+    const queryClient = new QueryClient();
+    queryClient.setQueryData([queryKey.quiz], MOCK_QUIZS);
     const spyApplyQuizKeywordFn = jest.spyOn(statisticsApi, 'postKeywordBySentence');
     implementServer([restHandler(() => mockedPostKeywords({ hello: 25, world: 10 }))]);
-    renderQuery(<QuizResult quizList={MOCK_QUIZS} maxQuizTime={20} />);
+    renderQuery(<QuizResult quizList={MOCK_QUIZS} maxQuizTime={20} />, undefined, queryClient);
     const loadSpinner = screen.getByTestId('id-scroll-load-spinner');
     expect(screen.getByRole('heading', { name: 'Quiz Timeline' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Keyword Cloud' })).toBeInTheDocument();
@@ -73,9 +70,9 @@ describe('QuizResult', () => {
     expect(screen.getByRole('heading', { name: '평균 소요 시간' })).toBeInTheDocument();
     expect(loadSpinner).toBeInTheDocument();
     await waitFor(() => {
-      expect(spyApplyQuizKeywordFn).toHaveBeenCalledWith(expect.any(String));
       expect(loadSpinner).not.toBeInTheDocument();
     });
+    expect(spyApplyQuizKeywordFn).toHaveBeenCalledWith(expect.any(String));
     const mockedWordCloud = screen.queryByTestId('id-wordcloud');
     const mockedDChart = screen.queryByTestId('id-dchart');
     const mockedRChart = screen.queryByTestId('id-rchart');

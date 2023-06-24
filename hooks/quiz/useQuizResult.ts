@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
 import mecaApi from '@/apis/mecaApi';
-import statisticsApi from '@/apis/statisticsApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import { MECATAG_VALUES } from '@/components/molcules/MecaTag/type';
 import queryKey from '@/query/queryKey';
@@ -19,16 +18,6 @@ const useQuizResult = () => {
   const { quizList = fallback } = useQuiz();
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
-
-  const {
-    mutate: applyQuizKeyword,
-    data: quizKeywords,
-    isLoading: isApplyKeywordLoading,
-  } = useMutation(async () => {
-    const sentence = quizList.reduce((prev, cur) => `${prev} ${cur.title} ${cur.question} ${cur.answer}`, '');
-    const response = await statisticsApi.postKeywordBySentence(sentence);
-    return response;
-  });
 
   const applyScore = useCallback(async (userAnswer: string, cardId: string) => {
     try {
@@ -104,12 +93,9 @@ const useQuizResult = () => {
   return {
     quizList,
     solveQuiz,
-    applyQuizKeyword,
-    quizKeywords,
     getQuizTypeRateResult,
     getAnswerRateResult,
     clearQuizPhase,
-    isApplyKeywordLoading,
   };
 };
 
