@@ -71,9 +71,10 @@ const mecaApi = {
         algorithm,
       },
     }),
-  applyQuizResult: (props: QuizResultType[]) =>
-    authInstance.post<never, never>(`/api/v1/histories/simulation`, {
-      cardHistories: props,
+  applyQuizResult: ({ cardId, userAnswer }: { cardId: string; userAnswer: string }) =>
+    authInstance.post<never, { score: number }>(`/api/v1/histories/simulation`, {
+      cardId,
+      userAnswer,
     }),
   getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }): Promise<MecaUserListResponse> => {
     const params = {

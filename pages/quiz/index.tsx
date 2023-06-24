@@ -15,7 +15,7 @@ import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
 import useQuizResult from '@/hooks/meca/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { PostSection } from '@/styles/layout';
-import { QuizPhaseType, QuizResultType, QuizSucceedType } from '@/types/domain';
+import { QuizPhaseType, QuizSucceedType } from '@/types/domain';
 
 const QuizPost = dynamic(() => import('@/components/organisms/QuizPost'), {
   loading: () => <LoadSpinner width="100%" />,
@@ -36,33 +36,31 @@ const QuizPage = () => {
   const router = useRouter();
   const quizTitle = useRecoilValue(quizTitleState);
   const quizPhaseTime = useRecoilValue(quizTimeState);
-  const { quizList, solveQuiz, applyQuizResult, clearQuizPhase } = useQuizResult();
+  const { quizList, solveQuiz, clearQuizPhase } = useQuizResult();
   const { number: round, increaseNumber: setNextRound } = useCount(1, 1, quizList.length);
   const [quizPhase, setQuizPhase] = useState<QuizPhaseType>('progress');
   const quizSpendTimeRef = useRef<number>(0);
   const quizIndex = round - 1;
 
-  const nextQuizHandler = () => {
+  const nextQuizHandler = useCallback(() => {
     setNextRound(true);
     setQuizPhase('progress');
-  };
+  }, []);
 
   const solveQuizHandler = useCallback(
-    async (answer?: string) => {
+    (answer?: string) => {
       if (!quizList[quizIndex]) {
         return;
       }
       setQuizPhase(round === quizList.length ? 'end' : 'done');
-      // quizList[quizIndex].cardId, quizSpendTimeRef.current, answer
       solveQuiz({ cardId: quizList[quizIndex].cardId, spendTime: quizSpendTimeRef.current, answer });
     },
     [round, quizIndex],
   );
 
-  const showQuizResultHandler = () => {
-    applyQuizResult(quizList.map((quiz) => quiz.result as QuizResultType));
+  const showQuizResultHandler = useCallback(() => {
     setQuizPhase('result');
-  };
+  }, []);
 
   useEffect(() => {
     if (quizPhase !== 'progress') {
@@ -92,7 +90,12 @@ const QuizPage = () => {
   const quizPhaseSucceed: QuizPhaseSucceedHandlerType = {
     progress: {
       succeedText: '정답제출',
-      succeedHandler: solveQuizHandler,
+      succeedHandler: (answer?: string) => {
+        if (!answer) {
+          return;
+        }
+        solveQuizHandler(answer);
+      },
     },
     done: {
       succeedText: '다음문제',
