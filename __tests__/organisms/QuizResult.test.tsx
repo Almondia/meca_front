@@ -1,6 +1,6 @@
 import statisticsApi from '@/apis/statisticsApi';
 import QuizResult from '@/components/organisms/QuizResult';
-import useQuiz from '@/hooks/meca/useQuiz';
+import useQuiz from '@/hooks/quiz/useQuiz';
 import { QuizType } from '@/types/domain';
 import { screen, waitFor } from '@testing-library/react';
 import { renderQuery } from '../utils';
@@ -41,7 +41,7 @@ const MOCK_QUIZS: QuizType[] = [
   },
 ];
 
-jest.mock('@/hooks/meca/useQuiz', () => ({
+jest.mock('@/hooks/quiz/useQuiz', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

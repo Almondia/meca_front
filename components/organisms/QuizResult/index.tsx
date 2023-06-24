@@ -4,7 +4,7 @@ import LoadSpinner from '@/components/atoms/LoadSpinner';
 import Card from '@/components/molcules/Card';
 import Chart from '@/components/molcules/Chart';
 import QuizTimeline from '@/components/organisms/QuizTimeline';
-import useQuizResult from '@/hooks/meca/useQuizResult';
+import useQuizResult from '@/hooks/quiz/useQuizResult';
 import { COLOR } from '@/styles/constants';
 import { QuizType } from '@/types/domain';
 
