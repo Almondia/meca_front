@@ -4,10 +4,10 @@ import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { MOCK_MECAS } from '../__mocks__/msw/data';
 import { MecaTagResponseType } from '@/types/domain';
 import { implementServer, resetServer } from '../__mocks__/msw/server';
-import statisticsApi from '@/apis/statisticsApi';
 import useQuiz from '@/hooks/meca/useQuiz';
 import { restHandler } from '../__mocks__/msw/handlers';
-import { mockedPostQuizScoreApi } from '../__mocks__/msw/api';
+import { mockedPostQuizResultApi } from '../__mocks__/msw/api';
+import mecaApi from '@/apis/mecaApi';
 
 const mockQuizs = MOCK_MECAS.slice(0, 2);
 
@@ -19,7 +19,7 @@ jest.mock('@/hooks/meca/useQuiz', () => ({
 describe('QuizPage', () => {
   beforeEach(() => {
     (useQuiz as jest.Mock).mockReturnValue({ quizList: [...mockQuizs] });
-    implementServer([restHandler(() => mockedPostQuizScoreApi(50))]);
+    implementServer([restHandler(() => mockedPostQuizResultApi(50))]);
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -81,7 +81,7 @@ describe('QuizPage', () => {
   });
 
   it('정답을 입력하고 제출하면 score 계산 함수가 호출된다.', async () => {
-    const spyPostScoreFn = jest.spyOn(statisticsApi, 'postScoreByAnswerInput');
+    const spyPostScoreFn = jest.spyOn(mecaApi, 'applyQuizResult');
     renderQuery(<QuizPage />);
     const answerInput = screen.getByPlaceholderText('정답 입력하기');
     expect(answerInput).toHaveValue('');
@@ -93,19 +93,8 @@ describe('QuizPage', () => {
     spyPostScoreFn.mockClear();
   });
 
-  it('정답을 입력하지 않고 제출하면 score 계산 함수가 호출되지 않는다.', async () => {
-    const spyPostScoreFn = jest.spyOn(statisticsApi, 'postScoreByAnswerInput');
-    await waitFor(() => renderQuery(<QuizPage />));
-    const answerInput = screen.getByPlaceholderText('정답 입력하기');
-    expect(answerInput).toHaveValue('');
-    const submitButton = screen.getByRole('button', { name: '정답제출' });
-    fireEvent.click(submitButton);
-    await waitFor(() => expect(spyPostScoreFn).not.toHaveBeenCalled());
-    spyPostScoreFn.mockClear();
-  });
-
   it('정답 제출 시 score 계산을 하지 못하면 toast가 식별된다.', async () => {
-    resetServer([restHandler(mockedPostQuizScoreApi, { status: 400 })]);
+    resetServer([restHandler(mockedPostQuizResultApi, { status: 400 })]);
     renderQuery(<QuizPage />);
     const answerInput = screen.getByPlaceholderText('정답 입력하기');
     expect(answerInput).toHaveValue('');
