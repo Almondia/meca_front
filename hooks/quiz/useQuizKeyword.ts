@@ -6,9 +6,7 @@ import { QuizType } from '@/types/domain';
 
 const useQuizKeyword = () => {
   const queryClient = useQueryClient();
-  const fallbackKeywordResult: KeywordResponse = {
-    keywords: {},
-  };
+  const fallbackKeywordResult: KeywordResponse = { keywords: {} };
   const {
     data: quizPhaseKeywords = fallbackKeywordResult,
     isLoading: isQuizPhaseKeywordsLoading,
@@ -29,6 +27,7 @@ const useQuizKeyword = () => {
       staleTime: 3,
       cacheTime: 3,
       retry: 1,
+      onError: undefined,
     },
   );
 
