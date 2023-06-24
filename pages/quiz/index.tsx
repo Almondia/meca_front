@@ -42,10 +42,10 @@ const QuizPage = () => {
   const quizSpendTimeRef = useRef<number>(0);
   const quizIndex = round - 1;
 
-  const nextQuizHandler = useCallback(() => {
+  const nextQuizHandler = () => {
     setNextRound(true);
     setQuizPhase('progress');
-  }, []);
+  };
 
   const solveQuizHandler = useCallback(
     (answer?: string) => {
@@ -58,9 +58,9 @@ const QuizPage = () => {
     [round, quizIndex],
   );
 
-  const showQuizResultHandler = useCallback(() => {
+  const showQuizResultHandler = () => {
     setQuizPhase('result');
-  }, []);
+  };
 
   useEffect(() => {
     if (quizPhase !== 'progress') {
