@@ -43,7 +43,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
               labels={['오답률', '정답률']}
               fillColors={[COLOR.success, COLOR.error]}
               values={[avgScore, 1 - avgScore]}
-              minHeights={['140px', '180px', '120px']}
+              minHeights={['200px', '180px', '140px']}
             />
           </Card.Body>
         </Card>
@@ -56,7 +56,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
               value={avgTime}
               maxValue={maxQuizTime}
               label={{ pre: '평균', post: 'S' }}
-              minHeights={['140px', '180px', '180px']}
+              minHeights={['160px', '180px', '180px']}
             />
           </Card.Body>
         </Card>
@@ -70,7 +70,7 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
               axisNames={quizTypeRate.names}
               firstValues={quizTypeRate.answerRate}
               secondValues={quizTypeRate.count}
-              minHeights={['368px', '180px', '200px']}
+              minHeights={['224px', '180px', '200px']}
             />
           </Card.Body>
         </Card>

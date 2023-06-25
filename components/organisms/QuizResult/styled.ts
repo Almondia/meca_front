@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
-import { FlexColumn } from '@/styles/layout';
-
 export const QuizResulDashBoard = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 210px minmax(0px, auto) auto;
+  grid-template-rows: 210px minmax(45px, auto) auto;
   gap: 1rem;
   grid-template-areas:
-    'wordcloud wordcloud ratebar'
-    'answer-rate time-rate ratebar'
+    'wordcloud wordcloud answer-rate'
+    'ratebar ratebar answer-rate'
+    'ratebar ratebar time-rate'
     'content-1 content-1 content-1';
   @media ${({ theme }) => theme.media.tablet} {
     grid-template-columns: 3fr 4fr 3fr;
@@ -41,8 +40,10 @@ export const QuizResultWordCloudArea = styled.div`
 export const QuizResultAnswerRateDougnutArea = styled.div`
   grid-area: answer-rate;
   @media ${({ theme }) => theme.media.mobile} {
+    margin-bottom: -16px;
     & > article > div > div {
       transform: scale(0.9);
+      transform-origin: 0% 0%;
     }
   }
 `;
@@ -56,19 +57,4 @@ export const QuizResultTimeRateDougnutArea = styled.div`
 
 export const QuizResultScoreRateBarArea = styled.div`
   grid-area: ratebar;
-`;
-
-export const QuizResultSideArea = styled.div`
-  grid-area: sidebar;
-  ${FlexColumn};
-  row-gap: 1rem;
-
-  @media ${({ theme }) => theme.media.tablet} {
-    display: grid;
-    grid-template-columns: 3fr 4fr 3fr;
-    column-gap: 1rem;
-  }
-  @media ${({ theme }) => theme.media.mobile} {
-    grid-template-columns: 1fr;
-  }
 `;
