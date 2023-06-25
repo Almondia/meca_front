@@ -63,14 +63,14 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
       </QuizResultTimeRateDougnutArea>
       <QuizResultScoreRateBarArea>
         <Card>
-          <Card.Title>유형별 점수 비율</Card.Title>
+          <Card.Title>유형별 평균점수/문제 수</Card.Title>
           <Card.Body>
             <Chart.GroupBarChart
-              legends={['점수 비율', '문제수']}
+              legends={['평균 점수', '문제수']}
               axisNames={quizTypeRate.names}
               firstValues={quizTypeRate.answerRate}
               secondValues={quizTypeRate.count}
-              minHeights={['224px', '180px', '200px']}
+              minHeights={['224px', '180px', '240px']}
             />
           </Card.Body>
         </Card>

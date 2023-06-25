@@ -64,7 +64,7 @@ describe('QuizResult', () => {
     renderQuery(<QuizResult quizList={MOCK_QUIZS} maxQuizTime={20} />, undefined, queryClient);
     expect(screen.getByRole('heading', { name: 'Quiz Timeline' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Keyword Cloud' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: '유형별 점수 비율' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '유형별 평균점수/문제 수' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '전체 정답률' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '평균 소요 시간' })).toBeInTheDocument();
 
