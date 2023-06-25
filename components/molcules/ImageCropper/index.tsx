@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import { createPortal } from 'react-dom';
@@ -35,6 +35,7 @@ const ImageCropper = ({
   const [cropWidth, setCropWidth] = useState<number>(0);
   const [cropHeight, setCropHeight] = useState<number>(0);
   const [isPreviewState, setIsPreviewState] = useState<boolean>(false);
+  const croppedImageUrl = useMemo(() => cropData && URL.createObjectURL(cropData), [cropData]);
 
   const handleCrop = useCallback(() => {
     if (cropperRef.current) {
@@ -112,10 +113,10 @@ const ImageCropper = ({
             />
             {isPreviewState && (
               <CropPreviewContainer>
-                {cropData && (
+                {croppedImageUrl && (
                   <Image
                     alt="preview"
-                    src={URL.createObjectURL(cropData)}
+                    src={croppedImageUrl}
                     width={cropWidth}
                     height={cropHeight}
                     style={{ borderRadius: roundness }}
