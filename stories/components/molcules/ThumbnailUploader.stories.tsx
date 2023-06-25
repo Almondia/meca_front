@@ -23,5 +23,5 @@ export const Default = Template.bind({});
 
 export const HasImage = Template.bind({});
 HasImage.args = {
-  image: 'https://freeiconshop.com/wp-content/uploads/edd/image-outline-filled.png',
+  image: 'https://cdn.pixabay.com/photo/2018/04/26/16/31/marine-3352341_1280.jpg',
 };
