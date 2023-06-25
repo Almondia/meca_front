@@ -37,11 +37,11 @@ describe('CategoryUpdateDialog', () => {
         categoryTitle={title}
         visible={true}
         onClose={close}
-        thumbnail={'abc.jpg'}
+        thumbnail={'/abc.jpg'}
       />,
     );
-    const backgroundThumbnailElement = screen.getByTestId('id-thumbnail-background');
-    expect(backgroundThumbnailElement).toHaveStyleRule('background-image', 'url(abc.jpg)');
+    const thumbnailImage = screen.getByRole('img', { name: 'category-thumbnail-image' });
+    expect(thumbnailImage).toBeInTheDocument();
   });
 
   it('카테고리 수정이라면 공유 여부 토글이 식별되며 기존 공유 상태가 반영되어있다.', () => {
@@ -52,7 +52,7 @@ describe('CategoryUpdateDialog', () => {
         categoryTitle={title}
         visible={true}
         onClose={close}
-        thumbnail={'abc.jpg'}
+        thumbnail={'/abc.jpg'}
         isShared
       />,
     );
