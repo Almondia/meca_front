@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import axios from 'axios';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import { createPortal } from 'react-dom';
 
@@ -35,7 +36,25 @@ const ImageCropper = ({
   const [cropWidth, setCropWidth] = useState<number>(0);
   const [cropHeight, setCropHeight] = useState<number>(0);
   const [isPreviewState, setIsPreviewState] = useState<boolean>(false);
+  const [cropperBaseImage, setCropperBaseImage] = useState<string | undefined>(undefined);
   const croppedImageUrl = useMemo(() => cropData && URL.createObjectURL(cropData), [cropData]);
+
+  useEffect(() => {
+    if (image.startsWith('blob:')) {
+      setCropperBaseImage(image);
+      return;
+    }
+    (async () => {
+      try {
+        const { data } = await axios.get(image, {
+          responseType: 'blob',
+        });
+        setCropperBaseImage(URL.createObjectURL(data));
+      } catch {
+        setCropperBaseImage(image);
+      }
+    })();
+  }, [image]);
 
   const handleCrop = useCallback(() => {
     if (cropperRef.current) {
@@ -97,7 +116,7 @@ const ImageCropper = ({
             </CropSideContainer>
             <Cropper
               ref={cropperRef}
-              src={image}
+              src={cropperBaseImage}
               style={{ opacity: isPreviewState ? '0' : '1' }}
               zoomTo={0.7}
               viewMode={1}
@@ -107,6 +126,7 @@ const ImageCropper = ({
               minCropBoxWidth={minCropBoxWidth}
               dragMode={isCropBoxRatioChangeable ? 'crop' : 'move'}
               checkOrientation={false}
+              checkCrossOrigin={false}
               guides
               background={false}
               responsive
