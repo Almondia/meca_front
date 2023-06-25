@@ -59,8 +59,7 @@ const useQuizResult = () => {
   );
 
   const getQuizTypeRateResult = () => {
-    // TODO: 주관식 문제 구현되면 filter 삭제
-    const keys = (Object.keys(MECATAG_VALUES) as MecaTagType[]).filter((key) => key !== 'desc');
+    const keys = Object.keys(MECATAG_VALUES) as MecaTagType[];
     const names = keys.reduce((prev, next, idx) => ({ ...prev, [next]: idx }), {}) as Record<MecaTagType, number>;
     const answerRate = [...Array(keys.length)].fill(0);
     const count = [...Array(keys.length)].fill(0);

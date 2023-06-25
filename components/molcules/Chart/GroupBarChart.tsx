@@ -49,7 +49,11 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeigh
         fontSize: '12px',
         colors: ['#fff'],
       },
-      formatter(value: number) {
+      formatter(value: number, opts: any) {
+        // TODO: 특정 데이터에 종속되어있는 처리임, 다른 곳에서 사용될 때 향후 개선 필요
+        if (opts.seriesIndex === 0 && value >= 0.1) {
+          return `${(value / secondValues[opts.dataPointIndex]) * 100}점`;
+        }
         return value < 0.1 ? ' ' : value;
       },
     },
@@ -91,17 +95,8 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeigh
         options: {
           plotOptions: {
             bar: {
-              columnWidth: '50px',
+              columnWidth: '70px',
             },
-          },
-        },
-      },
-      {
-        breakpoint: 576,
-        options: {
-          legend: {
-            position: 'right',
-            offsetY: 20,
           },
         },
       },
