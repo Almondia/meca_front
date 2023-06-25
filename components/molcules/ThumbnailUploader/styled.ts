@@ -37,11 +37,11 @@ export const ThumbnailDeleteButton = styled.button`
   }
 `;
 
-export const ThumbnailImageContainer = styled(ThumbnailUploadButton.withComponent('div'))<{ image: string }>`
-  background-image: url(${(props) => props.image});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover; /* or cover */
+export const ThumbnailImageContainer = styled(ThumbnailUploadButton.withComponent('div'))`
+  & > img {
+    object-fit: cover;
+    object-position: center;
+  }
 `;
 
 export const ThumbnailChangeBox = styled.div`

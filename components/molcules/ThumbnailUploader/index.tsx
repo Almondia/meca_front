@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 
 import LinkButton from '@/components/atoms/LinkButton';
 import Icon from '@/components/common/Icon';
@@ -27,15 +28,16 @@ const ThumbnailUploader = ({ image, onSetImage, onDelete, onUpload }: ThumbnailU
     setCurrentImage(image);
   }, [image]);
 
-  const genVisibleImageUrl = useCallback(
-    (urlOrFileImage: File | string) =>
-      typeof urlOrFileImage === 'string' ? getRemoteImageUrl(urlOrFileImage) : URL.createObjectURL(urlOrFileImage),
-    [],
-  );
+  const visibleImageUrl = useMemo(() => {
+    if (!currentImage) {
+      return undefined;
+    }
+    return typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage);
+  }, [currentImage]);
 
   return (
     <>
-      {currentImage && (
+      {visibleImageUrl && (
         <>
           <ThumbnailChangeBox>
             <LinkButton onClick={onOpenCropper}>편집</LinkButton>
@@ -44,7 +46,7 @@ const ThumbnailUploader = ({ image, onSetImage, onDelete, onUpload }: ThumbnailU
           </ThumbnailChangeBox>
           {isCropperVisible && (
             <ImageCropper
-              image={genVisibleImageUrl(currentImage)}
+              image={visibleImageUrl}
               setImage={onSetImage}
               isCropBoxRatioChangeable={false}
               minCropBoxHeight={75}
@@ -55,8 +57,10 @@ const ThumbnailUploader = ({ image, onSetImage, onDelete, onUpload }: ThumbnailU
         </>
       )}
       <ThumbnailUploaderWrapper>
-        {currentImage ? (
-          <ThumbnailImageContainer data-testid="id-thumbnail-background" image={genVisibleImageUrl(currentImage)} />
+        {visibleImageUrl ? (
+          <ThumbnailImageContainer data-testid="id-thumbnail-background">
+            <Image src={visibleImageUrl} fill alt="category-thumbnail-image" sizes="360px" />
+          </ThumbnailImageContainer>
         ) : (
           <ThumbnailUploadButton onClick={onUpload}>
             <Icon size="30px" icon="Logo" color="var(--color-gray)" />
