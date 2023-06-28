@@ -13,7 +13,7 @@ import { HomeCarouselContent, HomeCarouselContentBackground, HomeCarouselSlider,
 const HomeCarousel = () => (
   <HomeCarouselWrapper>
     <HomeCarouselSlider speed={1500} dots arrows={false} infinite autoplay autoplaySpeed={5000}>
-      <HomeCarouselContentBackground backgroundColor={COLOR.brand3}>
+      <HomeCarouselContentBackground backgroundColor="var(--color-subbrand2)">
         <HomeCarouselContent>
           <div>
             <h4>내가 만드는 나를 위한 학습 카드</h4>
@@ -37,11 +37,8 @@ const HomeCarousel = () => (
       <HomeCarouselContentBackground backgroundColor={COLOR.success}>
         <HomeCarouselContent>
           <div>
-            <h4>내가 만드는 너를 위한 학습 카드</h4>
-            <TextBody>
-              너를 위해 기억해야 할 것들을 <br />
-              카드로 만들어 같이 공유해요
-            </TextBody>
+            <h4>기억의 성지로 활용해요</h4>
+            <TextBody>원하는 퀴즈를 만들고 원하는 방식으로 기억해요</TextBody>
           </div>
           <div>
             <Image
