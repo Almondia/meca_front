@@ -17,6 +17,7 @@ const TitleInput = ({ name, value, placeholder, onChange, ariaLabel, isValid }: 
       onChange={onChange}
       aria-label={ariaLabel}
       isValid={isValid}
+      autoComplete="off"
     />
   </TitleInputWrapper>
 );

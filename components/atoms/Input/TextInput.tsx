@@ -53,6 +53,7 @@ const TextInput = ({
       onBlur={onBlur}
       disabled={disabled}
       aria-label={ariaLabel}
+      autoComplete="off"
     />
     {iconRight && (
       <TextInputRightIconBox>
