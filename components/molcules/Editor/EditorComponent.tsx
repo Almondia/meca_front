@@ -13,10 +13,34 @@ import { QuillNoSSRWriter } from './QuillNoSSRWriter';
 const EditorComponentWrapper = styled.div`
   .ql-editor {
     min-height: 360px;
-    max-height: 1290px;
+    max-height: 1140px;
   }
   img {
     display: block;
+  }
+  .ql-toolbar {
+    border-top-left-radius: ${({ theme }) => theme.border.button};
+    border-top-right-radius: ${({ theme }) => theme.border.button};
+  }
+  .ql-container {
+    border-bottom-left-radius: ${({ theme }) => theme.border.button};
+    border-bottom-right-radius: ${({ theme }) => theme.border.button};
+  }
+  .ql-container,
+  .ql-toolbar {
+    border: 1px solid var(--color-gray);
+  }
+  .ql-toolbar .ql-stroke {
+    fill: none;
+    stroke: var(--color-text);
+  }
+  .ql-toolbar .ql-fill {
+    fill: var(--color-text);
+    stroke: none;
+  }
+
+  .ql-toolbar .ql-picker {
+    color: var(--color-text);
   }
 `;
 
