@@ -22,8 +22,10 @@ const SelectBox = styled.div<{ bgColor: string; isNotAnswer?: boolean }>`
   :hover {
     ${(props) => !props.isNotAnswer && `border-left: 3px solid var(--color-subbrand)`};
   }
-  background-color: ${(props) => props.bgColor};
-  color: ${(props) => (props.bgColor !== 'inherit' ? 'var(--color-background)' : 'var(--color-text)')};
+  & > div {
+    background-color: ${(props) => props.bgColor};
+  }
+  color: ${(props) => (props.bgColor !== 'inherit' ? COLOR.txtLight : 'var(--color-text)')};
   opacity: ${(props) => (props.isNotAnswer ? 0.5 : 1)};
 `;
 
