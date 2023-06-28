@@ -9,7 +9,6 @@ export default {
   title: 'components/molcules/MecaTagToggleGroup',
   component: MecaTagToggleGroup,
   parameters: {
-    componentSubtitle: '메카태그 토글 버튼 그룹',
     controls: {
       exclude: ['options', 'selected', 'onToggle'],
     },
@@ -17,7 +16,7 @@ export default {
 } as ComponentMeta<typeof MecaTagToggleGroup>;
 
 const Template: ComponentStory<typeof MecaTagToggleGroup> = (args: MecaTagToggleGroupProps) => {
-  const options: MecaTagType[] = ['keyword', 'ox', 'select'];
+  const options: MecaTagType[] = ['ox', 'keyword', 'select', 'desc'];
   const [selected, setSelected] = useState<MecaTagType>('keyword');
   const onToggle = (value: MecaTagType) => {
     setSelected(value);
