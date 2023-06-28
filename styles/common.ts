@@ -46,6 +46,12 @@ export const NonVisibleRadioBox = styled.fieldset`
     width: 0;
     height: 0;
   }
+  input[type='radio']:disabled {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
 `;
 
 export const HiddenText = styled.span`
