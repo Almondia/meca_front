@@ -1,6 +1,8 @@
 export const COLOR = {
   bgDark: '#121212',
   bgLight: '#FFFFFF',
+  bgEleLight: '#F8F9FA',
+  bgEleDark: '#252525',
   brand1: '#20639B',
   brand2: '#508EC0',
   brand3: '#98C0E1',
@@ -72,8 +74,8 @@ export const FONT_WEIGHT = {
 };
 
 export const SHADOW = {
-  normalDark: '0px 0px 6px rgba(0, 0, 0, 0.25)',
-  normalLight: '0px 0px 8px rgba(255, 255, 255, 0.65)',
+  normalDark: '0px 0px 4px rgba(0, 0, 0, 0.25)',
+  normalLight: '0px 0px 2px rgba(255, 255, 255, 0.65)',
   boldDark: '0px 4px 10px 4px rgba(0, 0, 0, 0.25)',
   boldLight: '0px 4px 10px 4px rgba(255, 255, 255, 0.75)',
 };

@@ -33,6 +33,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-subbrand: ${COLOR.brand2};
         --color-subbrand2: ${COLOR.brand3};
         --color-background: ${COLOR.bgLight};
+        --color-element-background: ${COLOR.bgEleLight};
         --color-backghround-shadow: rgba(0, 0, 0, 0.5);
         --color-text: ${COLOR.txtDark};
         --color-gray: ${COLOR.gray600};
@@ -53,6 +54,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-subbrand: ${COLOR.brand2};
         --color-subbrand2: ${COLOR.brand3};
         --color-background: ${COLOR.bgLight};
+        --color-element-background: ${COLOR.bgEleLight};
         --color-backghround-shadow: rgba(0, 0, 0, 0.5);
         --color-text: ${COLOR.txtDark};
         --color-gray: ${COLOR.gray600};
@@ -67,6 +69,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-subbrand: ${COLOR.brand1};
         --color-subbrand2: ${COLOR.brand2};
         --color-background: ${COLOR.bgDark};
+        --color-element-background: ${COLOR.bgEleDark};
         --color-backghround-shadow: rgba(255, 255, 255, 0.5);
         --color-text: ${COLOR.txtLight};
         --color-gray: ${COLOR.gray100};
