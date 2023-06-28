@@ -37,7 +37,7 @@ describe('MecaWrite', () => {
     const notSelectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
-    expect(notSelectedTagToggle.firstChild).toHaveStyleRule('opacity', '0.5');
+    expect(notSelectedTagToggle.firstChild).toHaveStyleRule('opacity', '0.3');
     const oxQuizQuestionText = screen.getByText('OX퀴즈 문제를 설명하세요');
     expect(oxQuizQuestionText).toBeInTheDocument();
     const questionInput = screen.getByRole('textbox', {

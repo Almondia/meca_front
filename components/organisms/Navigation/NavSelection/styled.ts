@@ -10,7 +10,7 @@ export const NavSelectionWrapper = styled.div`
   width: 120px;
   border-radius: 2px;
   box-shadow: var(--shadow-normal);
-  background-color: var(--color-background);
+  background-color: var(--color-element-background);
 `;
 
 export const NavSelectionItem = styled(Link)`

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
@@ -18,21 +18,22 @@ export interface CategoryControlProps {
 const CategoryControl = ({ onChangeQuery, isShared }: CategoryControlProps) => {
   const { input: searchKeyword, onInputChange: handleSearchKeywordChange } = useInput('');
   const { visible: addCategoryVisible, open: addCategoryOpen, close: addCategoryClose } = useModal();
-  const handleSearchQuery = () => {
+  const handleSearchQuery = useCallback(() => {
     if (searchKeyword.length >= 100) {
       return;
     }
     onChangeQuery?.(searchKeyword);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchKeyword]);
   return (
     <BetweenControlGroup>
       <BetweenControlGroup.Left>
-        <Input.Text
+        <Input.Search
           width="155px"
-          iconLeft="Zoomin"
           name="search"
           value={searchKeyword}
           onChange={handleSearchKeywordChange}
+          onSearch={handleSearchQuery}
           placeholder="제목으로 검색"
           ariaLabel="input-category-search"
         />

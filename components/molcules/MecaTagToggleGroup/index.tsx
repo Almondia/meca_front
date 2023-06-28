@@ -26,7 +26,7 @@ const MecaTagToggleGroup = ({ options, selected, onToggle, onlySelected }: MecaT
     <MecaTagToggleGroupWrapper>
       {tagOptions.map((option: MecaTagType) => (
         <MecaTagButton key={option} onClick={() => handleButtonClick(option)}>
-          <MecaTag tagName={option} isNotOpaque={selected !== option} scale={selected === option ? 1.05 : 1} />
+          <MecaTag tagName={option} isNotOpaque={selected !== option} scale={selected === option ? 1.025 : 1} />
         </MecaTagButton>
       ))}
     </MecaTagToggleGroupWrapper>

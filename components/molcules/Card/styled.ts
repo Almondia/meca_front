@@ -8,6 +8,7 @@ export const CardWrapper = styled.article`
   width: 100%;
   border: ${({ theme }) => theme.border.card};
   box-shadow: var(--shadow-normal);
+  background-color: var(--color-element-background);
   @media ${({ theme }) => theme.media.mobile} {
     height: auto;
   }

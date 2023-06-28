@@ -39,7 +39,7 @@ describe('Homepage', () => {
       const containTitle = 'title1';
       const searchedCategories = MOCK_CATEGORIES.filter((category) => category.title.indexOf(containTitle) !== -1);
       renderQuery(<Home />);
-      const searchInput = screen.getByRole('textbox', {
+      const searchInput = screen.getByRole('searchbox', {
         name: 'input-category-search',
       });
       expect(searchInput).toHaveValue('');

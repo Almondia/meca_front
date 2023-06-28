@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
@@ -117,5 +118,35 @@ export const RangeInput = () => {
       <br />
       {`current value is: ${value}`}
     </Template>
+  );
+};
+
+export const SearchInput = () => {
+  const [value, setValue] = useState<string>('');
+  const [values, setValues] = useState<string[]>([]);
+  return (
+    <div>
+      <Template>
+        <Input.Search
+          name="search"
+          value={value}
+          placeholder="검색어를 입력하세요"
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          onSearch={() => {
+            setValues((prev) => [...prev, value]);
+            setValue('');
+          }}
+        />
+        <br />
+        <div>
+          <h3>Press Enter to Test</h3>
+          {values.map((v, i) => (
+            <p key={i}>{v}</p>
+          ))}
+        </div>
+      </Template>
+    </div>
   );
 };

@@ -12,7 +12,7 @@ export type MecaTagIconType = Record<MecaTagType, MecaTagValueType>;
 export const MECATAG_VALUES: MecaTagIconType = {
   ox: {
     icon: 'Ox',
-    color: '#EDD05C',
+    color: '#A6880D',
     text: 'OX퀴즈',
   },
   desc: {
@@ -27,7 +27,7 @@ export const MECATAG_VALUES: MecaTagIconType = {
   },
   select: {
     icon: 'Dice',
-    color: '#82DD4A',
+    color: '#64ab38',
     text: '객관식',
   },
 };
