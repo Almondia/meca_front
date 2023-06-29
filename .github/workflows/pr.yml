@@ -1,4 +1,4 @@
-name: Pull Request Workflow
+name: Jest
 on:
   pull_request:
     branches:
