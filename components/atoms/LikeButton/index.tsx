@@ -8,12 +8,13 @@ import { LikeButtonWrapper } from './styled';
 export interface LikeButtonProps {
   onClick: () => void;
   defaultActiveState: boolean;
+  disabled: boolean;
 }
 
-const LikeButton = ({ onClick, defaultActiveState }: LikeButtonProps) => {
+const LikeButton = ({ onClick, defaultActiveState, disabled }: LikeButtonProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const handleLikeButtonClick = useThrottle(() => {
-    setIsActive((prev) => !prev);
+    !disabled && setIsActive((prev) => !prev);
     onClick();
   }, 400);
   useEffect(() => {
