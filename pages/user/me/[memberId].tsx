@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
-import dynamic from 'next/dynamic';
 
 import cardHistoryApi from '@/apis/cardHistoryApi';
+import AuthPageProvider from '@/components/common/AuthPageProvider';
 import { RelativeDateText } from '@/components/common/RelativeDateText';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
@@ -16,8 +16,6 @@ import { TextCaption } from '@/styles/common';
 import { Devide, PostSection } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
-const NotFound = dynamic(() => import('@/pages/404'), { ssr: false });
-
 export interface UserPageProps {
   memberId: string;
 }
@@ -25,42 +23,42 @@ export interface UserPageProps {
 const UserPage = ({ memberId }: UserPageProps) => {
   const { user } = useUser();
   const { cardHistoryList, fetchNextPage } = useMecaHistory('memberId', memberId);
-  if (!user) {
-    return <NotFound />;
-  }
-  const DateText = RelativeDateText({ date: user.createdAt });
   return (
-    <PostSection>
-      <UserProfileHeader {...user} />
-      <Devide />
-      <br />
-      <PostBody>
-        <PostBody.Title>기본정보</PostBody.Title>
-        <PostBody.Content hasBackground={false} hasIndent={false}>
-          <PostSubInfo columnGutter="12px" rowGutter="12px">
-            <PostSubInfo.Content title="Email">
-              <TextCaption>{user.email}</TextCaption>
-            </PostSubInfo.Content>
-            <PostSubInfo.Content title="가입일">
-              <TextCaption>
-                <DateText />
-              </TextCaption>
-            </PostSubInfo.Content>
-            <PostSubInfo.Content title="SNS">
-              <TextCaption>{user.oauthType}</TextCaption>
-            </PostSubInfo.Content>
-          </PostSubInfo>
-        </PostBody.Content>
-      </PostBody>
-      <Devide />
-      <br />
-      <PostBody>
-        <PostBody.Title>퀴즈 기록</PostBody.Title>
-        <PostBody.Content hasBackground={false} hasIndent={false}>
-          <QuizHistoryList excludeRows={['user']} historyList={cardHistoryList} fetchNextPage={fetchNextPage} />
-        </PostBody.Content>
-      </PostBody>
-    </PostSection>
+    <AuthPageProvider>
+      {user && (
+        <PostSection>
+          <UserProfileHeader {...user} />
+          <Devide />
+          <br />
+          <PostBody>
+            <PostBody.Title>기본정보</PostBody.Title>
+            <PostBody.Content hasBackground={false} hasIndent={false}>
+              <PostSubInfo columnGutter="12px" rowGutter="12px">
+                <PostSubInfo.Content title="Email">
+                  <TextCaption>{user.email}</TextCaption>
+                </PostSubInfo.Content>
+                <PostSubInfo.Content title="가입일">
+                  <TextCaption>
+                    <RelativeDateText date={user.createdAt} />
+                  </TextCaption>
+                </PostSubInfo.Content>
+                <PostSubInfo.Content title="SNS">
+                  <TextCaption>{user.oauthType}</TextCaption>
+                </PostSubInfo.Content>
+              </PostSubInfo>
+            </PostBody.Content>
+          </PostBody>
+          <Devide />
+          <br />
+          <PostBody>
+            <PostBody.Title>퀴즈 기록</PostBody.Title>
+            <PostBody.Content hasBackground={false} hasIndent={false}>
+              <QuizHistoryList excludeRows={['user']} historyList={cardHistoryList} fetchNextPage={fetchNextPage} />
+            </PostBody.Content>
+          </PostBody>
+        </PostSection>
+      )}
+    </AuthPageProvider>
   );
 };
 

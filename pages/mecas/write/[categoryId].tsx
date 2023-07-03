@@ -2,6 +2,7 @@
 import { GetServerSideProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
+import AuthPageProvider from '@/components/common/AuthPageProvider';
 import MecaWrite from '@/components/organisms/MecaWrite';
 import useMeca from '@/hooks/meca/useMeca';
 import { ssrAspect } from '@/libs/renderAspect';
@@ -16,9 +17,11 @@ export interface MecaWritePageProps {
 const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
   const { meca } = useMeca(cardId);
   return (
-    <PostSection>
-      {cardId ? <MecaWrite {...meca} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
-    </PostSection>
+    <AuthPageProvider>
+      <PostSection>
+        {cardId ? <MecaWrite {...meca} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
+      </PostSection>
+    </AuthPageProvider>
   );
 };
 
