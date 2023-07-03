@@ -14,7 +14,6 @@ const useKeydown = <E extends HTMLElement>(onKeydown: () => void, key: 'Enter' |
   );
 
   useEffect(() => {
-    console.log('HELLO');
     const element = ref.current;
     element?.addEventListener('keydown', handleKeydown);
     return () => {

@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import mecaApi from '@/apis/mecaApi';
 import LinkButton from '@/components/atoms/LinkButton';
 import PageTitle from '@/components/atoms/PageTitle';
+import AuthPageProvider from '@/components/common/AuthPageProvider';
 import MetaHead from '@/components/common/MetaHead';
 import AvatarUser from '@/components/molcules/AvatarUser';
 import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
@@ -18,6 +19,7 @@ import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';
+import { MyProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
@@ -28,23 +30,20 @@ export interface MecaPageProps {
 
 const MecaById = ({ cardId }: MecaPageProps) => {
   const { meca } = useMeca(cardId);
-  const { user } = useUser();
+  const { user } = useUser() as { user: MyProfile };
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const router = useRouter();
-
   const handleUpdateCardButtonClick = () => {
     if (meca) {
       router.push(`/mecas/write/${meca.categoryId}?cardId=${cardId}`);
     }
   };
-
   const handleDeleteCardButtonClick = () => {
     !isDeleteModalVisible && deleteModalOpen();
   };
-
   return (
-    <>
-      {meca && user && (
+    <AuthPageProvider reload>
+      {meca && (
         <>
           <MetaHead title={meca.title} description={meca.description} />
           <PostSection>
@@ -52,7 +51,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
             <br />
             <BetweenControlGroup>
               <BetweenControlGroup.Left>
-                <AvatarUser name={user.name} profile={user.profile} />
+                <AvatarUser {...user} />
               </BetweenControlGroup.Left>
               <BetweenControlGroup.Right>
                 <LinkButton onClick={handleUpdateCardButtonClick} textSize="main">
@@ -75,7 +74,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
           </PostSection>
         </>
       )}
-    </>
+    </AuthPageProvider>
   );
 };
 
