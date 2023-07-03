@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable react/jsx-no-useless-fragment */
 import dynamic from 'next/dynamic';
@@ -17,5 +18,5 @@ export const RelativeDateText = ({ date }: { date: string }) => {
       loading: () => <>{getYYMMDD(date)}</>,
     },
   );
-  return RelativeDateTextComponent;
+  return <RelativeDateTextComponent />;
 };

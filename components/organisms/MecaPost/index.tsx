@@ -28,7 +28,6 @@ const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
 
 const MecaPost = ({ cardId, cardType, question, answer, description, createdAt }: MecaPostProps) => {
   const DescriptionEditor = QuillReader({ content: description || '내용이 없습니다.' });
-  const DateText = RelativeDateText({ date: createdAt });
   const MecaBody = ContentBody[cardType];
   const { cardHistoryList, fetchNextPage } = useMecaHistory('cardId', cardId);
   return (
@@ -39,7 +38,7 @@ const MecaPost = ({ cardId, cardType, question, answer, description, createdAt }
         </PostSubInfo.Content>
         <PostSubInfo.Content title="작성일">
           <TextCaption>
-            <DateText />
+            <RelativeDateText date={createdAt} />
           </TextCaption>
         </PostSubInfo.Content>
       </PostSubInfo>

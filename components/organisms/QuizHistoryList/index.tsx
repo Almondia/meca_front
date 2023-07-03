@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { InfiniteData } from '@tanstack/react-query';
 
@@ -37,10 +37,6 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-  const getRelativeDate = useCallback((date: string) => {
-    const DateText = RelativeDateText({ date });
-    return <DateText />;
-  }, []);
 
   const handleCardLinkClick = ({ memberId, cardId }: { memberId: string; cardId: string }) => {
     const cardPath = combineUUID(memberId, cardId);
@@ -105,7 +101,9 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                         </div>
                       </td>
                       <td>{content.score}</td>
-                      <td>{getRelativeDate(content.createdAt)}</td>
+                      <td>
+                        <RelativeDateText date={content.createdAt} />
+                      </td>
                     </QuizHistoryTableContentRow>
                   );
                 })}
