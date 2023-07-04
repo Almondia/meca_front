@@ -1,7 +1,5 @@
 import { GetStaticProps } from 'next';
 
-import { getPlaiceholder } from 'plaiceholder';
-
 import categoryApi from '@/apis/categoryApi';
 import MetaHead from '@/components/common/MetaHead';
 import CategoryControl from '@/components/organisms/CategoryControl';
@@ -12,6 +10,7 @@ import { isrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
+import { getPlaceholderImage } from '@/utils/plaiceholderHandler';
 
 export default function Home() {
   const { categories, hasNextPage, fetchNextPage, changeSearchQuery } = useSharedCategory();
@@ -39,7 +38,11 @@ export const getStaticProps: GetStaticProps = isrAspect(async (_, queryClient) =
           if (!thumbnail) {
             return category;
           }
-          const { base64: blurDataURL, img } = await getPlaiceholder(getRemoteImageUrl(thumbnail), { size: 12 });
+          const placeholderThumbnail = await getPlaceholderImage(getRemoteImageUrl(thumbnail), 24);
+          if (!placeholderThumbnail) {
+            return category;
+          }
+          const { img, blurDataURL } = placeholderThumbnail;
           return { ...category, blurThumbnail: { ...img, blurDataURL } };
         }),
       );

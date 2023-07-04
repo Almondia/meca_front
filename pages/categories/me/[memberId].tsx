@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
-import { getPlaiceholder } from 'plaiceholder';
-
 import categoryApi from '@/apis/categoryApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import AuthPageProvider from '@/components/common/AuthPageProvider';
@@ -15,6 +13,7 @@ import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
+import { getNextImageUrl, getPlaceholderImage } from '@/utils/plaiceholderHandler';
 
 const Category = () => {
   const { categoires, hasNextPage, fetchNextPage, changeSearchQuery } = useCategory();
@@ -42,8 +41,13 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
           if (!thumbnail) {
             return category;
           }
-          const { base64: blurDataURL, img } = await getPlaiceholder(getRemoteImageUrl(thumbnail), { size: 12 });
-          return { ...category, blurThumbnail: { ...img, blurDataURL } };
+          const originRemoteImage = getRemoteImageUrl(thumbnail);
+          const placeholderThumbnail = await getPlaceholderImage(getNextImageUrl(originRemoteImage), 12);
+          if (!placeholderThumbnail) {
+            return category;
+          }
+          const { blurDataURL, img } = placeholderThumbnail;
+          return { ...category, blurThumbnail: { ...img, src: originRemoteImage, blurDataURL } };
         }),
       );
       return { ...categoryList, contents: categoryListContentWithBlurURL };
