@@ -2,7 +2,6 @@
 import { GetServerSideProps } from 'next';
 
 import { QueryClient } from '@tanstack/react-query';
-import { getPlaiceholder } from 'plaiceholder';
 
 import mecaApi from '@/apis/mecaApi';
 import LikeButton from '@/components/atoms/LikeButton';
@@ -19,6 +18,7 @@ import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { UserProfile } from '@/types/domain';
 import { extractFirstImageSrc, getRemoteImageUrl } from '@/utils/imageHandler';
+import { getNextImageUrl, getPlaceholderImage } from '@/utils/plaiceholderHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface MyCategoryByIdPageProps {
@@ -94,8 +94,12 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
           if (!thumbnail) {
             return meca;
           }
-          const { base64: blurDataURL, img } = await getPlaiceholder(thumbnail, { size: 12 });
-          return { ...meca, blurThumbnail: { ...img, blurDataURL } };
+          const placeholderThumbnail = await getPlaceholderImage(getNextImageUrl(thumbnail), 12);
+          if (!placeholderThumbnail) {
+            return meca;
+          }
+          const { img, blurDataURL } = placeholderThumbnail;
+          return { ...meca, blurThumbnail: { ...img, src: thumbnail, blurDataURL } };
         }),
       );
       return { ...mecaList, contents: mecaListContentsWithBlurURL };
