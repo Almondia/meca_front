@@ -24,8 +24,8 @@ const useFetchImage = () => {
       const { url, objectKey } = await getPresignedUrl(props);
       await imageApi.uploadImage(image, url);
       return objectKey;
-    } catch {
-      alertToast('이미지 업로드 실패', 'warning');
+    } catch (e: any) {
+      alertToast(e?.message ?? '이미지 업로드 실패', 'warning');
       return undefined;
     }
   };
