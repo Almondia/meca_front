@@ -31,7 +31,7 @@ export const NavBar = styled.nav`
   }
 `;
 
-export const Profile = styled.button`
+export const Profile = styled.div`
   position: relative;
   ${FlexCenter};
   column-gap: 6px;
@@ -54,5 +54,22 @@ export const LoginButton = styled.button`
   :hover {
     opacity: 0.85;
     transition: opacity 0.5s ease-in-out;
+  }
+`;
+
+export const NavigationMenuWrapper = styled.div`
+  position: relative;
+  margin-top: 2px;
+  & > div {
+    position: relative;
+    & > div {
+      width: 120px;
+      background-color: var(--color-element-background);
+    }
+  }
+  a {
+    padding: 14px 16px 14px 24px;
+    text-align: left;
+    font-size: ${({ theme }) => theme.fontSize.sub};
   }
 `;
