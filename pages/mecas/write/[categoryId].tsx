@@ -30,14 +30,13 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   if (!categoryId || typeof categoryId !== 'string') {
     throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
   }
-  await queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () => mecaApi.getCountByCategoryId(categoryId));
   const cardId = context.query?.cardId;
-  if (!cardId || typeof cardId !== 'string') {
-    return {
-      categoryId,
-    };
-  }
-  await queryClient.prefetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId));
+  await Promise.all([
+    queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () => mecaApi.getCountByCategoryId(categoryId)),
+    cardId &&
+      typeof cardId === 'string' &&
+      queryClient.prefetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId)),
+  ]);
   if (!queryClient.getQueryData([queryKey.meca, cardId])) {
     return {
       categoryId,
