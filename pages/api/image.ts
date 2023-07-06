@@ -3,9 +3,11 @@ import { Writable } from 'stream';
 
 import axios from 'axios';
 import formidable from 'formidable';
+import nookies from 'nookies';
 import sharp from 'sharp';
 
 import { setRequest } from '@/apis/config/instance';
+import { getJWTPayload } from '@/utils/jwtHandler';
 
 const MAX_IMAGE_WIDTH = 1080;
 
@@ -58,10 +60,14 @@ const resize = async ({ buffer }: { buffer: Buffer }) => {
 };
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  setRequest(req);
   if (req.method !== 'POST') {
     return res.status(405).json({ message: '잘못된 http method 요청', status: 405 });
   }
+  const { accessToken } = nookies.get({ req });
+  if (!accessToken && !getJWTPayload(accessToken, 'id')) {
+    return res.status(401).json({ message: '로그인이 필요합니다.' });
+  }
+  setRequest(req);
   try {
     const chunks: never[] = [];
     const { fields } = await formidablePromise(req, {
