@@ -2,15 +2,15 @@ import Link from 'next/link';
 
 import styled from 'styled-components';
 
-export const CardMenuWrapper = styled.div<{ top: string; right: string }>`
+export const DropdownMenuWrapper = styled.div<{ top: string; right: string; scale: number }>`
   position: absolute;
   top: ${(props) => props.top};
   right: ${(props) => props.right};
-  transform: scale(0.7);
   z-index: 2;
+  transform: scale(${(props) => props.scale});
 `;
 
-export const CardMenuDropdownWrapper = styled.div`
+export const DropdownMenuContentsContainer = styled.div`
   position: absolute;
   top: 45px;
   right: -5px;
@@ -20,7 +20,7 @@ export const CardMenuDropdownWrapper = styled.div`
   background-color: var(--color-background);
 `;
 
-export const CardDropdownMenuLink = styled(Link)`
+export const DropdownMenuContentWrapper = styled(Link)`
   display: block;
   padding: 12px 18px;
   font-size: ${({ theme }) => theme.fontSize.large};

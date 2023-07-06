@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import IconTag from '@/components/atoms/IconTag';
 import ProgressBar from '@/components/atoms/ProgressBar';
 import Icon from '@/components/common/Icon';
-import CardMenu from '@/components/molcules/CardMenu';
+import DropdownMenu from '@/components/molcules/DropdownMenu';
 import useModal from '@/hooks/useModal';
 import { TextOverline } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
@@ -52,16 +52,14 @@ const PrivateCategoryBody = ({
         <Icon icon="Like" size="1rem" />
         <TextOverline style={{ textAlign: 'center' }}>{likeCount}</TextOverline>
       </div>
-      <CardMenu top="14px" right="6px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
-        <CardMenu.Dropdown>
-          <CardMenu.Dropdown.Content href="" onClick={updateModalOpen}>
-            수정하기
-          </CardMenu.Dropdown.Content>
-          <CardMenu.Dropdown.Content href="" onClick={deleteModalOpen}>
-            삭제하기
-          </CardMenu.Dropdown.Content>
-        </CardMenu.Dropdown>
-      </CardMenu>
+      <DropdownMenu scale={0.7} top="14px" right="6px" name={`${title}제목의 카테고리 수정 삭제 버튼 오프너`}>
+        <DropdownMenu.Menu href="" onClick={updateModalOpen}>
+          수정하기
+        </DropdownMenu.Menu>
+        <DropdownMenu.Menu href="" onClick={deleteModalOpen}>
+          삭제하기
+        </DropdownMenu.Menu>
+      </DropdownMenu>
       {isDeleteModalVisible && (
         <CategoryDeleteDialog
           categoryId={categoryId}
