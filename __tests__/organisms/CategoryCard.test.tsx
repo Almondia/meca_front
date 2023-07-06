@@ -47,7 +47,7 @@ describe('CategoryCard', () => {
   });
 
   describe('CardBody', () => {
-    it('공유된 개인 카테고리 카드 UI가 식별된다.', () => {
+    it('개인 카테고리 카드 UI가 식별된다.', async () => {
       render(
         <CategoryCard.Private
           title="title"
@@ -70,7 +70,7 @@ describe('CategoryCard', () => {
       expect(privateTag).not.toBeInTheDocument();
       const dotIconButton = screen.getByRole('button', { name: /verticaldot/i });
       fireEvent.click(dotIconButton);
-      const updateLink = screen.queryByRole('link', { name: '수정하기' });
+      const updateLink = await screen.findByRole('link', { name: '수정하기' });
       expect(updateLink).toBeInTheDocument();
     });
 
@@ -104,7 +104,6 @@ describe('CategoryCard', () => {
       expect(profileImage).toBeInTheDocument();
       expect((profileImage as HTMLImageElement).src).toContain('noprofile.png');
       expect(username).toBeInTheDocument();
-      //TODO: UI(좋아요)추가되면 assertion 추가할 것
     });
   });
 });
