@@ -1,6 +1,6 @@
 import { ImageUploadRequestType } from '@/types/domain';
 
-import { authInstance } from './config/instance';
+import { authInstance, serverInstance } from './config/instance';
 
 const imageApi = {
   getPresignedUrl: ({ extension, purpose, fileName }: ImageUploadRequestType) =>
@@ -11,6 +11,20 @@ const imageApi = {
         fileName,
       },
     }),
+  uploadImage: (image: File, url: string) =>
+    serverInstance.post(
+      '/api/image',
+      {
+        file: image,
+        url,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 30000,
+      },
+    ),
 };
 
 export default imageApi;
