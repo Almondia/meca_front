@@ -116,7 +116,7 @@ export const MOCK_HISTORY_LIST = {
     },
     {
       cardHistory: {
-        cardHistoryId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf2b',
+        cardHistoryId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf2z',
         userAnswer: 'answer',
         score: 21,
         createdAt: '2023-06-16T14:24:57.2667251',
