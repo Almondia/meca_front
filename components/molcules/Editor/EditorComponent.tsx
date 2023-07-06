@@ -15,6 +15,17 @@ const EditorComponentWrapper = styled.div`
     min-height: 360px;
     max-height: 1140px;
   }
+  .ql-editor.ql-blank::before {
+    content: '내용을 입력하세요';
+    color: var(--color-gray);
+  }
+
+  .ql-editor.ql-blank::after {
+    font-style: italic;
+    content: '15MB 이하의 jpg/jpeg/png/gif 이미지를 업로드 할 수 있습니다.';
+    color: var(--color-gray);
+  }
+
   img {
     display: block;
   }
@@ -103,12 +114,8 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
         ],
       },
       imageCompress: {
-        quality: 0.9,
-        maxWidth: 1280,
-        maxHeight: 960,
-        imageType: 'image/png',
-        keepImageTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
-        ignoreImageTypes: ['image/gif'],
+        imageType: '',
+        ignoreImageTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
         debug: false,
         suppressErrorLogging: false,
         insertIntoEditor: imageHandler,
@@ -130,7 +137,6 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
         onChange={setContents}
         modules={modules}
         theme="snow"
-        placeholder="내용을 입력해주세요."
       />
     </EditorComponentWrapper>
   );

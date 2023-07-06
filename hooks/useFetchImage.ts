@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 
 import imageApi from '@/apis/imageApi';
 import queryKey from '@/query/queryKey';
@@ -23,14 +22,10 @@ const useFetchImage = () => {
   const uploadImage = async (props: ImageUploadRequestType, image: File) => {
     try {
       const { url, objectKey } = await getPresignedUrl(props);
-      await axios.put(url, image, {
-        headers: {
-          'Content-Type': 'application/octet-stream',
-        },
-      });
+      await imageApi.uploadImage(image, url);
       return objectKey;
-    } catch {
-      alertToast('이미지 업로드 실패', 'warning');
+    } catch (e: any) {
+      alertToast(e?.message ?? '이미지 업로드 실패', 'warning');
       return undefined;
     }
   };

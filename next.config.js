@@ -22,6 +22,7 @@ const nextConfig = {
         hostname: 'my-meca.s3.ap-northeast-2.amazonaws.com',
       },
     ],
+    minimumCacheTTL: 3600,
   },
   experimental: {
     scrollRestoration: true,

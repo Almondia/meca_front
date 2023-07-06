@@ -66,10 +66,8 @@ describe('MecaWritePage with SSR', () => {
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('categoryId', categoryId);
     expect(props).toHaveProperty('dehydratedState');
-    await waitFor(() =>
-      renderQuery(<MecaWritePage categoryId={props.categoryId} />, undefined, undefined, props.dehydratedState),
-    );
-    const inputTitle = screen.getByRole('textbox', {
+    renderQuery(<MecaWritePage categoryId={props.categoryId} />, undefined, undefined, props.dehydratedState);
+    const inputTitle = await screen.findByRole('textbox', {
       name: 'input-meca-title',
     });
     const OxTagButton = screen.getByRole('button', {
@@ -105,10 +103,10 @@ describe('MecaWritePage with SSR', () => {
       undefined,
       props.dehydratedState,
     );
-    const inputTitle = screen.getByRole('textbox', {
+    const inputTitle = await screen.findByRole('textbox', {
       name: 'input-meca-title',
     });
-    const OxTagButton = screen.queryByRole('button', {
+    const OxTagButton = screen.getByRole('button', {
       name: /OX퀴즈/i,
     });
     const KeywordTagButton = screen.queryByRole('button', {
@@ -136,7 +134,7 @@ describe('MecaWritePage with SSR', () => {
     expect(props).not.toHaveProperty('cardId');
     expect(props).toHaveProperty('dehydratedState');
     renderQuery(<MecaWritePage {...props} />, undefined, undefined, props.dehydratedState);
-    const inputTitle = screen.getByRole('textbox', {
+    const inputTitle = await screen.findByRole('textbox', {
       name: 'input-meca-title',
     });
     const OxTagButton = screen.getByRole('button', {

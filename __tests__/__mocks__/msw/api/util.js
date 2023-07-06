@@ -39,12 +39,9 @@ export const mockedGetPresignImageUrlApi = () => {
   return { uri, method, responseResolver };
 };
 
-/**
- * @param {string} url - 이미지 경로
- */
 export const mockedPutImageUploadApi = (url) => {
-  const [uri, method] = [url, 'put'];
-  const headers = { 'Content-Type': 'application/octet-stream' };
+  const [uri, method] = ['/api/image', 'post'];
+  const headers = { 'Content-Type': 'multipart/form-data' };
   const responseResolver = (_, res, ctx) => {
     return res(ctx.status(200), ctx.set(headers));
   };
