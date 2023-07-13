@@ -1,59 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, SetStateAction, useCallback, useMemo, useRef } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from 'react';
 
+import hljs from 'highlight.js';
 import ReactQuill from 'react-quill';
-import styled from 'styled-components';
 
 import useFetchImage from '@/hooks/useFetchImage';
 import { getImageInfo, getOriginImageSize, getRemoteImageUrl, validImageFile } from '@/utils/imageHandler';
 import alertToast from '@/utils/toastHandler';
 
+import CODE_HIGHLIGHT_LANGUAGE_LIST from './constants';
 import { QuillNoSSRWriter } from './QuillNoSSRWriter';
-
-const EditorComponentWrapper = styled.div`
-  .ql-editor {
-    min-height: 360px;
-    max-height: 1140px;
-  }
-  .ql-editor.ql-blank::before {
-    content: '내용을 입력하세요';
-    color: var(--color-gray);
-  }
-
-  .ql-editor.ql-blank::after {
-    font-style: italic;
-    content: '15MB 이하의 jpg/jpeg/png/gif 이미지를 업로드 할 수 있습니다.';
-    color: var(--color-gray);
-  }
-
-  img {
-    display: block;
-  }
-  .ql-toolbar {
-    border-top-left-radius: ${({ theme }) => theme.border.button};
-    border-top-right-radius: ${({ theme }) => theme.border.button};
-  }
-  .ql-container {
-    border-bottom-left-radius: ${({ theme }) => theme.border.button};
-    border-bottom-right-radius: ${({ theme }) => theme.border.button};
-  }
-  .ql-container,
-  .ql-toolbar {
-    border: 1px solid var(--color-gray);
-  }
-  .ql-toolbar .ql-stroke {
-    fill: none;
-    stroke: var(--color-text);
-  }
-  .ql-toolbar .ql-fill {
-    fill: var(--color-text);
-    stroke: none;
-  }
-
-  .ql-toolbar .ql-picker {
-    color: var(--color-text);
-  }
-`;
+import { WriteEditorWrapper } from './styled';
 
 export interface EditorComponentProps {
   contents: string;
@@ -65,7 +22,13 @@ const IMAGE_UPLOAD_TEXT = '[이미지 업로드중...]' as const;
 const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
   const quillInstance = useRef<ReactQuill>(null);
   const { uploadImage } = useFetchImage();
-
+  useEffect(() => {
+    setContents(contents.replaceAll('</span>\n ', '</span>\n&nbsp;'));
+    (async () => {
+      const { default: QuillComponent } = await import('react-quill');
+      QuillComponent.Quill.register('formats/code', QuillComponent.Quill.import('formats/code-block'));
+    })();
+  }, []);
   const imageHandler = useCallback(async (base64: string, blob: Blob) => {
     const quill = quillInstance.current?.getEditor();
     if (!quill) {
@@ -105,12 +68,15 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
 
   const modules = useMemo(
     () => ({
+      syntax: {
+        highlight: (text: string) => hljs.highlightAuto(text, CODE_HIGHLIGHT_LANGUAGE_LIST).value,
+      },
       toolbar: {
         container: [
           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
           [{ size: ['small', false, 'large', 'huge'] }, { color: [] }],
           [{ list: 'ordered' }, { list: 'bullet' }, { align: [] }],
-          ['image', 'video'],
+          ['image', 'video', 'code-block'],
         ],
       },
       QuillMarkdown: {
@@ -133,7 +99,7 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
   );
 
   return (
-    <EditorComponentWrapper>
+    <WriteEditorWrapper>
       <QuillNoSSRWriter
         forwardedRef={quillInstance}
         value={contents}
@@ -141,7 +107,7 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
         modules={modules}
         theme="snow"
       />
-    </EditorComponentWrapper>
+    </WriteEditorWrapper>
   );
 };
 
