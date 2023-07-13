@@ -19,10 +19,14 @@ export const QuillNoSSRWriter = dynamic(
     const { default: QuillComponent } = await import('react-quill');
     const { default: ImageCompress } = await import('quill-image-compress');
     const { default: ImageResize } = await import('quill-image-resize');
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const { default: QuillMarkdown } = await import('quilljs-markdown');
     const ImageBlot = await getCustomImageBlot(QuillComponent);
     QuillComponent.Quill.debug('error');
     QuillComponent.Quill.register('modules/imageCompress', ImageCompress);
     QuillComponent.Quill.register('modules/imageResize', ImageResize);
+    QuillComponent.Quill.register('modules/QuillMarkdown', QuillMarkdown, true);
     QuillComponent.Quill.register(ImageBlot);
     const Quill = ({ forwardedRef, ...props }: ForwardedQuillComponent) => (
       <QuillComponent ref={forwardedRef} {...props} />

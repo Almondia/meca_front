@@ -113,6 +113,9 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
           ['image', 'video'],
         ],
       },
+      QuillMarkdown: {
+        //
+      },
       imageCompress: {
         imageType: '',
         ignoreImageTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
