@@ -8,8 +8,27 @@ const EditorWrapper = styled.div`
     padding: 1rem;
     font-size: 1rem;
     line-height: 1.5;
+    li {
+      margin-left: -2.2rem;
+    }
     img {
       height: auto;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      line-height: 110%;
+      font-weight: bold;
+    }
+    h1 {
+      font-size: 1.75rem;
+      padding-bottom: 0.3rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      padding-bottom: 0.2rem;
     }
   }
 
