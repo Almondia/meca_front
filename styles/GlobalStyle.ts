@@ -24,6 +24,24 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --is-mobile: ${MEDIA.mobile};
         --is-tablet: ${MEDIA.tablet};
         font-family: var(--font-base);
+        --color-code1: #adbac7;
+        --color-code2: #22272e;
+        --color-code3: #f47067;
+        --color-code4: #dcbdfb;
+        --color-code5: #6cb6ff;
+        --color-code6: #b2d8f7;
+        --color-code7: #f69d50;
+        --color-code8: #768390;
+        --color-code9: #8ddb8c;
+        --color-code10: #adbac7;
+        --color-code11: #316dca;
+        --color-code12: #eac55f;
+        --color-code13: #adbac7;
+        --color-code14: #adbac7;
+        --color-code15: #b4f1b4;
+        --color-code16: #1b4721;
+        --color-code17: #ffd8d3;
+        --color-code18: #78191b;
     }
 
     html {
@@ -41,7 +59,8 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-brightgray: rgba(232, 232, 232, 0.3);
         --shadow-normal: ${SHADOW.normalDark};
         --shadow-bold: ${SHADOW.boldDark};
-        --color-code1: #24292e;
+        // TODO: lightmode 적용할 수 있다면
+        /* --color-code1: #24292e;
         --color-code2: #ffffff;
         --color-code3: #d73a49;
         --color-code4: #6f42c1;
@@ -58,7 +77,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-code15: #22863a;
         --color-code16: #f0fff4;
         --color-code17: #b31d28;
-        --color-code18: #ffeef0;
+        --color-code18: #ffeef0; */
     }
 
     @media ${MEDIA.mobile} {
@@ -80,24 +99,6 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-brightgray: rgba(128, 128, 128, 0.3);
         --shadow-normal: ${SHADOW.normalLight};
         --shadow-bold: ${SHADOW.boldLight};
-        --color-code1: #adbac7;
-        --color-code2: #22272e;
-        --color-code3: #f47067;
-        --color-code4: #dcbdfb;
-        --color-code5: #6cb6ff;
-        --color-code6: #b2d8f7;
-        --color-code7: #f69d50;
-        --color-code8: #768390;
-        --color-code9: #8ddb8c;
-        --color-code10: #adbac7;
-        --color-code11: #316dca;
-        --color-code12: #eac55f;
-        --color-code13: #adbac7;
-        --color-code14: #adbac7;
-        --color-code15: #b4f1b4;
-        --color-code16: #1b4721;
-        --color-code17: #ffd8d3;
-        --color-code18: #78191b;
     }
 
     body {

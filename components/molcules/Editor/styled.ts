@@ -34,8 +34,6 @@ const EditorWrapper = styled.div`
 
   pre.ql-syntax {
     font-size: ${({ theme }) => theme.fontSize.caption};
-    color: var(--color-text) !important;
-    /* font-family: ${({ theme }) => theme.fontFamily.sahitya}; */
   }
 
   .ql-editor.ql-blank::before {
@@ -164,10 +162,6 @@ export const WriteEditorWrapper = styled(EditorWrapper)<{ heightLimit?: ElementS
     color: var(--color-gray);
   }
 
-  pre.ql-syntax {
-    background-color: var(--color-brightgray) !important;
-  }
-
   img {
     display: block;
   }
@@ -200,8 +194,5 @@ export const WriteEditorWrapper = styled(EditorWrapper)<{ heightLimit?: ElementS
 export const ReadEditorWrapper = styled(EditorWrapper)`
   .ql-bubble > .ql-editor {
     padding: 0;
-  }
-  pre.ql-syntax {
-    background-color: var(--color-background) !important;
   }
 `;
