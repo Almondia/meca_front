@@ -146,10 +146,10 @@ const EditorWrapper = styled.div`
   }
 `;
 
-export const WriteEditorWrapper = styled(EditorWrapper)<{ heightLimit?: ElementSizeType }>`
+export const WriteEditorWrapper = styled(EditorWrapper)<{ minHeight?: ElementSizeType; maxHeight?: ElementSizeType }>`
   .ql-editor {
-    min-height: 360px;
-    max-height: ${(props) => props.heightLimit ?? '1140px'};
+    min-height: ${(props) => props.minHeight ?? '360px'};
+    max-height: ${(props) => props.maxHeight ?? '1140px'};
   }
   .ql-editor.ql-blank::before {
     content: '내용을 입력하세요';

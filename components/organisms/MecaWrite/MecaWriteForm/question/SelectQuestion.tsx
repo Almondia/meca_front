@@ -1,18 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
+import QuillWriter from '@/components/molcules/Editor/QuillWriter';
 import InputGroup from '@/components/molcules/InputGroup';
+import useClickAway from '@/hooks/useClickAway';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
-import { MecaWriteFormInputProps } from '../type';
+import { MecaWriteFormQuestionProps } from '../type';
 
-const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInputProps) => {
-  const existed = value ? stringToJsonStringArrayConverter(value) : [];
+const SelectQuestion = ({ value, setValue, selectionNum = 3 }: MecaWriteFormQuestionProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const existed = useMemo(() => (value ? stringToJsonStringArrayConverter(value) : []), []);
   const [sampleValues, setSampleValues] = useState<string[]>(existed.concat(new Array(6 - existed.length).fill('')));
+  const parsedSampleValue = JSON.stringify(sampleValues.slice(0, selectionNum + 1));
+
+  useClickAway(
+    ref,
+    () => {
+      setValue(parsedSampleValue);
+    },
+    parsedSampleValue !== value,
+  );
 
   const changeQuestionCase = (inputValue: string, index: number) => {
     const newSampleValues = sampleValues.map((v, i) => (i === index ? inputValue : v));
     setSampleValues(newSampleValues);
     return newSampleValues;
+  };
+  const setQuestion = (action: React.SetStateAction<string>): void => {
+    typeof action === 'string' && setSampleValues((prev) => [action, ...prev.slice(1)]);
   };
 
   const handleChange = (
@@ -22,29 +38,15 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
     changeQuestionCase(e.target.value, index);
   };
 
-  const handleBlur = () => {
-    const event = new CustomEvent('change') as any;
-    Object.defineProperty(event, 'target', {
-      value: { value: JSON.stringify(sampleValues.slice(0, selectionNum + 1)) },
-    });
-    onChange(event);
-  };
-
-  useEffect(() => {
-    handleBlur();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectionNum]);
-
   return (
-    <div>
+    <div ref={ref}>
       <InputGroup>
         <InputGroup.Label>객관식 문제 제목을 작성하세요</InputGroup.Label>
-        <InputGroup.Input.TextArea
-          name="meca-question"
-          value={sampleValues[0]}
-          onChange={(e) => handleChange(e, 0)}
-          onBlur={handleBlur}
-          placeholder="객관식 문제 제목을 설명하세요"
+        <QuillWriter
+          minHeight="150px"
+          maxHeight="780px"
+          contents={sampleValues[0]}
+          setContents={setQuestion}
           ariaLabel="input-meca-select-question"
         />
       </InputGroup>
@@ -56,7 +58,6 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
             name={`meca-case-${i + 1}`}
             value={sampleValues[i + 1]}
             onChange={(e) => handleChange(e, i + 1)}
-            onBlur={handleBlur}
             placeholder=""
             ariaLabel={`input-meca-case-${i + 1}`}
           />
@@ -66,4 +67,4 @@ const SelectQuestion = ({ value, onChange, selectionNum = 3 }: MecaWriteFormInpu
   );
 };
 
-export default SelectQuestion;
+export default React.memo(SelectQuestion);

@@ -4,9 +4,9 @@ import React, { useEffect } from 'react';
 import InputGroup from '@/components/molcules/InputGroup';
 import useRadio from '@/hooks/useRadio';
 
-import { MecaWriteFormInputProps } from '../type';
+import { MecaWriteFormAnswerProps } from '../type';
 
-const SelectAnswer = ({ value, onChange, selectionNum }: MecaWriteFormInputProps) => {
+const SelectAnswer = ({ value, onChange, selectionNum }: MecaWriteFormAnswerProps) => {
   const { fieldSet: fieldSetRef, forceClick, hasCheckedRadio } = useRadio();
 
   useEffect(() => {

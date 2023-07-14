@@ -5,6 +5,7 @@ import hljs from 'highlight.js';
 import ReactQuill from 'react-quill';
 
 import useFetchImage from '@/hooks/useFetchImage';
+import { ElementSizeType } from '@/types/common';
 import { getImageInfo, getOriginImageSize, getRemoteImageUrl, validImageFile } from '@/utils/imageHandler';
 import alertToast from '@/utils/toastHandler';
 
@@ -15,11 +16,14 @@ import { WriteEditorWrapper } from './styled';
 export interface EditorComponentProps {
   contents: string;
   setContents: Dispatch<SetStateAction<string>>;
+  ariaLabel?: string;
+  minHeight?: ElementSizeType;
+  maxHeight?: ElementSizeType;
 }
 
 const IMAGE_UPLOAD_TEXT = '[이미지 업로드중...]' as const;
 
-const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
+const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }: EditorComponentProps) => {
   const quillInstance = useRef<ReactQuill>(null);
   const { uploadImage } = useFetchImage();
   useEffect(() => {
@@ -104,7 +108,7 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
   );
 
   return (
-    <WriteEditorWrapper>
+    <WriteEditorWrapper minHeight={minHeight} maxHeight={maxHeight} aria-label={ariaLabel ?? 'editor'}>
       <QuillNoSSRWriter
         forwardedRef={quillInstance}
         value={contents}
@@ -116,4 +120,4 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
   );
 };
 
-export { EditorComponent as QuillWriter };
+export default QuillWriter;
