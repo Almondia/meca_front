@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { RelativeDateText } from '@/components/common/RelativeDateText';
-import { QuillReader } from '@/components/molcules/Editor/QuillNoSSRReader';
+import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import MecaTag from '@/components/molcules/MecaTag';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
@@ -27,7 +27,6 @@ const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
 };
 
 const MecaPost = ({ cardId, cardType, question, answer, description, createdAt }: MecaPostProps) => {
-  const DescriptionEditor = QuillReader({ content: description || '내용이 없습니다.' });
   const MecaBody = ContentBody[cardType];
   const { cardHistoryList, fetchNextPage } = useMecaHistory('cardId', cardId);
   return (
@@ -46,7 +45,7 @@ const MecaPost = ({ cardId, cardType, question, answer, description, createdAt }
       <PostBody>
         <PostBody.Title>Description</PostBody.Title>
         <PostBody.Content>
-          <DescriptionEditor />
+          <QuillReader content={description || '내용이 없습니다.'} />
         </PostBody.Content>
       </PostBody>
       <PostBody>

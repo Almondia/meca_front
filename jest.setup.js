@@ -29,6 +29,11 @@ jest.mock('./components/molcules/Editor/QuillWriter', () => {
   return MockedQuillWriter;
 });
 
+jest.mock('./components/molcules/Editor/QuillNoSSRReader', () => {
+  const MockedQuillReader = ({ content }) => <div dangerouslySetInnerHTML={{ __html: content }} />;
+  return MockedQuillReader;
+});
+
 if (typeof window !== 'undefined') {
   window.matchMedia = jest.fn().mockImplementation((query) => {
     return {

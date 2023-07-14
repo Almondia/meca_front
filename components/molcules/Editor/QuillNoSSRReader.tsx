@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable react/no-danger */
 import dynamic from 'next/dynamic';
@@ -10,7 +11,7 @@ import { ReadEditorWrapper } from './styled';
 
 import 'react-quill/dist/quill.bubble.css';
 
-const QuillNoSSRReader = ({ content }: { content: string }) => {
+const QuillReader = ({ content }: { content: string }) => {
   const Result = useMemo(
     () =>
       dynamic(
@@ -42,7 +43,7 @@ const QuillNoSSRReader = ({ content }: { content: string }) => {
       ),
     [content],
   );
-  return Result;
+  return <Result />;
 };
 
-export { QuillNoSSRReader as QuillReader };
+export default QuillReader;
