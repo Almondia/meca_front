@@ -16,7 +16,7 @@ async function getCodeHighlightBlot(QuillComponent: typeof ReactQuill) {
       return node.textContent;
     }
   }
-  CustomCode.blotName = 'code';
+  CustomCode.blotName = 'custom-code';
   CustomCode.tagName = 'pre';
   CustomCode.className = 'ql-syntax';
   return CustomCode;

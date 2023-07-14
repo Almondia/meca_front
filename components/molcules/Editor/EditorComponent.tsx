@@ -26,7 +26,7 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
     setContents(contents.replaceAll('</span>\n ', '</span>\n&nbsp;'));
     (async () => {
       const { default: QuillComponent } = await import('react-quill');
-      QuillComponent.Quill.register('formats/code', QuillComponent.Quill.import('formats/code-block'));
+      QuillComponent.Quill.register('formats/custom-code', QuillComponent.Quill.import('formats/code-block'));
     })();
   }, []);
   const imageHandler = useCallback(async (base64: string, blob: Blob) => {
