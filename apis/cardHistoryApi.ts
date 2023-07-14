@@ -1,4 +1,5 @@
 import { CardHistoryType, CursorPaginationType } from '@/types/domain';
+import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
 import { unauthInstance } from './config/instance';
 
@@ -21,6 +22,7 @@ const cardHistoryApi = {
         ...content.solvedMember,
         ...content.card,
         ...content.cardHistory,
+        question: extractTextFromHTML(content.card.question),
       })),
     } as CardHistoryListResponse;
   },
@@ -34,6 +36,7 @@ const cardHistoryApi = {
         ...content.solvedMember,
         ...content.card,
         ...content.cardHistory,
+        question: extractTextFromHTML(content.card.question),
       })),
     } as CardHistoryListResponse;
   },

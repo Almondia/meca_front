@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { TextCaption } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 import { QuizResultType, QuizType } from '@/types/domain';
+import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 
 import {
@@ -42,7 +43,7 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
               <QuizTimelineBadge color={answerColor} />
               <QuizTimelineContent>
                 <TextCaption>
-                  <strong>{question}</strong>
+                  <strong>{extractTextFromHTML(question)}</strong>
                 </TextCaption>
                 <TextCaption>
                   문제 정답: <strong>{answer}</strong>

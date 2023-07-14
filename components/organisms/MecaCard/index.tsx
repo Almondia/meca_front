@@ -28,6 +28,7 @@ const MecaCard = ({
   memberId,
   title,
   question,
+  questionOrigin,
   description,
   tagType,
   isMine,
@@ -35,8 +36,8 @@ const MecaCard = ({
 }: MecaCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const thumbnailImageSrc = useMemo(
-    () => blurThumbnail?.src ?? extractFirstImageSrc(description),
-    [description, blurThumbnail],
+    () => blurThumbnail?.src ?? extractFirstImageSrc((questionOrigin ?? '').concat(description)),
+    [description, blurThumbnail, questionOrigin],
   );
   return (
     <Card data-testid="id-meca-card">

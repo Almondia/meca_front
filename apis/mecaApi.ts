@@ -1,13 +1,6 @@
-import {
-  CategoryType,
-  CursorPaginationType,
-  MecaType,
-  QuizAlgorithmType,
-  QuizResultType,
-  QuizType,
-  UserProfile,
-} from '@/types/domain';
+import { CategoryType, CursorPaginationType, MecaType, QuizAlgorithmType, QuizType, UserProfile } from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
+import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
 import { authInstance, unauthInstance } from './config/instance';
 
@@ -55,9 +48,18 @@ const mecaApi = {
       hasNext: props.hasNext,
     };
     !props.hasNext && delete params.hasNext;
-    return authInstance.get<never, MecaListResponse>(`/api/v1/cards/categories/${props.categoryId}/me`, {
-      params,
-    });
+    return authInstance
+      .get<never, MecaListResponse>(`/api/v1/cards/categories/${props.categoryId}/me`, {
+        params,
+      })
+      .then((res) => {
+        const contents = res.contents.map((v) => ({
+          ...v,
+          questionOrigin: v.question,
+          question: extractTextFromHTML(v.question),
+        }));
+        return { ...res, contents };
+      });
   },
   getSharedCardById: (cardId: string): Promise<MecaType & UserProfile> =>
     unauthInstance
@@ -89,7 +91,17 @@ const mecaApi = {
           params,
         },
       )
-      .then((res) => ({ ...res, contents: [...res.contents.map((v) => ({ ...v.memberInfo, ...v.cardInfo }))] }));
+      .then((res) => ({
+        ...res,
+        contents: [
+          ...res.contents.map((v) => ({
+            ...v.memberInfo,
+            ...v.cardInfo,
+            questionOrigin: v.cardInfo.question,
+            question: extractTextFromHTML(v.cardInfo.question),
+          })),
+        ],
+      }));
   },
   getCountByCategoryId: (categoryId: string) =>
     authInstance.get<never, { count: number }>(`/api/v1/cards/categories/${categoryId}/me/count`),
