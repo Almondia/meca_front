@@ -71,6 +71,11 @@ const EditorComponent = ({ contents, setContents }: EditorComponentProps) => {
       syntax: {
         highlight: (text: string) => hljs.highlightAuto(text, CODE_HIGHLIGHT_LANGUAGE_LIST).value,
       },
+      history: {
+        delay: 2000,
+        maxStack: 500,
+        userOnly: true,
+      },
       toolbar: {
         container: [
           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
