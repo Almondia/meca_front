@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import ConetentsBox from '@/components/atoms/ContentsBox';
+import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import InputGroup from '@/components/molcules/InputGroup';
 import { TextBodyTitle } from '@/styles/common';
 
@@ -13,7 +14,15 @@ const KeywordAnswerInputContainer = styled.div<{ isAnswerState: boolean }>`
 
 const KeywordQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
   <QuizContentWrapper>
-    <ConetentsBox header="Q." body={<TextBodyTitle>{question}</TextBodyTitle>} isColumn />
+    <ConetentsBox
+      header="Q."
+      body={
+        <TextBodyTitle>
+          <QuillReader content={question} />
+        </TextBodyTitle>
+      }
+      isColumn
+    />
     {isAnswerState && <ConetentsBox header="A." body={answer} isColumn />}
     <KeywordAnswerInputContainer isAnswerState={isAnswerState}>
       <InputGroup>
