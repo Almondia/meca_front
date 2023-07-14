@@ -4,7 +4,7 @@ import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
 import { authInstance, unauthInstance } from './config/instance';
 
-export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt' | 'blurThumbnail'>>;
+export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt' | 'blurThumbnail' | 'questionOrigin'>>;
 
 export interface MecaWriteResponse {
   cardId: string;
