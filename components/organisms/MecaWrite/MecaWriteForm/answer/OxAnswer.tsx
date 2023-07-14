@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import InputGroup from '@/components/molcules/InputGroup';
 import useRadio from '@/hooks/useRadio';
 
-import { MecaWriteFormInputProps } from '../type';
+import { MecaWriteFormAnswerProps } from '../type';
 
-const OxAnswer = ({ value, onChange }: MecaWriteFormInputProps) => {
+const OxAnswer = ({ value, onChange }: MecaWriteFormAnswerProps) => {
   const { fieldSet: fieldSetRef, forceClick } = useRadio();
 
   useEffect(() => {

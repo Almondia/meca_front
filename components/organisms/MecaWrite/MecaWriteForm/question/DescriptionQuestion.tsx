@@ -1,15 +1,16 @@
+import QuillWriter from '@/components/molcules/Editor/QuillWriter';
 import InputGroup from '@/components/molcules/InputGroup';
 
-import { MecaWriteFormInputProps } from '../type';
+import { MecaWriteFormQuestionProps } from '../type';
 
-const DescriptionQuestion = ({ value, onChange }: MecaWriteFormInputProps) => (
+const DescriptionQuestion = ({ value, setValue }: MecaWriteFormQuestionProps) => (
   <>
     <InputGroup.Label>주관식 퀴즈 문제를 설명하세요</InputGroup.Label>
-    <InputGroup.Input.TextArea
-      name="meca-question"
-      value={value}
-      onChange={onChange}
-      placeholder="문제를 설명하세요"
+    <QuillWriter
+      minHeight="150px"
+      maxHeight="780px"
+      contents={value}
+      setContents={setValue}
       ariaLabel="input-meca-description-question"
     />
   </>

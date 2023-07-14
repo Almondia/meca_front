@@ -2,9 +2,9 @@ import React from 'react';
 
 import InputGroup from '@/components/molcules/InputGroup';
 
-import { MecaWriteFormInputProps } from '../type';
+import { MecaWriteFormAnswerProps } from '../type';
 
-const KeywordAnswer = ({ value, onChange }: MecaWriteFormInputProps) => (
+const KeywordAnswer = ({ value, onChange }: MecaWriteFormAnswerProps) => (
   <>
     <InputGroup.Label>정답을 작성하세요</InputGroup.Label>
     <InputGroup.Input.Text

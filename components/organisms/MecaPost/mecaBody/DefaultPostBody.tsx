@@ -1,3 +1,4 @@
+import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import PostBody from '@/components/molcules/PostBody';
 
 import { MecaPostBodyProps } from '../type';
@@ -6,7 +7,9 @@ const DefaultPostBody = ({ question, answer }: MecaPostBodyProps) => (
   <>
     <PostBody>
       <PostBody.Title>Question</PostBody.Title>
-      <PostBody.Content>{question}</PostBody.Content>
+      <PostBody.Content>
+        <QuillReader content={question} />
+      </PostBody.Content>
     </PostBody>
     <PostBody>
       <PostBody.Title>Answer</PostBody.Title>

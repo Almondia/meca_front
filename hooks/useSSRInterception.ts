@@ -25,7 +25,7 @@ const useSSRInterception = () => {
   }, []);
 
   useEffect(() => {
-    const props = SingletonRouter.router?.components[router.pathname].props;
+    const props = SingletonRouter.router?.components[router.pathname]?.props;
     if (!props || !props.__N_SSP === undefined) {
       return;
     }

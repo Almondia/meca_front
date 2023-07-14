@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styled from 'styled-components';
 
+import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import PostBody from '@/components/molcules/PostBody';
 import { TextBody } from '@/styles/common';
 import { TextAreaBox } from '@/styles/layout';
@@ -28,7 +29,9 @@ const SelectPostBody = ({ question, answer }: MecaPostBodyProps) => {
     <>
       <PostBody>
         <PostBody.Title>Question</PostBody.Title>
-        <PostBody.Content>{questionArray[0]}</PostBody.Content>
+        <PostBody.Content>
+          <QuillReader content={questionArray[0]} />
+        </PostBody.Content>
       </PostBody>
       <PostBody>
         {[...questionArray].slice(1).map((q, i) => (

@@ -1,31 +1,49 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable react/no-danger */
 import dynamic from 'next/dynamic';
 
-import 'react-quill/dist/quill.bubble.css';
-import getCustomImageBlot from './CustomImageBlot';
+import { useMemo } from 'react';
 
-const QuillNoSSRReader = ({ content }: { content: string }) => {
-  const Result = dynamic(
-    async () => {
-      const { default: QuillComponent } = await import('react-quill');
-      QuillComponent.Quill.debug('error');
-      const ImageBlot = await getCustomImageBlot(QuillComponent, true);
-      QuillComponent.Quill.register(ImageBlot);
-      return () => <QuillComponent theme="bubble" readOnly value={content} />;
-    },
-    {
-      loading: () => (
-        <div className="quill">
-          <div className="ql-container ql-bubble ql-disabled">
-            <div className="ql-editor" data-gramm="false" dangerouslySetInnerHTML={{ __html: content }} />
-          </div>
-        </div>
+import getCodeHighlightBlot from './CodeHighlightBlot';
+import getCustomImageBlot from './CustomImageBlot';
+import { ReadEditorWrapper } from './styled';
+
+import 'react-quill/dist/quill.bubble.css';
+
+const QuillReader = ({ content }: { content: string }) => {
+  const Result = useMemo(
+    () =>
+      dynamic(
+        async () => {
+          const { default: QuillComponent } = await import('react-quill');
+          QuillComponent.Quill.debug('error');
+          const ImageBlot = await getCustomImageBlot(QuillComponent, true);
+          const CodeBlot = await getCodeHighlightBlot(QuillComponent);
+          QuillComponent.Quill.register(ImageBlot);
+          QuillComponent.Quill.register(CodeBlot);
+          return () => (
+            <ReadEditorWrapper className="quill-readonly">
+              <QuillComponent theme="bubble" readOnly value={content.replaceAll('</span>\n ', '</span>\n&nbsp;')} />
+            </ReadEditorWrapper>
+          );
+        },
+        {
+          loading: () => (
+            <ReadEditorWrapper>
+              <div className="quill">
+                <div className="ql-container ql-bubble ql-disabled">
+                  <div className="ql-editor" data-gramm="false" dangerouslySetInnerHTML={{ __html: content }} />
+                </div>
+              </div>
+            </ReadEditorWrapper>
+          ),
+          ssr: false,
+        },
       ),
-      ssr: false,
-    },
+    [content],
   );
-  return Result;
+  return <Result />;
 };
 
-export { QuillNoSSRReader as QuillReader };
+export default QuillReader;

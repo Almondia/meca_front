@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
       const mecaList = await getMecaList(categoryId, isMine, queryClient);
       const mecaListContentsWithBlurURL = await Promise.all(
         mecaList.contents.map(async (meca) => {
-          const thumbnail = extractFirstImageSrc(meca.description);
+          const thumbnail = extractFirstImageSrc((meca.questionOrigin ?? '').concat(meca.description));
           if (!thumbnail) {
             return meca;
           }

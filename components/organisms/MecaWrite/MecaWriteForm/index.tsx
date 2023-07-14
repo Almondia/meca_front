@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 
 import NumberIncrementer from '@/components/atoms/NumberIncrementer';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
-import { QuillWriter } from '@/components/molcules/Editor/EditorComponent';
+import QuillWriter from '@/components/molcules/Editor/QuillWriter';
 import InputGroup from '@/components/molcules/InputGroup';
 import useMecaWrite from '@/hooks/meca/useMecaWrite';
 import useIncrease from '@/hooks/useCount';
@@ -21,16 +21,16 @@ import DescriptionQuestion from './question/DescriptionQuestion';
 import KeywordQuestion from './question/KeywordQuestion';
 import OxQuestion from './question/OxQuestion';
 import SelectQuestion from './question/SelectQuestion';
-import { MecaWriteInputComponentType } from './type';
+import { MecaWriteAnswerComponentType, MecaWriteQuestionComponentType } from './type';
 
-const QUESTION_COMPONENTS: Record<MecaTagType, MecaWriteInputComponentType> = {
+const QUESTION_COMPONENTS: Record<MecaTagType, MecaWriteQuestionComponentType> = {
   ox: OxQuestion,
   desc: DescriptionQuestion,
   keyword: KeywordQuestion,
   select: SelectQuestion,
 };
 
-const ANSWER_COMPONENTS: Record<MecaTagType, MecaWriteInputComponentType> = {
+const ANSWER_COMPONENTS: Record<MecaTagType, MecaWriteAnswerComponentType> = {
   ox: OxAnswer,
   desc: DescriptionAnswer,
   keyword: KeywordAnswer,
@@ -56,19 +56,15 @@ const MecaWriteForm = ({
   const { createMeca, updateMeca } = useMecaWrite();
   const { input: titleInput, onInputChange: onTitleChange } = useInput(title ?? '');
   const { input: descInput, setInput: setDescInput } = useInput(description ?? '');
-  const {
-    input: questionInput,
-    onInputChange: onQuestionChange,
-    setInput: setQuestionInput,
-  } = useInput(question ?? '');
+  const { input: questionInput, setInput: setQuestionInput } = useInput(question ?? '');
   const { input: answerInput, onInputChange: onAnswerChange, setInput: setAnswerInput } = useInput(answer ?? '');
   const { number: caseNum, increaseNumber: changeCaseNum } = useIncrease(
     question && mecaTagType === 'select' ? JSON.parse(question).length - 1 : 3,
     3,
     5,
   );
-  const [Question, setQuestion] = useState<MecaWriteInputComponentType | undefined>(undefined);
-  const [Answer, setAnswer] = useState<MecaWriteInputComponentType | undefined>(undefined);
+  const [Question, setQuestion] = useState<MecaWriteQuestionComponentType | undefined>(undefined);
+  const [Answer, setAnswer] = useState<MecaWriteAnswerComponentType | undefined>(undefined);
   const { inputsValidState, validateAll, resetValidateState } = useInputValidation(3);
 
   useEffect(() => {
@@ -125,7 +121,7 @@ const MecaWriteForm = ({
       )}
       {Question && (
         <InputGroup>
-          <Question value={questionInput} onChange={onQuestionChange} selectionNum={caseNum} />
+          <Question value={questionInput} setValue={setQuestionInput} selectionNum={caseNum} />
           <InputGroup.Validation visible={!inputsValidState[1].isValid}>
             {inputsValidState[1].message}
           </InputGroup.Validation>

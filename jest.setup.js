@@ -19,6 +19,21 @@ jest.mock('./components/common/Icon', () => {
   return MockedIcon;
 });
 
+// TODO: mocking 없이 동작하도록 개선 시도해볼 것
+jest.mock('./components/molcules/Editor/QuillWriter', () => {
+  const MockedQuillWriter = ({ contents, setContents, ariaLabel }) => (
+    <div>
+      <input type="text" value={contents} aria-label={ariaLabel} onChange={(e) => setContents(e.target.value)} />
+    </div>
+  );
+  return MockedQuillWriter;
+});
+
+jest.mock('./components/molcules/Editor/QuillNoSSRReader', () => {
+  const MockedQuillReader = ({ content }) => <div dangerouslySetInnerHTML={{ __html: content }} />;
+  return MockedQuillReader;
+});
+
 if (typeof window !== 'undefined') {
   window.matchMedia = jest.fn().mockImplementation((query) => {
     return {

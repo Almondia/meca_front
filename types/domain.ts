@@ -75,6 +75,7 @@ export interface MecaType {
   cardType: MecaTagResponseType;
   title: string;
   question: string;
+  questionOrigin?: string;
   answer: string;
   createdAt: string;
   description: string;
