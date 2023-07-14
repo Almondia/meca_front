@@ -39,9 +39,9 @@ const SelectQuestion = ({ value, setValue, selectionNum = 3 }: MecaWriteFormQues
   };
 
   return (
-    <div ref={ref}>
-      <InputGroup>
-        <InputGroup.Label>객관식 문제 제목을 작성하세요</InputGroup.Label>
+    <>
+      <InputGroup.Label>객관식 문제 제목을 작성하세요</InputGroup.Label>
+      <div ref={ref}>
         <QuillWriter
           minHeight="150px"
           maxHeight="780px"
@@ -49,21 +49,21 @@ const SelectQuestion = ({ value, setValue, selectionNum = 3 }: MecaWriteFormQues
           setContents={setQuestion}
           ariaLabel="input-meca-select-question"
         />
-      </InputGroup>
-      {[...Array(selectionNum)].map((_, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <InputGroup key={i}>
-          <InputGroup.Label>보기 ({i + 1})</InputGroup.Label>
-          <InputGroup.Input.Text
-            name={`meca-case-${i + 1}`}
-            value={sampleValues[i + 1]}
-            onChange={(e) => handleChange(e, i + 1)}
-            placeholder=""
-            ariaLabel={`input-meca-case-${i + 1}`}
-          />
-        </InputGroup>
-      ))}
-    </div>
+        {[...Array(selectionNum)].map((_, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <InputGroup key={i}>
+            <InputGroup.Label>보기 ({i + 1})</InputGroup.Label>
+            <InputGroup.Input.Text
+              name={`meca-case-${i + 1}`}
+              value={sampleValues[i + 1]}
+              onChange={(e) => handleChange(e, i + 1)}
+              placeholder=""
+              ariaLabel={`input-meca-case-${i + 1}`}
+            />
+          </InputGroup>
+        ))}
+      </div>
+    </>
   );
 };
 
