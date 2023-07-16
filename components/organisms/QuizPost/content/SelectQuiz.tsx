@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ContentsBox from '@/components/atoms/ContentsBox';
 import RadioGroup from '@/components/atoms/Input/Radio';
 import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
-import { NonVisibleRadioBox, TextBodyTitle } from '@/styles/common';
+import { NonVisibleRadioBox } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 import { FlexColumnCenter } from '@/styles/layout';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
@@ -46,15 +46,7 @@ const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizCo
   };
   return (
     <QuizContentWrapper>
-      <ContentsBox
-        header="Q."
-        isColumn
-        body={
-          <TextBodyTitle>
-            <QuillReader content={questions[0]} />
-          </TextBodyTitle>
-        }
-      />
+      <ContentsBox header="Question." isColumn body={<QuillReader content={questions[0]} />} />
       <SelectGroup>
         {questions.slice(1).map((qs, index) => (
           <RadioGroup.Radio

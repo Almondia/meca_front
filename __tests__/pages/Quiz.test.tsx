@@ -31,7 +31,7 @@ describe('QuizPage', () => {
     const cardType = mockQuizs[0].cardType as MecaTagResponseType;
     await waitFor(() => {
       if (cardType === 'KEYWORD') {
-        expect(screen.getByText('키워드를 입력하세요')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('정답 입력')).toBeInTheDocument();
       }
       expect(screen.getByRole('button', { name: '정답제출' })).toBeInTheDocument();
     });
@@ -45,7 +45,7 @@ describe('QuizPage', () => {
     });
     expect(submitButton).toBeInTheDocument();
     fireEvent.click(submitButton);
-    const answerTitleText = await screen.findByText('A.');
+    const answerTitleText = await screen.findByText('Answer.');
     const answerText = await screen.findByText(mockQuizs[0].answer);
     expect(answerTitleText).toBeInTheDocument();
     expect(answerText).toBeInTheDocument();
@@ -83,7 +83,7 @@ describe('QuizPage', () => {
   it('정답을 입력하고 제출하면 score 계산 함수가 호출된다.', async () => {
     const spyPostScoreFn = jest.spyOn(mecaApi, 'applyQuizResult');
     renderQuery(<QuizPage />);
-    const answerInput = screen.getByPlaceholderText('정답 입력하기');
+    const answerInput = screen.getByPlaceholderText('정답 입력');
     expect(answerInput).toHaveValue('');
     fireEvent.change(answerInput, { target: { value: 'hello' } });
     expect(answerInput).toHaveValue('hello');
@@ -96,7 +96,7 @@ describe('QuizPage', () => {
   it('정답 제출 시 score 계산을 하지 못하면 toast가 식별된다.', async () => {
     resetServer([restHandler(mockedPostQuizResultApi, { status: 400 })]);
     renderQuery(<QuizPage />);
-    const answerInput = screen.getByPlaceholderText('정답 입력하기');
+    const answerInput = screen.getByPlaceholderText('정답 입력');
     expect(answerInput).toHaveValue('');
     fireEvent.change(answerInput, { target: { value: 'hello' } });
     expect(answerInput).toHaveValue('hello');

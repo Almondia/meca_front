@@ -14,7 +14,7 @@ export interface ContentsBoxBoxProps {
  */
 const ContentsBox = ({ body, header, isColumn }: ContentsBoxBoxProps) => (
   <ContentsBoxWrapper isColumn={isColumn ?? false}>
-    <ContentsBoxHeader>{header}</ContentsBoxHeader>
+    <ContentsBoxHeader isColumn={isColumn ?? false}>{header}</ContentsBoxHeader>
     <ContentsBoxBody>{body}</ContentsBoxBody>
   </ContentsBoxWrapper>
 );
