@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import hljs from 'highlight.js';
@@ -30,9 +31,22 @@ const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }:
     setContents(contents.replaceAll('</span>\n ', '</span>\n&nbsp;'));
     (async () => {
       const { default: QuillComponent } = await import('react-quill');
-      QuillComponent.Quill.register('formats/custom-code', QuillComponent.Quill.import('formats/code-block'));
+      const codeBlockFormat = QuillComponent.Quill.import('formats/code-block');
+      const customCodeFormat = (QuillComponent.Quill as any).imports['formats/custom-code'];
+      if (customCodeFormat !== codeBlockFormat) {
+        QuillComponent.Quill.register('formats/custom-code', QuillComponent.Quill.import('formats/code-block'));
+      }
     })();
   }, []);
+
+  const handleImageUploadButtonClick = useCallback(() => {
+    console.log(quillInstance.current);
+
+    if (quillInstance.current) {
+      document.querySelector<HTMLButtonElement>('button.ql-image')?.click();
+    }
+  }, []);
+
   const imageHandler = useCallback(async (base64: string, blob: Blob) => {
     const quill = quillInstance.current?.getEditor();
     if (!quill) {
@@ -60,12 +74,17 @@ const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }:
       return;
     }
     quill.deleteText(index, IMAGE_UPLOAD_TEXT.length);
-    quill.insertEmbed(index, 'image', {
-      src: getRemoteImageUrl(imageFileUrl),
-      alt: fileName,
-      width: width.toString(),
-      height: height.toString(),
-    });
+    quill.insertEmbed(
+      index,
+      'image',
+      {
+        src: getRemoteImageUrl(imageFileUrl),
+        alt: fileName,
+        width: width.toString(),
+        height: height.toString(),
+      },
+      'user',
+    );
     quill.insertText(index + 1, '\n', 'text', '\n');
     quill.setSelection(index + 2, 1);
   }, []);
@@ -77,7 +96,7 @@ const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }:
       },
       history: {
         delay: 2000,
-        maxStack: 500,
+        maxStack: 2000,
         userOnly: true,
       },
       toolbar: {
@@ -113,6 +132,7 @@ const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }:
         forwardedRef={quillInstance}
         value={contents}
         onChange={setContents}
+        onImageUpload={handleImageUploadButtonClick}
         modules={modules}
         theme="snow"
       />

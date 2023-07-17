@@ -10,9 +10,11 @@ import LoadSpinner from '@/components/atoms/LoadSpinner';
 
 import getCustomImageBlot from './CustomImageBlot';
 import getMarkdownActivity from './CustomMarkdownActivity';
+import QuillWriterImageUploadButton from './QuillWriterImageUploadButton';
 
 interface ForwardedQuillComponent extends ReactQuillProps {
   forwardedRef: React.Ref<ReactQuill>;
+  onImageUpload: () => void;
 }
 
 export const QuillNoSSRWriter = dynamic(
@@ -27,8 +29,11 @@ export const QuillNoSSRWriter = dynamic(
     QuillComponent.Quill.register('modules/QuillMarkdown', MarkdownActivity, true);
     QuillComponent.Quill.register('modules/imageResize', ImageResize);
     QuillComponent.Quill.register(ImageBlot);
-    const Quill = ({ forwardedRef, ...props }: ForwardedQuillComponent) => (
-      <QuillComponent ref={forwardedRef} {...props} />
+    const Quill = ({ forwardedRef, onImageUpload, ...props }: ForwardedQuillComponent) => (
+      <>
+        <QuillComponent ref={forwardedRef} {...props} />
+        <QuillWriterImageUploadButton onClick={onImageUpload} />
+      </>
     );
     return Quill;
   },
