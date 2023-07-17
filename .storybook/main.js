@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -17,7 +19,6 @@ module.exports = {
   webpackFinal: async (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      jsonwebtoken: '../__tests__/__mocks__/jwt.js',
       '@/mock': path.resolve(__dirname, '../__tests__/__mocks__/msw'),
     };
     config.resolve.plugins = [
@@ -25,6 +26,12 @@ module.exports = {
         configFile: path.resolve(__dirname, '../tsconfig.json'),
       }),
     ];
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /imageApi\.ts$/,
+        path.join(__dirname, '../__tests__/__mocks__/imageApi.js'),
+      ),
+    );
     const fileLoaderRule = config.module.rules.find((rule) => rule.test && rule.test.test('.svg'));
     fileLoaderRule.exclude = /\.svg$/;
     config.module.rules.push({
