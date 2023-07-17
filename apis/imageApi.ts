@@ -11,12 +11,12 @@ const imageApi = {
         fileName,
       },
     }),
-  uploadImage: (image: File, url: string) =>
-    serverInstance.post(
+  uploadImage: (image: File, requestProps: ImageUploadRequestType) =>
+    serverInstance.post<never, { uploadedImageUrl: string }>(
       '/api/image',
       {
         file: image,
-        url,
+        ...requestProps,
       },
       {
         headers: {

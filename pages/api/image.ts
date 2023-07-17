@@ -7,6 +7,8 @@ import nookies from 'nookies';
 import sharp from 'sharp';
 
 import { setRequest } from '@/apis/config/instance';
+import imageApi from '@/apis/imageApi';
+import { ImageUploadRequestType } from '@/types/domain';
 import { getJWTPayload } from '@/utils/jwtHandler';
 
 const MAX_IMAGE_WIDTH = 1080;
@@ -15,7 +17,7 @@ const FORMIDABLE_CONFIG = {
   keepExtensions: true,
   maxFileSize: 15728640,
   maxFieldsSize: 1048576,
-  maxFields: 1,
+  maxFields: 4,
   allowEmptyFiles: false,
   multiples: false,
 } as const;
@@ -74,11 +76,14 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       ...FORMIDABLE_CONFIG,
       fileWriteStreamHandler: () => fileConsumer(chunks),
     });
-    const url = fields?.url?.[0];
-    if (!url || typeof url !== 'string') {
-      return res.status(400).json({ message: '잘못된 경로 요청', status: 400 });
-    }
+    const { purpose: purposes, extension: extensions, fileName: fileNames } = fields;
+    const { purpose, extension, fileName } = {
+      purpose: purposes[0],
+      extension: extensions[0],
+      fileName: fileNames[0],
+    } as ImageUploadRequestType;
     const buffer = Buffer.concat(chunks);
+    const { url, objectKey } = await imageApi.getPresignedUrl({ purpose, extension, fileName });
     const resizedBuffer = await resize({ buffer });
     try {
       await axios.put(url, resizedBuffer, {
@@ -89,9 +94,9 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     } catch {
       return res.status(500).json({ message: '이미지 업로드 실패', status: 500 });
     }
-    return res.status(200).json({ message: 'image uploaded' });
+    return res.status(200).json({ uploadedImageUrl: objectKey });
   } catch (err) {
-    return res.status(400).json({ message: '이미지가 없거나 너무 큽니다!', status: 400 });
+    return res.status(400).json({ message: '이미지 정보가 올바르지 않거나 너무 큽니다', status: 400 });
   }
 }
 

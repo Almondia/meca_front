@@ -39,11 +39,17 @@ export const mockedGetPresignImageUrlApi = () => {
   return { uri, method, responseResolver };
 };
 
-export const mockedPutImageUploadApi = (url) => {
+export const mockedPutImageUploadApi = () => {
   const [uri, method] = ['/api/image', 'post'];
-  const headers = { 'Content-Type': 'multipart/form-data' };
-  const responseResolver = (_, res, ctx) => {
-    return res(ctx.status(200), ctx.set(headers));
+  const responseResolver = async (req, res, ctx) => {
+    req.headers['content-type'] = 'multipart/form-data';
+    const image = req._body.get('file');
+    return res(
+      ctx.status(200),
+      ctx.json({
+        uploadedImageUrl: image.name,
+      }),
+    );
   };
   return { uri, method, responseResolver };
 };

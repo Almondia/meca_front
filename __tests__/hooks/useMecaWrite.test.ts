@@ -98,6 +98,7 @@ describe('useMecaWrite', () => {
         description: 'desc',
         question: 'question',
         title: 'title',
+        answer: 'answer',
       });
       await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-card01']));
     });
