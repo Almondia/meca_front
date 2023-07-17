@@ -1,5 +1,5 @@
 import DropdownMenu from '@/components/molcules/DropdownMenu';
-import useLogout from '@/hooks/useLogout';
+import useLogout from '@/hooks/user/useLogout';
 
 import { NavigationMenuWrapper } from '../styled';
 
