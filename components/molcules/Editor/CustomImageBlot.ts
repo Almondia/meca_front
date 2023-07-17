@@ -11,6 +11,10 @@ interface CustomImageBlotProps {
 }
 
 function createSrcSet(imageSrc: string) {
+  const remoteImageDomainUrl = process.env.NEXT_PUBLIC_REMOTE_IMAGE_URL;
+  if (!remoteImageDomainUrl || !imageSrc.startsWith(remoteImageDomainUrl)) {
+    return '';
+  }
   const viewport = ['450w', '700w', '1000w'];
   const widthParams = [{ w: '384' }, { w: '576' }, { w: '732' }];
   return widthParams.reduce(
