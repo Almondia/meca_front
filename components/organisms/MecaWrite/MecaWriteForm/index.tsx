@@ -11,6 +11,7 @@ import useIncrease from '@/hooks/useCount';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
 import { MECA_TAG_TO_RESPONSE, MecaTagType, MecaType } from '@/types/domain';
+import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { Constraints } from '@/utils/validation';
 
 import DescriptionAnswer from './answer/DescriptionAnswer';
@@ -66,13 +67,24 @@ const MecaWriteForm = ({
   const [Question, setQuestion] = useState<MecaWriteQuestionComponentType | undefined>(undefined);
   const [Answer, setAnswer] = useState<MecaWriteAnswerComponentType | undefined>(undefined);
   const { inputsValidState, validateAll, resetValidateState } = useInputValidation(3);
-
   useEffect(() => {
     setQuestion(() => QUESTION_COMPONENTS[mecaTagType]);
     setAnswer(() => ANSWER_COMPONENTS[mecaTagType]);
     resetValidateState();
+    if (!cardId && questionInput) {
+      setQuestionInput((prev) => (mecaTagType === 'select' ? JSON.stringify([prev]) : prev));
+    }
     return () => {
-      setQuestionInput(question ?? '');
+      if (cardId) {
+        return;
+      }
+      setQuestionInput(
+        (prev) =>
+          getQuestionAnswerByCardType({
+            question: prev,
+            cardType: MECA_TAG_TO_RESPONSE[mecaTagType],
+          }).question,
+      );
       setAnswerInput(answer ?? '');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

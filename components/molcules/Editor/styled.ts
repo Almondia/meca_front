@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ElementSizeType } from '@/types/common';
 
 const EditorWrapper = styled.div`
+  position: relative;
   .ql-editor {
     font-family: var(--font-base);
     padding: 1rem;
@@ -150,16 +151,7 @@ export const WriteEditorWrapper = styled(EditorWrapper)<{ minHeight?: ElementSiz
   .ql-editor {
     min-height: ${(props) => props.minHeight ?? '360px'};
     max-height: ${(props) => props.maxHeight ?? '1140px'};
-  }
-  .ql-editor.ql-blank::before {
-    content: '내용을 입력하세요';
-    color: var(--color-gray);
-  }
-
-  .ql-editor.ql-blank::after {
-    font-style: italic;
-    content: '15MB 이하의 jpg/jpeg/png/gif 이미지를 업로드 할 수 있습니다.';
-    color: var(--color-gray);
+    margin-bottom: 50px;
   }
 
   img {
@@ -195,4 +187,17 @@ export const ReadEditorWrapper = styled(EditorWrapper)`
   .ql-bubble > .ql-editor {
     padding: 0;
   }
+`;
+
+export const WriteEditorImageUploadButton = styled.button`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 8px;
+  border: 1px var(--color-gray);
+  color: var(--color-text);
+  background-color: var(--color-brightgray);
+  border-style: dashed solid solid solid;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 `;
