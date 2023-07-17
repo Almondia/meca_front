@@ -10,7 +10,6 @@ import useCategory from '@/hooks/category/useCategory';
 import {
   mockedDeleteCategoryApi,
   mockedGetAuthUserCategoryListApi,
-  mockedGetPresignImageUrlApi,
   mockedPostRevalidateApi,
   mockedPutCategoryApi,
 } from '@/mock/api';
@@ -41,7 +40,6 @@ export const Private = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   implementWorker([
-    restHandler(mockedGetPresignImageUrlApi, { status: 400, message: '업로드 불가능!' }),
     restHandler(mockedPostRevalidateApi),
     restHandler(mockedPutCategoryApi),
     restHandler(mockedDeleteCategoryApi, { status: 400, message: '삭제!' }),
