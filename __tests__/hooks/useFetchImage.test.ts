@@ -3,15 +3,12 @@ import { implementServer } from '../__mocks__/msw/server';
 import useFetchImage from '@/hooks/useFetchImage';
 import { renderHook } from '@testing-library/react';
 import { createQueryClientWrapper } from '../utils';
-import { ENDPOINT, restHandler } from '../__mocks__/msw/handlers';
-import { mockedGetPresignImageUrlApi, mockedPutImageUploadApi } from '../__mocks__/msw/api';
+import { restHandler } from '../__mocks__/msw/handlers';
+import { mockedPutImageUploadApi } from '../__mocks__/msw/api';
 
 describe('useFetchImage', () => {
-  it('presigned url을 발급받고 이미지를 업로드 할 수 있다.', async () => {
-    implementServer([
-      restHandler(mockedGetPresignImageUrlApi),
-      restHandler(() => mockedPutImageUploadApi(`${ENDPOINT}/card/file.png`)),
-    ]);
+  it('이미지를 업로드하면 업로드된 이미지 url이 리턴된다.', async () => {
+    implementServer([restHandler(mockedPutImageUploadApi)]);
     const { result } = renderHook(() => useFetchImage(), {
       wrapper: createQueryClientWrapper(),
     });
@@ -24,14 +21,11 @@ describe('useFetchImage', () => {
       },
       file,
     );
-    expect(res).toEqual('card/file.png');
+    expect(res).toEqual('file.png');
   });
 
-  it('presigned url을 발급받을 수 없다면 undefined가 리턴된다.', async () => {
-    implementServer([
-      restHandler(mockedGetPresignImageUrlApi, { message: 'internel server error', status: 500 }),
-      restHandler(() => mockedPutImageUploadApi(`${ENDPOINT}/card/file.png`)),
-    ]);
+  it('이미지 업로드에 실패하면 undefined가 리턴된다.', async () => {
+    implementServer([restHandler(mockedPutImageUploadApi, { status: 400 })]);
     const { result } = renderHook(() => useFetchImage(), {
       wrapper: createQueryClientWrapper(),
     });

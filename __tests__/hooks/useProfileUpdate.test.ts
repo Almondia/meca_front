@@ -5,8 +5,8 @@ import queryKey from '@/query/queryKey';
 import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 import { MyProfile } from '@/types/domain';
 import { implementServer, resetServer } from '../__mocks__/msw/server';
-import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
-import { mockedGetPresignImageUrlApi, mockedPutImageUploadApi, mockedPutUserApi } from '../__mocks__/msw/api';
+import { restHandler } from '../__mocks__/msw/handlers';
+import { mockedPutImageUploadApi, mockedPutUserApi } from '../__mocks__/msw/api';
 
 describe('useProfileUpdate', () => {
   const USER: MyProfile = {
@@ -21,14 +21,7 @@ describe('useProfileUpdate', () => {
   const inputName = '김갑환';
   const inputProfile = 'new-profile.png';
   beforeEach(() => {
-    implementServer([
-      restHandler(mockedPutUserApi),
-      restOverridedResponseHandler(mockedGetPresignImageUrlApi, {
-        url: inputProfile,
-        objectKey: inputProfile,
-      }),
-      restHandler(() => mockedPutImageUploadApi(inputProfile)),
-    ]);
+    implementServer([restHandler(mockedPutUserApi), restHandler(mockedPutImageUploadApi)]);
   });
   it('사용자의 프로필 이름을 변경할 수 있다.', async () => {
     const queryClient = new QueryClient();

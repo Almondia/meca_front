@@ -29,8 +29,8 @@ const useProfileUpdate = () => {
       return { previousUser };
     },
     onError: (err: any, _, context) => {
-      alertToast(err?.message ?? '프로필 수정 실패', 'warning');
       queryClient.setQueryData([queryKey.me], context?.previousUser);
+      alertToast(err?.message ?? '프로필 수정 실패', 'warning');
     },
   });
 
