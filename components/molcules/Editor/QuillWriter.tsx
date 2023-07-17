@@ -20,11 +20,19 @@ export interface EditorComponentProps {
   ariaLabel?: string;
   minHeight?: ElementSizeType;
   maxHeight?: ElementSizeType;
+  placeholder?: string;
 }
 
 const IMAGE_UPLOAD_TEXT = '[이미지 업로드중...]' as const;
 
-const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }: EditorComponentProps) => {
+const QuillWriter = ({
+  contents,
+  setContents,
+  placeholder = '내용을 입력하세요',
+  ariaLabel,
+  minHeight,
+  maxHeight,
+}: EditorComponentProps) => {
   const quillInstance = useRef<ReactQuill>(null);
   const { uploadImage } = useFetchImage();
   useEffect(() => {
@@ -40,8 +48,6 @@ const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }:
   }, []);
 
   const handleImageUploadButtonClick = useCallback(() => {
-    console.log(quillInstance.current);
-
     if (quillInstance.current) {
       document.querySelector<HTMLButtonElement>('button.ql-image')?.click();
     }
@@ -134,6 +140,7 @@ const QuillWriter = ({ contents, setContents, ariaLabel, minHeight, maxHeight }:
         onChange={setContents}
         onImageUpload={handleImageUploadButtonClick}
         modules={modules}
+        placeholder={placeholder}
         theme="snow"
       />
     </WriteEditorWrapper>

@@ -153,16 +153,6 @@ export const WriteEditorWrapper = styled(EditorWrapper)<{ minHeight?: ElementSiz
     max-height: ${(props) => props.maxHeight ?? '1140px'};
     margin-bottom: 50px;
   }
-  .ql-editor.ql-blank::before {
-    content: '내용을 입력하세요';
-    color: var(--color-gray);
-  }
-
-  .ql-editor.ql-blank::after {
-    font-style: italic;
-    content: '15MB 이하의 jpg/jpeg/png/gif 이미지를 업로드 할 수 있습니다.';
-    color: var(--color-gray);
-  }
 
   img {
     display: block;
