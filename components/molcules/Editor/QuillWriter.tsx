@@ -17,7 +17,6 @@ import { WriteEditorWrapper } from './styled';
 export interface EditorComponentProps {
   contents: string;
   setContents: Dispatch<SetStateAction<string>>;
-  ariaLabel?: string;
   minHeight?: ElementSizeType;
   maxHeight?: ElementSizeType;
   placeholder?: string;
@@ -29,7 +28,6 @@ const QuillWriter = ({
   contents,
   setContents,
   placeholder = '내용을 입력하세요',
-  ariaLabel,
   minHeight,
   maxHeight,
 }: EditorComponentProps) => {
@@ -133,7 +131,7 @@ const QuillWriter = ({
   );
 
   return (
-    <WriteEditorWrapper minHeight={minHeight} maxHeight={maxHeight} aria-label={ariaLabel ?? 'editor'}>
+    <WriteEditorWrapper minHeight={minHeight} maxHeight={maxHeight}>
       <QuillNoSSRWriter
         forwardedRef={quillInstance}
         value={contents}

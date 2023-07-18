@@ -11,7 +11,7 @@ const DescriptionQuestion = ({ value, setValue }: MecaWriteFormQuestionProps) =>
       maxHeight="780px"
       contents={value}
       setContents={setValue}
-      ariaLabel="input-meca-description-question"
+      placeholder="주관식 문제를 설명하세요"
     />
   </>
 );

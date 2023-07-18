@@ -13,7 +13,7 @@ const OxQuestion = ({ value, setValue }: MecaWriteFormQuestionProps) => (
       maxHeight="780px"
       contents={value}
       setContents={setValue}
-      ariaLabel="input-meca-ox-question"
+      placeholder="OX 문제를 설명하세요"
     />
   </>
 );
