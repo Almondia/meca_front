@@ -4,8 +4,8 @@ on:
     branches:
       - dev
 env:
-  NEXT_PUBLIC_API_URL: ''
-  NEXT_PUBLIC_REMOTE_IMAGE_URL: ''
+  NEXT_PUBLIC_API_URL: ${{ secrets.STORYBOOK_API_URL }}
+  NEXT_PUBLIC_REMOTE_IMAGE_URL: ${{ secrets.STORYBOOK_REMOTE_IMAGE_URL }}
 jobs:
   storybook:
     runs-on: ubuntu-latest
@@ -20,6 +20,8 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: yarn
+      - name: Build Storybook
+        run: yarn run build-storybook
       - name: chromatic
         id: chromatic
         uses: chromaui/action@v1
