@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install dependencies
-        run: yarn
+        run: yarn && yarn build-storybook
       - name: chromatic
         id: chromatic
         uses: chromaui/action@v1
