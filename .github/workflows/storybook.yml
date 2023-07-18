@@ -19,8 +19,8 @@ jobs:
         run: yarn
       - name: Build Storybook
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
-          echo "NEXT_PUBLIC_KAKAO_LOGIN=${{ secrets.NEXT_PUBLIC_KAKAO_LOGIN }}" >> .env
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.STORYBOOK_API_URL }}" >> .env
+          echo "NEXT_PUBLIC_REMOTE_IMAGE_URL=${{ secrets.STORYBOOK_REMOTE_IMAGE_URL }}" >> .env
           yarn run build-storybook
       - name: chromatic
         id: chromatic
