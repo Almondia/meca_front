@@ -47,6 +47,8 @@ describe('MecaById', () => {
       const { props } = (await getStaticProps(mockedContext)) as any;
       expect(props).toHaveProperty('cardId', cardId);
       expect(props).toHaveProperty('dehydratedState');
+      expect(props).toHaveProperty('questionText');
+      expect(props).toHaveProperty('thumbnailUrl');
       await waitFor(() => {
         renderQuery(<MecaById {...props} />, undefined, undefined, props.dehydratedState);
       });
