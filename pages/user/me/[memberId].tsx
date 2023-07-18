@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 
 import cardHistoryApi from '@/apis/cardHistoryApi';
 import AuthPageProvider from '@/components/common/AuthPageProvider';
+import MetaHead from '@/components/common/MetaHead';
 import { RelativeDateText } from '@/components/common/RelativeDateText';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
@@ -25,6 +26,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
   const { cardHistoryList, fetchNextPage } = useMecaHistory('memberId', memberId);
   return (
     <AuthPageProvider>
+      <MetaHead title="Meca - My Page" />
       {user && (
         <PostSection>
           <UserProfileHeader {...user} />
