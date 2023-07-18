@@ -20,8 +20,6 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: yarn
-      - name: Build Storybook
-        run: yarn run build-storybook
       - name: chromatic
         id: chromatic
         uses: chromaui/action@v1
