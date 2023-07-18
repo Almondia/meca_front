@@ -10,7 +10,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "storybook": "start-storybook -p 6006 ./public",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "chromatic --project-token CHROMATIC_PROJECT_TOKEN"
   },
   "dependencies": {
     "@next/font": "^13.4.0",

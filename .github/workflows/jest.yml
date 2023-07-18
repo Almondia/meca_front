@@ -3,6 +3,8 @@ on:
   pull_request:
     branches:
       - dev
+    types:
+      - opened
 env:
   NEXT_PUBLIC_KAKAO_LOGIN: ${{ secrets.TEST_KAKAO }}
   NEXT_PUBLIC_NAVER_LOGIN: ${{ secrets.TEST_NAVER }}
