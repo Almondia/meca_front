@@ -8,7 +8,6 @@ env:
   NEXT_PUBLIC_REMOTE_IMAGE_URL: ''
 jobs:
   storybook:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'storybook') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
