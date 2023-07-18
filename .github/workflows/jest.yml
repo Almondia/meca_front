@@ -8,7 +8,6 @@ env:
   NEXT_PUBLIC_NAVER_LOGIN: ${{ secrets.TEST_NAVER }}
   NEXT_PUBLIC_GOOGLE_LOGIN: ${{ secrets.TEST_GOOGLE }}
   NEXT_PUBLIC_API_URL: ${{ secrets.TEST_API_URL }}
-  NEXT_PUBLIC_SECRETS_KEY: ${{ secrets.TEST_SECRETS_KEY }}
 jobs:
   jest:
     runs-on: ubuntu-latest
