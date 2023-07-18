@@ -54,6 +54,7 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-element-background: ${COLOR.bgEleLight};
         --color-backghround-shadow: rgba(0, 0, 0, 0.5);
         --color-text: ${COLOR.txtDark};
+        --color-darkgray: ${COLOR.gray700};
         --color-gray: ${COLOR.gray600};
         --color-lightgray: ${COLOR.gray100};
         --color-brightgray: rgba(232, 232, 232, 0.3);
@@ -94,7 +95,8 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-element-background: ${COLOR.bgEleDark};
         --color-backghround-shadow: rgba(255, 255, 255, 0.5);
         --color-text: ${COLOR.txtLight};
-        --color-gray: ${COLOR.gray100};
+        --color-darkgray: ${COLOR.gray100};
+        --color-gray: ${COLOR.gray200};
         --color-lightgray: ${COLOR.gray600};
         --color-brightgray: rgba(128, 128, 128, 0.3);
         --shadow-normal: ${SHADOW.normalLight};
