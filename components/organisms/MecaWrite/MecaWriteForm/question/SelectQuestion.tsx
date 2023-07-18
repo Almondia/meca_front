@@ -47,7 +47,7 @@ const SelectQuestion = ({ value, setValue, selectionNum = 3 }: MecaWriteFormQues
           maxHeight="780px"
           contents={sampleValues[0]}
           setContents={setQuestion}
-          ariaLabel="input-meca-select-question"
+          placeholder="객관식 문제를 설명하세요"
         />
         {[...Array(selectionNum)].map((_, i) => (
           // eslint-disable-next-line react/no-array-index-key

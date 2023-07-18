@@ -18,7 +18,7 @@ export const ValidationWrapper = styled.div`
 `;
 
 export const LabelWrapper = styled(TextBodySubtitle)`
-  color: var(--color-gray);
+  color: var(--color-darkgray);
 `;
 
 export const InputGroupWrapper = styled.div`

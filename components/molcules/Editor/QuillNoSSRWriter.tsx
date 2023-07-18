@@ -10,6 +10,7 @@ import LoadSpinner from '@/components/atoms/LoadSpinner';
 
 import getCustomImageBlot from './CustomImageBlot';
 import getMarkdownActivity from './CustomMarkdownActivity';
+import initHighlight from './initHighlight';
 import QuillWriterImageUploadButton from './QuillWriterImageUploadButton';
 
 interface ForwardedQuillComponent extends ReactQuillProps {
@@ -20,14 +21,20 @@ interface ForwardedQuillComponent extends ReactQuillProps {
 export const QuillNoSSRWriter = dynamic(
   async () => {
     const { default: QuillComponent } = await import('react-quill');
-    const { default: ImageCompress } = await import('quill-image-compress');
-    const { default: ImageResize } = await import('quill-image-resize');
-    const ImageBlot = await getCustomImageBlot(QuillComponent);
-    const MarkdownActivity = await getMarkdownActivity();
     QuillComponent.Quill.debug('error');
-    QuillComponent.Quill.register('modules/imageCompress', ImageCompress);
-    QuillComponent.Quill.register('modules/QuillMarkdown', MarkdownActivity, true);
-    QuillComponent.Quill.register('modules/imageResize', ImageResize);
+    await Promise.all([
+      await import('quill-image-compress').then(({ default: ImageCompress }) => {
+        QuillComponent.Quill.register('modules/imageCompress', ImageCompress);
+      }),
+      await import('quill-image-resize').then(({ default: ImageResize }) => {
+        QuillComponent.Quill.register('modules/imageResize', ImageResize);
+      }),
+      await getMarkdownActivity().then((MarkdownActivity) => {
+        QuillComponent.Quill.register('modules/QuillMarkdown', MarkdownActivity);
+      }),
+      await initHighlight(),
+    ]);
+    const ImageBlot = await getCustomImageBlot(QuillComponent);
     QuillComponent.Quill.register(ImageBlot);
     const Quill = ({ forwardedRef, onImageUpload, ...props }: ForwardedQuillComponent) => (
       <>

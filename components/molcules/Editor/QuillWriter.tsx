@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from 'react';
 
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
 import ReactQuill from 'react-quill';
 
 import useFetchImage from '@/hooks/useFetchImage';
@@ -10,14 +10,12 @@ import { ElementSizeType } from '@/types/common';
 import { getImageInfo, getOriginImageSize, getRemoteImageUrl, validImageFile } from '@/utils/imageHandler';
 import alertToast from '@/utils/toastHandler';
 
-import CODE_HIGHLIGHT_LANGUAGE_LIST from './constants';
 import { QuillNoSSRWriter } from './QuillNoSSRWriter';
 import { WriteEditorWrapper } from './styled';
 
 export interface EditorComponentProps {
   contents: string;
   setContents: Dispatch<SetStateAction<string>>;
-  ariaLabel?: string;
   minHeight?: ElementSizeType;
   maxHeight?: ElementSizeType;
   placeholder?: string;
@@ -29,7 +27,6 @@ const QuillWriter = ({
   contents,
   setContents,
   placeholder = '내용을 입력하세요',
-  ariaLabel,
   minHeight,
   maxHeight,
 }: EditorComponentProps) => {
@@ -98,7 +95,7 @@ const QuillWriter = ({
   const modules = useMemo(
     () => ({
       syntax: {
-        highlight: (text: string) => hljs.highlightAuto(text, CODE_HIGHLIGHT_LANGUAGE_LIST).value,
+        highlight: (text: string) => hljs.highlightAuto(text).value,
       },
       history: {
         delay: 2000,
@@ -133,7 +130,7 @@ const QuillWriter = ({
   );
 
   return (
-    <WriteEditorWrapper minHeight={minHeight} maxHeight={maxHeight} aria-label={ariaLabel ?? 'editor'}>
+    <WriteEditorWrapper minHeight={minHeight} maxHeight={maxHeight}>
       <QuillNoSSRWriter
         forwardedRef={quillInstance}
         value={contents}

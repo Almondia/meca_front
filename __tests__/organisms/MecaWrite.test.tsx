@@ -40,9 +40,7 @@ describe('MecaWrite', () => {
     expect(notSelectedTagToggle.firstChild).toHaveStyleRule('opacity', '0.3');
     const oxQuizQuestionText = screen.getByText('OX퀴즈 문제를 설명하세요');
     expect(oxQuizQuestionText).toBeInTheDocument();
-    const questionInput = screen.getByRole('textbox', {
-      name: 'input-meca-ox-question',
-    });
+    const questionInput = screen.getByPlaceholderText('OX 문제를 설명하세요');
     expect(questionInput).toHaveValue('');
     const radioInput = screen.getByRole('radio', { name: 'O' });
     expect(radioInput).toBeChecked();
@@ -54,9 +52,7 @@ describe('MecaWrite', () => {
       name: /키워드/i,
     });
     fireEvent.click(notSelectedTagToggle);
-    const questionInput = screen.getByRole('textbox', {
-      name: 'input-meca-keyword-question',
-    });
+    const questionInput = screen.getByPlaceholderText('키워드 문제를 설명하세요');
     expect(questionInput).toBeInTheDocument();
   });
 
@@ -72,9 +68,7 @@ describe('MecaWrite', () => {
       name: /OX퀴즈/i,
     });
     expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
-    const questionInput = screen.getByRole('textbox', {
-      name: 'input-meca-keyword-question',
-    });
+    const questionInput = screen.getByPlaceholderText('키워드 문제를 설명하세요');
     expect(questionInput).toHaveValue(card.question);
   });
 
@@ -84,9 +78,7 @@ describe('MecaWrite', () => {
       back: mockBack,
     });
     renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
-    const questionInput = screen.getByRole('textbox', {
-      name: 'input-meca-ox-question',
-    });
+    const questionInput = screen.getByPlaceholderText('OX 문제를 설명하세요');
     expect(questionInput).toBeInTheDocument();
     fireEvent.change(questionInput, { target: { value: 'quizText' } });
     expect(questionInput).toHaveValue('quizText');
@@ -114,9 +106,7 @@ describe('MecaWrite', () => {
       name: /키워드/i,
     });
     expect(selectedTagToggle.firstChild).toBeInTheDocument();
-    const questionInput = screen.getByRole('textbox', {
-      name: 'input-meca-keyword-question',
-    });
+    const questionInput = screen.getByPlaceholderText('키워드 문제를 설명하세요');
     expect(questionInput).toHaveValue(card.question);
     fireEvent.change(questionInput, { target: { value: 'ABCD' } });
     expect(questionInput).toHaveValue('ABCD');

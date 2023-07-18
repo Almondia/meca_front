@@ -23,7 +23,7 @@ describe('MecaWriteForm', () => {
     renderQuery(<MecaWriteForm {...wrtieProps} />);
     const selectLabel = screen.queryByText('문항 수를 선택하세요');
     const exam3Label = screen.getByText('보기 (3)');
-    const questionTitleInput = screen.getByRole('textbox', { name: 'input-meca-select-question' });
+    const questionTitleInput = screen.getByPlaceholderText('객관식 문제를 설명하세요');
     const questionExam3Input = screen.getByRole('textbox', { name: 'input-meca-case-3' });
     const answerRadio = screen.getByRole('radio', { name: '1' });
     expect(selectLabel).toBeInTheDocument();
@@ -42,7 +42,7 @@ describe('MecaWriteForm', () => {
     renderQuery(<MecaWriteForm {...wrtieProps} />);
     const selectLabel = screen.queryByText('문항 수를 선택하세요');
     const exam3Label = screen.getByText('보기 (3)');
-    const questionTitleInput = screen.getByRole('textbox', { name: 'input-meca-select-question' });
+    const questionTitleInput = screen.getByPlaceholderText('객관식 문제를 설명하세요');
     const answerRadio = screen.getByRole('radio', { name: '1' });
     expect(selectLabel).toBeInTheDocument();
     expect(exam3Label).toBeInTheDocument();

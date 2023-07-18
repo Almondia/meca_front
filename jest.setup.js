@@ -21,9 +21,9 @@ jest.mock('./components/common/Icon', () => {
 
 // TODO: mocking 없이 동작하도록 개선 시도해볼 것
 jest.mock('./components/molcules/Editor/QuillWriter', () => {
-  const MockedQuillWriter = ({ contents, setContents, ariaLabel }) => (
+  const MockedQuillWriter = ({ contents, setContents, placeholder }) => (
     <div>
-      <input type="text" value={contents} aria-label={ariaLabel} onChange={(e) => setContents(e.target.value)} />
+      <input type="text" value={contents} placeholder={placeholder} onChange={(e) => setContents(e.target.value)} />
     </div>
   );
   return MockedQuillWriter;

@@ -9,5 +9,5 @@ export const AvatarUserWrapper = styled.div`
 
 export const AvatarUsername = styled.p`
   font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: var(--color-gray);
+  color: var(--color-darkgray);
 `;

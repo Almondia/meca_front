@@ -30,7 +30,7 @@ export const TextSubBody = styled(Text)`
 export const TextCaption = styled(Text)`
   font-size: ${({ theme }) => theme.fontSize.caption};
   line-height: 0.875rem;
-  color: var(--color-gray);
+  color: var(--color-darkgray);
 `;
 
 export const TextOverline = styled(Text)`

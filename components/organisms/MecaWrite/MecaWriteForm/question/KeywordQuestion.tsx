@@ -13,7 +13,7 @@ const KeywordQuestion = ({ value, setValue }: MecaWriteFormQuestionProps) => (
       maxHeight="780px"
       contents={value}
       setContents={setValue}
-      ariaLabel="input-meca-keyword-question"
+      placeholder="키워드 문제를 설명하세요"
     />
   </>
 );

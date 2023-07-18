@@ -1,14 +1,14 @@
-import hljs from 'highlight.js';
 import ReactQuill from 'react-quill';
 
-import CODE_HIGHLIGHT_LANGUAGE_LIST from './constants';
+import initHighlight from './initHighlight';
 
 async function getCodeHighlightBlot(QuillComponent: typeof ReactQuill) {
   const EmbededBlot = await QuillComponent.Quill.import('blots/block/embed');
+  const hljs = await initHighlight();
   class CustomCode extends EmbededBlot {
     static create(value: string | boolean) {
       const node = super.create(value) as HTMLPreElement;
-      node.innerHTML = hljs.highlightAuto(typeof value !== 'string' ? '' : value, CODE_HIGHLIGHT_LANGUAGE_LIST).value;
+      node.innerHTML = hljs.highlightAuto(typeof value !== 'string' ? '' : value).value;
       return node;
     }
 
