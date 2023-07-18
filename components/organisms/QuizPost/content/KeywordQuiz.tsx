@@ -16,6 +16,11 @@ const KeywordAnswerInputContainer = styled.div`
   }
 `;
 
+const KeywordAnswerSpan = styled.span<{ isCorrectAnswer: boolean }>`
+  color: ${(props) => (props.isCorrectAnswer ? 'var(--color-success)' : 'var(--color-warning)')};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+`;
+
 const KeywordQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
   <QuizContentWrapper>
     <ContentsBox
@@ -32,7 +37,15 @@ const KeywordQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizC
         <ContentsBox header="Answer." body={answer} isColumn />
         <ContentsBox
           header="Your Answer!"
-          body={value || <span style={{ color: 'var(--color-warning)' }}>시간초과!!</span>}
+          body={
+            <KeywordAnswerSpan
+              isCorrectAnswer={
+                value ? answer.split(',').some((ans) => ans.trim().toLowerCase() === value.toLowerCase()) : false
+              }
+            >
+              {value || '시간초과!!'}
+            </KeywordAnswerSpan>
+          }
           isColumn
         />
       </>
