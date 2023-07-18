@@ -1,0 +1,39 @@
+name: Storybook
+on:
+  pull_request:
+    branches:
+      - dev
+env:
+  NEXT_PUBLIC_API_URL: ''
+  NEXT_PUBLIC_REMOTE_IMAGE_URL: ''
+jobs:
+  storybook:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'storybook') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install unplugged dependencies
+        run: yarn install
+      - name: chromatic
+        id: chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.SECRET_TOKEN }}
+      - name: comment to Pull Request
+        uses: thollander/actions-comment-pull-request@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+        with:
+          message: 'storybook deployed!!!: ${{ steps.chromatic.outputs.storybookUrl }}'
