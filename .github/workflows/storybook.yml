@@ -20,15 +20,14 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
-        run: |
-          yarn config set nodeLinker 'node-modules'
-          yarn install --immutable --inline-builds
+        run: yarn
       - name: Build Storybook
         run: yarn run storybook-build
       - name: chromatic
         id: chromatic
         uses: chromaui/action@v1
         with:
+          workingDir: ./
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.SECRET_TOKEN }}
       - name: comment to Pull Request
