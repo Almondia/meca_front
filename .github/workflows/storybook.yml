@@ -27,7 +27,7 @@ jobs:
         id: chromatic
         uses: chromaui/action@v1
         with:
-          workingDir: ./
+          storybookBuildDir: storybook-static
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.SECRET_TOKEN }}
       - name: comment to Pull Request
