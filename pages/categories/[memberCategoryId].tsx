@@ -48,7 +48,12 @@ const CategoryById = ({ categoryId, isMine, writerInfo }: MyCategoryByIdPageProp
             <PageTitle>{categoryTitle}</PageTitle>
           </BetweenControlGroup.Left>
           <BetweenControlGroup.Right>
-            <LikeButton onClick={postLike} defaultActiveState={hasLike} disabled={!user} />
+            <LikeButton
+              buttonName={`${categoryTitle} 카테고리 추천 버튼`}
+              onClick={postLike}
+              defaultActiveState={hasLike}
+              disabled={!user}
+            />
             {likeCount}
           </BetweenControlGroup.Right>
         </BetweenControlGroup>
