@@ -6,7 +6,7 @@
     "build:anz": "ANALYZE=true next build",
     "start": "next start",
     "test": "jest --watch",
-    "test:ci": "jest --ci",
+    "test:ci": "jest --ci --silent",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "storybook": "start-storybook -p 6006 ./public",

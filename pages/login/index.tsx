@@ -10,6 +10,8 @@ import { SOCIAL_TYPES, SocialType } from '@/types/domain';
 import { parseQueryString } from '@/utils/queryStringHandler';
 import alertToast from '@/utils/toastHandler';
 
+import Home from '..';
+
 const isSocialType = (value: any): value is SocialType => SOCIAL_TYPES.includes(value);
 
 export interface LoginPageProps {
@@ -23,10 +25,7 @@ const Login = ({ message }: LoginPageProps) => {
     router.replace('/');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
-  return (
-    // TODO: 로딩 화면 구성할 것
-    <div>please wait...</div>
-  );
+  return <Home />;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

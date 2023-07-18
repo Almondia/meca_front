@@ -26,15 +26,14 @@ const useSSRInterception = () => {
 
   useEffect(() => {
     const props = SingletonRouter.router?.components[router.pathname]?.props;
-    if (!props || !props.__N_SSP === undefined) {
+    if (!props || !props.__N_SSP === undefined || props.pageProps?.errorStatus) {
       return;
     }
     delete SingletonRouter.router?.components[router.pathname];
-    if (!ssrPageHistory[router.asPath]) {
+    if (!ssrPageHistory[router.asPath] && !props.pageProps.errorStatus) {
       setSsrPageHistory((prev) => ({ ...prev, [router.asPath]: { ...props.pageProps } }));
     }
   }, [router]);
-
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       if (ssrPageHistory[url]) {

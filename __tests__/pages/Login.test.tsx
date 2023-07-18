@@ -1,4 +1,4 @@
-import { render } from '../utils';
+import { renderQuery } from '../utils';
 import Login, { getServerSideProps } from '@/pages/login';
 import { screen, waitFor } from '@testing-library/react';
 import { GetServerSidePropsContext } from 'next';
@@ -6,7 +6,7 @@ import { implementServer } from '../__mocks__/msw/server';
 import { restHandler } from '../__mocks__/msw/handlers';
 import nookies from 'nookies';
 import mockRouter from 'next-router-mock';
-import { mockedPostKakaoLoginApi } from '../__mocks__/msw/api';
+import { mockedGetSharedCategoryListApi, mockedPostKakaoLoginApi } from '../__mocks__/msw/api';
 
 jest.mock('nookies', () => ({
   set: jest.fn(),
@@ -50,7 +50,10 @@ describe('LoginPage', () => {
   });
 
   it('지정된 querystring으로 접근했으나 부적절한 정보여서 로그인에 실패하면 toast 메시지와 함께 메인페이지로 이동된다.', async () => {
-    implementServer([restHandler(mockedPostKakaoLoginApi, { status: 500, message: '알 수 없는 오류' })]);
+    implementServer([
+      restHandler(mockedPostKakaoLoginApi, { status: 500, message: '알 수 없는 오류' }),
+      restHandler(mockedGetSharedCategoryListApi),
+    ]);
     const mockedContext = {
       req: {
         url: '/login?auth=kakao&code=abadaeg',
@@ -64,15 +67,16 @@ describe('LoginPage', () => {
     expect(props).toEqual({
       message: '알 수 없는 오류',
     });
-    render(<Login message={props.message} />);
-    await waitFor(() => expect(screen.getByText(/please wait/i)).toBeInTheDocument());
+    renderQuery(<Login message={props.message} />);
+    expect(screen.getByRole('heading', { name: /내가 만드는 나를 위한 학습 카드/i }));
+    await waitFor(() => expect(screen.getAllByRole('article')).toHaveLength(24));
     const toastText = await screen.findByText('알 수 없는 오류');
     expect(toastText).toBeInTheDocument();
     expect(mockRouter.pathname).toEqual('/');
   });
 
-  it('Login Page에 지정된 kakao oauth로 적절한 정보와 함꼐 접근하여 로그인에 성공하면 toast 메시지와 함꼐 메인페이지로 이동된다..', async () => {
-    implementServer([restHandler(mockedPostKakaoLoginApi)]);
+  it('Login Page에 지정된 kakao oauth로 적절한 정보와 함꼐 접근하여 로그인에 성공하면 toast 메시지와 함께 메인페이지로 이동된다.', async () => {
+    implementServer([restHandler(mockedPostKakaoLoginApi), restHandler(mockedGetSharedCategoryListApi)]);
     const mockedContext = {
       req: {
         url: '/login?auth=kakao&code=code',
@@ -81,8 +85,9 @@ describe('LoginPage', () => {
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(nookies.set).toBeCalled();
     expect(props.message).toEqual('로그인 성공');
-    render(<Login message={props.message} />);
-    await waitFor(() => expect(screen.getByText(/please wait/i)).toBeInTheDocument());
+    renderQuery(<Login message={props.message} />);
+    expect(screen.getByRole('heading', { name: /내가 만드는 나를 위한 학습 카드/i }));
+    await waitFor(() => expect(screen.getAllByRole('article')).toHaveLength(24));
     const toastText = await screen.findByText('로그인 성공');
     expect(toastText).toBeInTheDocument();
     expect(mockRouter.pathname).toEqual('/');

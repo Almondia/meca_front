@@ -45,7 +45,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
     <AuthPageProvider reload>
       {meca && (
         <>
-          <MetaHead title={meca.title} description={meca.description} />
+          <MetaHead title={`${meca.title}- by ${user?.name}`} ogType="article" />
           <PostSection>
             <PageTitle>{meca.title}</PageTitle>
             <br />

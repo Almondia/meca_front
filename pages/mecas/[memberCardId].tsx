@@ -13,13 +13,17 @@ import NotFound from '@/pages/404';
 import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';
 import { MecaType, UserProfile } from '@/types/domain';
+import { extractTextFromHTML } from '@/utils/htmlTextHandler';
+import { extractFirstImageSrc } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface MecaByIdProps {
   cardId: string;
+  thumbnailUrl: string;
+  questionText: string;
 }
 
-const MecaById = ({ cardId }: MecaByIdProps) => {
+const MecaById = ({ cardId, thumbnailUrl, questionText }: MecaByIdProps) => {
   const { meca: response } = useMeca(cardId, true);
   if (!response) {
     return <NotFound />;
@@ -27,7 +31,12 @@ const MecaById = ({ cardId }: MecaByIdProps) => {
   const meca = response as MecaType & UserProfile;
   return (
     <>
-      <MetaHead title={meca.title} description={meca.question} ogType="article" />
+      <MetaHead
+        title={`${meca.title} - by ${meca.name}`}
+        description={questionText}
+        image={thumbnailUrl}
+        ogType="article"
+      />
       <PostSection>
         <PageTitle>{meca.title}</PageTitle>
         <br />
@@ -60,10 +69,16 @@ export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, query
   if (!memberId || !cardId) {
     throw { message: '잘못된 요청' };
   }
-  await queryClient.fetchQuery([queryKey.meca, cardId], () => mecaApi.getSharedCardById(cardId));
+  const { question, description } = await queryClient.fetchQuery([queryKey.meca, cardId], () =>
+    mecaApi.getSharedCardById(cardId),
+  );
+  const thumbnailUrl = extractFirstImageSrc(question.concat(description)) ?? '';
+  const questionText = extractTextFromHTML(question);
   return {
     propsAspect: {
       cardId,
+      thumbnailUrl,
+      questionText,
     },
   };
 });

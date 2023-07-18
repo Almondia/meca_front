@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
 import AuthPageProvider from '@/components/common/AuthPageProvider';
+import MetaHead from '@/components/common/MetaHead';
 import MecaWrite from '@/components/organisms/MecaWrite';
 import useMeca from '@/hooks/meca/useMeca';
 import { ssrAspect } from '@/libs/renderAspect';
@@ -18,6 +19,7 @@ const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
   const { meca } = useMeca(cardId);
   return (
     <AuthPageProvider>
+      <MetaHead title="Meca Card 작성하기" />
       <PostSection>
         {cardId ? <MecaWrite {...meca} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
       </PostSection>
