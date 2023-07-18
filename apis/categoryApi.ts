@@ -1,4 +1,10 @@
-import { CategoryDetailType, CategoryType, CursorPaginationType, UserProfile } from '@/types/domain';
+import {
+  CategoryDetailType,
+  CategoryStatisticsType,
+  CategoryType,
+  CursorPaginationType,
+  UserProfile,
+} from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 
 import { authInstance, unauthInstance } from './config/instance';
@@ -11,6 +17,13 @@ interface CategoriesResponse extends CursorPaginationType {
 interface SharedCategoryContentType {
   memberInfo: UserProfile;
   categoryInfo: CategoryType;
+  likeCount: number;
+}
+
+interface RecommendedCategoryContentType {
+  member: UserProfile;
+  category: CategoryType;
+  statistics: CategoryStatisticsType;
   likeCount: number;
 }
 
@@ -53,22 +66,39 @@ const categoryApi = {
       thumbnail,
       shared,
     }),
-  getSharedCategoryList: (props: CursorPaginationType): Promise<SharedCategoriesResponse> =>
-    unauthInstance
-      .get<any, Omit<CategoriesResponse, 'contents'> & { contents: SharedCategoryContentType[] }>(
-        '/api/v1/categories/share',
-        {
-          params: {
-            pageSize: props.pageSize ?? 2 * PAGINATION_NUM,
-            hasNext: props.hasNext,
-            containTitle: props.containTitle,
-          },
-        },
-      )
-      .then((response) => ({
-        ...response,
-        contents: response.contents.map((v) => ({ ...v.categoryInfo, ...v.memberInfo, likeCount: v.likeCount })),
-      })),
+  getMyRecommendedCategoryList: async (props: CursorPaginationType): Promise<SharedCategoriesResponse> => {
+    const response = await authInstance.get<
+      never,
+      Omit<CategoriesResponse, 'contents'> & { contents: RecommendedCategoryContentType[] }
+    >('/api/v1/categories/me', {
+      params: {
+        option: 'RECOMMEND',
+        pageSize: props.pageSize ?? PAGINATION_NUM,
+        hasNext: props.hasNext,
+        containTitle: props.containTitle,
+      },
+    });
+    return {
+      ...response,
+      contents: response.contents.map((v) => ({ ...v.category, ...v.member, likeCount: v.likeCount })),
+    };
+  },
+  getSharedCategoryList: async (props: CursorPaginationType): Promise<SharedCategoriesResponse> => {
+    const response = await unauthInstance.get<
+      never,
+      Omit<CategoriesResponse, 'contents'> & { contents: SharedCategoryContentType[] }
+    >('/api/v1/categories/share', {
+      params: {
+        pageSize: props.pageSize ?? 2 * PAGINATION_NUM,
+        hasNext: props.hasNext,
+        containTitle: props.containTitle,
+      },
+    });
+    return {
+      ...response,
+      contents: response.contents.map((v) => ({ ...v.categoryInfo, ...v.memberInfo, likeCount: v.likeCount })),
+    };
+  },
   postCategoryLike: async (categoryId: string) => {
     await authInstance.post<never, never>(`/api/v1/categories/${categoryId}/like/like`);
     return { hasLike: true, count: 1 };

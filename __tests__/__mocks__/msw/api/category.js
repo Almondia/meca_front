@@ -9,7 +9,11 @@ export const mockedGetAuthUserCategoryListApi = () => {
   const responseResolver = async (req, res, ctx) => {
     const hasNext = req.url.searchParams.get('hasNext');
     const pageSize = req.url.searchParams.get('pageSize');
-    const result = MOCK_CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt);
+    const titleQuery = req.url.searchParams.get('containTitle');
+    let result = MOCK_CATEGORIES.sort((o1, o2) => o2.createdAt - o1.createdAt);
+    if (titleQuery) {
+      result = result.filter((v) => v.title.indexOf(titleQuery) !== -1);
+    }
     let nextIndex = result.findIndex((v) => v.cardId === hasNext);
     nextIndex = nextIndex === -1 ? 0 : nextIndex;
     const resData = {

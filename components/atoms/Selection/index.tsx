@@ -8,13 +8,19 @@ import { SelectionToggle, SelectionWrapper } from './styled';
 type FixedArray<T, L extends number> = [...T[]] & { length: L };
 
 export interface SelectionProps<T extends number> {
+  initialSelectedIndex?: number;
   innerTexts: FixedArray<string, T>;
   onClicks: FixedArray<() => void, T>;
   minWidth?: ElementSizeType;
 }
 
-const Selection = <T extends number>({ innerTexts, onClicks, minWidth }: SelectionProps<T>) => {
-  const [selected, setSelected] = useState(0);
+const Selection = <T extends number>({
+  initialSelectedIndex = 0,
+  innerTexts,
+  onClicks,
+  minWidth,
+}: SelectionProps<T>) => {
+  const [selected, setSelected] = useState(initialSelectedIndex);
 
   const handleClick = (index: number) => {
     setSelected(index);

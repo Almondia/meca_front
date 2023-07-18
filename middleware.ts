@@ -50,8 +50,9 @@ export function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.pathname === '/categories') {
+    const query = request.nextUrl.search || '';
     return userId
-      ? NextResponse.rewrite(new URL(`/categories/me/${userId}`, request.nextUrl.origin))
+      ? NextResponse.rewrite(new URL(`/categories/me/${userId}${query}`, request.nextUrl.origin))
       : NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
   }
 

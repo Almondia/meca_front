@@ -49,12 +49,14 @@ export interface CategoryType {
   likeCount: number;
 }
 
-export interface CategoryDetailType extends CategoryType {
-  createdAt: string;
-  memberId: string;
+export interface CategoryStatisticsType {
   scoreAvg: number;
   solveCount: number;
   totalCount: number;
+}
+export interface CategoryDetailType extends CategoryType, CategoryStatisticsType {
+  createdAt: string;
+  memberId: string;
 }
 
 export interface PaginationType {

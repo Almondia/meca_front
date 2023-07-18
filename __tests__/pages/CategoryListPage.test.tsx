@@ -5,26 +5,30 @@ import Category, { getServerSideProps } from '@/pages/categories/me/[memberId]';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { implementServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
+import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
 import {
   mockedGetAuthUserCategoryListApi,
   mockedGetUserApi,
   mockedGetUserWithServerApi,
   mockedPostCategoryApi,
 } from '../__mocks__/msw/api';
+import { MOCK_CATEGORIES } from '../__mocks__/msw/data';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
 
-beforeEach(() => {
-  implementServer([restHandler(mockedGetAuthUserCategoryListApi), restHandler(mockedGetUserWithServerApi)]);
-});
 describe('CategoryListPage', () => {
-  it('카테고리 목록 페이지에서 목록 Control UI와 카테고리 목록이 식별된다.', async () => {
+  beforeEach(() => {
+    implementServer([restHandler(mockedGetAuthUserCategoryListApi), restHandler(mockedGetUserWithServerApi)]);
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('개인 카테고리 목록 페이지 UI가 식별된다.', async () => {
     await waitFor(() => renderQuery(<Category />));
     const categoryListPageHead = await screen.findByRole('heading', {
-      name: /카테고리 목록/i,
+      name: /내 카테고리/i,
     });
     const addButton = screen.getByRole('button', {
       name: /추가하기/i,
@@ -33,6 +37,56 @@ describe('CategoryListPage', () => {
     expect(addButton).toBeInTheDocument();
     const categoryCards = await screen.findAllByRole('article');
     expect(categoryCards).toHaveLength(PAGINATION_NUM);
+  });
+
+  it('검색어를 입력해 검색하면 개인 카테고리 목록이 필터링되어 식별된다.', async () => {
+    await waitFor(() => renderQuery(<Category />));
+    const searchInput = await screen.findByRole('searchbox', { name: 'input-category-search' });
+    const searchButton = screen.getByRole('button', { name: '검색' });
+    expect(searchInput).toBeInTheDocument();
+    expect(searchButton).toBeInTheDocument();
+    fireEvent.change(searchInput, { target: { value: 'title3' } });
+    fireEvent.click(searchButton);
+    const filteredCategoriesLength = MOCK_CATEGORIES.filter((v) => v.title.indexOf('title3') !== -1).length;
+    const categoryCards = await screen.findAllByRole('article');
+    expect(categoryCards).toHaveLength(filteredCategoriesLength);
+    fireEvent.change(searchInput, { target: { value: 'geagiheagliahgilae' } });
+    fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter' });
+    expect(screen.queryByRole('article')).not.toBeInTheDocument();
+  });
+
+  it('(작성,추천) 목록 선택 버튼 클릭 시 UI가 전환되어 식별된다.', async () => {
+    implementServer([
+      restOverridedResponseHandler(mockedGetAuthUserCategoryListApi, {
+        contents: [],
+        hasNext: null,
+        pageSize: 0,
+        sortOrder: 'ASC',
+      }),
+    ]);
+    await waitFor(() => renderQuery(<Category />));
+    const listPageHead = await screen.findByRole('heading', {
+      name: /내 카테고리/i,
+    });
+    expect(listPageHead).toBeInTheDocument();
+    const toMyCategoryButton = screen.getByRole('button', { name: /작성 목록/i });
+    const toRecommendedCategoryButton = screen.getByRole('button', { name: /추천 목록/i });
+    expect(toMyCategoryButton).toHaveStyleRule('background-color', 'var(--color-brand)');
+    expect(toRecommendedCategoryButton).toBeInTheDocument();
+    // 내 카테고리 => 추천한 카테고리
+    fireEvent.click(toRecommendedCategoryButton);
+    expect(listPageHead).toHaveAccessibleName(/추천한 카테고리/i);
+    expect(toRecommendedCategoryButton).toHaveStyleRule('background-color', 'var(--color-brand)');
+    const searchInput = screen.getByRole('searchbox', { name: 'input-category-search' });
+    fireEvent.change(searchInput, { target: { value: 'input with recommended' } });
+    fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter' });
+    // 추천한 카테고리 => 내 카테고리
+    fireEvent.click(toMyCategoryButton);
+    expect(listPageHead).toHaveAccessibleName(/내 카테고리/i);
+    expect(searchInput).toHaveValue('');
+    // 내 카테고리 => 추천한 카테고리
+    fireEvent.click(toRecommendedCategoryButton);
+    expect(searchInput).toHaveValue('input with recommended');
   });
 
   it('카테고리 하나를 정상적으로 추가하면 카테고리 목록에 새로운 데이터가 추가된다.', async () => {
@@ -112,6 +166,64 @@ describe('CategoryListPage', () => {
       const { props } = (await getServerSideProps(mockedContext)) as any;
       expect(props).toHaveProperty('dehydratedState');
       expect(mockedSetHeader).toHaveBeenCalledWith('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
+    });
+
+    it('본인이 추천한 category 목록이 식별된다.', async () => {
+      implementServer([
+        restOverridedResponseHandler(mockedGetAuthUserCategoryListApi, {
+          contents: [
+            {
+              category: {
+                categoryId: '01894a21-0fce-6d50-6259-a603e4f1fcf1',
+                memberId: '01894a21-0fce-6d50-6259-a603e4f1fcf0',
+                thumbnail: null,
+                title: 'title',
+                createdAt: '2023-07-12T21:43:48.0463673',
+                modifiedAt: '2023-07-12T21:43:48.0463673',
+                shared: true,
+                deleted: false,
+              },
+              statistics: {
+                scoreAvg: 12.3,
+                solveCount: 10,
+                totalCount: 20,
+              },
+              member: {
+                memberId: '01894a21-0fce-6d50-6259-a603e4f1fcf0',
+                name: 'member-name',
+                email: 'www@gmail.com',
+                profile: 'https://aws.s3.com',
+                oauthType: 'GOOGLE',
+                role: 'USER',
+                createdAt: '2023-07-12T21:43:48.0463673',
+                modifiedAt: '2023-07-12T21:43:48.0463673',
+                deleted: false,
+              },
+              likeCount: 10,
+            },
+          ],
+          hasNext: null,
+          pageSize: 1,
+          sortOrder: 'DESC',
+        }),
+      ]);
+      const mockedSetHeader = jest.fn();
+      (nookies.get as jest.Mock).mockReturnValue({
+        accessToken: 'token',
+      });
+      const mockedContext = {
+        query: { recommended: 'true' },
+        res: {
+          setHeader: mockedSetHeader,
+        },
+      } as unknown as GetServerSidePropsContext;
+      const { props } = (await getServerSideProps(mockedContext)) as any;
+      expect(props).toHaveProperty('isRecommendedRequest', true);
+      await waitFor(() => renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState));
+      const categoryListPageHead = screen.getByRole('heading', { name: /추천한 카테고리/i });
+      const cardUserAvatar = screen.getByRole('img', { name: 'member-name-avatar' });
+      expect(categoryListPageHead).toBeInTheDocument();
+      expect(cardUserAvatar).toBeInTheDocument();
     });
 
     it('회원 category 목록 조회에 실패하면 빈 목록이 식별된다.', async () => {
