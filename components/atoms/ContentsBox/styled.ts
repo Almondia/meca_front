@@ -16,11 +16,17 @@ export const ContentsBoxWrapper = styled.div<{ isColumn: boolean }>`
   }
 `;
 
-export const ContentsBoxHeader = styled.div`
+export const ContentsBoxHeader = styled.div<{ isColumn: boolean }>`
   font-family: var(--font-sub);
-  font-size: ${({ theme }) => theme.fontSize.huge};
+  font-size: ${({ theme }) => theme.fontSize.large};
+  ${(props) =>
+    props.isColumn &&
+    '::after {display: block; content: ""; padding-bottom: 8px; border-bottom: 1px solid var(--color-gray); opacity: 0.3; }'}
 `;
 
 export const ContentsBoxBody = styled.div`
   padding-top: 4px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
 `;

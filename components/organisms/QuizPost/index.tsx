@@ -56,9 +56,9 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
         answer={answer}
         isAnswerState={isAnswerState}
       />
-      {isAnswerState && (
+      {isAnswerState && description && (
         <ContentsBox
-          header="C."
+          header="Commentary."
           isColumn
           body={
             <QuizEditorWrapper data-testid="id-quizpost-editor">
@@ -68,8 +68,10 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
         />
       )}
       <div>
-        <TextCaption>* 정답제출을 반드시 해야 채점됩니다!</TextCaption>
-        <TextCaption>* 모든 문제 풀이 완료전 이탈 시 풀이가 기록되지 않습니다</TextCaption>
+        <TextCaption>&nbsp;&nbsp;- 주어진 시간 내에 정답을 제출해야 채점됩니다!</TextCaption>
+        <TextCaption>&nbsp;&nbsp;- 불러온 모든 문제들을 풀면 최종 결과를 확인할 수 있습니다!</TextCaption>
+        <TextCaption>&nbsp;&nbsp;- 풀이 도중 이탈 시 불러운 퀴즈 정보는 모두 만료됩니다.</TextCaption>
+        <TextCaption>&nbsp;&nbsp;- 주관식 점수는 키워드 적중도로 계산되며 단순 흥미 요소입니다.</TextCaption>
       </div>
       <ButtonGroup
         successText={handleSucceed.succeedText}

@@ -6,7 +6,6 @@ import ContentsBox from '@/components/atoms/ContentsBox';
 import RadioGroup from '@/components/atoms/Input/Radio';
 import Icon from '@/components/common/Icon';
 import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
-import InputGroup from '@/components/molcules/InputGroup';
 import { NonVisibleRadioBox, TextBodyTitle } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 
@@ -17,7 +16,8 @@ const SelectGroup = styled(NonVisibleRadioBox)`
   display: flex;
   justify-content: stretch;
   column-gap: 20px;
-  padding: 20px;
+  padding: 24px 0 0 0;
+  margin-top: -24px;
 `;
 
 const OxIconContainer = styled.div`
@@ -66,7 +66,7 @@ const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizConten
   return (
     <QuizContentWrapper>
       <ContentsBox
-        header="Q."
+        header="Question."
         isColumn
         body={
           <TextBodyTitle>
@@ -74,22 +74,25 @@ const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizConten
           </TextBodyTitle>
         }
       />
-      <InputGroup>
-        <InputGroup.Label>정답을 선택하세요</InputGroup.Label>
-        <SelectGroup ref={fieldsetRef}>
-          {['O', 'X'].map((ox) => (
-            <RadioGroup.Radio key={ox} name="quiz" value={ox} onChange={handleChange} disabled={isAnswerState}>
-              <OxIconContainer>
-                {isAnswerState && ox === answer && <AnswerCircle data-testid="id-oxquiz-post-answer-circle" />}
-                <Icon icon={ox === 'X' ? 'Ax' : 'O'} />
-                <SelectedIconContainer>
-                  {value === ox && <Icon icon="Selected" color="var(--color-brand)" size="30px" />}
-                </SelectedIconContainer>
-              </OxIconContainer>
-            </RadioGroup.Radio>
-          ))}
-        </SelectGroup>
-      </InputGroup>
+      <ContentsBox
+        header="Check Answer!"
+        body={
+          <SelectGroup ref={fieldsetRef}>
+            {['O', 'X'].map((ox) => (
+              <RadioGroup.Radio key={ox} name="quiz" value={ox} onChange={handleChange} disabled={isAnswerState}>
+                <OxIconContainer>
+                  {isAnswerState && ox === answer && <AnswerCircle data-testid="id-oxquiz-post-answer-circle" />}
+                  <Icon icon={ox === 'X' ? 'Ax' : 'O'} />
+                  <SelectedIconContainer>
+                    {value === ox && <Icon icon="Selected" color="var(--color-brand)" size="30px" />}
+                  </SelectedIconContainer>
+                </OxIconContainer>
+              </RadioGroup.Radio>
+            ))}
+          </SelectGroup>
+        }
+        isColumn
+      />
     </QuizContentWrapper>
   );
 };

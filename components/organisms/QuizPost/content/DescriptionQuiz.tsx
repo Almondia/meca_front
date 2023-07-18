@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import ConetentsBox from '@/components/atoms/ContentsBox';
+import ContentsBox from '@/components/atoms/ContentsBox';
 import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import InputGroup from '@/components/molcules/InputGroup';
 import { TextBodyTitle } from '@/styles/common';
@@ -8,14 +8,18 @@ import { TextBodyTitle } from '@/styles/common';
 import { QuizContentWrapper } from '../styled';
 import { QuizContentProps } from '../type';
 
-const KeywordAnswerInputContainer = styled.div<{ isAnswerState: boolean }>`
-  opacity: ${(props) => (props.isAnswerState ? 0.6 : 1)};
+const KeywordAnswerInputContainer = styled.div`
+  margin-top: -24px;
+  & > div > div {
+    border: none;
+    background-color: var(--color-lightgray);
+  }
 `;
 
 const DescriptionQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
   <QuizContentWrapper>
-    <ConetentsBox
-      header="Q."
+    <ContentsBox
+      header="Question."
       isColumn
       body={
         <TextBodyTitle>
@@ -23,19 +27,34 @@ const DescriptionQuiz = ({ question, answer, isAnswerState, value, onChange }: Q
         </TextBodyTitle>
       }
     />
-    {isAnswerState && <ConetentsBox header="A." body={answer} isColumn />}
-    <KeywordAnswerInputContainer isAnswerState={isAnswerState}>
-      <InputGroup>
-        <InputGroup.Label>{isAnswerState ? '나의 정답' : '설명해보세요!'}</InputGroup.Label>
-        <InputGroup.Input.TextArea
-          name="quiz"
-          value={value}
-          onChange={onChange}
-          placeholder="정답 입력하기"
-          disabled={isAnswerState}
+    {isAnswerState ? (
+      <>
+        <ContentsBox header="Answer." body={answer} isColumn />
+        <ContentsBox
+          header="Your Answer!"
+          body={value || <span style={{ color: 'var(--color-warning)' }}>시간초과!!</span>}
+          isColumn
         />
-      </InputGroup>
-    </KeywordAnswerInputContainer>
+      </>
+    ) : (
+      <ContentsBox
+        header="Let's Answer!"
+        body={
+          <KeywordAnswerInputContainer>
+            <InputGroup>
+              <InputGroup.Input.TextArea
+                name="quiz"
+                value={value}
+                onChange={onChange}
+                placeholder="정답을 설명해보세요"
+                disabled={isAnswerState}
+              />
+            </InputGroup>
+          </KeywordAnswerInputContainer>
+        }
+        isColumn
+      />
+    )}
   </QuizContentWrapper>
 );
 
