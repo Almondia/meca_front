@@ -24,7 +24,7 @@ jobs:
           yarn config set nodeLinker 'node-modules'
           yarn install --immutable --inline-builds
       - name: Build Storybook
-        run: yarn run build-storybook
+        run: yarn run storybook-build
       - name: chromatic
         id: chromatic
         uses: chromaui/action@v1
