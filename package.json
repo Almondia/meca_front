@@ -10,7 +10,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "storybook": "start-storybook -p 6006 ./public",
-    "build-storybook": "storybook build"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@next/font": "^13.4.0",
