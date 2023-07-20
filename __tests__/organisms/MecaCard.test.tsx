@@ -88,7 +88,7 @@ describe('MecaCard', () => {
     const questionText = screen.getByText('박동석의 MBTI는 무엇인가');
     const scoreText = screen.getByText('평균점수:');
     const countText = screen.getByText('풀린횟수:');
-    const scoreValue = screen.getByText('24.46 / 100');
+    const scoreValue = screen.getByText('24 / 100');
     expect(questionText).toBeInTheDocument();
     expect(scoreText).toBeInTheDocument();
     expect(countText).toBeInTheDocument();
