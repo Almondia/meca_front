@@ -17,6 +17,8 @@ const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
   const handleRetryOptionSelect = (option: string) => {
     setRetryOption(option);
   };
+  // eslint-disable-next-line no-nested-ternary
+  const selectionForcedIndexValue = retryOption === '100' ? 1 : retryOption === '0' ? 0 : -1;
   return (
     <>
       <Devide />
@@ -37,8 +39,9 @@ const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
             />
           </InputGroup>
           <Selection
-            innerTexts={['전부 다시 풀기', '틀린것만 풀기']}
-            onClicks={[() => handleRetryOptionSelect('100'), () => handleRetryOptionSelect('0')]}
+            forceSelectedIndex={selectionForcedIndexValue}
+            innerTexts={['틀린것만 풀기', '전부 다시 풀기']}
+            onClicks={[() => handleRetryOptionSelect('0'), () => handleRetryOptionSelect('100')]}
           />
         </Modal.Body>
         <Modal.ConfirmButton onClick={() => onRetry(parseInt(retryOption, 10))}>다시풀기!</Modal.ConfirmButton>

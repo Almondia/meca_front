@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ElementSizeType } from '@/types/common';
 
@@ -12,6 +12,7 @@ export interface SelectionProps<T extends number> {
   innerTexts: FixedArray<string, T>;
   onClicks: FixedArray<() => void, T>;
   minWidth?: ElementSizeType;
+  forceSelectedIndex?: number;
 }
 
 const Selection = <T extends number>({
@@ -19,8 +20,16 @@ const Selection = <T extends number>({
   innerTexts,
   onClicks,
   minWidth,
+  forceSelectedIndex,
 }: SelectionProps<T>) => {
   const [selected, setSelected] = useState(initialSelectedIndex);
+
+  useEffect(() => {
+    if (forceSelectedIndex === undefined) {
+      return;
+    }
+    setSelected(forceSelectedIndex);
+  }, [forceSelectedIndex]);
 
   const handleClick = (index: number) => {
     setSelected(index);
