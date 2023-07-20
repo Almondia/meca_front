@@ -14,10 +14,12 @@ export const ProgressBarWrapper = styled.div<{ backgroundColor: string }>`
 const FillFrame = ({ width }: { width: string }) => {
   const animation = keyframes`
     from {
-      width: 0;
+      transform: scaleX(0.1);
+      transform-origin: 0% 0%;
     }
     to {
-      width: ${width};
+      transform: scaleX(1);
+      transform-origin: 0% 0%;
     }`;
   return css`
     animation: ${animation} 1s ease-in-out forwards;
