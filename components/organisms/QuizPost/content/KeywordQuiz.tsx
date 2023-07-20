@@ -10,7 +10,7 @@ import { QuizContentProps } from '../type';
 
 const KeywordAnswerInputContainer = styled.div`
   margin-top: -24px;
-  & > div > div {
+  & > div > div:first-child {
     border: none;
     background-color: var(--color-lightgray);
   }
@@ -21,7 +21,7 @@ const KeywordAnswerSpan = styled.span<{ isCorrectAnswer: boolean }>`
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
-const KeywordQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
+const KeywordQuiz = ({ question, answer, invalidAnswerMessage, isAnswerState, value, onChange }: QuizContentProps) => (
   <QuizContentWrapper>
     <ContentsBox
       header="Question."
@@ -56,6 +56,7 @@ const KeywordQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizC
           <KeywordAnswerInputContainer>
             <InputGroup>
               <InputGroup.Input.Text name="quiz" value={value} onChange={onChange} placeholder="정답 입력" />
+              <InputGroup.Validation visible={!!invalidAnswerMessage}>{invalidAnswerMessage}</InputGroup.Validation>
             </InputGroup>
           </KeywordAnswerInputContainer>
         }

@@ -10,13 +10,20 @@ import { QuizContentProps } from '../type';
 
 const KeywordAnswerInputContainer = styled.div`
   margin-top: -24px;
-  & > div > div {
+  & > div > div:first-child {
     border: none;
     background-color: var(--color-lightgray);
   }
 `;
 
-const DescriptionQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => (
+const DescriptionQuiz = ({
+  question,
+  answer,
+  invalidAnswerMessage,
+  isAnswerState,
+  value,
+  onChange,
+}: QuizContentProps) => (
   <QuizContentWrapper>
     <ContentsBox
       header="Question."
@@ -49,6 +56,7 @@ const DescriptionQuiz = ({ question, answer, isAnswerState, value, onChange }: Q
                 placeholder="정답을 설명해보세요"
                 disabled={isAnswerState}
               />
+              <InputGroup.Validation visible={!!invalidAnswerMessage}>{invalidAnswerMessage}</InputGroup.Validation>
             </InputGroup>
           </KeywordAnswerInputContainer>
         }

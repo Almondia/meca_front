@@ -3,6 +3,7 @@ export interface QuizContentProps {
   answer: string;
   isAnswerState: boolean;
   value: string;
+  invalidAnswerMessage?: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => void;
 }
 
