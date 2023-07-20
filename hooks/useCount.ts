@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const useIncrease = (defaultNum: number, startValue: number, endValue: number) => {
   const [number, setNumber] = useState<number>(defaultNum);
@@ -11,7 +11,11 @@ const useIncrease = (defaultNum: number, startValue: number, endValue: number) =
     number > startValue && setNumber(number - 1);
   };
 
-  return { number, increaseNumber };
+  const resetNumber = useCallback(() => {
+    setNumber(defaultNum);
+  }, [defaultNum]);
+
+  return { number, increaseNumber, resetNumber };
 };
 
 export default useIncrease;
