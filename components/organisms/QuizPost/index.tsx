@@ -76,7 +76,7 @@ const QuizPost = ({
   return (
     <QuizPostWrapper>
       <QuizContent
-        value={isAnswerState ? inputAnswer ?? '' : answerInput}
+        value={isAnswerState ? inputAnswer ?? answerInput : answerInput}
         score={score}
         onChange={handleChange}
         question={question}
