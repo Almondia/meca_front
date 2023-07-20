@@ -23,7 +23,9 @@ const ProgressBar = ({ backgroundColor, type, maxValue, currentValue }: Progress
       width={`${Math.max(10, (currentValue / maxValue) * 100).toFixed(1)}%`}
     />
     <ProgressState>
-      {type === 'devision' ? `${currentValue} / ${maxValue}` : `${((currentValue / maxValue) * 100).toFixed(1)}%`}
+      {type === 'devision'
+        ? `${currentValue.toFixed(0)} / ${maxValue}`
+        : `${((currentValue / maxValue) * 100).toFixed(1)}%`}
     </ProgressState>
   </ProgressBarWrapper>
 );

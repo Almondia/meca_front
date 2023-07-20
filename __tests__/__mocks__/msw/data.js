@@ -25,6 +25,7 @@ export const MOCK_MECAS = [...Array(36)].map((v, i) => {
   obj.cardType = 'KEYWORD';
   obj.answer = 'answer' + i;
   obj.question = 'question' + i;
+  obj.memberId = MOCK_MEMBER_ID;
   return obj;
 });
 
@@ -59,7 +60,7 @@ export const MOCK_SHARED_MECA = {
 export const MOCK_SHARED_MECAS = {
   contents: [
     {
-      cardInfo: {
+      card: {
         cardId: '018778b0-2f94-072f-336f-f2cbf49d077d',
         title: 'Rustic Granite Chips',
         question: 'March',
@@ -70,7 +71,6 @@ export const MOCK_SHARED_MECAS = {
         answer: 'O',
         description: 'edit text',
       },
-      memberInfo: MOCK_MEMBER,
     },
   ],
   hasNext: '018778b0-2148-8c6c-a6ed-bb91cad56205',
@@ -87,6 +87,7 @@ export const MOCK_SHARED_MECAS = {
     deleted: false,
     likeCount: 5,
   },
+  member: MOCK_MEMBER,
 };
 
 export const MOCK_HISTORY_LIST = {

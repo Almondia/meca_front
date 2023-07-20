@@ -1,19 +1,19 @@
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
 import mecaApi from '@/apis/mecaApi';
 import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
-import { UserProfile } from '@/types/domain';
 
 const useMecaList = (categoryId: string, isMine: boolean) => {
   const hasAuth = useRecoilValue(hasAuthState);
   const isEnabled = isMine ? hasAuth : true;
-  const queryClient = useQueryClient();
+
   const {
     data: mecaList,
     isLoading,
-    isError,
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery(
@@ -25,9 +25,7 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
       };
       !pageParam && delete props.hasNext;
       if (isMine) {
-        const user = queryClient.getQueryData([queryKey.me]) as UserProfile;
-        const response = await mecaApi.getMyMecaList(props);
-        return { ...response, contents: response.contents.map((content) => ({ ...content, ...user })) };
+        return mecaApi.getMyMecaList(props);
       }
       return mecaApi.getSharedMecaList(props);
     },
@@ -37,7 +35,13 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
     },
   );
 
-  return { mecaList, hasNextPage: hasNextPage && isEnabled, fetchNextPage, isLoading, isError };
+  const [writerInfo, category] = useMemo(
+    () => [mecaList?.pages[0].member, mecaList?.pages[0].category],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [!!mecaList?.pages],
+  );
+
+  return { mecaList, writerInfo, category, hasNextPage: hasNextPage && isEnabled, fetchNextPage, isLoading };
 };
 
 export default useMecaList;
