@@ -63,7 +63,7 @@ const MecaCard = ({
         <MecaQuestionTextContainer>
           {getQuestionAnswerByCardType({ question, cardType: MECA_TAG_TO_RESPONSE[tagType] }).question}
         </MecaQuestionTextContainer>
-        {!!scoreAvg && (
+        {!!tryCount && typeof scoreAvg === 'number' && (
           <ProgressesInfoContainer>
             <p>평균점수:</p>
             <ProgressBar
@@ -75,7 +75,7 @@ const MecaCard = ({
           </ProgressesInfoContainer>
         )}
         <BetweenControlGroup>
-          {!!tryCount && (
+          {typeof tryCount === 'number' && (
             <BetweenControlGroup.Left>
               <PostSubInfo rowGutter="0.125rem" columnGutter="0.375rem">
                 <PostSubInfo.Content title="풀린횟수:">
