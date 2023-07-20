@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 
 import { InfiniteData } from '@tanstack/react-query';
 
-import { MecaUserListResponse } from '@/apis/mecaApi';
+import { MecaListResponse } from '@/apis/mecaApi';
 import EmptyList from '@/components/atoms/EmptyList';
 import ListInfiniteScroller from '@/components/molcules/ListInfiniteScroller';
 import MecaCard from '@/components/organisms/MecaCard';
@@ -10,7 +10,7 @@ import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 
 const LoadSpinner = dynamic(() => import('@/components/atoms/LoadSpinner'));
 export interface MecaListProps {
-  mecaList?: InfiniteData<MecaUserListResponse>;
+  mecaList?: InfiniteData<MecaListResponse>;
   hasNextPage?: boolean;
   fetchNextPage: () => void;
   isMine?: boolean;
@@ -28,14 +28,8 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProp
       hasMore={hasNextPage}
     >
       {mecaList.pages.map((pages) =>
-        pages.contents.map((meca) => (
-          <MecaCard
-            key={meca.cardId}
-            categoryId={pages.category.categoryId}
-            tagType={MECA_RESPONE_TO_TAG[meca.cardType]}
-            isMine={isMine}
-            {...meca}
-          />
+        pages.contents.map(({ card }) => (
+          <MecaCard key={card.cardId} tagType={MECA_RESPONE_TO_TAG[card.cardType]} isMine={isMine} {...card} />
         )),
       )}
     </ListInfiniteScroller>

@@ -54,6 +54,12 @@ export interface CategoryStatisticsType {
   solveCount: number;
   totalCount: number;
 }
+
+export interface MecaStatisticsType {
+  scoreAvg: number | null;
+  tryCount: number | null;
+}
+
 export interface CategoryDetailType extends CategoryType, CategoryStatisticsType {
   createdAt: string;
   memberId: string;

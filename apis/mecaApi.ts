@@ -1,4 +1,12 @@
-import { CategoryType, CursorPaginationType, MecaType, QuizAlgorithmType, QuizType, UserProfile } from '@/types/domain';
+import {
+  CategoryType,
+  CursorPaginationType,
+  MecaStatisticsType,
+  MecaType,
+  QuizAlgorithmType,
+  QuizType,
+  UserProfile,
+} from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
@@ -13,13 +21,13 @@ export interface MecaWriteResponse {
 }
 
 export interface MecaListResponse extends CursorPaginationType {
-  contents: Omit<MecaType, 'categoryId'>[];
+  contents: {
+    card: MecaType & { memberId: string };
+    statistics: MecaStatisticsType;
+  }[];
   category: CategoryType;
+  member: UserProfile;
   categoryLikeCount: number;
-}
-
-export interface MecaUserListResponse extends Omit<MecaListResponse, 'contents'> {
-  contents: (Omit<MecaType, 'categoryId'> & UserProfile)[];
 }
 
 export interface MecaQuizRequest {
@@ -42,24 +50,25 @@ const mecaApi = {
       answer,
     }),
   deleteMeca: (cardId: string) => authInstance.delete<never, never>(`/api/v1/cards/${cardId}`),
-  getMyMecaList: (props: CursorPaginationType & { categoryId: string }) => {
+  getMyMecaList: async (props: CursorPaginationType & { categoryId: string }) => {
     const params = {
       pageSize: props.pageSize ?? PAGINATION_NUM,
       hasNext: props.hasNext,
     };
     !props.hasNext && delete params.hasNext;
-    return authInstance
-      .get<never, MecaListResponse>(`/api/v1/cards/categories/${props.categoryId}/me`, {
-        params,
-      })
-      .then((res) => {
-        const contents = res.contents.map((v) => ({
-          ...v,
-          questionOrigin: v.question,
-          question: extractTextFromHTML(v.question),
-        }));
-        return { ...res, contents };
-      });
+    const response = await authInstance.get<never, MecaListResponse>(
+      `/api/v1/cards/categories/${props.categoryId}/me`,
+      { params },
+    );
+    const contents = response.contents.map((v) => ({
+      ...v,
+      card: {
+        ...v.card,
+        questionOrigin: v.card.question,
+        question: extractTextFromHTML(v.card.question),
+      },
+    }));
+    return { ...response, contents };
   },
   getSharedCardById: (cardId: string): Promise<MecaType & UserProfile> =>
     unauthInstance
@@ -78,30 +87,25 @@ const mecaApi = {
       cardId,
       userAnswer,
     }),
-  getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }): Promise<MecaUserListResponse> => {
+  getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }) => {
     const params = {
       pageSize: props.pageSize ?? PAGINATION_NUM,
       hasNext: props.hasNext,
     };
     !props.hasNext && delete params.hasNext;
-    return unauthInstance
-      .get<never, Omit<MecaListResponse, 'contents'> & { contents: { cardInfo: MecaType; memberInfo: UserProfile }[] }>(
-        `/api/v1/cards/categories/${props.categoryId}/share`,
-        {
-          params,
-        },
-      )
-      .then((res) => ({
-        ...res,
-        contents: [
-          ...res.contents.map((v) => ({
-            ...v.memberInfo,
-            ...v.cardInfo,
-            questionOrigin: v.cardInfo.question,
-            question: extractTextFromHTML(v.cardInfo.question),
-          })),
-        ],
-      }));
+    const response = await unauthInstance.get<never, MecaListResponse>(
+      `/api/v1/cards/categories/${props.categoryId}/share`,
+      { params },
+    );
+    const contents = response.contents.map((v) => ({
+      ...v,
+      card: {
+        ...v.card,
+        questionOrigin: v.card.question,
+        question: extractTextFromHTML(v.card.question),
+      },
+    }));
+    return { ...response, contents };
   },
   getCountByCategoryId: (categoryId: string) =>
     authInstance.get<never, { count: number }>(`/api/v1/cards/categories/${categoryId}/me/count`),

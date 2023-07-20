@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
-import { QueryClient } from '@tanstack/react-query';
-
 import mecaApi from '@/apis/mecaApi';
 import LikeButton from '@/components/atoms/LikeButton';
 import PageTitle from '@/components/atoms/PageTitle';
@@ -16,40 +14,35 @@ import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
-import { UserProfile } from '@/types/domain';
 import { extractFirstImageSrc, getRemoteImageUrl } from '@/utils/imageHandler';
 import { getNextImageUrl, getPlaceholderImage } from '@/utils/plaiceholderHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
-export interface MyCategoryByIdPageProps {
+export interface CategoryByIdProps {
   categoryId: string;
   isMine: boolean;
-  writerInfo: UserProfile;
 }
 
-const CategoryById = ({ categoryId, isMine, writerInfo }: MyCategoryByIdPageProps) => {
-  const { mecaList, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
+const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
+  const { mecaList, writerInfo, category, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
   const { user } = useUser();
   const initialLikeCount = mecaList?.pages[0].categoryLikeCount ?? 0;
   const { hasLike, likeCount, postLike } = useCategoryLike(categoryId, initialLikeCount);
-
-  const categoryTitle = mecaList?.pages[0].category.title ?? 'Category Title';
-  const categoryThumbnail = mecaList?.pages[0].category.thumbnail;
   return (
     <>
       <MetaHead
-        title={categoryTitle}
-        description={`${writerInfo.name}님의 MecaSet`}
-        image={categoryThumbnail && getRemoteImageUrl(categoryThumbnail)}
+        title={category?.title}
+        description={`${writerInfo?.name}님의 MecaSet`}
+        image={category?.thumbnail && getRemoteImageUrl(category.thumbnail)}
       />
       <ListSection>
         <BetweenControlGroup>
           <BetweenControlGroup.Left>
-            <PageTitle>{categoryTitle}</PageTitle>
+            <PageTitle>{category?.title}</PageTitle>
           </BetweenControlGroup.Left>
           <BetweenControlGroup.Right>
             <LikeButton
-              buttonName={`${categoryTitle} 카테고리 추천 버튼`}
+              buttonName={`${category?.title} 카테고리 추천 버튼`}
               onClick={postLike}
               defaultActiveState={hasLike}
               disabled={!user}
@@ -60,9 +53,9 @@ const CategoryById = ({ categoryId, isMine, writerInfo }: MyCategoryByIdPageProp
         <br />
         <MecaControl
           categoryId={categoryId}
-          categoryTitle={categoryTitle}
-          name={writerInfo.name}
-          profile={writerInfo.profile || '/images/noprofile.png'}
+          categoryTitle={category?.title ?? 'category'}
+          name={writerInfo?.name ?? 'writer name'}
+          profile={writerInfo?.profile || '/images/noprofile.png'}
           isMine={isMine}
           hasAuth={!!user}
         />
@@ -73,11 +66,9 @@ const CategoryById = ({ categoryId, isMine, writerInfo }: MyCategoryByIdPageProp
   );
 };
 
-const getMecaList = async (categoryId: string, isMine: boolean, queryClient: QueryClient) => {
+const getMecaList = async (categoryId: string, isMine: boolean) => {
   if (isMine) {
-    const user = queryClient.getQueryData([queryKey.me]) as UserProfile;
-    const response = await mecaApi.getMyMecaList({ categoryId });
-    return { ...response, contents: response.contents.map((content) => ({ ...content, ...user })) };
+    return mecaApi.getMyMecaList({ categoryId });
   }
   return mecaApi.getSharedMecaList({ categoryId });
 };
@@ -89,13 +80,13 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   }
   const { uuid1: memberId, uuid2: categoryId } = extractCombinedUUID(memberCategoryId);
   const isMine: boolean = memberId === currentMemberId ?? false;
-  const mecaListResponse = await queryClient.fetchInfiniteQuery(
+  await queryClient.fetchInfiniteQuery(
     [queryKey.mecas, categoryId],
     async () => {
-      const mecaList = await getMecaList(categoryId, isMine, queryClient);
+      const mecaList = await getMecaList(categoryId, isMine);
       const mecaListContentsWithBlurURL = await Promise.all(
         mecaList.contents.map(async (meca) => {
-          const thumbnail = extractFirstImageSrc((meca.questionOrigin ?? '').concat(meca.description));
+          const thumbnail = extractFirstImageSrc((meca.card.questionOrigin ?? '').concat(meca.card.description));
           if (!thumbnail) {
             return meca;
           }
@@ -104,17 +95,14 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
             return meca;
           }
           const { img, blurDataURL } = placeholderThumbnail;
-          return { ...meca, blurThumbnail: { ...img, src: thumbnail, blurDataURL } };
+          return { ...meca, card: { ...meca.card, blurThumbnail: { ...img, src: thumbnail, blurDataURL } } };
         }),
       );
       return { ...mecaList, contents: mecaListContentsWithBlurURL };
     },
     { getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined },
   );
-  const writerInfo: UserProfile = isMine
-    ? (queryClient.getQueryData<UserProfile>([queryKey.me]) as UserProfile)
-    : mecaListResponse.pages[0].contents[0];
-  return { categoryId, isMine, writerInfo };
+  return { categoryId, isMine };
 }, true);
 
 export default CategoryById;
