@@ -50,15 +50,15 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
                     <p>[문제 질문]</p>
                     <MecaTag tagName={MECA_RESPONE_TO_TAG[quiz.cardType]} scale={0.7} />
                   </strong>
-                  <span>{`${extractTextFromHTML(question)}`}</span>
+                  <span>{extractTextFromHTML(question)}</span>
                 </TextCaption>
                 <TextCaption>
                   <strong>[문제 정답]</strong>
-                  <span>{`${answer}`}</span>
+                  <span>{answer}</span>
                 </TextCaption>
                 <TextCaption>
                   <strong>[나의 풀이]</strong>
-                  <span>{`${userAnswer}`}</span>
+                  <span>{userAnswer}</span>
                 </TextCaption>
               </QuizTimelineContent>
             </QuizTimelineActivity>

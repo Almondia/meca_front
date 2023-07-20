@@ -86,10 +86,24 @@ const useQuizResult = () => {
     return { avgScore: totalScore / (quizList.length * 100), avgTime: totalSecond / quizList.length };
   };
 
-  const clearQuizPhase = () => {
+  const clearQuizPhase = useCallback(() => {
     setQuizTime(0);
     setQuizTitle('');
     queryClient.removeQueries([queryKey.quiz]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const retryQuiz = (optionScore: number, retryCallback: () => void) => {
+    const scoreLimit = Math.max(0, Math.min(optionScore, 100));
+    const filteredQuizList = quizList
+      .filter((quiz) => (quiz?.result?.score ?? 0) <= scoreLimit)
+      .map((filteredQuiz) => ({ ...filteredQuiz, result: undefined }));
+    if (filteredQuizList.length === 0) {
+      alertToast('다시 풀 문제가 없어요!', 'info');
+      return;
+    }
+    retryCallback();
+    queryClient.setQueryData([queryKey.quiz], filteredQuizList);
   };
 
   return {
@@ -98,6 +112,7 @@ const useQuizResult = () => {
     getQuizTypeRateResult,
     getAnswerRateResult,
     clearQuizPhase,
+    retryQuiz,
     currentQuizResult: currentQuizList?.currentQuizResult,
   };
 };
