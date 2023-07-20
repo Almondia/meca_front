@@ -11,7 +11,7 @@ export const ProgressBarWrapper = styled.div<{ backgroundColor: string }>`
   background-color: ${(props) => props.backgroundColor};
 `;
 
-const FillFrame = ({ width }: { width: string }) => {
+const FillFrame = () => {
   const animation = keyframes`
     from {
       transform: scaleX(0.1);
