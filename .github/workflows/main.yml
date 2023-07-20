@@ -12,15 +12,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18.x'
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Install unplugged dependencies
-        run: yarn install
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Login to Docker Hub
@@ -29,13 +20,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
-          echo "NEXT_PUBLIC_KAKAO_LOGIN=${{ secrets.NEXT_PUBLIC_KAKAO_LOGIN }}" >> .env
-          echo "NEXT_PUBLIC_GOOGLE_LOGIN=${{ secrets.NEXT_PUBLIC_GOOGLE_LOGIN }}" >> .env
-          echo "NEXT_PUBLIC_NAVER_LOGIN=${{ secrets.NEXT_PUBLIC_NAVER_LOGIN }}" >> .env
-          echo "NEXT_ORIGIN=${{ secrets.NEXT_ORIGIN }}" >> .env
-          echo "DATA_SERVER=${{ secrets.DATA_SERVER }}" >> .env
-          echo "NEXT_PUBLIC_REMOTE_IMAGE_URL=${{ secrets.NEXT_PUBLIC_REMOTE_IMAGE_URL }}" >> .env
+          echo "NODE_ENV=production" >> .env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env.production
+          echo "NEXT_PUBLIC_KAKAO_LOGIN=${{ secrets.NEXT_PUBLIC_KAKAO_LOGIN }}" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_LOGIN=${{ secrets.NEXT_PUBLIC_GOOGLE_LOGIN }}" >> .env.production
+          echo "NEXT_PUBLIC_NAVER_LOGIN=${{ secrets.NEXT_PUBLIC_NAVER_LOGIN }}" >> .env.production
+          echo "NEXT_ORIGIN=${{ secrets.NEXT_ORIGIN }}" >> .env.production
+          echo "DATA_SERVER=${{ secrets.DATA_SERVER }}" >> .env.production
+          echo "NEXT_PUBLIC_REMOTE_IMAGE_URL=${{ secrets.NEXT_PUBLIC_REMOTE_IMAGE_URL }}" >> .env.production
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/meca_front:latest -f Dockerfile . --platform linux/x86_64 && docker push ${{ secrets.DOCKERHUB_USERNAME }}/meca_front:latest
   cd-pipeline:
     needs: build-image
