@@ -24,6 +24,8 @@ export interface QuizPostProps {
   quizType: MecaTagResponseType;
   isAnswerState: boolean;
   handleSucceed: QuizSucceedType;
+  score?: number;
+  inputAnswer?: string;
 }
 
 const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
@@ -33,7 +35,16 @@ const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
   select: SelectQuiz,
 };
 
-const QuizPost = ({ question, answer, description, quizType, isAnswerState, handleSucceed }: QuizPostProps) => {
+const QuizPost = ({
+  question,
+  answer,
+  description,
+  quizType,
+  isAnswerState,
+  handleSucceed,
+  score,
+  inputAnswer,
+}: QuizPostProps) => {
   const QuizContent = QUIZ_CONTENTS[MECA_RESPONE_TO_TAG[quizType]];
   const { input: answerInput, onInputChange: answerInputChange, inputReset } = useInput('');
   const { inputsValidState, validateAll, resetValidateState } = useInputValidation(1);
@@ -65,7 +76,8 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
   return (
     <QuizPostWrapper>
       <QuizContent
-        value={answerInput}
+        value={isAnswerState ? inputAnswer ?? '' : answerInput}
+        score={score}
         onChange={handleChange}
         question={question}
         answer={answer}

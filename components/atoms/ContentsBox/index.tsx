@@ -2,7 +2,7 @@ import { ContentsBoxBody, ContentsBoxHeader, ContentsBoxWrapper } from './styled
 
 export interface ContentsBoxBoxProps {
   /** 헤더 */
-  header: string;
+  header: React.ReactNode;
   /** 컨텐츠 */
   body: React.ReactNode;
   /** 헤더와 컨텐츠를 동일선상에 둘 지 여부  */

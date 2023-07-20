@@ -29,31 +29,34 @@ const useQuizResult = () => {
     }
   }, []);
 
-  const { mutate: solveQuiz } = useMutation<any, never, { cardId: string; spendTime: number; answer?: string }>(
+  const { mutate: solveQuiz, data: currentQuizList } = useMutation<
+    { solvedQuizList: QuizType[]; currentQuizResult?: { score: number; inputAnswer: string } },
+    never,
+    { cardId: string; spendTime: number; answer: string }
+  >(
     async ({ cardId, spendTime, answer }) => {
       if (!quizList) {
         return quizList;
       }
-      const solvedQuizList = await Promise.all(
-        quizList.map(async (quiz) =>
-          quiz.cardId === cardId
-            ? {
-                ...quiz,
-                result: {
-                  cardId,
-                  userAnswer: answer ?? '',
-                  score: await applyScore(answer ?? '', cardId),
-                  spendTime,
-                },
-              }
-            : quiz,
-        ),
+      const currentScore = await applyScore(answer, cardId);
+      const solvedQuizList: QuizType[] = quizList.map((quiz) =>
+        quiz.cardId === cardId
+          ? {
+              ...quiz,
+              result: {
+                cardId,
+                userAnswer: answer,
+                score: currentScore,
+                spendTime,
+              },
+            }
+          : quiz,
       );
-      return solvedQuizList;
+      return { solvedQuizList, currentQuizResult: { score: currentScore, inputAnswer: answer } };
     },
     {
       onSuccess: (data) => {
-        queryClient.setQueryData([queryKey.quiz], data);
+        queryClient.setQueryData([queryKey.quiz], data.solvedQuizList);
       },
     },
   );
@@ -95,6 +98,7 @@ const useQuizResult = () => {
     getQuizTypeRateResult,
     getAnswerRateResult,
     clearQuizPhase,
+    currentQuizResult: currentQuizList?.currentQuizResult,
   };
 };
 
