@@ -28,8 +28,14 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine }: MecaListProp
       hasMore={hasNextPage}
     >
       {mecaList.pages.map((pages) =>
-        pages.contents.map(({ card }) => (
-          <MecaCard key={card.cardId} tagType={MECA_RESPONE_TO_TAG[card.cardType]} isMine={isMine} {...card} />
+        pages.contents.map(({ card, statistics }) => (
+          <MecaCard
+            key={card.cardId}
+            tagType={MECA_RESPONE_TO_TAG[card.cardType]}
+            isMine={isMine}
+            {...card}
+            {...statistics}
+          />
         )),
       )}
     </ListInfiniteScroller>
