@@ -5,6 +5,10 @@ import { FlexCenter, FlexColumn } from '@/styles/layout';
 export const QuizTimelineWrapper = styled.div`
   ${FlexColumn};
   row-gap: 1rem;
+  z-index: 2;
+  @media ${({ theme }) => theme.media.mobile} {
+    margin-left: -4px;
+  }
 `;
 
 export const QuizActivityContainer = styled.div`
@@ -27,11 +31,11 @@ export const QuizTimelineActivity = styled.div`
 
 export const QuizTimelineSummary = styled.div`
   ${FlexColumn};
-  width: 24px;
+  width: 34px;
+  row-gap: 0.375rem;
   color: var(--color-gray);
   font-size: ${({ theme }) => theme.fontSize.caption};
   white-space: nowrap;
-  row-gap: 4px;
 `;
 
 export const QuizTimelineBadge = styled.div<{ color: string }>`
@@ -40,9 +44,7 @@ export const QuizTimelineBadge = styled.div<{ color: string }>`
   width: 14px;
   height: 14px;
   background-color: ${(props) => props.color};
-  content: '';
-  ::before {
-    content: '';
+  & > p {
     position: absolute;
     top: 0;
     left: 0;
@@ -50,7 +52,7 @@ export const QuizTimelineBadge = styled.div<{ color: string }>`
     right: 0;
     margin: 0 auto;
     width: 4px;
-    height: 220px;
+    height: 420px;
     background-color: var(--color-lightgray);
     z-index: -1;
   }
@@ -59,7 +61,19 @@ export const QuizTimelineBadge = styled.div<{ color: string }>`
 export const QuizTimelineContent = styled.div`
   ${FlexColumn};
   row-gap: 6px;
-  width: 80%;
+  width: 90%;
+  word-wrap: break-word;
+  word-break: break-all;
+  strong {
+    display: flex;
+    column-gap: 6px;
+    margin-bottom: 2px;
+    color: var(--color-text);
+    & > *:nth-child(2) {
+      margin-top: -1px;
+      margin-bottom: -4px;
+    }
+  }
 `;
 
 export const QuizTimeMoreButton = styled.button`
