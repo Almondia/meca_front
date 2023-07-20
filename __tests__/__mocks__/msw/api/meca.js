@@ -1,4 +1,12 @@
-import { MOCK_CATEGORIES, MOCK_CATEGORY_ID, MOCK_MECA, MOCK_MECAS, MOCK_SHARED_MECA, MOCK_SHARED_MECAS } from '../data';
+import {
+  MOCK_CATEGORIES,
+  MOCK_CATEGORY_ID,
+  MOCK_MECA,
+  MOCK_MECAS,
+  MOCK_MEMBER,
+  MOCK_SHARED_MECA,
+  MOCK_SHARED_MECAS,
+} from '../data';
 import { ENDPOINT } from '../handlers';
 
 /**
@@ -77,7 +85,13 @@ export const mockedGetAuthUserMecaListApi = () => {
     const index = result.findIndex((v) => v.cardId === hasNext);
     const nextIndex = index === -1 ? 0 : index;
     const resData = {
-      contents: [...result].slice(nextIndex, nextIndex + pageSize + 1),
+      contents: [...result].slice(nextIndex, nextIndex + pageSize + 1).map((card) => ({
+        card: card,
+        statistics: {
+          scoreAvg: 0.0,
+          tryCount: 0,
+        },
+      })),
       pageSize: pageSize,
       hasNext: result[nextIndex + pageSize + 1] ? result[nextIndex + pageSize + 1].cardId : undefined,
       category: {
@@ -86,6 +100,7 @@ export const mockedGetAuthUserMecaListApi = () => {
         thumbnail: '',
         likeCount: 0,
       },
+      member: MOCK_MEMBER,
     };
     return res(ctx.status(200), ctx.json(resData));
   };

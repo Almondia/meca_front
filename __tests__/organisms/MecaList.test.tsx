@@ -2,48 +2,64 @@ import { render } from '../utils';
 import { screen, waitFor } from '@testing-library/react';
 import MecaList from '@/components/organisms/MecaList';
 import { InfiniteData } from '@tanstack/react-query';
-import { MecaUserListResponse } from '@/apis/mecaApi';
+import { MecaListResponse } from '@/apis/mecaApi';
+import { MOCK_MEMBER, MOCK_MEMBER_ID } from '../__mocks__/msw/data';
 
-const mockMecaList: InfiniteData<MecaUserListResponse> | undefined = {
+const mockMecaList: InfiniteData<MecaListResponse> | undefined = {
   pageParams: [undefined],
   pages: [
     {
       contents: [
         {
-          cardId: '1',
-          title: 'title1',
-          question: 'question1',
-          answer: 'a1',
-          cardType: 'OX_QUIZ',
-          createdAt: 'c1',
-          description: '',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
+          card: {
+            cardId: '1',
+            title: 'title1',
+            question: 'question1',
+            answer: 'a1',
+            cardType: 'OX_QUIZ',
+            createdAt: 'c1',
+            description: '',
+            memberId: MOCK_MEMBER_ID,
+            categoryId: '1',
+          },
+          statistics: {
+            scoreAvg: 0,
+            tryCount: 0,
+          },
         },
         {
-          cardId: '2',
-          title: 'title2',
-          question: 'question2',
-          answer: 'a2',
-          cardType: 'OX_QUIZ',
-          createdAt: 'c2',
-          description: '',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
+          card: {
+            cardId: '2',
+            title: 'title2',
+            question: 'question2',
+            answer: 'a2',
+            cardType: 'OX_QUIZ',
+            createdAt: 'c2',
+            description: '',
+            memberId: MOCK_MEMBER_ID,
+            categoryId: '1',
+          },
+          statistics: {
+            scoreAvg: 0,
+            tryCount: 0,
+          },
         },
         {
-          cardId: '3',
-          title: 'title3',
-          question: 'question3',
-          answer: 'a3',
-          cardType: 'OX_QUIZ',
-          createdAt: 'c3',
-          description: '',
-          memberId: 'memberId',
-          name: 'name',
-          profile: '',
+          card: {
+            cardId: '3',
+            title: 'title3',
+            question: 'question3',
+            answer: 'a3',
+            cardType: 'OX_QUIZ',
+            createdAt: 'c3',
+            description: '',
+            memberId: MOCK_MEMBER_ID,
+            categoryId: '1',
+          },
+          statistics: {
+            scoreAvg: 0,
+            tryCount: 0,
+          },
         },
       ],
       hasNext: '3',
@@ -51,11 +67,12 @@ const mockMecaList: InfiniteData<MecaUserListResponse> | undefined = {
       category: {
         categoryId: '1',
         title: 'category-title',
-        memberId: 'memberId',
+        memberId: MOCK_MEMBER_ID,
         shared: true,
         thumbnail: '',
         likeCount: 0,
       },
+      member: MOCK_MEMBER,
       categoryLikeCount: 0,
     },
   ],

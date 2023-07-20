@@ -1,6 +1,6 @@
 import MecaCard from '@/components/organisms/MecaCard';
 import { renderQuery } from '../utils';
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 describe('MecaCard', () => {
   it('주어지는 데이터에 대한 적절한 Card가 보여진다', () => {
@@ -25,7 +25,7 @@ describe('MecaCard', () => {
     expect(thumbnail).toBeInTheDocument();
   });
 
-  it('내 카드라면 dot button이 식별된다.', () => {
+  it('내 카드라면 dot button이 식별된다.', async () => {
     renderQuery(
       <MecaCard
         isMine={true}
@@ -42,6 +42,9 @@ describe('MecaCard', () => {
       name: /verticaldot/i,
     });
     expect(dotButton).toBeInTheDocument();
+    fireEvent.click(dotButton);
+    const modifyLink = await screen.findByRole('link', { name: '수정하기' });
+    expect(modifyLink).toBeInTheDocument();
   });
 
   it('객관식 카드는 문항이 아닌 문제만 식별된다.', () => {
@@ -63,5 +66,32 @@ describe('MecaCard', () => {
     expect(wholeQuestionText).not.toBeInTheDocument();
     const questionText = screen.getByText('real question');
     expect(questionText).toBeInTheDocument();
+  });
+
+  it('통계 정보가 있다면 식별된다.', () => {
+    renderQuery(
+      <MecaCard
+        isMine={true}
+        cardId={'cardId'}
+        categoryId={'categoryId'}
+        memberId={''}
+        title={'title'}
+        question={'박동석의 MBTI는 무엇인가'}
+        tagType={'keyword'}
+        description=""
+        scoreAvg={24.46}
+        tryCount={14}
+      />,
+    );
+    const tagText = screen.getByText(/키워드/i);
+    expect(tagText).toBeInTheDocument();
+    const questionText = screen.getByText('박동석의 MBTI는 무엇인가');
+    const scoreText = screen.getByText('평균점수:');
+    const countText = screen.getByText('풀린횟수:');
+    const scoreValue = screen.getByText('24 / 100');
+    expect(questionText).toBeInTheDocument();
+    expect(scoreText).toBeInTheDocument();
+    expect(countText).toBeInTheDocument();
+    expect(scoreValue).toBeInTheDocument();
   });
 });
