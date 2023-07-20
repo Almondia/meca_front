@@ -121,7 +121,7 @@ const QuizPage = () => {
     <PostSection>
       <BetweenControlGroup>
         <BetweenControlGroup.Left>
-          <PageTitle>{quizTitle}</PageTitle>
+          <PageTitle>{quizPhase === 'result' ? quizTitle : quizList[quizIndex].title}</PageTitle>
         </BetweenControlGroup.Left>
         <BetweenControlGroup.Right>
           {quizPhase === 'result' ? (

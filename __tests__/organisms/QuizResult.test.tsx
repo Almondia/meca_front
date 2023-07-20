@@ -56,7 +56,7 @@ jest.mock('@/components/molcules/Chart', () => ({
 }));
 
 describe('QuizResult', () => {
-  it.only('퀴즈 결과 UI가 식별된다.', async () => {
+  it('퀴즈 결과 UI가 식별된다.', async () => {
     const queryClient = new QueryClient();
     queryClient.setQueryData([queryKey.quiz], MOCK_QUIZS);
     const spyApplyQuizKeywordFn = jest.spyOn(statisticsApi, 'postKeywordBySentence');
