@@ -2,7 +2,8 @@
 
 <div align="left">
     <img src="https://github.com/Almondia/meca_front/actions/workflows/main.yml/badge.svg">&nbsp;
-    <img src="https://github.com/Almondia/meca_front/actions/workflows/pr.yml/badge.svg">&nbsp;
+    <img src="https://github.com/Almondia/meca_front/actions/workflows/jest.yml/badge.svg">&nbsp;
+    <img src="https://github.com/Almondia/meca_front/actions/workflows/storybook.yml/badge.svg">&nbsp;
 </div>
 
 <br>
