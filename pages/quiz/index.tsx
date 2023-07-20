@@ -36,7 +36,7 @@ const QuizPage = () => {
   const router = useRouter();
   const quizTitle = useRecoilValue(quizTitleState);
   const quizPhaseTime = useRecoilValue(quizTimeState);
-  const { quizList, solveQuiz, clearQuizPhase } = useQuizResult();
+  const { quizList, solveQuiz, clearQuizPhase, currentQuizResult } = useQuizResult();
   const { number: round, increaseNumber: setNextRound } = useCount(1, 1, quizList.length);
   const [quizPhase, setQuizPhase] = useState<QuizPhaseType>('progress');
   const quizSpendTimeRef = useRef<number>(0);
@@ -53,7 +53,7 @@ const QuizPage = () => {
         return;
       }
       setQuizPhase(round === quizList.length ? 'end' : 'done');
-      solveQuiz({ cardId: quizList[quizIndex].cardId, spendTime: quizSpendTimeRef.current, answer });
+      solveQuiz({ cardId: quizList[quizIndex].cardId, spendTime: quizSpendTimeRef.current, answer: answer ?? '' });
     },
     [round, quizIndex],
   );
@@ -91,9 +91,6 @@ const QuizPage = () => {
     progress: {
       succeedText: '정답제출',
       succeedHandler: (answer?: string) => {
-        if (!answer) {
-          return;
-        }
         solveQuizHandler(answer);
       },
     },
@@ -140,6 +137,8 @@ const QuizPage = () => {
           <br />
           <br />
           <QuizPost
+            score={currentQuizResult?.score}
+            inputAnswer={currentQuizResult?.inputAnswer}
             isAnswerState={quizPhase !== 'progress'}
             question={quizList[quizIndex].question}
             answer={quizList[quizIndex].answer}

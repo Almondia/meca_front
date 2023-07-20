@@ -5,8 +5,10 @@ import ContentsBox from '@/components/atoms/ContentsBox';
 import ButtonGroup from '@/components/molcules/ButtonGroup';
 import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import useInput from '@/hooks/useInput';
+import useInputValidation from '@/hooks/useInputValidation';
 import { TextCaption } from '@/styles/common';
 import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaTagType, QuizSucceedType } from '@/types/domain';
+import { Constraints } from '@/utils/validation';
 
 import DescriptionQuiz from './content/DescriptionQuiz';
 import KeywordQuiz from './content/KeywordQuiz';
@@ -22,6 +24,8 @@ export interface QuizPostProps {
   quizType: MecaTagResponseType;
   isAnswerState: boolean;
   handleSucceed: QuizSucceedType;
+  score?: number;
+  inputAnswer?: string;
 }
 
 const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
@@ -31,9 +35,20 @@ const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
   select: SelectQuiz,
 };
 
-const QuizPost = ({ question, answer, description, quizType, isAnswerState, handleSucceed }: QuizPostProps) => {
+const QuizPost = ({
+  question,
+  answer,
+  description,
+  quizType,
+  isAnswerState,
+  handleSucceed,
+  score,
+  inputAnswer,
+}: QuizPostProps) => {
   const QuizContent = QUIZ_CONTENTS[MECA_RESPONE_TO_TAG[quizType]];
   const { input: answerInput, onInputChange: answerInputChange, inputReset } = useInput('');
+  const { inputsValidState, validateAll, resetValidateState } = useInputValidation(1);
+
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
       if (isAnswerState) {
@@ -43,6 +58,17 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
     },
     [isAnswerState],
   );
+
+  const handleSucceedClick = () => {
+    if (isAnswerState) {
+      resetValidateState();
+      handleSucceed.succeedHandler();
+      return;
+    }
+    const { hasInvalid } = validateAll([() => Constraints.cardAnswer(answerInput, MECA_RESPONE_TO_TAG[quizType])]);
+    !hasInvalid && handleSucceed.succeedHandler(answerInput);
+  };
+
   useEffect(() => {
     !isAnswerState && inputReset();
   }, [isAnswerState]);
@@ -50,11 +76,13 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
   return (
     <QuizPostWrapper>
       <QuizContent
-        value={answerInput}
+        value={isAnswerState ? inputAnswer ?? '' : answerInput}
+        score={score}
         onChange={handleChange}
         question={question}
         answer={answer}
         isAnswerState={isAnswerState}
+        invalidAnswerMessage={inputsValidState[0].isValid ? undefined : inputsValidState[0].message}
       />
       {isAnswerState && description && (
         <ContentsBox
@@ -75,7 +103,7 @@ const QuizPost = ({ question, answer, description, quizType, isAnswerState, hand
       </div>
       <ButtonGroup
         successText={handleSucceed.succeedText}
-        onSuccess={() => handleSucceed.succeedHandler(answerInput)}
+        onSuccess={handleSucceedClick}
         cancelText="나가기"
         hasCancelWarning
         cancelWarningText="현재 페이지로 다시 돌아올 수 없습니다?"

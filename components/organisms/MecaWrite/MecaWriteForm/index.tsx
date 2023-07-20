@@ -96,8 +96,8 @@ const MecaWriteForm = ({
   const handleCreateButtonClick = () => {
     const { hasInvalid } = validateAll([
       () => Constraints.cardTitle(titleInput),
-      () => Constraints.cardQuestion(questionInput),
-      () => Constraints.cardAnswer(answerInput, mecaTagType === 'keyword' && ','),
+      () => Constraints.cardQuestion(questionInput, mecaTagType),
+      () => Constraints.cardAnswer(answerInput, mecaTagType),
     ]);
     if (hasInvalid) {
       return;
