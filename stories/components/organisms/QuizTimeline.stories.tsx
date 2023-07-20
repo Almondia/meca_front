@@ -61,6 +61,10 @@ const quizList: QuizType[] = [
   },
 ];
 
-const Template: ComponentStory<typeof QuizTimeline> = () => <QuizTimeline quizList={quizList} />;
+const Template: ComponentStory<typeof QuizTimeline> = () => (
+  <div style={{ padding: '16px' }}>
+    <QuizTimeline quizList={quizList} />
+  </div>
+);
 
 export const Default = Template.bind({});

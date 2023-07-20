@@ -17,7 +17,7 @@ export const SelectionToggle = styled.button<{ isSelected: boolean; minWidth?: E
   border-radius: 0;
   border: 1px solid var(--color-lightgray);
   background-color: ${(props) => (props.isSelected ? 'var(--color-brand)' : 'inherit')};
-  color: ${(props) => (props.isSelected ? 'var(--color-background)' : 'var(--color-text)')};
+  color: ${(props) => (props.isSelected ? 'var(--color-text-light)' : 'var(--color-text)')};
   :hover {
     opacity: ${(props) => (props.isSelected ? 1 : 0.7)};
   }

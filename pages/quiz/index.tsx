@@ -27,6 +27,10 @@ const QuizResult = dynamic(() => import('@/components/organisms/QuizResult'), {
   ssr: false,
 });
 
+const QuizRetryController = dynamic(() => import('@/components/organisms/QuizRetryController'), {
+  ssr: false,
+});
+
 const TimerBar = dynamic(() => import('@/components/molcules/TimerBar'));
 const PageTitle = dynamic(() => import('@/components/atoms/PageTitle'));
 
@@ -36,8 +40,8 @@ const QuizPage = () => {
   const router = useRouter();
   const quizTitle = useRecoilValue(quizTitleState);
   const quizPhaseTime = useRecoilValue(quizTimeState);
-  const { quizList, solveQuiz, clearQuizPhase, currentQuizResult } = useQuizResult();
-  const { number: round, increaseNumber: setNextRound } = useCount(1, 1, quizList.length);
+  const { quizList, solveQuiz, clearQuizPhase, currentQuizResult, retryQuiz } = useQuizResult();
+  const { number: round, increaseNumber: setNextRound, resetNumber: resetRound } = useCount(1, 1, quizList.length);
   const [quizPhase, setQuizPhase] = useState<QuizPhaseType>('progress');
   const quizSpendTimeRef = useRef<number>(0);
   const quizIndex = round - 1;
@@ -117,7 +121,7 @@ const QuizPage = () => {
     <PostSection>
       <BetweenControlGroup>
         <BetweenControlGroup.Left>
-          <PageTitle>{quizTitle}</PageTitle>
+          <PageTitle>{quizPhase === 'result' ? quizTitle : quizList[quizIndex].title}</PageTitle>
         </BetweenControlGroup.Left>
         <BetweenControlGroup.Right>
           {quizPhase === 'result' ? (
@@ -130,7 +134,18 @@ const QuizPage = () => {
         </BetweenControlGroup.Right>
       </BetweenControlGroup>
       {quizPhase === 'result' ? (
-        <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
+        <>
+          <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
+          <QuizRetryController
+            title={quizTitle}
+            onRetry={(optionScore: number) => {
+              retryQuiz(optionScore, () => {
+                setQuizPhase('progress');
+                resetRound();
+              });
+            }}
+          />
+        </>
       ) : (
         <>
           <TimerBar second={quizPhase === 'progress' ? quizPhaseTime : undefined} />

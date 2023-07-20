@@ -1,9 +1,10 @@
 /* eslint-disable no-nested-ternary */
 import { useState } from 'react';
 
+import MecaTag from '@/components/molcules/MecaTag';
 import { TextCaption } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
-import { QuizResultType, QuizType } from '@/types/domain';
+import { MECA_RESPONE_TO_TAG, QuizResultType, QuizType } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 
@@ -37,19 +38,27 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
           return (
             <QuizTimelineActivity key={quiz.cardId}>
               <QuizTimelineSummary>
-                <p>{quizResult.spendTime}초</p>
                 <p>{quizResult.score}점</p>
+                <p>{quizResult.spendTime}초</p>
               </QuizTimelineSummary>
-              <QuizTimelineBadge color={answerColor} />
+              <QuizTimelineBadge color={answerColor}>
+                <p />
+              </QuizTimelineBadge>
               <QuizTimelineContent>
                 <TextCaption>
-                  <strong>{extractTextFromHTML(question)}</strong>
+                  <strong>
+                    <p>[문제 질문]</p>
+                    <MecaTag tagName={MECA_RESPONE_TO_TAG[quiz.cardType]} scale={0.7} />
+                  </strong>
+                  <span>{extractTextFromHTML(question)}</span>
                 </TextCaption>
                 <TextCaption>
-                  문제 정답: <strong>{answer}</strong>
+                  <strong>[문제 정답]</strong>
+                  <span>{answer}</span>
                 </TextCaption>
                 <TextCaption>
-                  나의 풀이: <strong>{userAnswer}</strong>
+                  <strong>[나의 풀이]</strong>
+                  <span>{userAnswer}</span>
                 </TextCaption>
               </QuizTimelineContent>
             </QuizTimelineActivity>

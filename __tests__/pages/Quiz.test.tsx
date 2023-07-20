@@ -35,6 +35,8 @@ describe('QuizPage', () => {
       }
       expect(screen.getByRole('button', { name: '정답제출' })).toBeInTheDocument();
     });
+    const pageHeading = screen.getByRole('heading', { name: mockQuizs[0].title });
+    expect(pageHeading).toBeInTheDocument();
     expect(screen.getByText(mockQuizs[0].question)).toBeInTheDocument();
   });
 
