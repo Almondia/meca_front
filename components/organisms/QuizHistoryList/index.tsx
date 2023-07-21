@@ -7,7 +7,7 @@ import { InfiniteData } from '@tanstack/react-query';
 import { CardHistoryListResponse } from '@/apis/cardHistoryApi';
 import IconButton from '@/components/atoms/IconButton';
 import LinkButton from '@/components/atoms/LinkButton';
-import { RelativeDateText } from '@/components/common/RelativeDateText';
+import RelativeDateText from '@/components/common/RelativeDateText';
 import MecaTag from '@/components/molcules/MecaTag';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
