@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import statisticsApi, { KeywordResponse } from '@/apis/statisticsApi';
 import queryKey from '@/query/queryKey';
 import { QuizType } from '@/types/domain';
+import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
 const useQuizKeyword = () => {
   const queryClient = useQueryClient();
@@ -18,7 +19,10 @@ const useQuizKeyword = () => {
       if (!quizList) {
         return fallbackKeywordResult;
       }
-      const sentence = quizList.reduce((prev, cur) => `${prev} ${cur.title} ${cur.question} ${cur.answer}`, '');
+      const sentence = quizList.reduce(
+        (prev, cur) => `${prev} ${cur.title} ${extractTextFromHTML(cur.question)} ${cur.answer}`,
+        '',
+      );
       const response = await statisticsApi.postKeywordBySentence(sentence);
       return response;
     },
