@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 
 import React from 'react';
 
-import { RelativeDateText } from '@/components/common/RelativeDateText';
+import RelativeDateText from '@/components/common/RelativeDateText';
 import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import MecaTag from '@/components/molcules/MecaTag';
 import PostBody from '@/components/molcules/PostBody';

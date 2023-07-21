@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 import cardHistoryApi from '@/apis/cardHistoryApi';
 import AuthPageProvider from '@/components/common/AuthPageProvider';
 import MetaHead from '@/components/common/MetaHead';
-import { RelativeDateText } from '@/components/common/RelativeDateText';
+import RelativeDateText from '@/components/common/RelativeDateText';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
 import QuizHistoryList from '@/components/organisms/QuizHistoryList';

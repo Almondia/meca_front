@@ -3,7 +3,7 @@
 /* eslint-disable react/no-danger */
 import dynamic from 'next/dynamic';
 
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import getCodeHighlightBlot from './CodeHighlightBlot';
 import getCustomImageBlot from './CustomImageBlot';
@@ -46,4 +46,4 @@ const QuillReader = ({ content }: { content: string }) => {
   return <Result />;
 };
 
-export default QuillReader;
+export default React.memo(QuillReader);
