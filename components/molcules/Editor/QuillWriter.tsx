@@ -30,6 +30,7 @@ const QuillWriter = ({
   minHeight,
   maxHeight,
 }: EditorComponentProps) => {
+  const editorElementRef = useRef<HTMLDivElement>(null);
   const quillInstance = useRef<ReactQuill>(null);
   const { uploadImage } = useFetchImage();
   useEffect(() => {
@@ -45,8 +46,9 @@ const QuillWriter = ({
   }, []);
 
   const handleImageUploadButtonClick = useCallback(() => {
-    if (quillInstance.current) {
-      document.querySelector<HTMLButtonElement>('button.ql-image')?.click();
+    // TODO: Editor의 원래 image upload event를 직접 발생시켜 커스텀 imageHandler까지로 연결할 수 없을까
+    if (editorElementRef.current) {
+      editorElementRef.current.querySelector<HTMLButtonElement>('button.ql-image')?.click();
     }
   }, []);
 
@@ -130,7 +132,7 @@ const QuillWriter = ({
   );
 
   return (
-    <WriteEditorWrapper minHeight={minHeight} maxHeight={maxHeight}>
+    <WriteEditorWrapper ref={editorElementRef} minHeight={minHeight} maxHeight={maxHeight}>
       <QuillNoSSRWriter
         forwardedRef={quillInstance}
         value={contents}
