@@ -47,3 +47,6 @@ next-env.d.ts
 
 # storybook build
 storybook-static
+
+# logger
+/logs

@@ -54,7 +54,7 @@ const mecaApi = {
       answer,
     }),
   deleteMeca: (cardId: string) => authInstance.delete<never, never>(`/api/v1/cards/${cardId}`),
-  getMyMecaList: async (props: CursorPaginationType & { categoryId: string }) => {
+  getMyMecaList: async (props: CursorPaginationType & { categoryId: string }): Promise<MecaListResponse> => {
     const params = {
       pageSize: props.pageSize ?? PAGINATION_NUM,
       hasNext: props.hasNext,
@@ -91,7 +91,7 @@ const mecaApi = {
       cardId,
       userAnswer,
     }),
-  getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }) => {
+  getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }): Promise<MecaListResponse> => {
     const params = {
       pageSize: props.pageSize ?? PAGINATION_NUM,
       hasNext: props.hasNext,

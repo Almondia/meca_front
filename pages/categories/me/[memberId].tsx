@@ -11,9 +11,10 @@ import CategoryList from '@/components/organisms/CategoryList';
 import useMyCategory from '@/hooks/category/useMyCategory';
 import useMyRecommendedCategory from '@/hooks/category/useMyRecommendedCategory';
 import useQueryRouter from '@/hooks/useQueryRouter';
-import { ssrAspect } from '@/libs/renderAspect';
+import { ssrAspect, ssrResponseLogger } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
+import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { getNextImageUrl, getPlaceholderImage } from '@/utils/plaiceholderHandler';
@@ -65,20 +66,25 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     categoriesKey,
     async () => {
       const categoryList = await getCategoryQueryFn({});
-      const categoryListContentWithBlurURL = await Promise.all(
-        categoryList.contents.map(async (category) => {
-          const { thumbnail } = category;
-          if (!thumbnail) {
-            return category;
-          }
-          const originRemoteImage = getRemoteImageUrl(thumbnail);
-          const placeholderThumbnail = await getPlaceholderImage(getNextImageUrl(originRemoteImage), 12);
-          if (!placeholderThumbnail) {
-            return category;
-          }
-          const { blurDataURL, img } = placeholderThumbnail;
-          return { ...category, blurThumbnail: { ...img, src: originRemoteImage, blurDataURL } };
-        }),
+      const categoryListContentWithBlurURL = await ssrResponseLogger<
+        (CategoryDetailType | (CategoryType & UserProfile))[]
+      >(
+        context,
+        () =>
+          Promise.all(
+            categoryList.contents.map(async (category) => {
+              const { thumbnail } = category;
+              const originRemoteImage = getRemoteImageUrl(thumbnail);
+              const placeholderThumbnail =
+                thumbnail && (await getPlaceholderImage(getNextImageUrl(originRemoteImage), 12));
+              if (!placeholderThumbnail) {
+                return category;
+              }
+              const { blurDataURL, img } = placeholderThumbnail;
+              return { ...category, blurThumbnail: { ...img, src: originRemoteImage, blurDataURL } };
+            }),
+          ),
+        'REQ-PLACEHOLDER',
       );
       return { ...categoryList, contents: categoryListContentWithBlurURL };
     },
@@ -86,10 +92,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
-  const categoryList = queryClient.getQueryData(categoriesKey);
-  if (categoryList) {
-    context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
-  }
+  queryClient.getQueryData(categoriesKey) && context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   return { isRecommendedRequest };
 });
 

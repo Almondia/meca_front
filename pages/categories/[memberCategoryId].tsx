@@ -11,7 +11,7 @@ import MecaList from '@/components/organisms/MecaList';
 import useCategoryLike from '@/hooks/category/useCategoryLike';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';
-import { ssrAspect } from '@/libs/renderAspect';
+import { ssrAspect, ssrResponseLogger } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { extractFirstImageSrc, getRemoteImageUrl } from '@/utils/imageHandler';
@@ -66,12 +66,8 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
   );
 };
 
-const getMecaList = async (categoryId: string, isMine: boolean) => {
-  if (isMine) {
-    return mecaApi.getMyMecaList({ categoryId });
-  }
-  return mecaApi.getSharedMecaList({ categoryId });
-};
+const getMecaList = async (categoryId: string, isMine: boolean) =>
+  isMine ? mecaApi.getMyMecaList({ categoryId }) : mecaApi.getSharedMecaList({ categoryId });
 
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, currentMemberId) => {
   const memberCategoryId = context.params?.memberCategoryId;
@@ -84,19 +80,21 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     [queryKey.mecas, categoryId],
     async () => {
       const mecaList = await getMecaList(categoryId, isMine);
-      const mecaListContentsWithBlurURL = await Promise.all(
-        mecaList.contents.map(async (meca) => {
-          const thumbnail = extractFirstImageSrc((meca.card.questionOrigin ?? '').concat(meca.card.description));
-          if (!thumbnail) {
-            return meca;
-          }
-          const placeholderThumbnail = await getPlaceholderImage(getNextImageUrl(thumbnail), 12);
-          if (!placeholderThumbnail) {
-            return meca;
-          }
-          const { img, blurDataURL } = placeholderThumbnail;
-          return { ...meca, card: { ...meca.card, blurThumbnail: { ...img, src: thumbnail, blurDataURL } } };
-        }),
+      const mecaListContentsWithBlurURL = await ssrResponseLogger<typeof mecaList.contents>(
+        context,
+        () =>
+          Promise.all(
+            mecaList.contents.map(async (meca) => {
+              const thumbnail = extractFirstImageSrc((meca.card.questionOrigin ?? '').concat(meca.card.description));
+              const placeholderThumbnail = thumbnail && (await getPlaceholderImage(getNextImageUrl(thumbnail), 12));
+              if (!placeholderThumbnail) {
+                return meca;
+              }
+              const { img, blurDataURL } = placeholderThumbnail;
+              return { ...meca, card: { ...meca.card, blurThumbnail: { ...img, src: thumbnail, blurDataURL } } };
+            }),
+          ),
+        'REQ-PLACEHOLDER',
       );
       return { ...mecaList, contents: mecaListContentsWithBlurURL };
     },

@@ -19,8 +19,31 @@ import { generateQueryClient } from '@/query/queryClient';
 import queryKey from '@/query/queryKey';
 import { getJWTPayload } from '@/utils/jwtHandler';
 
+import logger from './logger';
+
 function hasErrorRedirection(error: unknown): error is { url: string } {
   return typeof error === 'object' && Object.prototype.hasOwnProperty.call(error, 'url');
+}
+
+function getResponseTime(prevTime: number) {
+  return `${Date.now() - prevTime}ms`;
+}
+
+export async function ssrResponseLogger<T>(
+  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
+  promiseFn: () => Promise<T>,
+  name?: string,
+) {
+  const now = Date.now();
+  const loggerName = name ?? 'REQ-SSR';
+  try {
+    const response = await promiseFn();
+    logger.info(`[${loggerName}] ${context.req?.url}, [RES-TIME] ${getResponseTime(now)}`);
+    return response;
+  } catch (e) {
+    logger.error(`[${loggerName}] ${context.req?.url}, [ERR] ${JSON.stringify(e)}`);
+    throw e;
+  }
 }
 
 /**
@@ -40,7 +63,7 @@ function serverSideRenderAuthorizedAspect(
   ) => Promise<object | void>,
   skipAuth?: boolean,
 ): GetServerSideProps {
-  return async (context) => {
+  const ssrFn = async (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
     setRequest(context.req);
     const { accessToken } = nookies.get(context);
     if (!accessToken && !skipAuth) {
@@ -97,6 +120,7 @@ function serverSideRenderAuthorizedAspect(
       };
     }
   };
+  return (context) => ssrResponseLogger<Awaited<ReturnType<typeof ssrFn>>>(context, () => ssrFn(context));
 }
 
 export interface StaticRenderAspectResult {
@@ -122,6 +146,7 @@ function staticRegenerateRenderAspect(
         revalidate: revalidate ?? false,
       };
     } catch (error) {
+      logger.error(`[REQ-SSG], [ERR] ${JSON.stringify(error)}`);
       if (hasErrorRedirection(error)) {
         return {
           redirect: {
