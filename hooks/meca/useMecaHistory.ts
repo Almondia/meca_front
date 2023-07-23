@@ -1,11 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import cardHistoryApi from '@/apis/cardHistoryApi';
 import queryKey from '@/query/queryKey';
 
+const cardHistoryApiPromise = import('@/apis/cardHistoryApi');
+
 const QUERY_FN = {
-  cardId: cardHistoryApi.getHistoriesByCardId,
-  memberId: cardHistoryApi.getHistoriesByMemberId,
+  cardId: cardHistoryApiPromise.then(({ default: cardHistoryApi }) => cardHistoryApi.getHistoriesByCardId),
+  memberId: cardHistoryApiPromise.then(({ default: cardHistoryApi }) => cardHistoryApi.getHistoriesByMemberId),
 } as const;
 
 const useMecaHistory = (keyId: 'cardId' | 'memberId', id: string) => {
@@ -14,10 +15,17 @@ const useMecaHistory = (keyId: 'cardId' | 'memberId', id: string) => {
     isLoading,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery([queryKey.history, id], ({ pageParam }) => QUERY_FN[keyId]({ id, hasNext: pageParam }), {
-    getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
-    enabled: !!id,
-  });
+  } = useInfiniteQuery(
+    [queryKey.history, id],
+    async ({ pageParam }) => {
+      const getHistoryList = await QUERY_FN[keyId];
+      return getHistoryList({ id, hasNext: pageParam });
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
+      enabled: !!id,
+    },
+  );
 
   return { cardHistoryList, isLoading, hasNextPage, fetchNextPage };
 };

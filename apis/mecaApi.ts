@@ -12,7 +12,11 @@ import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
 import { authInstance, unauthInstance } from './config/instance';
 
-export type MecaWriteRequest = Required<Omit<MecaType, 'createdAt' | 'blurThumbnail' | 'questionOrigin'>>;
+type MecaWriteRequest = Required<Omit<MecaType, 'createdAt' | 'blurThumbnail' | 'questionOrigin'>>;
+
+export type AddMecaRequest = Omit<MecaWriteRequest, 'cardId'>;
+
+export type UpdateMecaRequest = Omit<MecaWriteRequest, 'cardType'>;
 
 export interface MecaWriteResponse {
   cardId: string;
@@ -37,11 +41,11 @@ export interface MecaQuizRequest {
 }
 
 const mecaApi = {
-  addMeca: (props: Omit<MecaWriteRequest, 'cardId'>) =>
+  addMeca: (props: AddMecaRequest) =>
     authInstance.post<never, MecaWriteResponse>('/api/v1/cards', {
       ...props,
     }),
-  updateMeca: ({ cardId, categoryId, description, question, title, answer }: Omit<MecaWriteRequest, 'cardType'>) =>
+  updateMeca: ({ cardId, categoryId, description, question, title, answer }: UpdateMecaRequest) =>
     authInstance.put<never, MecaWriteResponse>(`/api/v1/cards/${cardId}`, {
       categoryId,
       description,

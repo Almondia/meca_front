@@ -1,5 +1,7 @@
 import { getJWTPayload } from '@/utils/jwtHandler';
 
+jest.unmock('@/utils/jwtHandler');
+
 describe('jwtHandler', () => {
   describe('getJWTPayload', () => {
     it('정상적인 jwt에서 id를 리턴할 수 있다.', () => {

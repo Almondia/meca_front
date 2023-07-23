@@ -145,7 +145,7 @@ describe('MecaById', () => {
     });
 
     it('인증되지 않은 사용자가 요청하면 401 처리된다.', async () => {
-      resetServer([restHandler(mockedGetUserApi, { status: 401, message: 'unauthorized' })]);
+      implementServer([restHandler(mockedGetUserApi, { status: 401, message: 'unauthorized' })]);
       const cardId = '0187934d-1046-4527-9fca-e9072ee8f9fe';
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',

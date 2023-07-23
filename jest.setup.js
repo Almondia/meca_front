@@ -5,6 +5,7 @@
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 import { server } from './__tests__/__mocks__/msw/server';
+import { MOCK_MEMBER_ID } from './__tests__/__mocks__/msw/data';
 
 // Establish API mocking before all tests.
 beforeAll(() => server.listen());
@@ -33,6 +34,10 @@ jest.mock('./components/molcules/Editor/QuillNoSSRReader', () => {
   const MockedQuillReader = ({ content }) => <div dangerouslySetInnerHTML={{ __html: content }} />;
   return MockedQuillReader;
 });
+
+jest.mock('./utils/jwtHandler', () => ({
+  getJWTPayload: (token, key) => (token && key === 'id' ? MOCK_MEMBER_ID : undefined),
+}));
 
 if (typeof window !== 'undefined') {
   window.matchMedia = jest.fn().mockImplementation((query) => {

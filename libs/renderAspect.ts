@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-throw-literal */
 /* eslint-disable import/prefer-default-export */
 
 import {
@@ -16,6 +17,7 @@ import { setRequest } from '@/apis/config/instance';
 import userApi from '@/apis/userApi';
 import { generateQueryClient } from '@/query/queryClient';
 import queryKey from '@/query/queryKey';
+import { getJWTPayload } from '@/utils/jwtHandler';
 
 function hasErrorRedirection(error: unknown): error is { url: string } {
   return typeof error === 'object' && Object.prototype.hasOwnProperty.call(error, 'url');
@@ -51,15 +53,22 @@ function serverSideRenderAuthorizedAspect(
     }
     try {
       const queryClient = generateQueryClient();
-      const user =
-        !!accessToken &&
-        (await queryClient.fetchQuery([queryKey.me], () => userApi.getMe().then((res) => ({ ...res, accessToken }))));
-      const propsAspect =
-        proceed && (await proceed(context, queryClient, user === false ? 'undefined' : user.memberId));
+      const memberId = getJWTPayload(accessToken, 'id');
+      const [member, propsAspect] = await Promise.allSettled([
+        !!memberId &&
+          queryClient.fetchQuery([queryKey.me], () => userApi.getMe().then((res) => ({ ...res, accessToken }))),
+        proceed && proceed(context, queryClient, memberId),
+      ]);
+      if (member.status === 'rejected') {
+        throw { ...member.reason };
+      }
+      if (propsAspect.status === 'rejected') {
+        throw { ...propsAspect.reason };
+      }
       return {
         props: {
-          ...propsAspect,
-          hasAuth: !!user,
+          ...(propsAspect.status === 'fulfilled' ? propsAspect.value : undefined),
+          hasAuth: !!(member?.status === 'fulfilled'),
           dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
         },
       };

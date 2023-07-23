@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
-import mecaApi from '@/apis/mecaApi';
 import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
 
@@ -24,6 +23,7 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
         hasNext: pageParam,
       };
       !pageParam && delete props.hasNext;
+      const { default: mecaApi } = await import('@/apis/mecaApi');
       if (isMine) {
         return mecaApi.getMyMecaList(props);
       }
