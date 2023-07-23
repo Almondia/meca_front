@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import categoryApi from '@/apis/categoryApi';
 import queryKey from '@/query/queryKey';
 
 const useMyCategory = (enabled?: boolean) => {
@@ -13,11 +12,12 @@ const useMyCategory = (enabled?: boolean) => {
     fetchNextPage,
   } = useInfiniteQuery(
     [queryKey.categories, 'me', query],
-    ({ pageParam }) => {
+    async ({ pageParam }) => {
       const props = {
         hasNext: pageParam,
       };
       !pageParam && delete props.hasNext;
+      const { default: categoryApi } = await import('@/apis/categoryApi');
       return categoryApi.getMyCategoryList({ ...props, containTitle: query });
     },
     {
