@@ -20,6 +20,9 @@ describe('User MyPage', () => {
       accessToken: 'token',
     });
   });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('MyPage가 식별된다.', async () => {
     const mockedContext = {
       params: {
@@ -60,7 +63,7 @@ describe('User MyPage', () => {
   });
 
   it('사용자 정보 조회에 실패하면 404처리된다.', async () => {
-    resetServer([restHandler(mockedGetUserApi, { status: 400, message: 'no user' })]);
+    implementServer([restHandler(mockedGetUserApi, { status: 400, message: 'no user' })]);
     const mockedContext = {
       params: {
         memberId: memberId,

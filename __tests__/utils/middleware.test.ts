@@ -5,6 +5,8 @@ import { middleware } from '../../middleware';
 import { NextRequest, NextResponse } from 'next/server';
 import { combineUUID } from '@/utils/uuidHandler';
 
+jest.unmock('@/utils/jwtHandler');
+
 describe('middleware', () => {
   const mockNextRequest = {
     cookies: {
@@ -84,13 +86,12 @@ describe('middleware', () => {
     expect(response.headers.get('x-middleware-rewrite')).toBe('http://localhost:3000/categories/me/' + memberId);
   });
 
-  it.each([['/mecas/me/abc123-abc123', '/user/me?abc=123', '/user/me', '/categories/me/ab1234-abc116', '/categories/me']])(
-    'Private Path에 직접 접근한다면 404 페이지로 rewrite된다.',
-    (requestUrl: string) => {
-      mockNextRequest.nextUrl.pathname = requestUrl;
-      const response = middleware(mockNextRequest);
-      expect(response.headers.get('x-middleware-next')).toBeFalsy();
-      expect(response.headers.get('x-middleware-rewrite')).toBe('http://localhost:3000/404');
-    },
-  );
+  it.each([
+    ['/mecas/me/abc123-abc123', '/user/me?abc=123', '/user/me', '/categories/me/ab1234-abc116', '/categories/me'],
+  ])('Private Path에 직접 접근한다면 404 페이지로 rewrite된다.', (requestUrl: string) => {
+    mockNextRequest.nextUrl.pathname = requestUrl;
+    const response = middleware(mockNextRequest);
+    expect(response.headers.get('x-middleware-next')).toBeFalsy();
+    expect(response.headers.get('x-middleware-rewrite')).toBe('http://localhost:3000/404');
+  });
 });
