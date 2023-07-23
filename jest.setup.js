@@ -39,6 +39,29 @@ jest.mock('./utils/jwtHandler', () => ({
   getJWTPayload: (token, key) => (token && key === 'id' ? MOCK_MEMBER_ID : undefined),
 }));
 
+jest.mock('./utils/jwtHandler', () => ({
+  getJWTPayload: (token, key) => (token && key === 'id' ? MOCK_MEMBER_ID : undefined),
+}));
+
+// IMPORTANT First mock winston
+jest.mock('winston', () => ({
+  format: {
+    combine: jest.fn(),
+    timestamp: jest.fn(),
+    printf: jest.fn(),
+    errors: jest.fn(),
+    splat: jest.fn(),
+  },
+  createLogger: jest.fn().mockReturnValue({
+    info: jest.fn(),
+    error: jest.fn(),
+  }),
+  transports: {
+    File: jest.fn(),
+    DailyRotateFile: jest.fn(),
+  },
+}));
+
 if (typeof window !== 'undefined') {
   window.matchMedia = jest.fn().mockImplementation((query) => {
     return {
