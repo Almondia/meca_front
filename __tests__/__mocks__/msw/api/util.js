@@ -65,3 +65,12 @@ export const mockedPostKeywords = (body) => {
   };
   return { uri, method, responseResolver };
 };
+
+export const mockedGetBlurImage = () => {
+  const [uri, method] = ['/api/image/blur', 'get'];
+  const responseResolver = (req, res, ctx) => {
+    const imageUrl = req.url.searchParams.get('url');
+    return res(ctx.status(200), ctx.json({ blurDataURL: 'data:image', img: { src: imageUrl, width: 20, height: 20 } }));
+  };
+  return { uri, method, responseResolver };
+};
