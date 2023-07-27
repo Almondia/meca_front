@@ -12,7 +12,8 @@ import CategoryList from '@/components/organisms/CategoryList';
 import useMyCategory from '@/hooks/category/useMyCategory';
 import useMyRecommendedCategory from '@/hooks/category/useMyRecommendedCategory';
 import useQueryRouter from '@/hooks/useQueryRouter';
-import { ssrAspect, ssrResponseLogger } from '@/libs/renderAspect';
+import { responseTimeLoggerWrapper } from '@/libs/logger';
+import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
@@ -66,10 +67,9 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     categoriesKey,
     async () => {
       const categoryList = await getCategoryQueryFn({});
-      const categoryListContentWithBlurURL = await ssrResponseLogger<
+      const categoryListContentWithBlurURL = await responseTimeLoggerWrapper<
         (CategoryDetailType | (CategoryType & UserProfile))[]
       >(
-        context,
         () =>
           Promise.all(
             categoryList.contents.map(async (category) => {
@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
               return { ...category, blurThumbnail: { ...img, blurDataURL } };
             }),
           ),
-        'REQ-PLACEHOLDER',
+        { requestType: 'BLUR-IMAGE', location: context.req?.url },
       );
       return { ...categoryList, contents: categoryListContentWithBlurURL };
     },

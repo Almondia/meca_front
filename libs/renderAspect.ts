@@ -19,31 +19,10 @@ import { generateQueryClient } from '@/query/queryClient';
 import queryKey from '@/query/queryKey';
 import { getJWTPayload } from '@/utils/jwtHandler';
 
-import logger from './logger';
+import logger, { responseTimeLoggerWrapper } from './logger';
 
 function hasErrorRedirection(error: unknown): error is { url: string } {
   return typeof error === 'object' && Object.prototype.hasOwnProperty.call(error, 'url');
-}
-
-function getResponseTime(prevTime: number) {
-  return `${Date.now() - prevTime}ms`;
-}
-
-export async function ssrResponseLogger<T>(
-  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
-  promiseFn: () => Promise<T>,
-  name?: string,
-) {
-  const now = Date.now();
-  const loggerName = name ?? 'REQ-SSR';
-  try {
-    const response = await promiseFn();
-    logger.info(`[${loggerName}] ${context.req?.url}, [RES-TIME] ${getResponseTime(now)}`);
-    return response;
-  } catch (e) {
-    logger.error(`[${loggerName}] ${context.req?.url}, [ERR] ${JSON.stringify(e)}`);
-    throw e;
-  }
 }
 
 /**
@@ -96,6 +75,7 @@ function serverSideRenderAuthorizedAspect(
         },
       };
     } catch (error) {
+      logger.error({ requestType: 'SSR', tag: 'ERROR', message: JSON.stringify(error) });
       if (hasErrorRedirection(error)) {
         return {
           redirect: {
@@ -120,7 +100,11 @@ function serverSideRenderAuthorizedAspect(
       };
     }
   };
-  return (context) => ssrResponseLogger<Awaited<ReturnType<typeof ssrFn>>>(context, () => ssrFn(context));
+  return (context) =>
+    responseTimeLoggerWrapper<Awaited<ReturnType<typeof ssrFn>>>(() => ssrFn(context), {
+      requestType: 'SSR',
+      location: context.req?.url,
+    });
 }
 
 export interface StaticRenderAspectResult {
@@ -146,7 +130,7 @@ function staticRegenerateRenderAspect(
         revalidate: revalidate ?? false,
       };
     } catch (error) {
-      logger.error(`[REQ-SSG], [ERR] ${JSON.stringify(error)}`);
+      logger.error({ requestType: 'SSG', tag: 'ERROR', message: JSON.stringify(error) });
       if (hasErrorRedirection(error)) {
         return {
           redirect: {
