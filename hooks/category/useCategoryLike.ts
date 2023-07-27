@@ -34,7 +34,7 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
     },
   );
 
-  const { mutate } = useMutation<{ hasLike: boolean; count: number }, never, string>(
+  const { mutate, isLoading: isLikeUpdateLoading } = useMutation<{ hasLike: boolean; count: number }, never, string>(
     ['updateCategoryLike'],
     async (id: string) => {
       const { default: categoryApi } = await categoryApiPromise;
@@ -57,7 +57,9 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
       alertToast('로그인 후 이용해주세요', 'warning');
       return;
     }
-    mutate(categoryId);
+    if (!isLikeUpdateLoading) {
+      mutate(categoryId);
+    }
   };
 
   return { ...data, postLike };
