@@ -12,7 +12,8 @@ import MecaList from '@/components/organisms/MecaList';
 import useCategoryLike from '@/hooks/category/useCategoryLike';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';
-import { ssrAspect, ssrResponseLogger } from '@/libs/renderAspect';
+import { responseTimeLoggerWrapper } from '@/libs/logger';
+import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { extractFirstImageSrc, getRemoteImageUrl } from '@/utils/imageHandler';
@@ -80,8 +81,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     [queryKey.mecas, categoryId],
     async () => {
       const mecaList = await getMecaList(categoryId, isMine);
-      const mecaListContentsWithBlurURL = await ssrResponseLogger<typeof mecaList.contents>(
-        context,
+      const mecaListContentsWithBlurURL = await responseTimeLoggerWrapper<typeof mecaList.contents>(
         () =>
           Promise.all(
             mecaList.contents.map(async (meca) => {
@@ -94,7 +94,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
               return { ...meca, card: { ...meca.card, blurThumbnail: { ...img, src: thumbnail, blurDataURL } } };
             }),
           ),
-        'REQ-PLACEHOLDER',
+        { requestType: 'BLUR-IMAGE', location: context.req.url },
       );
       return { ...mecaList, contents: mecaListContentsWithBlurURL };
     },
