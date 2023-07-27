@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
+import imageApi from '@/apis/imageApi';
 import mecaApi from '@/apis/mecaApi';
 import LikeButton from '@/components/atoms/LikeButton';
 import PageTitle from '@/components/atoms/PageTitle';
@@ -15,7 +16,6 @@ import { ssrAspect, ssrResponseLogger } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { extractFirstImageSrc, getRemoteImageUrl } from '@/utils/imageHandler';
-import { getNextImageUrl, getPlaceholderImage } from '@/utils/plaiceholderHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface CategoryByIdProps {
@@ -86,7 +86,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
           Promise.all(
             mecaList.contents.map(async (meca) => {
               const thumbnail = extractFirstImageSrc((meca.card.questionOrigin ?? '').concat(meca.card.description));
-              const placeholderThumbnail = thumbnail && (await getPlaceholderImage(getNextImageUrl(thumbnail), 12));
+              const placeholderThumbnail = thumbnail && (await imageApi.getBlurImage(thumbnail));
               if (!placeholderThumbnail) {
                 return meca;
               }

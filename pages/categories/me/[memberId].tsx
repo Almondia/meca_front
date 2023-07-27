@@ -2,6 +2,7 @@
 import { GetServerSideProps } from 'next';
 
 import categoryApi from '@/apis/categoryApi';
+import imageApi from '@/apis/imageApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import Selection from '@/components/atoms/Selection';
 import AuthPageProvider from '@/components/common/AuthPageProvider';
@@ -17,7 +18,6 @@ import { Devide, ListSection } from '@/styles/layout';
 import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
-import { getNextImageUrl, getPlaceholderImage } from '@/utils/plaiceholderHandler';
 
 interface CategoryProps {
   isRecommendedRequest?: boolean;
@@ -74,14 +74,12 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
           Promise.all(
             categoryList.contents.map(async (category) => {
               const { thumbnail } = category;
-              const originRemoteImage = getRemoteImageUrl(thumbnail);
-              const placeholderThumbnail =
-                thumbnail && (await getPlaceholderImage(getNextImageUrl(originRemoteImage), 12));
+              const placeholderThumbnail = thumbnail && (await imageApi.getBlurImage(getRemoteImageUrl(thumbnail)));
               if (!placeholderThumbnail) {
                 return category;
               }
               const { blurDataURL, img } = placeholderThumbnail;
-              return { ...category, blurThumbnail: { ...img, src: originRemoteImage, blurDataURL } };
+              return { ...category, blurThumbnail: { ...img, blurDataURL } };
             }),
           ),
         'REQ-PLACEHOLDER',
