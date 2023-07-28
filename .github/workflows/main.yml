@@ -27,6 +27,7 @@ jobs:
           echo "NEXT_PUBLIC_NAVER_LOGIN=${{ secrets.NEXT_PUBLIC_NAVER_LOGIN }}" >> .env.production
           echo "NEXT_ORIGIN=${{ secrets.NEXT_ORIGIN }}" >> .env.production
           echo "DATA_SERVER=${{ secrets.DATA_SERVER }}" >> .env.production
+          echo "REVALIDATE_SECRET_TOKEN=${{ secrets.REVALIDATE_SECRET_TOKEN }}" >> .env.production
           echo "NEXT_PUBLIC_REMOTE_IMAGE_URL=${{ secrets.NEXT_PUBLIC_REMOTE_IMAGE_URL }}" >> .env.production
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/meca_front:latest -f Dockerfile . --platform linux/x86_64 && docker push ${{ secrets.DOCKERHUB_USERNAME }}/meca_front:latest
   cd-pipeline:
