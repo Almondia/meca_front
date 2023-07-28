@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { UUID_PATTERN } from './utils/constants';
 import { getJWTPayload } from './utils/jwtHandler';
-import { extractCombinedUUID } from './utils/uuidHandler';
+import { combineUUID, extractCombinedUUID } from './utils/uuidHandler';
 
 const AUTH_PATHS = ['/write', '/quiz', '/mypage'] as const;
 
 const PRIVATE_PATH_MATCHER = /\/[a-z]+\/me\//;
+const SHARED_MECA_API_PATH_MATCHER = new RegExp(`^\\/api/v1/cards\\/${UUID_PATTERN}/share`, 'i');
+const MECA_LIST_PAGE_PATH_MATCHER = new RegExp(`^\\/mecas\\/${UUID_PATTERN}-${UUID_PATTERN}$`, 'i');
 
 function getCurrentUserMecaId(pathname: string, payloadUserId?: string) {
   const combinedUUId = pathname.split('/')[2];
@@ -22,43 +25,75 @@ function getCurrentUserMecaId(pathname: string, payloadUserId?: string) {
   next() - Returns a NextResponse that will continue the middleware chain
   - reference: 'https://nextjs.org/docs/api-reference/next/server'
  */
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { cookies } = request;
   const accessToken = cookies.get('accessToken')?.value ?? '';
-
-  if (request.nextUrl.pathname.match(PRIVATE_PATH_MATCHER)) {
-    return NextResponse.rewrite(new URL('/404', request.nextUrl.origin));
+  const { pathname, origin } = request.nextUrl;
+  if (pathname.match(PRIVATE_PATH_MATCHER)) {
+    return NextResponse.rewrite(new URL('/404', origin));
   }
 
-  if (!accessToken && AUTH_PATHS.some((path) => request.nextUrl.pathname.indexOf(path) !== -1)) {
-    return NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
+  if (!accessToken && AUTH_PATHS.some((path) => pathname.indexOf(path) !== -1)) {
+    return NextResponse.rewrite(new URL('/401', origin));
   }
 
   const userId = getJWTPayload(accessToken, 'id');
 
-  if (request.nextUrl.pathname.startsWith('/mecas/')) {
-    const requestId = getCurrentUserMecaId(request.nextUrl.pathname, userId);
-    return requestId
-      ? NextResponse.rewrite(new URL(`/mecas/me/${requestId}`, request.nextUrl.origin))
-      : NextResponse.next();
+  if (pathname.match(MECA_LIST_PAGE_PATH_MATCHER)) {
+    const requestId = getCurrentUserMecaId(pathname, userId);
+    return requestId ? NextResponse.rewrite(new URL(`/mecas/me/${requestId}`, origin)) : NextResponse.next();
   }
 
-  if (request.nextUrl.pathname.startsWith('/mypage')) {
+  if (pathname.startsWith('/mypage')) {
     return userId
-      ? NextResponse.rewrite(new URL(`/user/me/${userId}`, request.nextUrl.origin))
-      : NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
+      ? NextResponse.rewrite(new URL(`/user/me/${userId}`, origin))
+      : NextResponse.rewrite(new URL('/401', origin));
   }
 
-  if (request.nextUrl.pathname === '/categories') {
+  if (pathname === '/categories') {
     const query = request.nextUrl.search || '';
     return userId
-      ? NextResponse.rewrite(new URL(`/categories/me/${userId}${query}`, request.nextUrl.origin))
-      : NextResponse.rewrite(new URL('/401', request.nextUrl.origin));
+      ? NextResponse.rewrite(new URL(`/categories/me/${userId}${query}`, origin))
+      : NextResponse.rewrite(new URL('/401', origin));
   }
 
+  if (pathname.match(SHARED_MECA_API_PATH_MATCHER)) {
+    const sharedCardResponse = await fetch(process.env.NEXT_PUBLIC_API_URL + pathname);
+    const xUserHeader = request.headers.get('x-user');
+    const sharedCard = await sharedCardResponse.json();
+    if (!sharedCardResponse.ok) {
+      xUserHeader &&
+        fetch(`${process.env.NEXT_ORIGIN}/api/revalidate?secret=${process.env.REVALIDATE_SECRET_TOKEN}`, {
+          method: 'POST',
+          body: JSON.stringify({
+            type: 'public',
+            urls: [`/mecas/${combineUUID(xUserHeader, pathname.split('/')[4])}`],
+          }),
+          headers: {
+            'content-type': 'application/json',
+          },
+        });
+      return new NextResponse(JSON.stringify({ ...sharedCard, status: 400 }), {
+        status: 400,
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+    return new NextResponse(JSON.stringify(sharedCard), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    });
+  }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/mecas/:path*', '/:path*/write/:path*', '/quiz', '/mypage', '/:path/me/:path*', '/categories'],
+  matcher: [
+    '/mecas/:path*',
+    '/:path*/write/:path*',
+    '/quiz',
+    '/mypage',
+    '/:path/me/:path*',
+    '/categories',
+    '/api/v1/cards/:cardId/share',
+  ],
 };

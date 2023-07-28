@@ -74,9 +74,13 @@ const mecaApi = {
     }));
     return { ...response, contents };
   },
-  getSharedCardById: (cardId: string): Promise<MecaType & UserProfile> =>
+  getSharedCardById: (cardId: string, memberId?: string): Promise<MecaType & UserProfile> =>
     unauthInstance
-      .get<never, { cardInfo: MecaType; memberInfo: UserProfile }>(`/api/v1/cards/${cardId}/share`)
+      .get<never, { cardInfo: MecaType; memberInfo: UserProfile }>(`/api/v1/cards/${cardId}/share`, {
+        headers: {
+          'X-USER': memberId,
+        },
+      })
       .then((res) => ({ ...res.memberInfo, ...res.cardInfo })),
   getMyCardById: (cardId: string) => authInstance.get<never, MecaType>(`/api/v1/cards/${cardId}/me`),
   getQuizCards: ({ categoryId, limit, algorithm }: MecaQuizRequest) =>
