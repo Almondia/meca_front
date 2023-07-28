@@ -13,7 +13,7 @@ export interface AxiosErrorResponse {
 
 export type ServerRequestType = { cookies: Partial<{ [key: string]: string }> } | NextApiRequest;
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL;
+const baseURL = '';
 const unauthInstance = axios.create({ baseURL, timeout: 8000 });
 const authInstance = axios.create({ baseURL, timeout: 8000 });
 const serverInstance = axios.create({ baseURL: '', timeout: 8000 });
@@ -47,14 +47,25 @@ function genErrorResponse(error: any) {
   return Promise.reject(errorResponse);
 }
 
+serverInstance.interceptors.request.use((config) => {
+  config.baseURL = hasBrowser() ? '' : process.env.NEXT_ORIGIN;
+  return config;
+});
+
 serverInstance.interceptors.response.use(
   (response): any => getObject(response),
   (error) => genErrorResponse(error),
 );
 
 authInstance.interceptors.request.use((config) => {
+  config.baseURL = hasBrowser() ? '' : process.env.NEXT_ORIGIN;
   const accessToken = hasBrowser() ? accessTokenInstace : getTokens(request).accessToken;
   config.headers.Authorization = `Bearer ${accessToken}`;
+  return config;
+});
+
+unauthInstance.interceptors.request.use((config) => {
+  config.baseURL = hasBrowser() ? '' : process.env.NEXT_ORIGIN;
   return config;
 });
 

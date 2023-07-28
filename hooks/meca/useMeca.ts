@@ -1,35 +1,32 @@
-import { useRouter } from 'next/router';
-
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
 import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
 import { MecaType, UserProfile } from '@/types/domain';
 
-const useMeca = (cardId: string, shared?: boolean) => {
+const useMeca = (cardId: string, shared?: boolean, memberId?: string) => {
   const hasAuth = useRecoilValue(hasAuthState);
-  const router = useRouter();
-
+  const queryClient = useQueryClient();
   const { data, isLoading, isSuccess, isError } = useQuery(
     [queryKey.meca, cardId],
     async () => {
       const { default: mecaApi } = await import('@/apis/mecaApi');
-      return shared ? mecaApi.getSharedCardById(cardId) : mecaApi.getMyCardById(cardId);
+      return shared ? mecaApi.getSharedCardById(cardId, memberId) : mecaApi.getMyCardById(cardId);
     },
     {
       enabled: !!cardId && (shared ? true : hasAuth),
+      staleTime: 5,
       onError: () => {
-        (async () => {
-          if (shared) {
-            const { default: utilApi } = await import('@/apis/utilApi');
-            utilApi.revalidate([router.asPath]);
-          }
-        })();
+        if (shared) {
+          queryClient.setQueryData([queryKey.meca, cardId], undefined);
+        }
       },
     },
   );
-  const meca: (typeof shared extends boolean ? MecaType & UserProfile : MecaType) | undefined = data;
+  const meca: (typeof shared extends boolean ? MecaType & UserProfile : MecaType) | undefined = isError
+    ? undefined
+    : data;
   return { meca, isSuccess, isLoading, isError };
 };
 

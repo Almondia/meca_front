@@ -36,10 +36,7 @@ const imageApi = {
     ),
   getBlurImage: async (url: string) => {
     try {
-      const response = await serverInstance.get<never, BlurImageType>(
-        `${process.env.NEXT_ORIGIN ?? ''}/api/image/blur`,
-        { params: { url } },
-      );
+      const response = await serverInstance.get<never, BlurImageType>('/api/image/blur', { params: { url } });
       return response;
     } catch (e) {
       return undefined;

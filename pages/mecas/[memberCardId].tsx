@@ -19,14 +19,15 @@ import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface MecaByIdProps {
   cardId: string;
+  memberId?: string;
   thumbnailUrl: string;
   questionText: string;
 }
 
-const MecaById = ({ cardId, thumbnailUrl, questionText }: MecaByIdProps) => {
-  const { meca: response } = useMeca(cardId, true);
+const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProps) => {
+  const { meca: response } = useMeca(cardId, true, memberId);
   if (!response) {
-    return <NotFound />;
+    return <NotFound isMessageVisible message="요청하신 페이지가 없거나 비공개 처리되어있어요!" />;
   }
   const meca = response as MecaType & UserProfile;
   return (
@@ -69,18 +70,29 @@ export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, query
   if (!memberId || !cardId) {
     throw { message: '잘못된 요청' };
   }
-  const { question, description } = await queryClient.fetchQuery([queryKey.meca, cardId], () =>
-    mecaApi.getSharedCardById(cardId),
-  );
-  const thumbnailUrl = extractFirstImageSrc(question.concat(description)) ?? '';
-  const questionText = extractTextFromHTML(question);
-  return {
-    propsAspect: {
-      cardId,
-      thumbnailUrl,
-      questionText,
-    },
-  };
+  try {
+    const { question, description } = await queryClient.fetchQuery([queryKey.meca, cardId], () =>
+      mecaApi.getSharedCardById(cardId),
+    );
+    const thumbnailUrl = extractFirstImageSrc(question.concat(description)) ?? '';
+    const questionText = extractTextFromHTML(question);
+    return {
+      propsAspect: {
+        cardId,
+        memberId,
+        thumbnailUrl,
+        questionText,
+      },
+    };
+  } catch (e) {
+    return {
+      propsAspect: {
+        cardId,
+        memberId,
+      },
+      revalidate: 1,
+    };
+  }
 });
 
 export default MecaById;

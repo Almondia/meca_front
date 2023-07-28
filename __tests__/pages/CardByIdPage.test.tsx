@@ -58,7 +58,7 @@ describe('MecaById', () => {
       expect(updateLink).not.toBeInTheDocument();
     });
 
-    it('접근 권한이 없는(비공개인) 공개 카드 요청 시 404 처리된다.', async () => {
+    it('접근 권한이 없는(비공개인) 공개 카드 요청 시 404 페이지가 보여진다.', async () => {
       implementServer([restHandler(mockedGetSharedMecaApi, { status: 403, message: '접근 권한 없음' })]);
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: '',
@@ -71,7 +71,10 @@ describe('MecaById', () => {
         },
       } as unknown as GetStaticPropsContext;
       const { props } = (await getStaticProps(mockedContext)) as any;
-      expect(props).toHaveProperty('errorMessage', '접근 권한 없음');
+      expect(props).toHaveProperty('cardId', cardId);
+      expect(props).toHaveProperty('memberId', memberId);
+      renderQuery(<MecaById {...props} />, undefined, undefined, props.dehydratedState);
+      expect(screen.getByRole('heading', { name: /404 Not Found/i })).toBeInTheDocument();
     });
 
     it.each([['a-b-c-d-e'], [''], ['[abc]'], [undefined]])(
