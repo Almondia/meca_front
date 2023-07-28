@@ -21,17 +21,12 @@ import { getJWTPayload } from '@/utils/jwtHandler';
 
 import logger, { responseTimeLoggerWrapper } from './logger';
 
-function hasErrorRedirection(error: unknown): error is { url: string } {
-  return typeof error === 'object' && Object.prototype.hasOwnProperty.call(error, 'url');
-}
-
 /**
  * should use render data requiring authorization
  * [사용법]
  * - callback에 server side rendering 할 api를 queryClient로 패칭한다.
  * - 페이지에 전달해야 할 props를 넘긴다.
  * - 여러 api를 ssr하더라도 같은 queryClient에 캐시 데이터를 페이지에 dehydrate 한다.
- * - [redirect 처리]: throw {url: 'path'}
  * - [404 처리]: throw {message: 'your-message'}
  */
 function serverSideRenderAuthorizedAspect(
@@ -76,14 +71,6 @@ function serverSideRenderAuthorizedAspect(
       };
     } catch (error) {
       logger.error({ requestType: 'SSR', tag: 'ERROR', message: JSON.stringify(error) });
-      if (hasErrorRedirection(error)) {
-        return {
-          redirect: {
-            destination: error.url,
-            permanent: false,
-          },
-        };
-      }
       if ((error as any).status === 401) {
         return {
           props: {
@@ -131,15 +118,6 @@ function staticRegenerateRenderAspect(
       };
     } catch (error) {
       logger.error({ requestType: 'SSG', tag: 'ERROR', message: JSON.stringify(error) });
-      if (hasErrorRedirection(error)) {
-        return {
-          redirect: {
-            destination: error.url,
-            permanent: false,
-          },
-          revalidate: 1,
-        };
-      }
       return {
         props: {
           errorMessage: (error as any)?.message ?? 'next server error',
