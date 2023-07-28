@@ -6,3 +6,5 @@ export const CATEGORY_THUMBNAIL_BLUR_URL =
 
 export const PRIVATE_SSR_CDN_CACHE_VALUE = 'public, max-age=1, stale-while-revalidate=59';
 export const IMMUTABLE_CDN_CACHE_VALUE = 'public, s-maxage=31536000, immutable';
+
+export const UUID_PATTERN = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
