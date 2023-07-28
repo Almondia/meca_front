@@ -47,6 +47,11 @@ function genErrorResponse(error: any) {
   return Promise.reject(errorResponse);
 }
 
+serverInstance.interceptors.request.use((config) => {
+  config.baseURL = hasBrowser() ? '' : process.env.NEXT_ORIGIN;
+  return config;
+});
+
 serverInstance.interceptors.response.use(
   (response): any => getObject(response),
   (error) => genErrorResponse(error),
