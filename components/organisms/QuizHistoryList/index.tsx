@@ -83,15 +83,14 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                           {content.cardId.slice(-4)}
                         </LinkButton>
                       </td>
-                      <td width="130px" className="user">
-                        {content.solvedMemberName}
-                      </td>
+                      <td className="user">{content.solvedMemberName}</td>
                       <td className="quiz-type">
                         <MecaTag tagName={MECA_RESPONE_TO_TAG[content.cardType]} scale={0.8} />
                       </td>
                       <td className="quiz-content-devide">
                         <p className="question">
-                          <strong>{question}</strong>
+                          <p>[질문]</p>
+                          <em>{question}</em>
                         </p>
                         <div>
                           <p>[정답]</p> <em>{answer}</em>
@@ -100,7 +99,7 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                           <p>[제출]</p> <em>{userAnswer}</em>
                         </div>
                       </td>
-                      <td>{content.score}</td>
+                      <td>&nbsp;{content.score}</td>
                       <td>
                         <RelativeDateText date={content.createdAt} />
                       </td>

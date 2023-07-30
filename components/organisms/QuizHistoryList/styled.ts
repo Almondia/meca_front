@@ -19,11 +19,10 @@ export const QuizHistoryTable = styled.div`
   td {
     text-align: left;
     @media ${({ theme }) => theme.media.tablet} {
-      transform: scale(0.9);
+      transform: scale(0.95);
       transform-origin: 0% 0%;
     }
     @media ${({ theme }) => theme.media.mobile} {
-      transform: scale(0.8);
       transform-origin: 0% 0%;
     }
   }
@@ -51,19 +50,22 @@ export const QuizHistoryTableContentRow = styled.tr`
     }
   }
   td.quiz-type {
-    transform: translateY(3px);
+    transform: translateY(4px);
     @media ${({ theme }) => theme.media.mobile} {
-      transform: translateY(2px) scale(0.8);
+      transform: translateY(7px) scale(0.8);
+    }
+  }
+  td.user {
+    width: 100px;
+    @media ${({ theme }) => theme.media.mobile} {
+      width: 60px;
     }
   }
   .quiz-content-devide {
     ${FlexColumn};
     row-gap: 6px;
-    width: 25vw;
-    min-width: 120px;
-    @media ${({ theme }) => theme.media.mobile} {
-      min-width: 150px;
-    }
+    min-width: 150px;
+    max-width: 95%;
   }
   strong,
   em {
