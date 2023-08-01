@@ -1,7 +1,7 @@
 import { CardHistoryType, CursorPaginationType } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
-import { unauthInstance } from './config/instance';
+import { authInstance, unauthInstance } from './config/instance';
 
 export interface CardHistoryListResponse extends CursorPaginationType {
   contents: CardHistoryType[];
@@ -28,6 +28,11 @@ const cardHistoryApi = {
       })),
     } as CardHistoryListResponse;
   },
+  applyQuizHistory: ({ cardId, userAnswer }: { cardId: string; userAnswer: string }) =>
+    authInstance.post<never, { score: number }>(`/api/v1/histories/simulation`, {
+      cardId,
+      userAnswer,
+    }),
 };
 
 export default cardHistoryApi;

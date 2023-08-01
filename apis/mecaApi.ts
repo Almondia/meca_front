@@ -99,11 +99,6 @@ const mecaApi = {
         algorithm,
       },
     }),
-  applyQuizResult: ({ cardId, userAnswer }: { cardId: string; userAnswer: string }) =>
-    authInstance.post<never, { score: number }>(`/api/v1/histories/simulation`, {
-      cardId,
-      userAnswer,
-    }),
   getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }): Promise<MecaListResponse> => {
     const params = {
       pageSize: props.pageSize ?? PAGINATION_NUM,
