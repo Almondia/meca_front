@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
-import imageApi from '@/apis/imageApi';
 import mecaApi from '@/apis/mecaApi';
 import LikeButton from '@/components/atoms/LikeButton';
 import PageTitle from '@/components/atoms/PageTitle';
@@ -12,11 +11,10 @@ import MecaList from '@/components/organisms/MecaList';
 import useCategoryLike from '@/hooks/category/useCategoryLike';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';
-import { responseTimeLoggerWrapper } from '@/libs/logger';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
-import { extractFirstImageSrc, getRemoteImageUrl } from '@/utils/imageHandler';
+import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface CategoryByIdProps {
@@ -77,29 +75,9 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   }
   const { uuid1: memberId, uuid2: categoryId } = extractCombinedUUID(memberCategoryId);
   const isMine: boolean = memberId === currentMemberId ?? false;
-  await queryClient.fetchInfiniteQuery(
-    [queryKey.mecas, categoryId],
-    async () => {
-      const mecaList = await getMecaList(categoryId, isMine);
-      const mecaListContentsWithBlurURL = await responseTimeLoggerWrapper<typeof mecaList.contents>(
-        () =>
-          Promise.all(
-            mecaList.contents.map(async (meca) => {
-              const thumbnail = extractFirstImageSrc((meca.card.questionOrigin ?? '').concat(meca.card.description));
-              const placeholderThumbnail = thumbnail && (await imageApi.getBlurImage(thumbnail));
-              if (!placeholderThumbnail) {
-                return meca;
-              }
-              const { img, blurDataURL } = placeholderThumbnail;
-              return { ...meca, card: { ...meca.card, blurThumbnail: { ...img, src: thumbnail, blurDataURL } } };
-            }),
-          ),
-        { requestType: 'BLUR-IMAGE', location: context.req.url },
-      );
-      return { ...mecaList, contents: mecaListContentsWithBlurURL };
-    },
-    { getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined },
-  );
+  await queryClient.fetchInfiniteQuery([queryKey.mecas, categoryId], async () => getMecaList(categoryId, isMine), {
+    getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
+  });
   return { categoryId, isMine };
 }, true);
 

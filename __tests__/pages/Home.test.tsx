@@ -5,8 +5,12 @@ import { MOCK_CATEGORIES } from '../__mocks__/msw/data';
 import { GetStaticPropsContext } from 'next';
 import { implementServer } from '../__mocks__/msw/server';
 import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
-import { mockedGetBlurImage, mockedGetSharedCategoryListApi } from '../__mocks__/msw/api';
-import imageApi from '@/apis/imageApi';
+import { mockedGetSharedCategoryListApi } from '../__mocks__/msw/api';
+import { getPlaiceholder } from 'plaiceholder';
+
+jest.mock('plaiceholder', () => ({
+  getPlaiceholder: jest.fn(),
+}));
 
 describe('Homepage', () => {
   describe('UI , Event test', () => {
@@ -53,10 +57,12 @@ describe('Homepage', () => {
       jest.clearAllMocks();
     });
     it('공유 카테고리 목록이 식별된다.', async () => {
-      const spyGetBlurImage = jest.spyOn(imageApi, 'getBlurImage');
+      (getPlaiceholder as jest.Mock).mockImplementationOnce((img) => ({
+        base64: img + '-base64',
+        img: { src: img },
+      }));
       const thumbnail1 = 'http://localhost/images/noimage.png';
       implementServer([
-        restHandler(mockedGetBlurImage),
         restOverridedResponseHandler(mockedGetSharedCategoryListApi, {
           contents: [
             {
@@ -113,9 +119,9 @@ describe('Homepage', () => {
       ]);
       const context = {} as unknown as GetStaticPropsContext;
       const { props, revalidate } = (await getStaticProps(context)) as any;
-      expect(spyGetBlurImage).toHaveBeenCalledTimes(1);
       expect(revalidate).toEqual(3600);
       expect(props).toHaveProperty('dehydratedState');
+      expect(getPlaiceholder).toHaveBeenCalledTimes(1);
       renderQuery(<Home />, undefined, undefined, props.dehydratedState);
       const cardImage = screen.getByRole('img', { name: /title1-category-thumbnail/i });
       const categoryCards = screen.getAllByRole('article');

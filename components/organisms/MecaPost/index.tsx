@@ -28,7 +28,7 @@ const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
 
 const MecaPost = ({ cardId, cardType, question, answer, description, createdAt }: MecaPostProps) => {
   const MecaBody = ContentBody[cardType];
-  const { cardHistoryList, fetchNextPage } = useMecaHistory('cardId', cardId);
+  const { cardHistoryList, fetchNextPage } = useMecaHistory('cards', cardId);
   return (
     <MecaPostWrapper>
       <PostSubInfo>

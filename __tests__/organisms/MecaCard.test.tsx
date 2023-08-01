@@ -12,9 +12,7 @@ describe('MecaCard', () => {
         title={'mytitle'}
         question={'question'}
         tagType={'ox'}
-        description={
-          "<p>161616<img src='/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>"
-        }
+        thumbnail={'/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'}
       />,
     );
     const titleText = screen.getByText('mytitle');
@@ -35,7 +33,6 @@ describe('MecaCard', () => {
         title={'title'}
         question={'question'}
         tagType={'ox'}
-        description=""
       />,
     );
     const dotButton = screen.getByRole('button', {
@@ -57,7 +54,6 @@ describe('MecaCard', () => {
         title={'title'}
         question={'["real question","111","222","333"]'}
         tagType={'select'}
-        description=""
       />,
     );
     const tagText = screen.getByText(/객관식/i);
@@ -78,7 +74,6 @@ describe('MecaCard', () => {
         title={'title'}
         question={'박동석의 MBTI는 무엇인가'}
         tagType={'keyword'}
-        description=""
         scoreAvg={24.46}
         tryCount={14}
       />,

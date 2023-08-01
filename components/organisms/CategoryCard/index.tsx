@@ -1,6 +1,5 @@
 import Card from '@/components/molcules/Card';
 import { CategoryType } from '@/types/domain';
-import { CATEGORY_THUMBNAIL_BLUR_URL } from '@/utils/constants';
 import getInnerComponents from '@/utils/getInnerComponent.s';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { combineUUID } from '@/utils/uuidHandler';
@@ -26,7 +25,7 @@ const CategoryCard = ({ categoryId, title, thumbnail, memberId, children, blurTh
         href={`/categories/${combineUUID(memberId, categoryId)}`}
         altText={`${title}-category-thumbnail`}
         preloadedInfo={{
-          blurDataURL: blurThumbnail?.blurDataURL ?? CATEGORY_THUMBNAIL_BLUR_URL,
+          blurDataURL: blurThumbnail?.blurDataURL,
           width: 320,
           height: 160,
         }}

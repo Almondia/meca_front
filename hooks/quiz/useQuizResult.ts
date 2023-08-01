@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
-import mecaApi from '@/apis/mecaApi';
+import cardHistoryApi from '@/apis/cardHistoryApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import { MECATAG_VALUES } from '@/components/molcules/MecaTag/type';
 import queryKey from '@/query/queryKey';
@@ -21,7 +21,7 @@ const useQuizResult = () => {
 
   const applyScore = useCallback(async (userAnswer: string, cardId: string) => {
     try {
-      const { score } = await mecaApi.applyQuizResult({ cardId, userAnswer });
+      const { score } = await cardHistoryApi.applyQuizHistory({ cardId, userAnswer });
       return score;
     } catch {
       alertToast('점수를 계산하지 못했습니다.', 'warning');

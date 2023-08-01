@@ -7,7 +7,7 @@ import { implementServer, resetServer } from '../__mocks__/msw/server';
 import useQuiz from '@/hooks/quiz/useQuiz';
 import { restHandler } from '../__mocks__/msw/handlers';
 import { mockedPostQuizResultApi } from '../__mocks__/msw/api';
-import mecaApi from '@/apis/mecaApi';
+import cardHistoryApi from '@/apis/cardHistoryApi';
 
 const mockQuizs = MOCK_MECAS.slice(0, 2);
 
@@ -83,7 +83,7 @@ describe('QuizPage', () => {
   });
 
   it('정답을 입력하고 제출하면 score 계산 함수가 호출된다.', async () => {
-    const spyPostScoreFn = jest.spyOn(mecaApi, 'applyQuizResult');
+    const spyPostScoreFn = jest.spyOn(cardHistoryApi, 'applyQuizHistory');
     renderQuery(<QuizPage />);
     const answerInput = screen.getByPlaceholderText('정답 입력');
     expect(answerInput).toHaveValue('');

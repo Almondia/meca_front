@@ -46,16 +46,11 @@ export interface LoggerParams {
   message: string;
 }
 
-const getRemovedNextDataPathLocation = (location: string) => {
-  const nextDataPath = `_next/data/${process.env.NODE_ENV}`;
-  return location.replace(nextDataPath, '');
-};
-
 const logger = {
   info: ({ requestType, location = '', tag, message }: LoggerParams) =>
-    infoLogger.info(`[${requestType}] ${getRemovedNextDataPathLocation(location)}, [${tag}] ${message}`),
+    infoLogger.info(`[${requestType}] ${location}, [${tag}] ${message}`),
   error: ({ requestType, location = '', tag, message }: LoggerParams) =>
-    errorLogger.error(`[${requestType}] ${getRemovedNextDataPathLocation(location)}, [${tag}] ${message}`),
+    errorLogger.error(`[${requestType}] ${location}, [${tag}] ${message}`),
 };
 
 export async function responseTimeLoggerWrapper<T>(

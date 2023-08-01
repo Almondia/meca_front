@@ -9,10 +9,11 @@ import {
 } from '@/types/domain';
 import { PAGINATION_NUM } from '@/utils/constants';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
+import { extractFirstImageFromHTML } from '@/utils/imageHandler';
 
 import { authInstance, unauthInstance } from './config/instance';
 
-type MecaWriteRequest = Required<Omit<MecaType, 'createdAt' | 'blurThumbnail' | 'questionOrigin'>>;
+type MecaWriteRequest = Required<Omit<MecaType, 'createdAt' | 'blurThumbnail' | 'questionOrigin' | 'thumbnail'>>;
 
 export type AddMecaRequest = Omit<MecaWriteRequest, 'cardId'>;
 
@@ -40,6 +41,22 @@ export interface MecaQuizRequest {
   algorithm: QuizAlgorithmType;
 }
 
+const getConvertedMecaListContents = (mecaList: MecaListResponse) =>
+  mecaList.contents.map((v) => {
+    const blurThumbnail = extractFirstImageFromHTML((v.card.question ?? '') + v.card.description);
+    const question = extractTextFromHTML(v.card.question);
+    return {
+      ...v,
+      card: {
+        ...v.card,
+        thumbnail: blurThumbnail?.src ?? '',
+        blurThumbnail,
+        question,
+        description: '',
+      },
+    };
+  });
+
 const mecaApi = {
   addMeca: (props: AddMecaRequest) =>
     authInstance.post<never, MecaWriteResponse>('/api/v1/cards', {
@@ -64,15 +81,7 @@ const mecaApi = {
       `/api/v1/cards/categories/${props.categoryId}/me`,
       { params },
     );
-    const contents = response.contents.map((v) => ({
-      ...v,
-      card: {
-        ...v.card,
-        questionOrigin: v.card.question,
-        question: extractTextFromHTML(v.card.question),
-      },
-    }));
-    return { ...response, contents };
+    return { ...response, contents: getConvertedMecaListContents(response) };
   },
   getSharedCardById: (cardId: string, memberId?: string): Promise<MecaType & UserProfile> =>
     unauthInstance
@@ -90,11 +99,6 @@ const mecaApi = {
         algorithm,
       },
     }),
-  applyQuizResult: ({ cardId, userAnswer }: { cardId: string; userAnswer: string }) =>
-    authInstance.post<never, { score: number }>(`/api/v1/histories/simulation`, {
-      cardId,
-      userAnswer,
-    }),
   getSharedMecaList: async (props: CursorPaginationType & { categoryId: string }): Promise<MecaListResponse> => {
     const params = {
       pageSize: props.pageSize ?? PAGINATION_NUM,
@@ -105,15 +109,7 @@ const mecaApi = {
       `/api/v1/cards/categories/${props.categoryId}/share`,
       { params },
     );
-    const contents = response.contents.map((v) => ({
-      ...v,
-      card: {
-        ...v.card,
-        questionOrigin: v.card.question,
-        question: extractTextFromHTML(v.card.question),
-      },
-    }));
-    return { ...response, contents };
+    return { ...response, contents: getConvertedMecaListContents(response) };
   },
   getCountByCategoryId: (categoryId: string) =>
     authInstance.get<never, { count: number }>(`/api/v1/cards/categories/${categoryId}/me/count`),
