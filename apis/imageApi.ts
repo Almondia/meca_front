@@ -34,14 +34,6 @@ const imageApi = {
         timeout: 30000,
       },
     ),
-  getBlurImage: async (url: string) => {
-    try {
-      const response = await serverInstance.get<never, BlurImageType>('/api/image/blur', { params: { url } });
-      return response;
-    } catch (e) {
-      return undefined;
-    }
-  },
 };
 
 export default imageApi;
