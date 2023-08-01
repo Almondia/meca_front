@@ -2,14 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import queryKey from '@/query/queryKey';
 
-const cardHistoryApiPromise = import('@/apis/cardHistoryApi');
-
-const QUERY_FN = {
-  cardId: cardHistoryApiPromise.then(({ default: cardHistoryApi }) => cardHistoryApi.getHistoriesByCardId),
-  memberId: cardHistoryApiPromise.then(({ default: cardHistoryApi }) => cardHistoryApi.getHistoriesByMemberId),
-} as const;
-
-const useMecaHistory = (keyId: 'cardId' | 'memberId', id: string) => {
+const useMecaHistory = (resourceType: 'cards' | 'members', id: string) => {
   const {
     data: cardHistoryList,
     isLoading,
@@ -18,8 +11,8 @@ const useMecaHistory = (keyId: 'cardId' | 'memberId', id: string) => {
   } = useInfiniteQuery(
     [queryKey.history, id],
     async ({ pageParam }) => {
-      const getHistoryList = await QUERY_FN[keyId];
-      return getHistoryList({ id, hasNext: pageParam });
+      const { default: cardHistoryApi } = await import('@/apis/cardHistoryApi');
+      return cardHistoryApi.getHistories({ id, hasNext: pageParam, resourceType });
     },
     {
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,

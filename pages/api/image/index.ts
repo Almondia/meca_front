@@ -9,7 +9,6 @@ import sharp from 'sharp';
 import { setRequest } from '@/apis/config/instance';
 import imageApi from '@/apis/imageApi';
 import { ImageUploadRequestType } from '@/types/domain';
-import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { getJWTPayload } from '@/utils/jwtHandler';
 
 const MAX_IMAGE_WIDTH = 1080;
@@ -95,7 +94,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     } catch {
       return res.status(500).json({ message: '이미지 업로드 실패', status: 500 });
     }
-    imageApi.getBlurImage(getRemoteImageUrl(objectKey));
     return res.status(200).json({ uploadedImageUrl: objectKey });
   } catch (err) {
     return res.status(400).json({ message: '이미지 정보가 올바르지 않거나 너무 큽니다', status: 400 });

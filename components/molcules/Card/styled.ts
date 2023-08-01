@@ -14,24 +14,13 @@ export const CardWrapper = styled.article`
   }
 `;
 
-export const CardThumbnailWrapper = styled.div<{
-  preloadedSize?: {
-    width: number;
-    height: number;
-  };
-}>`
+export const CardThumbnailWrapper = styled.div<{ ratioWidth: number; ratioHeight: number }>`
   position: relative;
-  width: 100%;
-  margin-bottom: -8px;
   overflow: hidden;
-  padding-top: ${(props) =>
-    props.preloadedSize &&
-    Math.min(150, Math.max(25, (props.preloadedSize.height / props.preloadedSize.width) * 100))}%;
+  max-width: 100%;
+  aspect-ratio: ${(props) => `calc(${props.ratioWidth} / ${props.ratioHeight})`};
   & > img {
     object-fit: cover;
-    ${(props) => !props.preloadedSize && 'min-height: 80px'};
-    ${(props) => !props.preloadedSize && 'max-height: 400px'};
-    ${(props) => !props.preloadedSize && 'position: relative !important'};
     border-top-right-radius: ${({ theme }) => theme.border.card};
     border-top-left-radius: ${({ theme }) => theme.border.card};
     :hover {

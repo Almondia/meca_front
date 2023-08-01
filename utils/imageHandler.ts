@@ -2,7 +2,7 @@ import { IMAGE_EXTENTIONS, ImageUploadRequestType } from '@/types/domain';
 
 const REMOTE_IMAGE_URL = process.env.NEXT_PUBLIC_REMOTE_IMAGE_URL ?? '';
 
-export const extractAllImageSrc = (htmlString: string, remoteUrl?: string): string[] | undefined => {
+export const extractAllImageFromHTML = (htmlString: string, remoteUrl?: string): string[] | undefined => {
   const regex = new RegExp(
     `<img\\s+[^>]*src\\s*=\\s*['"](?=.*${remoteUrl ?? REMOTE_IMAGE_URL})([^'"]*)['"][^>]*>`,
     'gi',
@@ -17,12 +17,27 @@ export const extractAllImageSrc = (htmlString: string, remoteUrl?: string): stri
   }, []);
 };
 
-export const extractFirstImageSrc = (htmlString: string, remoteUrl?: string) => {
+/**
+ * default width,height: 360
+ */
+export const extractFirstImageFromHTML = (htmlString: string, remoteUrl?: string) => {
   const regex = new RegExp(
     `<img\\s+[^>]*src\\s*=\\s*['"](?=.*${remoteUrl ?? REMOTE_IMAGE_URL})([^'"]*)['"][^>]*>`,
     'gi',
   );
-  return regex.exec(htmlString)?.[1];
+  const match = regex.exec(htmlString);
+  if (!match) {
+    return undefined;
+  }
+  const imgTag = match[0];
+  const srcMatch = imgTag.match(/src=['"]([^'"]*)['"]/i);
+  const widthMatch = imgTag.match(/width=['"]([^'"]*)['"]/i);
+  const heightMatch = imgTag.match(/height=['"]([^'"]*)['"]/i);
+
+  const src = srcMatch?.[1] || '';
+  const width = parseInt(widthMatch?.[1] ?? '', 10) || 360;
+  const height = parseInt(heightMatch?.[1] ?? '', 10) || 360;
+  return { src, width, height };
 };
 
 export const getRemoteImageUrl = (imageSrc: string) =>

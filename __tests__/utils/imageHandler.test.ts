@@ -1,11 +1,11 @@
-import { extractAllImageSrc, extractFirstImageSrc, getImageInfo, validImageFile } from '@/utils/imageHandler';
+import { extractAllImageFromHTML, extractFirstImageFromHTML, getImageInfo, validImageFile } from '@/utils/imageHandler';
 
 describe('imageHandler', () => {
   describe('extractAllImageSrc', () => {
     it('문자열의 모든 지정된 img 태그 src 목록이 리턴된다.', () => {
       const tags =
         "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>";
-      const result = extractAllImageSrc(tags, 'https');
+      const result = extractAllImageFromHTML(tags, 'https');
       expect(result).toHaveLength(2);
       expect(result?.[1]).toEqual(
         'https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png',
@@ -14,32 +14,58 @@ describe('imageHandler', () => {
 
     it('img 태그가 없다면 undefined를 리턴한다.', () => {
       const tags = '<p>hello</p>&lt;img src="hello"/&gt;';
-      const result = extractAllImageSrc(tags, '');
+      const result = extractAllImageFromHTML(tags, '');
       expect(result).toBeUndefined();
     });
 
     it('문자열의 지정된 img 태그가 없다면 undefined를 리턴한다.', () => {
       const tags =
         "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>";
-      const result = extractAllImageSrc(tags, 'https://www.abc.com');
+      const result = extractAllImageFromHTML(tags, 'https://www.abc.com');
       expect(result).toBeUndefined();
     });
   });
 
-  describe('extractFirstImageSrc', () => {
+  describe('extractFirstImageFromHTML', () => {
     it('문자열의 지정된 가장 처음 img 태그 src가 리턴된다.', () => {
       const tags =
         "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>";
-      const result = extractFirstImageSrc(tags, 'https://my-meca.s3.ap');
-      expect(result).toEqual(
+      const result = extractFirstImageFromHTML(tags, 'https://my-meca.s3.ap');
+      expect(result).not.toBeUndefined();
+      expect(result?.src).toEqual(
         'https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png',
       );
+      expect(result?.width).toEqual(360);
+    });
+
+    it('문자열의 지정된 가장 처음 img 태그의 src, width, height가 있다면 리턴된다.', () => {
+      const tags =
+        "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png' abc='hello' width='250' height='240'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>";
+      const result = extractFirstImageFromHTML(tags, 'https://my-meca.s3.ap');
+      expect(result).not.toBeUndefined();
+      expect(result?.src).toEqual(
+        'https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png',
+      );
+      expect(result?.width).toEqual(250);
+      expect(result?.height).toEqual(240);
+    });
+
+    it('문자열의 지정된 가장 처음 img 태그의 height가 숫자가 아니라면 default number가 리턴된다.', () => {
+      const tags =
+        "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png' abc='hello' width='250' height='auto'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>";
+      const result = extractFirstImageFromHTML(tags, 'https://my-meca.s3.ap');
+      expect(result).not.toBeUndefined();
+      expect(result?.src).toEqual(
+        'https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png',
+      );
+      expect(result?.width).toEqual(250);
+      expect(result?.height).toEqual(360);
     });
 
     it('문자열의 지정된 가장 처음 img 태그가 없다면 undefined가 리턴된다..', () => {
       const tags =
         "<p>161616<img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300565757.png'></p><p><br></p><p>&lt;img src=\"hello\"/&gt;</p><p><br></p><p><img src='https://my-meca.s3.ap-northeast-2.amazonaws.com/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682300937980.png'></p>";
-      const result = extractFirstImageSrc(tags, 'https://my-meca.s3.ap1111111');
+      const result = extractFirstImageFromHTML(tags, 'https://my-meca.s3.ap1111111');
       expect(result).toBeUndefined();
     });
   });

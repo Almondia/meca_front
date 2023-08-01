@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import ProgressBar from '@/components/atoms/ProgressBar';
 import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
@@ -12,7 +12,6 @@ import useModal from '@/hooks/useModal';
 import { TextCaption } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 import { MECA_TAG_TO_RESPONSE, MecaStatisticsType, MecaTagType, MecaType } from '@/types/domain';
-import { extractFirstImageSrc } from '@/utils/imageHandler';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
@@ -21,7 +20,7 @@ import { MecaQuestionTextContainer, ProgressesInfoContainer } from './styled';
 const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
 
 export interface MecaCardProps
-  extends Omit<MecaType, 'answer' | 'cardType' | 'createdAt'>,
+  extends Omit<MecaType, 'answer' | 'cardType' | 'createdAt' | 'description'>,
     Partial<MecaStatisticsType> {
   tagType: MecaTagType;
   memberId: string;
@@ -35,24 +34,19 @@ const MecaCard = ({
   memberId,
   title,
   question,
-  questionOrigin,
-  description,
   tagType,
   isMine,
+  thumbnail,
   blurThumbnail,
   scoreAvg,
   tryCount,
 }: MecaCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
-  const thumbnailImageSrc = useMemo(
-    () => blurThumbnail?.src ?? extractFirstImageSrc((questionOrigin ?? '').concat(description)),
-    [description, blurThumbnail, questionOrigin],
-  );
   return (
     <Card data-testid="id-meca-card">
-      {thumbnailImageSrc && (
+      {thumbnail && (
         <Card.Thumbnail
-          src={thumbnailImageSrc}
+          src={thumbnail}
           href={`/mecas/${combineUUID(memberId, cardId)}`}
           altText={`${title}-meca-thumbnail`}
           preloadedInfo={blurThumbnail}
