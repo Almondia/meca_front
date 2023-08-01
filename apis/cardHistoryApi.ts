@@ -9,11 +9,12 @@ export interface CardHistoryListResponse extends CursorPaginationType {
 
 export interface CardHistoryListRequest extends CursorPaginationType {
   id: string;
+  resourceType: 'members' | 'cards';
 }
 
 const cardHistoryApi = {
-  getHistoriesByMemberId: async ({ id, hasNext, pageSize }: CardHistoryListRequest) => {
-    const response = await unauthInstance.get<never, any>(`/api/v2/histories/members/${id}`, {
+  getHistories: async ({ id, hasNext, pageSize, resourceType }: CardHistoryListRequest) => {
+    const response = await unauthInstance.get<never, any>(`/api/v2/histories/${resourceType}/${id}`, {
       params: { pageSize: pageSize ?? 5, hasNext },
     });
     return {
@@ -22,20 +23,7 @@ const cardHistoryApi = {
         ...content.solvedMember,
         ...content.card,
         ...content.cardHistory,
-        question: extractTextFromHTML(content.card.question),
-      })),
-    } as CardHistoryListResponse;
-  },
-  getHistoriesByCardId: async ({ id, hasNext, pageSize }: CardHistoryListRequest) => {
-    const response = await unauthInstance.get<never, any>(`/api/v2/histories/cards/${id}`, {
-      params: { pageSize: pageSize ?? 5, hasNext },
-    });
-    return {
-      ...response,
-      contents: response.contents.map((content: any) => ({
-        ...content.solvedMember,
-        ...content.card,
-        ...content.cardHistory,
+        description: '',
         question: extractTextFromHTML(content.card.question),
       })),
     } as CardHistoryListResponse;

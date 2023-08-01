@@ -23,7 +23,7 @@ export interface UserPageProps {
 
 const UserPage = ({ memberId }: UserPageProps) => {
   const { user } = useUser();
-  const { cardHistoryList, fetchNextPage } = useMecaHistory('memberId', memberId);
+  const { cardHistoryList, fetchNextPage } = useMecaHistory('members', memberId);
   return (
     <AuthPageProvider>
       <MetaHead title="Meca - My Page" />
@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   }
   await queryClient.prefetchInfiniteQuery(
     [queryKey.history, memberId],
-    () => cardHistoryApi.getHistoriesByMemberId({ id: memberId }),
+    () => cardHistoryApi.getHistories({ id: memberId, resourceType: 'members' }),
     {
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
