@@ -10,7 +10,7 @@ export interface DefaultModalOptions {
 }
 
 export interface PreloadedImageInfo {
-  blurDataURL: string;
+  blurDataURL?: string;
   src?: string;
   width: number;
   height: number;

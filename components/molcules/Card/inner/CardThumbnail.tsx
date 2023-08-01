@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { MEDIA } from '@/styles/constants';
 import { PreloadedImageInfo } from '@/types/common';
+import { THUMBNAIL_BLUR_URL } from '@/utils/constants';
 
 import { CardThumbnailWrapper } from '../styled';
 
@@ -29,7 +30,7 @@ export const CardThumbnail = ({ href, src, altText, preloadedInfo, onError }: Ca
           const imageElement = e.target;
           (imageElement as HTMLImageElement).src = '/images/noimage.png';
         }}
-        blurDataURL={preloadedInfo?.blurDataURL}
+        blurDataURL={preloadedInfo?.blurDataURL ?? THUMBNAIL_BLUR_URL}
         placeholder={preloadedInfo ? 'blur' : 'empty'}
         sizes={`${MEDIA.mobile} 92vw, (max-width: 632px) 92vw, ${MEDIA.tablet} 46vw, 320px`}
       />

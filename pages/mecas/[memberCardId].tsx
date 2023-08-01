@@ -14,7 +14,7 @@ import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';
 import { MecaType, UserProfile } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
-import { extractFirstImageSrc } from '@/utils/imageHandler';
+import { extractFirstImageFromHTML } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface MecaByIdProps {
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, query
     const { question, description } = await queryClient.fetchQuery([queryKey.meca, cardId], () =>
       mecaApi.getSharedCardById(cardId),
     );
-    const thumbnailUrl = extractFirstImageSrc(question.concat(description)) ?? '';
+    const thumbnailUrl = extractFirstImageFromHTML(question.concat(description))?.src ?? '';
     const questionText = extractTextFromHTML(question);
     return {
       propsAspect: {
