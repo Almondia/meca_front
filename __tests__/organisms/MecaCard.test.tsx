@@ -81,12 +81,10 @@ describe('MecaCard', () => {
     const tagText = screen.getByText(/키워드/i);
     expect(tagText).toBeInTheDocument();
     const questionText = screen.getByText('박동석의 MBTI는 무엇인가');
-    const scoreText = screen.getByText('평균점수:');
-    const countText = screen.getByText('풀린횟수:');
-    const scoreValue = screen.getByText('24 / 100');
+    const countText = screen.getByTestId('id-meca-count');
+    const scoreText = screen.getByTestId('id-meca-score');
     expect(questionText).toBeInTheDocument();
-    expect(scoreText).toBeInTheDocument();
-    expect(countText).toBeInTheDocument();
-    expect(scoreValue).toBeInTheDocument();
+    expect(countText).toHaveTextContent('14회 풀이');
+    expect(scoreText).toHaveTextContent('평균 24점');
   });
 });
