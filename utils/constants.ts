@@ -8,3 +8,6 @@ export const PRIVATE_SSR_CDN_CACHE_VALUE = 'public, max-age=1, stale-while-reval
 export const IMMUTABLE_CDN_CACHE_VALUE = 'public, s-maxage=31536000, immutable';
 
 export const UUID_PATTERN = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+
+export const IDEAL_QUIZ_SCORE = 70;
+export const BAD_QUIZ_SCORE = 40;
