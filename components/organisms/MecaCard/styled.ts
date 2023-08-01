@@ -6,6 +6,9 @@ import { FlexSpaceBetween } from '@/styles/layout';
 export const MecaSubInfoContainer = styled.div`
   ${FlexSpaceBetween};
   align-items: center;
+  strong {
+    color: var(--color-text);
+  }
 `;
 
 export const MecaSubInfoStrongText = styled.strong<{ color?: string }>`

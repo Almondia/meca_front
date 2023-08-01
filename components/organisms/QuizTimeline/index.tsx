@@ -1,10 +1,12 @@
 /* eslint-disable no-nested-ternary */
 import { useState } from 'react';
 
+import ColorizedScore from '@/components/atoms/ColorizedScore';
 import MecaTag from '@/components/molcules/MecaTag';
 import { TextCaption } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 import { MECA_RESPONE_TO_TAG, QuizResultType, QuizType } from '@/types/domain';
+import { IDEAL_QUIZ_SCORE } from '@/utils/constants';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 
@@ -34,12 +36,16 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
           const quizResult = quiz.result as Omit<QuizResultType, 'cardId'>;
           const { question, answer } = getQuestionAnswerByCardType({ ...quiz });
           const { answer: userAnswer } = getQuestionAnswerByCardType({ ...quiz, answer: quiz.result?.userAnswer });
-          const answerColor = quizResult.score >= 80 ? COLOR.success : COLOR.warning;
+          const answerColor = quizResult.score >= IDEAL_QUIZ_SCORE ? COLOR.success : COLOR.warning;
           return (
             <QuizTimelineActivity key={quiz.cardId}>
               <QuizTimelineSummary>
-                <p>{quizResult.score}점</p>
-                <p>{quizResult.spendTime}초</p>
+                <p>
+                  <ColorizedScore score={quizResult.score} size="caption" hasPostFixText />
+                </p>
+                <p>
+                  <strong>{quizResult.spendTime}초</strong>
+                </p>
               </QuizTimelineSummary>
               <QuizTimelineBadge color={answerColor}>
                 <p />

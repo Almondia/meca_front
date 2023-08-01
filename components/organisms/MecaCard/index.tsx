@@ -1,7 +1,8 @@
 import dynamic from 'next/dynamic';
 
-import React, { useCallback } from 'react';
+import React from 'react';
 
+import ColorizedScore from '@/components/atoms/ColorizedScore';
 import Card from '@/components/molcules/Card';
 import DropdownMenu from '@/components/molcules/DropdownMenu';
 import MecaTag from '@/components/molcules/MecaTag';
@@ -11,7 +12,7 @@ import { MECA_TAG_TO_RESPONSE, MecaStatisticsType, MecaTagType, MecaType } from 
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import { MecaQuestionTextContainer, MecaSubInfoContainer, MecaSubInfoStrongText } from './styled';
+import { MecaQuestionTextContainer, MecaSubInfoContainer } from './styled';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
 
@@ -38,15 +39,6 @@ const MecaCard = ({
   tryCount,
 }: MecaCardProps) => {
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
-  const getScoreColor = useCallback((score: number) => {
-    if (score >= 70) {
-      return 'var(--color-success)';
-    }
-    if (score < 40) {
-      return 'var(--color-error)';
-    }
-    return 'var(--color-text)';
-  }, []);
   return (
     <Card data-testid="id-meca-card">
       {thumbnail && (
@@ -66,13 +58,13 @@ const MecaCard = ({
           <TextCaption>
             {typeof tryCount === 'number' && (
               <span data-testid="id-meca-count">
-                <MecaSubInfoStrongText>{tryCount}</MecaSubInfoStrongText>회 풀이&nbsp;
+                <strong>{tryCount}</strong>회 풀이&nbsp;
               </span>
             )}
             {!!tryCount && typeof scoreAvg === 'number' && (
               <span data-testid="id-meca-score">
-                <MecaSubInfoStrongText>·</MecaSubInfoStrongText> 평균&nbsp;
-                <MecaSubInfoStrongText color={getScoreColor(scoreAvg)}>{scoreAvg.toFixed(0)}</MecaSubInfoStrongText>점
+                <strong>·</strong> 평균&nbsp;
+                <ColorizedScore score={scoreAvg} size="caption" />점
               </span>
             )}
           </TextCaption>
