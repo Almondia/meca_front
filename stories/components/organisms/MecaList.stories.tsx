@@ -57,7 +57,7 @@ export const Default = ({ isMine, hasNextPage }: { isMine: boolean; hasNextPage:
 
 export const Empty = Template.bind({});
 Empty.args = {
-  mecaList: undefined,
   hasNextPage: false,
   isMine: true,
+  isEmpty: true,
 };

@@ -1,9 +1,7 @@
-import { useMemo } from 'react';
-
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
 import { hasAuthState } from '@/atoms/common';
+import { useFlatInfiniteQuery } from '@/query/hooks/useFlatInfiniteQuery';
 import queryKey from '@/query/queryKey';
 
 const useMecaList = (categoryId: string, isMine: boolean) => {
@@ -12,10 +10,10 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
 
   const {
     data: mecaList,
-    isLoading,
+    isEmpty,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery(
+  } = useFlatInfiniteQuery(
     [queryKey.mecas, categoryId],
     async ({ pageParam }) => {
       const props = {
@@ -31,17 +29,10 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
     },
     {
       enabled: isEnabled,
-      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },
   );
 
-  const [writerInfo, category] = useMemo(
-    () => [mecaList?.pages[0].member, mecaList?.pages[0].category],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [!!mecaList?.pages],
-  );
-
-  return { mecaList, writerInfo, category, hasNextPage: hasNextPage && isEnabled, fetchNextPage, isLoading };
+  return { mecaList, isEmpty, hasNextPage: hasNextPage && isEnabled, fetchNextPage };
 };
 
 export default useMecaList;
