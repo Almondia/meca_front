@@ -17,6 +17,7 @@ export const CardWrapper = styled.article`
 export const CardThumbnailWrapper = styled.div<{ ratioWidth: number; ratioHeight: number }>`
   position: relative;
   overflow: hidden;
+  margin-bottom: -8px;
   max-width: 100%;
   aspect-ratio: ${(props) => `calc(${props.ratioWidth} / ${props.ratioHeight})`};
   & > img {

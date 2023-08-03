@@ -6,7 +6,7 @@ import ContentsBox from '@/components/atoms/ContentsBox';
 import RadioGroup from '@/components/atoms/Input/Radio';
 import Icon from '@/components/common/Icon';
 import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
-import { NonVisibleRadioBox, TextBodyTitle } from '@/styles/common';
+import { NonVisibleRadioBox } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 
 import { QuizContentWrapper } from '../styled';
@@ -65,15 +65,7 @@ const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizConten
   );
   return (
     <QuizContentWrapper>
-      <ContentsBox
-        header="Question."
-        isColumn
-        body={
-          <TextBodyTitle>
-            <QuillReader content={question} />
-          </TextBodyTitle>
-        }
-      />
+      <ContentsBox header="Question." isColumn body={<QuillReader content={question} />} />
       <ContentsBox
         header="Check Answer!"
         body={

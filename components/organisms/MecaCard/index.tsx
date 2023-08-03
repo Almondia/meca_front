@@ -2,20 +2,17 @@ import dynamic from 'next/dynamic';
 
 import React from 'react';
 
-import ProgressBar from '@/components/atoms/ProgressBar';
-import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
+import ColorizedScore from '@/components/atoms/ColorizedScore';
 import Card from '@/components/molcules/Card';
 import DropdownMenu from '@/components/molcules/DropdownMenu';
 import MecaTag from '@/components/molcules/MecaTag';
-import PostSubInfo from '@/components/molcules/PostSubInfo';
 import useModal from '@/hooks/useModal';
 import { TextCaption } from '@/styles/common';
-import { COLOR } from '@/styles/constants';
 import { MECA_TAG_TO_RESPONSE, MecaStatisticsType, MecaTagType, MecaType } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import { MecaQuestionTextContainer, ProgressesInfoContainer } from './styled';
+import { MecaQuestionTextContainer, MecaSubInfoContainer } from './styled';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
 
@@ -57,33 +54,22 @@ const MecaCard = ({
         <MecaQuestionTextContainer>
           {getQuestionAnswerByCardType({ question, cardType: MECA_TAG_TO_RESPONSE[tagType] }).question}
         </MecaQuestionTextContainer>
-        {!!tryCount && typeof scoreAvg === 'number' && (
-          <ProgressesInfoContainer>
-            <p>평균점수:</p>
-            <ProgressBar
-              maxValue={100}
-              currentValue={scoreAvg}
-              type="devision"
-              backgroundColor={[COLOR.brand3, scoreAvg >= 50 ? COLOR.success : COLOR.error]}
-            />
-          </ProgressesInfoContainer>
-        )}
-        <BetweenControlGroup>
-          {typeof tryCount === 'number' && (
-            <BetweenControlGroup.Left>
-              <PostSubInfo rowGutter="0.125rem" columnGutter="0.375rem">
-                <PostSubInfo.Content title="풀린횟수:">
-                  <TextCaption>
-                    <strong>{tryCount}</strong> 회
-                  </TextCaption>
-                </PostSubInfo.Content>
-              </PostSubInfo>
-            </BetweenControlGroup.Left>
-          )}
-          <BetweenControlGroup.Right>
-            <MecaTag tagName={tagType} />
-          </BetweenControlGroup.Right>
-        </BetweenControlGroup>
+        <MecaSubInfoContainer>
+          <TextCaption>
+            {typeof tryCount === 'number' && (
+              <span data-testid="id-meca-count">
+                <strong>{tryCount}</strong>회 풀이&nbsp;
+              </span>
+            )}
+            {!!tryCount && typeof scoreAvg === 'number' && (
+              <span data-testid="id-meca-score">
+                <strong>·</strong> 평균&nbsp;
+                <ColorizedScore score={scoreAvg} size="caption" />점
+              </span>
+            )}
+          </TextCaption>
+          <MecaTag tagName={tagType} />
+        </MecaSubInfoContainer>
         {isMine && (
           <>
             <DropdownMenu scale={0.7} top="14px" right="6px" name={`${title}카드 수정 삭제 메뉴 오프너`}>

@@ -45,16 +45,20 @@ const GroupBarChart = ({ legends, axisNames, firstValues, secondValues, minHeigh
     dataLabels: {
       enabled: true,
       offsetX: 0,
+      offsetY: 0,
       style: {
         fontSize: '12px',
-        colors: ['#fff'],
+        colors: ['#000', '#FFF'],
       },
       formatter(value: number, opts: any) {
         // TODO: 특정 데이터에 종속되어있는 처리임, 다른 곳에서 사용될 때 향후 개선 필요
         if (opts.seriesIndex === 0 && value >= 0.1) {
-          return `${(value / secondValues[opts.dataPointIndex]) * 100}점`;
+          return `${((value / secondValues[opts.dataPointIndex]) * 100).toFixed(1)}점`;
         }
-        return value < 0.1 ? ' ' : value;
+        if (opts.seriesIndex === 1 && value >= 0.1) {
+          return `${value}문제`;
+        }
+        return ' ';
       },
     },
     stroke: {

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import ContentsBox from '@/components/atoms/ContentsBox';
 import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import InputGroup from '@/components/molcules/InputGroup';
-import { TextBodyTitle } from '@/styles/common';
 
 import { QuizContentWrapper } from '../styled';
 import { QuizContentProps } from '../type';
@@ -31,15 +30,7 @@ const KeywordQuiz = ({
   onChange,
 }: QuizContentProps) => (
   <QuizContentWrapper>
-    <ContentsBox
-      header="Question."
-      body={
-        <TextBodyTitle>
-          <QuillReader content={question} />
-        </TextBodyTitle>
-      }
-      isColumn
-    />
+    <ContentsBox header="Question." body={<QuillReader content={question} />} isColumn />
     {isAnswerState ? (
       <>
         <ContentsBox header="Answer." body={answer} isColumn />

@@ -58,25 +58,7 @@ export const QuizTimelineBadge = styled.div<{ color: string }>`
   }
 `;
 
-export const QuizTimelineContent = styled.div`
-  ${FlexColumn};
-  row-gap: 6px;
-  width: 90%;
-  word-wrap: break-word;
-  word-break: break-all;
-  strong {
-    display: flex;
-    column-gap: 6px;
-    margin-bottom: 2px;
-    color: var(--color-text);
-    & > *:nth-child(2) {
-      margin-top: -1px;
-      margin-bottom: -4px;
-    }
-  }
-`;
-
-export const QuizTimeMoreButton = styled.button`
+export const QuizTimelineMoreButton = styled.button`
   ${FlexCenter};
   font-size: ${({ theme }) => theme.fontSize.main};
   color: var(--color-text);

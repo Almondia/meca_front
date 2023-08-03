@@ -1,24 +1,31 @@
 import styled from 'styled-components';
 
 import { TextBody } from '@/styles/common';
-import { FlexCenter } from '@/styles/layout';
+import { FlexSpaceBetween } from '@/styles/layout';
 
-export const MecaTagContainer = styled.div`
-  ${FlexCenter};
-  justify-content: flex-end;
+export const MecaSubInfoContainer = styled.div`
+  ${FlexSpaceBetween};
+  align-items: center;
+  strong {
+    color: var(--color-text);
+  }
+`;
+
+export const MecaSubInfoStrongText = styled.strong<{ color?: string }>`
+  font-size: ${({ theme }) => theme.fontSize.caption};
+  color: ${(props) => props.color ?? 'var(--color-text)'};
 `;
 
 export const MecaQuestionTextContainer = styled(TextBody)`
-  // TOOD: check firefox
   display: -webkit-box;
-  width: 100%;
+  width: 95%;
   margin-bottom: 0.375rem;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  line-height: 140%;
-  font-size: ${({ theme }) => theme.fontSize.caption};
+  line-height: 130%;
+  font-size: 0.8rem;
   color: var(--color-gray);
 `;
 
