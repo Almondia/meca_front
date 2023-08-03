@@ -44,7 +44,6 @@ describe('User MyPage', () => {
     expect(profileImage).toBeInTheDocument();
     expect(screen.getByText(email)).toBeInTheDocument();
     expect(screen.getByText(oauthType)).toBeInTheDocument();
-    expect(screen.getByRole('table')).toBeInTheDocument();
     const tableContents = screen.getAllByTestId('id-history-list');
     expect(tableContents).toHaveLength(2);
   });

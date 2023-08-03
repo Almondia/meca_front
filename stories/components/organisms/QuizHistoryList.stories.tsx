@@ -96,31 +96,20 @@ const Template: ComponentStory<typeof QuizHistoryList> = (args: QuizHistoryListP
   return <QuizHistoryList {...args} fetchNextPage={fetchNextPage} />;
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  historyList: HISTORY_LIST,
-};
-
-export const ExcludedQuestion = Template.bind({});
-ExcludedQuestion.args = {
-  historyList: HISTORY_LIST,
-  excludeRows: ['question'],
-};
-
-export const ExcludedUser = Template.bind({});
-ExcludedUser.args = {
-  historyList: HISTORY_LIST,
-  excludeRows: ['user'],
-};
-
-export const Empty = Template.bind({});
-Empty.args = {
-  historyList: undefined,
-  excludeRows: ['user'],
-};
-
-export const InPostSection = () => (
+export const Default = () => (
   <PostSection>
     <Template fetchNextPage={() => console.log('')} historyList={HISTORY_LIST} />
+  </PostSection>
+);
+
+export const ExcludedUser = () => (
+  <PostSection>
+    <Template fetchNextPage={() => console.log('')} historyList={HISTORY_LIST} excludeRows={['user']} />
+  </PostSection>
+);
+
+export const Empty = () => (
+  <PostSection>
+    <Template fetchNextPage={() => console.log('')} historyList={undefined} excludeRows={['user']} />
   </PostSection>
 );

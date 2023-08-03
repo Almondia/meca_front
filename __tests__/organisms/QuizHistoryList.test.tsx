@@ -84,12 +84,9 @@ describe('QuizHistoryList', () => {
   it('목록 컴포넌트가 식별된다.', async () => {
     const mockedFetchNext = jest.fn();
     await waitFor(() => render(<QuizHistoryList historyList={HISTORY_LIST} fetchNextPage={mockedFetchNext} />));
-    const table = screen.getByRole('table');
     const historyList = screen.getAllByTestId('id-history-list');
-    expect(table).toBeInTheDocument();
     expect(historyList).toHaveLength(2);
     expect(screen.getByText('문제ID')).toBeInTheDocument();
-    expect(screen.getByText('문제유형')).toBeInTheDocument();
     expect(screen.getByText('문제정보')).toBeInTheDocument();
     expect(screen.getByText('점수')).toBeInTheDocument();
     expect(screen.getByText('박동석의 MBTI는 무엇일까요?')).toBeInTheDocument();
