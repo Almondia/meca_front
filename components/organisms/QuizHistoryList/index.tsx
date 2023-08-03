@@ -16,6 +16,7 @@ import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
 import {
+  QuizHistoryListEmpty,
   QuizHistoryListHeader,
   QuizHistoryListItem,
   QuizHistoryListWrapper,
@@ -59,11 +60,11 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
           </TextBodySubtitle>
         </QuizHistoryListHeader>
         {!historyList || historyList.pages[page].contents.length === 0 ? (
-          <QuizHistoryListItem>
+          <QuizHistoryListEmpty>
             <div>
-              <td colSpan={6 - (excludeRows?.length ?? 0)}>아직 기록이 없습니다!</td>
+              <p>아직 기록이 없습니다!</p>
             </div>
-          </QuizHistoryListItem>
+          </QuizHistoryListEmpty>
         ) : (
           <>
             {historyList.pages[page].contents.map((content) => {

@@ -56,3 +56,11 @@ export const QuizHistoryListItem = styled(QuizHistoryListContent)`
     padding: 12px 8px;
   }
 `;
+
+export const QuizHistoryListEmpty = styled.div`
+  ${FlexCenter};
+  width: 100%;
+  min-height: 180px;
+  border-bottom: 1px solid var(--color-lightgray);
+  border-top: 1px solid var(--color-lightgray);
+`;
