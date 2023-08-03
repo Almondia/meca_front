@@ -27,7 +27,7 @@ const getRatioSize = (preloadedInfo?: PreloadedImageInfo) => {
 export const CardThumbnail = ({ href, src, altText, preloadedInfo, onError }: CardThumbnailProps) => {
   const { ratioWidth, ratioHeight } = getRatioSize(preloadedInfo);
   return (
-    <Link href={href}>
+    <Link href={href} prefetch={false}>
       <CardThumbnailWrapper ratioWidth={ratioWidth} ratioHeight={ratioHeight}>
         <Image
           src={src}
