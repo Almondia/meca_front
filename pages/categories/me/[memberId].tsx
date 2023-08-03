@@ -26,7 +26,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
   const { recommended, replaceWithQuery } = useQueryRouter<'recommended'>(isRecommendedRequest ? RECOMMEND_QUERY : {});
   const myCategoryHook = useMyCategory(!recommended);
   const myRecommendedCategoryHook = useMyRecommendedCategory(!!recommended);
-  const { categoires, fetchNextPage, hasNextPage, query, changeSearchQuery } = recommended
+  const { categoryList, fetchNextPage, hasNextPage, query, changeSearchQuery, isEmpty } = recommended
     ? myRecommendedCategoryHook
     : myCategoryHook;
   return (
@@ -44,7 +44,12 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
             () => !recommended && replaceWithQuery(RECOMMEND_QUERY),
           ]}
         />
-        <CategoryList categoryList={categoires} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
+        <CategoryList
+          categoryList={categoryList}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+          isEmpty={isEmpty}
+        />
       </ListSection>
     </AuthPageProvider>
   );

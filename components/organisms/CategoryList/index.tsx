@@ -12,8 +12,9 @@ import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
 const LoadSpinner = dynamic(() => import('@/components/atoms/LoadSpinner'));
 
 export interface CategoryListProps {
-  categoryList?: InfiniteData<PrivateCategoriesResponse | SharedCategoriesResponse>;
+  categoryList: PrivateCategoriesResponse | SharedCategoriesResponse;
   hasNextPage?: boolean;
+  isEmpty?: boolean;
   fetchNextPage: () => void;
 }
 
@@ -23,28 +24,26 @@ function determineContentsIsPrivate(
   return (contents as CategoryDetailType).solveCount !== undefined;
 }
 
-const CategoryList = ({ categoryList, fetchNextPage, hasNextPage }: CategoryListProps) => {
-  if (!categoryList || !categoryList.pages?.[0].contents.length) {
+const CategoryList = ({ categoryList, fetchNextPage, hasNextPage, isEmpty }: CategoryListProps) => {
+  if (isEmpty) {
     return <EmptyList />;
   }
   return (
     <ListInfiniteScroller
       type="grid"
-      loader={<LoadSpinner key={Number(categoryList.pageParams[1]) ?? 0} width="100%" />}
+      loader={<LoadSpinner width="100%" />}
       loadMore={fetchNextPage}
       hasMore={hasNextPage}
     >
-      {categoryList.pages.map((pages) =>
-        pages.contents.map((category) => (
-          <CategoryCard key={category.categoryId} {...category}>
-            {determineContentsIsPrivate(category) ? (
-              <CategoryCard.Private {...category} />
-            ) : (
-              <CategoryCard.Shared {...category} />
-            )}
-          </CategoryCard>
-        )),
-      )}
+      {categoryList.contents.map((category) => (
+        <CategoryCard key={category.categoryId} {...category}>
+          {determineContentsIsPrivate(category) ? (
+            <CategoryCard.Private {...category} />
+          ) : (
+            <CategoryCard.Shared {...category} />
+          )}
+        </CategoryCard>
+      ))}
     </ListInfiniteScroller>
   );
 };
