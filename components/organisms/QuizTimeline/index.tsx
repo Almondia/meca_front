@@ -2,8 +2,7 @@
 import { useState } from 'react';
 
 import ColorizedScore from '@/components/atoms/ColorizedScore';
-import MecaTag from '@/components/molcules/MecaTag';
-import { TextCaption } from '@/styles/common';
+import QuizResultItem from '@/components/molcules/QuizResultItem';
 import { COLOR } from '@/styles/constants';
 import { MECA_RESPONE_TO_TAG, QuizResultType, QuizType } from '@/types/domain';
 import { IDEAL_QUIZ_SCORE } from '@/utils/constants';
@@ -14,10 +13,9 @@ import {
   QuizActivityContainer,
   QuizTimelineActivity,
   QuizTimelineBadge,
-  QuizTimelineContent,
+  QuizTimelineMoreButton,
   QuizTimelineSummary,
   QuizTimelineWrapper,
-  QuizTimeMoreButton,
 } from './styled';
 
 export interface QuizTimelineProps {
@@ -50,29 +48,18 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
               <QuizTimelineBadge color={answerColor}>
                 <p />
               </QuizTimelineBadge>
-              <QuizTimelineContent>
-                <TextCaption>
-                  <strong>
-                    <p>[문제 질문]</p>
-                    <MecaTag tagName={MECA_RESPONE_TO_TAG[quiz.cardType]} scale={0.7} />
-                  </strong>
-                  <span>{extractTextFromHTML(question)}</span>
-                </TextCaption>
-                <TextCaption>
-                  <strong>[문제 정답]</strong>
-                  <span>{answer}</span>
-                </TextCaption>
-                <TextCaption>
-                  <strong>[나의 풀이]</strong>
-                  <span>{userAnswer}</span>
-                </TextCaption>
-              </QuizTimelineContent>
+              <QuizResultItem
+                question={extractTextFromHTML(question)}
+                answer={answer}
+                userAnswer={userAnswer}
+                quizType={MECA_RESPONE_TO_TAG[quiz.cardType]}
+              />
             </QuizTimelineActivity>
           );
         })}
       </QuizActivityContainer>
       {quizList.length > 6 && (
-        <QuizTimeMoreButton onClick={handleMoreButtonClick}>{isMore ? '숨기기' : '펼치기'}</QuizTimeMoreButton>
+        <QuizTimelineMoreButton onClick={handleMoreButtonClick}>{isMore ? '숨기기' : '펼치기'}</QuizTimelineMoreButton>
       )}
     </QuizTimelineWrapper>
   );
