@@ -20,7 +20,10 @@ export function useFlatInfiniteQuery<
   const {
     data,
     isFetching,
+    isFetchingNextPage,
+    isInitialLoading,
     isError,
+    hasNextPage,
     fetchNextPage: originFetchNextPage,
     ...rest
   } = useInfiniteQuery(queryKey, queryFn, {
@@ -32,8 +35,18 @@ export function useFlatInfiniteQuery<
         .flatMap((page) => page)
         .reduce((prev, current) => ({ ...current, contents: prev.contents.concat(current.contents) }))
     : ({ contents: [], hasNext: undefined, pageSize: 0 } as unknown as TQueryFnData);
-  const isEmpty = flatted.contents.length === 0;
+  const isEmpty = !isInitialLoading && flatted.contents.length === 0;
   const fetchNextPage =
     !option?.enabled || isFetching || isError ? ((() => {}) as typeof originFetchNextPage) : originFetchNextPage;
-  return { data: flatted, isEmpty, fetchNextPage, isFetching, isError, ...rest };
+  return {
+    data: flatted,
+    isEmpty,
+    isInitialLoading,
+    isFetching,
+    isFetchingNextPage,
+    isError,
+    hasNextPage: hasNextPage || isInitialLoading,
+    fetchNextPage,
+    ...rest,
+  };
 }
