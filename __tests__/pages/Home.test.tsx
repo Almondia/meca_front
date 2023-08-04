@@ -139,7 +139,7 @@ describe('Homepage', () => {
       const carouselText = screen.queryByRole('heading', {
         name: /내가 만드는 나를 위한 학습 카드/i,
       });
-      const emptyListText = screen.queryByText(/목록이 존재하지 않습니다/i);
+      const emptyListText = await screen.findByText(/목록이 존재하지 않습니다/i);
       expect(carouselText).toBeInTheDocument();
       expect(emptyListText).toBeInTheDocument();
     });

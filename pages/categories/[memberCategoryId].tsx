@@ -25,7 +25,7 @@ export interface CategoryByIdProps {
 }
 
 const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
-  const { mecaList, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
+  const { mecaList, hasNextPage, fetchNextPage, isEmpty } = useMecaList(categoryId, isMine);
   const { category, member: writerInfo } = mecaList;
   const { user } = useUser();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,7 +63,13 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
           hasAuth={!!user}
         />
         <Devide />
-        <MecaList mecaList={mecaList} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} isMine={isMine} />
+        <MecaList
+          mecaList={mecaList}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+          isMine={isMine}
+          isEmpty={isEmpty}
+        />
       </ListSection>
     </>
   );

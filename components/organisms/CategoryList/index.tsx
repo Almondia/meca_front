@@ -1,15 +1,8 @@
-/* eslint-disable react/no-array-index-key */
-import dynamic from 'next/dynamic';
-
-import { InfiniteData } from '@tanstack/react-query';
-
 import { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/categoryApi';
 import EmptyList from '@/components/atoms/EmptyList';
-import ListInfiniteScroller from '@/components/molcules/ListInfiniteScroller';
+import InfiniteList from '@/components/molcules/InfiniteList';
 import CategoryCard from '@/components/organisms/CategoryCard';
 import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
-
-const LoadSpinner = dynamic(() => import('@/components/atoms/LoadSpinner'));
 
 export interface CategoryListProps {
   categoryList: PrivateCategoriesResponse | SharedCategoriesResponse;
@@ -29,12 +22,7 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage, isEmpty }: Cat
     return <EmptyList />;
   }
   return (
-    <ListInfiniteScroller
-      type="grid"
-      loader={<LoadSpinner width="100%" />}
-      loadMore={fetchNextPage}
-      hasMore={hasNextPage}
-    >
+    <InfiniteList type="grid" loadMore={fetchNextPage} hasNext={hasNextPage}>
       {categoryList.contents.map((category) => (
         <CategoryCard key={category.categoryId} {...category}>
           {determineContentsIsPrivate(category) ? (
@@ -44,7 +32,7 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage, isEmpty }: Cat
           )}
         </CategoryCard>
       ))}
-    </ListInfiniteScroller>
+    </InfiniteList>
   );
 };
 

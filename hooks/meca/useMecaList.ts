@@ -32,7 +32,7 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
     },
   );
 
-  return { mecaList, isEmpty, hasNextPage: hasNextPage && isEnabled, fetchNextPage };
+  return { mecaList, isEmpty, hasNextPage, fetchNextPage };
 };
 
 export default useMecaList;
