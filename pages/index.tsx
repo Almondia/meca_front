@@ -13,7 +13,7 @@ import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { getPlaceholderBlurImage } from '@/utils/placeholderHandler';
 
 export default function Home() {
-  const { categories, hasNextPage, fetchNextPage, changeSearchQuery, isEmpty } = useSharedCategory();
+  const { categoryList, hasNextPage, fetchNextPage, changeSearchQuery, isEmpty } = useSharedCategory();
   return (
     <>
       <MetaHead />
@@ -22,7 +22,7 @@ export default function Home() {
         <CategoryControl onChangeQuery={changeSearchQuery} isShared />
         <Devide />
         <CategoryList
-          categoryList={categories}
+          categoryList={categoryList}
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
           isEmpty={isEmpty}

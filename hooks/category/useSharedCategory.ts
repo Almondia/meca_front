@@ -6,10 +6,8 @@ import queryKey from '@/query/queryKey';
 const useSharedCategory = () => {
   const [query, setQuery] = useState<string>('');
   const {
-    data: categories,
-    isLoading,
+    data: categoryList,
     isEmpty,
-    isError,
     hasNextPage,
     fetchNextPage,
   } = useFlatInfiniteQuery([queryKey.categories, 'shared', query], async ({ pageParam }) => {
@@ -30,7 +28,7 @@ const useSharedCategory = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [query],
   );
-  return { categories, fetchNextPage, hasNextPage, changeSearchQuery, isEmpty };
+  return { categoryList, fetchNextPage, hasNextPage, changeSearchQuery, isEmpty };
 };
 
 export default useSharedCategory;
