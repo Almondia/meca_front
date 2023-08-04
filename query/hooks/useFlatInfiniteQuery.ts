@@ -27,12 +27,12 @@ export function useFlatInfiniteQuery<
     getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     ...option,
   });
-  const isEmpty = (data?.pages[0]?.contents.length ?? 0) === 0;
   const flatted = data
     ? data.pages
         .flatMap((page) => page)
         .reduce((prev, current) => ({ ...current, contents: prev.contents.concat(current.contents) }))
     : ({ contents: [], hasNext: undefined, pageSize: 0 } as unknown as TQueryFnData);
+  const isEmpty = flatted.contents.length === 0;
   const fetchNextPage =
     !option?.enabled || isFetching || isError ? ((() => {}) as typeof originFetchNextPage) : originFetchNextPage;
   return { data: flatted, isEmpty, fetchNextPage, isFetching, isError, ...rest };
