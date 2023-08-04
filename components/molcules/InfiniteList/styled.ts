@@ -26,6 +26,8 @@ export const MasonryListWrapper = styled.div<{ isMounted: boolean }>`
   transition: opacity 0.3s ease-in;
 `;
 
+export const WideListWrapper = styled.div``;
+
 export const InfiniteListIntersectionBox = styled.div`
   width: 10px;
   height: 50px;
