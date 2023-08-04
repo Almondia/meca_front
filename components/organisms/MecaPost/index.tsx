@@ -7,7 +7,6 @@ import QuillReader from '@/components/molcules/Editor/QuillNoSSRReader';
 import MecaTag from '@/components/molcules/MecaTag';
 import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
-import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import { TextCaption } from '@/styles/common';
 import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaType } from '@/types/domain';
 
@@ -28,7 +27,6 @@ const ContentBody: Record<MecaTagResponseType, MecaPostBodyComponentType> = {
 
 const MecaPost = ({ cardId, cardType, question, answer, description, createdAt }: MecaPostProps) => {
   const MecaBody = ContentBody[cardType];
-  const { cardHistoryList, fetchNextPage } = useMecaHistory('cards', cardId);
   return (
     <MecaPostWrapper>
       <PostSubInfo>
@@ -51,11 +49,7 @@ const MecaPost = ({ cardId, cardType, question, answer, description, createdAt }
       <PostBody>
         <PostBody.Title>History</PostBody.Title>
         <PostBody.Content hasBackground={false} hasIndent={false}>
-          <QuizHistoryList
-            excludeRows={['card-id', 'quiz-type']}
-            historyList={cardHistoryList}
-            fetchNextPage={fetchNextPage}
-          />
+          <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
         </PostBody.Content>
       </PostBody>
     </MecaPostWrapper>

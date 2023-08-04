@@ -11,8 +11,6 @@ import { authInstance, unauthInstance } from './config/instance';
 
 interface CategoriesResponse extends CursorPaginationType {
   contents: CategoryType[];
-  totalPages: number;
-  pageNumber: number;
 }
 interface SharedCategoryContentType {
   memberInfo: UserProfile;

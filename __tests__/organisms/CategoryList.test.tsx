@@ -3,56 +3,51 @@ import { render } from '../utils';
 import { screen, waitFor } from '@testing-library/react';
 
 const mockCategoryList = {
-  pageParams: [undefined],
-  pages: [
+  contents: [
     {
-      contents: [
-        {
-          categoryId: '1',
-          title: 'title1',
-          thumbnail: '',
-          shared: false,
-        },
-        {
-          categoryId: '2',
-          title: 'title2',
-          thumbnail: '',
-          shared: false,
-        },
-        {
-          categoryId: '3',
-          title: 'title3',
-          thumbnail: '',
-          shared: false,
-        },
-        {
-          categoryId: '4',
-          title: 'title4',
-          thumbnail: '',
-          shared: false,
-        },
-        {
-          categoryId: '5',
-          title: 'title5',
-          thumbnail: '',
-          shared: false,
-        },
-        {
-          categoryId: '6',
-          title: 'title6',
-          thumbnail: '',
-          shared: false,
-        },
-      ],
-      pageNumber: 0,
-      totalPages: 1,
+      categoryId: '1',
+      title: 'title1',
+      thumbnail: '',
+      shared: false,
+    },
+    {
+      categoryId: '2',
+      title: 'title2',
+      thumbnail: '',
+      shared: false,
+    },
+    {
+      categoryId: '3',
+      title: 'title3',
+      thumbnail: '',
+      shared: false,
+    },
+    {
+      categoryId: '4',
+      title: 'title4',
+      thumbnail: '',
+      shared: false,
+    },
+    {
+      categoryId: '5',
+      title: 'title5',
+      thumbnail: '',
+      shared: false,
+    },
+    {
+      categoryId: '6',
+      title: 'title6',
+      thumbnail: '',
+      shared: false,
     },
   ],
+  hasNext: undefined,
+  pageSize: 6,
 } as any;
 
 describe('CategoryList', () => {
   it('카테고리 목록이 없다면 Empty 컴포넌트가 보여진다.', () => {
-    render(<CategoryList fetchNextPage={jest.fn()} />);
+    render(<CategoryList fetchNextPage={jest.fn()} categoryList={mockCategoryList} isEmpty />);
     const EmptyText = screen.getByText('목록이 존재하지 않습니다');
     expect(EmptyText).toBeInTheDocument();
   });

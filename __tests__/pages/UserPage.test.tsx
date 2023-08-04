@@ -90,6 +90,6 @@ describe('User MyPage', () => {
       renderQuery(<UserPage memberId={props.memberId} />, undefined, undefined, props.dehydratedState),
     );
     expect(screen.queryByTestId('id-history-list')).not.toBeInTheDocument();
-    expect(screen.getByText(/아직 기록이 없습니다/i));
+    expect(await screen.findByText(/아직 기록이 없습니다/i));
   });
 });

@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
+import { useMemo } from 'react';
+
 import mecaApi from '@/apis/mecaApi';
 import LikeButton from '@/components/atoms/LikeButton';
 import PageTitle from '@/components/atoms/PageTitle';
@@ -23,9 +25,11 @@ export interface CategoryByIdProps {
 }
 
 const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
-  const { mecaList, writerInfo, category, hasNextPage, fetchNextPage } = useMecaList(categoryId, isMine);
+  const { mecaList, hasNextPage, fetchNextPage, isEmpty } = useMecaList(categoryId, isMine);
+  const { category, member: writerInfo } = mecaList;
   const { user } = useUser();
-  const initialLikeCount = mecaList?.pages[0].categoryLikeCount ?? 0;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const initialLikeCount = useMemo(() => mecaList.categoryLikeCount ?? 0, []);
   const { hasLike, likeCount, postLike } = useCategoryLike(categoryId, initialLikeCount);
   return (
     <>
@@ -59,7 +63,13 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
           hasAuth={!!user}
         />
         <Devide />
-        <MecaList mecaList={mecaList} hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} isMine={isMine} />
+        <MecaList
+          mecaList={mecaList}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+          isMine={isMine}
+          isEmpty={isEmpty}
+        />
       </ListSection>
     </>
   );

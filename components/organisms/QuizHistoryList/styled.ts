@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import Button from '@/components/atoms/Button';
 import { FlexCenter } from '@/styles/layout';
 
 export const QuizHistoryListWrapper = styled.div<{ excludeRows: string[] }>`
@@ -32,14 +33,17 @@ const QuizHistoryListContent = styled.div`
     column-gap: 2px;
     padding: 8px;
     .question-info {
-      min-width: 240px;
+      min-width: 210px;
       width: 70%;
-    }
-    .user {
-      width: 75px;
     }
     & > * {
       width: 60px;
+    }
+    .user {
+      width: 75px;
+      @media ${({ theme }) => theme.media.mobile} {
+        width: 60px;
+      }
     }
   }
 `;
@@ -47,6 +51,10 @@ const QuizHistoryListContent = styled.div`
 export const QuizHistoryListHeader = styled(QuizHistoryListContent)`
   border-bottom: 1px solid var(--color-lightgray);
   font-size: ${({ theme }) => theme.fontSize.sub};
+`;
+
+export const QuizHistoryInfiniteListContainer = styled.div`
+  margin-top: -40px;
 `;
 
 export const QuizHistoryListItem = styled(QuizHistoryListContent)`
@@ -63,4 +71,8 @@ export const QuizHistoryListEmpty = styled.div`
   min-height: 180px;
   border-bottom: 1px solid var(--color-lightgray);
   border-top: 1px solid var(--color-lightgray);
+`;
+
+export const QuizHistoryMoreButton = styled(Button)<{ visible: boolean }>`
+  visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
 `;

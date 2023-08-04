@@ -78,3 +78,13 @@ if (typeof window !== 'undefined') {
   window.document.execCommand = jest.fn();
   window.HTMLElement.prototype.scrollIntoView = jest.fn();
 }
+
+if (typeof window !== 'undefined') {
+  const mockIntersectionObserver = jest.fn();
+  mockIntersectionObserver.mockReturnValue({
+    observe: () => null,
+    unobserve: () => null,
+    disconnect: () => null,
+  });
+  window.IntersectionObserver = mockIntersectionObserver;
+}

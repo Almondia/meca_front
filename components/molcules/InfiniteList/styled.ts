@@ -1,8 +1,6 @@
-/* eslint-disable import/prefer-default-export */
-import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
-export const ListInfiniteScrollerWrapper = styled(InfiniteScroll)`
+export const InfiniteListWrapper = styled.div`
   margin-top: 40px;
 `;
 
@@ -26,4 +24,11 @@ export const GridListWrapper = styled.div`
 export const MasonryListWrapper = styled.div<{ isMounted: boolean }>`
   opacity: ${(props) => (props.isMounted ? 1 : 0)};
   transition: opacity 0.3s ease-in;
+`;
+
+export const WideListWrapper = styled.div``;
+
+export const InfiniteListIntersectionBox = styled.div`
+  width: 10px;
+  height: 50px;
 `;

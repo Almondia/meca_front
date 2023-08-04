@@ -9,7 +9,6 @@ import PostBody from '@/components/molcules/PostBody';
 import PostSubInfo from '@/components/molcules/PostSubInfo';
 import QuizHistoryList from '@/components/organisms/QuizHistoryList';
 import UserProfileHeader from '@/components/organisms/UserProfileHeader';
-import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
@@ -23,7 +22,6 @@ export interface UserPageProps {
 
 const UserPage = ({ memberId }: UserPageProps) => {
   const { user } = useUser();
-  const { cardHistoryList, fetchNextPage } = useMecaHistory('members', memberId);
   return (
     <AuthPageProvider>
       <MetaHead title="Meca - My Page" />
@@ -55,7 +53,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
           <PostBody>
             <PostBody.Title>퀴즈 기록</PostBody.Title>
             <PostBody.Content hasBackground={false} hasIndent={false}>
-              <QuizHistoryList excludeRows={['user']} historyList={cardHistoryList} fetchNextPage={fetchNextPage} />
+              <QuizHistoryList resourceType="members" resourceId={memberId} excludeRows={['user']} />
             </PostBody.Content>
           </PostBody>
         </PostSection>

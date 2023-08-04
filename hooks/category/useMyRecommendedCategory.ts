@@ -1,16 +1,16 @@
 import { useCallback, useState } from 'react';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
+import { useFlatInfiniteQuery } from '@/query/hooks/useFlatInfiniteQuery';
 import queryKey from '@/query/queryKey';
 
 const useMyRecommendedCategory = (enabled?: boolean) => {
   const [query, setQuery] = useState<string>('');
   const {
-    data: categoires,
+    data: categoryList,
     hasNextPage,
+    isEmpty,
     fetchNextPage,
-  } = useInfiniteQuery(
+  } = useFlatInfiniteQuery(
     [queryKey.categories, 'me', 'recommended', query],
     async ({ pageParam }) => {
       const props = {
@@ -21,7 +21,6 @@ const useMyRecommendedCategory = (enabled?: boolean) => {
       return categoryApi.getMyRecommendedCategoryList({ ...props, containTitle: query });
     },
     {
-      getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
       enabled: !!enabled,
     },
   );
@@ -30,7 +29,7 @@ const useMyRecommendedCategory = (enabled?: boolean) => {
     setQuery(newQuery);
   }, []);
 
-  return { categoires, fetchNextPage, hasNextPage, query, changeSearchQuery };
+  return { categoryList, fetchNextPage, hasNextPage, query, changeSearchQuery, isEmpty };
 };
 
 export default useMyRecommendedCategory;

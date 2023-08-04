@@ -65,11 +65,11 @@ export const Private = () => {
       sortOrder: 'DESC',
     }),
   ]);
-  const { categoires } = useMyCategory(true);
-  if (!categoires) {
+  const { categoryList } = useMyCategory(true);
+  if (!categoryList.contents[0]) {
     return <div>no data!</div>;
   }
-  const category = categoires.pages[0].contents[0];
+  const category = categoryList.contents[0];
   return (
     <Template {...category}>
       <CategoryCard.Private {...category} />
