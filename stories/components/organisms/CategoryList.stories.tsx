@@ -73,12 +73,12 @@ Default.args = {
         likeCount: 14,
       },
     ],
-    pageNumber: 0,
-    totalPages: 1,
+    pageSize: 0,
   },
 } as any;
 
 export const Empty = Template.bind({});
 Empty.args = {
   categoryList: undefined,
+  isEmpty: true,
 };

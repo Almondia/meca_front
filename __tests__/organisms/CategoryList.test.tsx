@@ -41,8 +41,8 @@ const mockCategoryList = {
       shared: false,
     },
   ],
-  pageNumber: 0,
-  totalPages: 1,
+  hasNext: undefined,
+  pageSize: 6,
 } as any;
 
 describe('CategoryList', () => {
