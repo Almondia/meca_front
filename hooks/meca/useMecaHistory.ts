@@ -1,14 +1,14 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-
+import { useFlatInfiniteQuery } from '@/query/hooks/useFlatInfiniteQuery';
 import queryKey from '@/query/queryKey';
 
 const useMecaHistory = (resourceType: 'cards' | 'members', id: string) => {
   const {
     data: cardHistoryList,
-    isLoading,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery(
+    isEmpty,
+    isFetching,
+  } = useFlatInfiniteQuery(
     [queryKey.history, id],
     async ({ pageParam }) => {
       const { default: cardHistoryApi } = await import('@/apis/cardHistoryApi');
@@ -19,8 +19,7 @@ const useMecaHistory = (resourceType: 'cards' | 'members', id: string) => {
       enabled: !!id,
     },
   );
-
-  return { cardHistoryList, isLoading, hasNextPage, fetchNextPage };
+  return { cardHistoryList, isEmpty, isFetching, hasNextPage, fetchNextPage };
 };
 
 export default useMecaHistory;

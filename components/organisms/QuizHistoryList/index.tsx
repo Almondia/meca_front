@@ -1,46 +1,56 @@
 import { useRouter } from 'next/router';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { InfiniteData } from '@tanstack/react-query';
-
-import { CardHistoryListResponse } from '@/apis/cardHistoryApi';
 import ColorizedScore from '@/components/atoms/ColorizedScore';
-import IconButton from '@/components/atoms/IconButton';
 import LinkButton from '@/components/atoms/LinkButton';
 import RelativeDateText from '@/components/common/RelativeDateText';
+import InfiniteList from '@/components/molcules/InfiniteList';
 import QuizResultItem from '@/components/molcules/QuizResultItem';
+import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import { TextBodySubtitle, TextCaption } from '@/styles/common';
 import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
 import {
+  QuizHistoryInfiniteListContainer,
   QuizHistoryListEmpty,
   QuizHistoryListHeader,
   QuizHistoryListItem,
   QuizHistoryListWrapper,
-  QuizHistoryPageCursorButtonContainer,
-  QuizHistoryTablePageController,
+  QuizHistoryMoreButton,
 } from './styled';
 
 export interface QuizHistoryListProps {
+  resourceId: string;
+  resourceType: 'members' | 'cards';
   excludeRows?: ('user' | 'card-id' | 'quiz-type')[];
-  historyList: InfiniteData<CardHistoryListResponse> | undefined;
-  fetchNextPage: () => void;
 }
 
-const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistoryListProps) => {
-  const [page, setPage] = useState<number>(0);
+const QuizHistoryList = ({ resourceId, resourceType, excludeRows }: QuizHistoryListProps) => {
   const router = useRouter();
+  const [requestedNextPage, setRequeustedNextPage] = useState(false);
+  const {
+    cardHistoryList: historyList,
+    fetchNextPage,
+    hasNextPage,
+    isEmpty,
+    isFetching,
+  } = useMecaHistory(resourceType, resourceId);
   const hasQuizType = !excludeRows?.some((excluded) => excluded === 'quiz-type');
 
   useEffect(() => {
-    if (historyList?.pages[page].hasNext) {
-      fetchNextPage();
+    if (isFetching && requestedNextPage) {
+      setRequeustedNextPage(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [requestedNextPage, isFetching]);
+
+  const moreButtonVisible = !!hasNextPage && !isFetching && !requestedNextPage;
+
+  const handleMoreButtonClick = useCallback(() => {
+    moreButtonVisible && setRequeustedNextPage(true);
+  }, [moreButtonVisible]);
 
   const handleCardLinkClick = ({ memberId, cardId }: { memberId: string; cardId: string }) => {
     const cardPath = combineUUID(memberId, cardId);
@@ -48,26 +58,26 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
   };
 
   return (
-    <>
-      <QuizHistoryListWrapper excludeRows={excludeRows ?? []}>
-        <QuizHistoryListHeader>
-          <TextBodySubtitle>
-            <span className="card-id">문제ID</span>
-            <span className="user">제출자</span>
-            <span className="question-info">문제정보</span>
-            <span>점수</span>
-            <span>일시</span>
-          </TextBodySubtitle>
-        </QuizHistoryListHeader>
-        {!historyList || historyList.pages[page].contents.length === 0 ? (
-          <QuizHistoryListEmpty>
-            <div>
-              <p>아직 기록이 없습니다!</p>
-            </div>
-          </QuizHistoryListEmpty>
-        ) : (
-          <>
-            {historyList.pages[page].contents.map((content) => {
+    <QuizHistoryListWrapper excludeRows={excludeRows ?? []}>
+      <QuizHistoryListHeader>
+        <TextBodySubtitle>
+          <span className="card-id">문제ID</span>
+          <span className="user">제출자</span>
+          <span className="question-info">문제정보</span>
+          <span>점수</span>
+          <span>일시</span>
+        </TextBodySubtitle>
+      </QuizHistoryListHeader>
+      {isEmpty ? (
+        <QuizHistoryListEmpty>
+          <div>
+            <p>아직 기록이 없습니다!</p>
+          </div>
+        </QuizHistoryListEmpty>
+      ) : (
+        <QuizHistoryInfiniteListContainer>
+          <InfiniteList loadMore={fetchNextPage} hasNext={requestedNextPage && hasNextPage} type="wide">
+            {historyList.contents.map((content) => {
               const { question, answer } = getQuestionAnswerByCardType({ ...content });
               const { answer: userAnswer } = getQuestionAnswerByCardType({
                 ...content,
@@ -100,29 +110,20 @@ const QuizHistoryList = ({ excludeRows, historyList, fetchNextPage }: QuizHistor
                 </QuizHistoryListItem>
               );
             })}
-          </>
-        )}
-      </QuizHistoryListWrapper>
-      <br />
-      <QuizHistoryTablePageController>
-        <QuizHistoryPageCursorButtonContainer isEnabled={page !== 0}>
-          <IconButton
-            icon="Prev"
-            name="이전 퀴즈 기록 목록 보기 버튼"
-            iconSize="1rem"
-            onClick={() => page !== 0 && setPage((prev) => prev - 1)}
-          />
-        </QuizHistoryPageCursorButtonContainer>
-        <QuizHistoryPageCursorButtonContainer isEnabled={!!historyList?.pages[page].hasNext}>
-          <IconButton
-            icon="Next"
-            name="다음 퀴즈 기록 목록 보기 버튼"
-            iconSize="1rem"
-            onClick={() => !!historyList?.pages[page].hasNext && setPage((prev) => prev + 1)}
-          />
-        </QuizHistoryPageCursorButtonContainer>
-      </QuizHistoryTablePageController>
-    </>
+            <br />
+            <QuizHistoryMoreButton
+              visible={moreButtonVisible}
+              width="100%"
+              colorTheme="cancel"
+              size="small"
+              onClick={handleMoreButtonClick}
+            >
+              더보기+
+            </QuizHistoryMoreButton>
+          </InfiniteList>
+        </QuizHistoryInfiniteListContainer>
+      )}
+    </QuizHistoryListWrapper>
   );
 };
 
