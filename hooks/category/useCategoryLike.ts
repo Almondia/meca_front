@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
+import categoryApi from '@/apis/categoryApi';
 import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
@@ -10,8 +11,6 @@ interface LikeQueryType {
   hasLike: boolean;
 }
 
-const categoryApiPromise = import('@/apis/categoryApi');
-
 const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
   const queryClient = useQueryClient();
   const hasAuth = useRecoilValue(hasAuthState);
@@ -19,7 +18,6 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
   const { data = fallbackLikeQueryData } = useQuery<LikeQueryType>(
     [queryKey.categories, categoryId, 'like'],
     async () => {
-      const { default: categoryApi } = await categoryApiPromise;
       const { recommendedCategories } = await categoryApi.getCategoriesLikeState([categoryId]);
       return {
         likeCount: initialLikeCount,
@@ -36,10 +34,7 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
 
   const { mutate, isLoading: isLikeUpdateLoading } = useMutation<{ hasLike: boolean; count: number }, never, string>(
     ['updateCategoryLike'],
-    async (id: string) => {
-      const { default: categoryApi } = await categoryApiPromise;
-      return data.hasLike ? categoryApi.postCategoryUnlike(id) : categoryApi.postCategoryLike(id);
-    },
+    async (id: string) => (data.hasLike ? categoryApi.postCategoryUnlike(id) : categoryApi.postCategoryLike(id)),
     {
       onSuccess: ({ hasLike, count }) => {
         queryClient.setQueryData<LikeQueryType>([queryKey.categories, categoryId, 'like'], (prev) => {

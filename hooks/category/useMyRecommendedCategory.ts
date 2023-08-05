@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 
+import categoryApi from '@/apis/categoryApi';
 import { useFlatInfiniteQuery } from '@/query/hooks/useFlatInfiniteQuery';
 import queryKey from '@/query/queryKey';
 
@@ -17,7 +18,6 @@ const useMyRecommendedCategory = (enabled?: boolean) => {
         hasNext: pageParam,
       };
       !pageParam && delete props.hasNext;
-      const { default: categoryApi } = await import('@/apis/categoryApi');
       return categoryApi.getMyRecommendedCategoryList({ ...props, containTitle: query });
     },
     {

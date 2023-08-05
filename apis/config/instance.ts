@@ -1,7 +1,9 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import { hasBrowser } from '@/utils/common';
+
+import axios from './baseAxios';
 
 const baseURL = '';
 const unauthInstance = axios.create({ baseURL, timeout: 8000 });
