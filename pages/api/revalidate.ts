@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { setRequest } from '@/apis/config/instance';
+import nookies from 'nookies';
+
+import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
 import userApi from '@/apis/userApi';
 import logger from '@/libs/logger';
 import { UUID_PATTERN } from '@/utils/constants';
@@ -64,7 +66,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (method?.toUpperCase() !== 'POST') {
     return res.status(405).json({ message: 'not allowed method' });
   }
-  setRequest(req);
+  const { accessToken } = nookies.get({ req });
+  setAccessTokenFromServerRequest(accessToken);
   const { urls, type }: { urls: string[]; type: 'private' | 'public' | undefined } = await req.body;
   const isValidRequest = await validRevalidationStrategy[type ?? 'private'](urls, req.query.secret);
   if (!isValidRequest) {
