@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next';
 
 import { useMemo } from 'react';
 
-import mecaApi from '@/apis/mecaApi';
 import LikeButton from '@/components/atoms/LikeButton';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
@@ -14,7 +13,6 @@ import useCategoryLike from '@/hooks/category/useCategoryLike';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
-import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
@@ -75,9 +73,6 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
   );
 };
 
-const getMecaList = async (categoryId: string, isMine: boolean) =>
-  isMine ? mecaApi.getMyMecaList({ categoryId }) : mecaApi.getSharedMecaList({ categoryId });
-
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, currentMemberId) => {
   const memberCategoryId = context.params?.memberCategoryId;
   if (!memberCategoryId || typeof memberCategoryId !== 'string') {
@@ -85,9 +80,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   }
   const { uuid1: memberId, uuid2: categoryId } = extractCombinedUUID(memberCategoryId);
   const isMine: boolean = memberId === currentMemberId ?? false;
-  await queryClient.fetchInfiniteQuery([queryKey.mecas, categoryId], async () => getMecaList(categoryId, isMine), {
-    getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
-  });
+  await useMecaList.fetchInfiniteQuery(categoryId, isMine, queryClient);
   return { categoryId, isMine };
 }, true);
 
