@@ -29,7 +29,13 @@ module.exports = {
     config.plugins.push(
       new webpack.NormalModuleReplacementPlugin(
         /imageApi\.ts$/,
-        path.join(__dirname, '../__tests__/__mocks__/imageApi.js'),
+        path.join(__dirname, '../__tests__/__mocks__/module/imageApi.js'),
+      ),
+    );
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /baseAxios\.ts$/,
+        path.join(__dirname, '../__tests__/__mocks__/module/axios.js'),
       ),
     );
     const fileLoaderRule = config.module.rules.find((rule) => rule.test && rule.test.test('.svg'));
