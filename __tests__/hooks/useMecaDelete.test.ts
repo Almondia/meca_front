@@ -1,7 +1,6 @@
 import utilApi from '@/apis/utilApi';
 import useMecaDelete from '@/hooks/meca/useMecaDelete';
 import { renderHook, waitFor } from '@testing-library/react';
-import mockRouter from 'next-router-mock';
 import { createQueryClientWrapper } from '../utils';
 import { restHandler } from '../__mocks__/msw/handlers';
 import { implementServer } from '../__mocks__/msw/server';
@@ -27,7 +26,7 @@ describe('useMecaDelete', () => {
   beforeEach(() => {
     implementServer([restHandler(mockedDeleteMecaApi)]);
     (utilApi.revalidate as jest.Mock).mockReturnValueOnce(true);
-    (useUser as jest.Mock).mockReturnValue({ user: { memberId: 'member01' } });
+    (useUser as unknown as jest.Mock).mockReturnValue({ user: { memberId: 'member01' } });
   });
   afterEach(() => {
     jest.clearAllMocks();
