@@ -32,7 +32,8 @@ const useMecaDelete = () => {
         queryClient.setQueryData([queryKey.meca, cardId], null);
         alertToast('삭제 완료', 'success');
         revalidate(categoryId, cardId);
-        router.pathname.indexOf('/mecas/') !== -1 && router.push('/categories');
+        const byCategoryIdPath = `/categories/${combineUUID(user?.memberId ?? '', categoryId)}`;
+        router.pathname !== byCategoryIdPath && user && router.push(byCategoryIdPath);
       },
     },
   );
