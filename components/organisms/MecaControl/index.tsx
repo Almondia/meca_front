@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 
 import React, { useState } from 'react';
 
-import mecaApi from '@/apis/mecaApi';
+import { useQueryClient } from '@tanstack/react-query';
+
 import Button from '@/components/atoms/Button';
 import AvatarUser from '@/components/molcules/AvatarUser';
 import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
-import useCachedOrFetchQuery from '@/hooks/useCachedOrFetchQuery';
+import useMecaCount from '@/hooks/meca/useMecaCount';
 import useModal from '@/hooks/useModal';
-import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
 
 const QuizStartDialog = dynamic(() => import('@/components/organisms/QuizStartDialog'));
@@ -25,16 +25,13 @@ export interface MecaControlProps {
 
 const CardControl = ({ categoryId, categoryTitle, isMine, name, profile, hasAuth }: MecaControlProps) => {
   const router = useRouter();
-  const { fetchOrGetQuery } = useCachedOrFetchQuery();
+  const queryClient = useQueryClient();
   const [quiznum, setQuizNum] = useState<number>(0);
   const { visible: isPlayModalVisible, open: playModalOpen, close: playModalClose } = useModal();
 
   const handlePlayClick = async () => {
-    const { data } = await fetchOrGetQuery([queryKey.mecas, categoryId, 'count'], () =>
-      mecaApi.getCountByCategoryId(categoryId),
-    );
-    const { count } = data;
-    if (!count) {
+    const { count } = await useMecaCount.fetchOrGetQuery(categoryId, queryClient);
+    if (count <= 0) {
       alertToast('플레이할 카드가 없어요!', 'info');
       return;
     }

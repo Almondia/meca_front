@@ -6,6 +6,7 @@ import AuthPageProvider from '@/components/common/AuthPageProvider';
 import MetaHead from '@/components/common/MetaHead';
 import MecaWrite from '@/components/organisms/MecaWrite';
 import useMeca from '@/hooks/meca/useMeca';
+import useMecaCount from '@/hooks/meca/useMecaCount';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { PostSection } from '@/styles/layout';
@@ -34,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   }
   const cardId = context.query?.cardId;
   await Promise.all([
-    queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () => mecaApi.getCountByCategoryId(categoryId)),
+    useMecaCount.fetchQuery(categoryId, queryClient),
     cardId &&
       typeof cardId === 'string' &&
       queryClient.prefetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId)),

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 /* eslint-disable import/prefer-default-export */
-
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -14,21 +13,12 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import nookies from 'nookies';
 
 import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
-import userApi from '@/apis/userApi';
+import useUser from '@/hooks/user/useUser';
 import { generateQueryClient } from '@/query/queryClient';
-import queryKey from '@/query/queryKey';
 import { getJWTPayload } from '@/utils/jwtHandler';
 
 import logger, { responseTimeLoggerWrapper } from './logger';
 
-/**
- * should use render data requiring authorization
- * [사용법]
- * - callback에 server side rendering 할 api를 queryClient로 패칭한다.
- * - 페이지에 전달해야 할 props를 넘긴다.
- * - 여러 api를 ssr하더라도 같은 queryClient에 캐시 데이터를 페이지에 dehydrate 한다.
- * - [404 처리]: throw {message: 'your-message'}
- */
 function serverSideRenderAuthorizedAspect(
   proceed?: (
     context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -52,8 +42,7 @@ function serverSideRenderAuthorizedAspect(
       const queryClient = generateQueryClient();
       const memberId = getJWTPayload(accessToken, 'id');
       const [member, propsAspect] = await Promise.allSettled([
-        !!memberId &&
-          queryClient.fetchQuery([queryKey.me], () => userApi.getMe().then((res) => ({ ...res, accessToken }))),
+        !!memberId && useUser.fetchQuery(accessToken, queryClient),
         proceed && proceed(context, queryClient, memberId),
       ]);
       if (member.status === 'rejected') {

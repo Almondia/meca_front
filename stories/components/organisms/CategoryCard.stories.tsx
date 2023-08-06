@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { hasAuthState } from '@/atoms/common';
 import CategoryCard, { CategoryCardProps } from '@/components/organisms/CategoryCard';
-import useMyCategory from '@/hooks/category/useMyCategory';
+import useCategoryList from '@/hooks/category/useCategoryList';
 import {
   mockedDeleteCategoryApi,
   mockedGetAuthUserCategoryListApi,
@@ -65,14 +65,14 @@ export const Private = () => {
       sortOrder: 'DESC',
     }),
   ]);
-  const { categoryList } = useMyCategory(true);
+  const { categoryList } = useCategoryList('me', true);
   if (!categoryList.contents[0]) {
     return <div>no data!</div>;
   }
   const category = categoryList.contents[0];
   return (
     <Template {...category}>
-      <CategoryCard.Private {...category} />
+      <CategoryCard.Private {...(category as any)} />
     </Template>
   );
 };

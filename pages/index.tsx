@@ -1,19 +1,16 @@
 import { GetStaticProps } from 'next';
 
-import categoryApi from '@/apis/categoryApi';
 import MetaHead from '@/components/common/MetaHead';
 import CategoryControl from '@/components/organisms/CategoryControl';
 import CategoryList from '@/components/organisms/CategoryList';
 import HomeCarousel from '@/components/organisms/HomeCarousel';
-import useSharedCategory from '@/hooks/category/useSharedCategory';
+import useCategoryList from '@/hooks/category/useCategoryList';
 import { isrAspect } from '@/libs/renderAspect';
-import queryKey from '@/query/queryKey';
 import { Devide, ListSection } from '@/styles/layout';
-import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { getPlaceholderBlurImage } from '@/utils/placeholderHandler';
 
 export default function Home() {
-  const { categoryList, hasNextPage, fetchNextPage, changeSearchQuery, isEmpty } = useSharedCategory();
+  const { categoryList, hasNextPage, fetchNextPage, changeSearchQuery, isEmpty } = useCategoryList('shared');
   return (
     <>
       <MetaHead />
@@ -33,27 +30,9 @@ export default function Home() {
 }
 
 export const getStaticProps: GetStaticProps = isrAspect(async (_, queryClient) => {
-  await queryClient.prefetchInfiniteQuery(
-    [queryKey.categories, 'shared', ''],
-    async () => {
-      const categoryList = await categoryApi.getSharedCategoryList({});
-      const categoryListContentWithBlurURL = await Promise.all(
-        categoryList.contents.map(async (category) => {
-          const { thumbnail } = category;
-          const placeholderThumbnail = thumbnail && (await getPlaceholderBlurImage(getRemoteImageUrl(thumbnail), 20));
-          if (!placeholderThumbnail) {
-            return category;
-          }
-          const { img, blurDataURL } = placeholderThumbnail;
-          return { ...category, blurThumbnail: { ...img, blurDataURL } };
-        }),
-      );
-      return { ...categoryList, contents: categoryListContentWithBlurURL };
-    },
-    { getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined },
-  );
-  const categoryList = queryClient.getQueryData([queryKey.categories, 'shared', '']);
+  await useCategoryList.prefetchInfiniteQueryWithPlaceholder('shared', queryClient, getPlaceholderBlurImage);
+  const revalidate = useCategoryList.isEmpty('shared', queryClient) ? 60 : 3600;
   return {
-    revalidate: !categoryList ? 60 : 3600,
+    revalidate,
   };
 });

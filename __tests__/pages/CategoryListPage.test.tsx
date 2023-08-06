@@ -219,7 +219,7 @@ describe('CategoryListPage', () => {
       } as unknown as GetServerSidePropsContext;
       const { props } = (await getServerSideProps(mockedContext)) as any;
       expect(props).toHaveProperty('isRecommendedRequest', true);
-      renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState);
+      await waitFor(() => renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState));
       const categoryListPageHead = screen.getByRole('heading', { name: /추천한 카테고리/i });
       const cardUserAvatar = screen.getByRole('img', { name: 'member-name-avatar' });
       expect(categoryListPageHead).toBeInTheDocument();

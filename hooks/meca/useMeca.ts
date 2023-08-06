@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
 import mecaApi from '@/apis/mecaApi';
@@ -26,6 +26,13 @@ const useMeca = (cardId: string, shared?: boolean, memberId?: string) => {
     ? undefined
     : data;
   return { meca, isSuccess, isLoading, isError };
+};
+
+useMeca.fetchQuery = (shared: boolean, cardId: string, queryClient: QueryClient) => {
+  if (shared) {
+    return queryClient.fetchQuery([queryKey.meca, cardId], () => mecaApi.getSharedCardById(cardId));
+  }
+  return queryClient.fetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId));
 };
 
 export default useMeca;

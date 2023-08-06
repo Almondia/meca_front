@@ -5,7 +5,6 @@ import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import mecaApi from '@/apis/mecaApi';
 import LinkButton from '@/components/atoms/LinkButton';
 import PageTitle from '@/components/atoms/PageTitle';
 import AuthPageProvider from '@/components/common/AuthPageProvider';
@@ -17,7 +16,6 @@ import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
-import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';
 import { MyProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
@@ -84,11 +82,11 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   if (!cardId || typeof cardId !== 'string') {
     throw { message: '잘못된 요청' };
   }
-  const meca = await queryClient.fetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId));
+  const { categoryId } = await useMeca.fetchQuery(false, cardId, queryClient);
   context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   return {
     cardId,
-    categoryId: meca.categoryId,
+    categoryId,
   };
 });
 

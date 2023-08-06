@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
 import { setAccessToken } from '@/apis/config/instance';
@@ -46,5 +46,8 @@ const useUser = () => {
 
   return { user, isLoading, isFetching };
 };
+
+useUser.fetchQuery = (accessToken: string, queryClient: QueryClient) =>
+  queryClient.fetchQuery([queryKey.me], () => userApi.getMe().then((res) => ({ ...res, accessToken })));
 
 export default useUser;
