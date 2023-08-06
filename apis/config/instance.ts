@@ -1,37 +1,23 @@
 /* eslint-disable no-param-reassign */
-import { NextApiRequest } from 'next';
-
-import axios, { AxiosResponse, HttpStatusCode } from 'axios';
-import nookies from 'nookies';
+import { AxiosResponse } from 'axios';
 
 import { hasBrowser } from '@/utils/common';
 
-export interface AxiosErrorResponse {
-  message: string;
-  status: HttpStatusCode;
-}
-
-export type ServerRequestType = { cookies: Partial<{ [key: string]: string }> } | NextApiRequest;
+import axios from './baseAxios';
 
 const baseURL = '';
 const unauthInstance = axios.create({ baseURL, timeout: 8000 });
 const authInstance = axios.create({ baseURL, timeout: 8000 });
 const serverInstance = axios.create({ baseURL: '', timeout: 8000 });
 
-let request = <ServerRequestType>{};
 let accessTokenInstace = '';
 
-export const setRequest = (_request: ServerRequestType) => {
-  request = _request;
+export const setAccessTokenFromServerRequest = (_accessToken: string) => {
+  accessTokenInstace = _accessToken;
 };
 
 export const setAccessToken = (_accessToken: string) => {
   accessTokenInstace = _accessToken;
-};
-
-export const getTokens = (_request: ServerRequestType) => {
-  const { accessToken, refreshToken } = nookies.get({ req: _request });
-  return { accessToken, refreshToken };
 };
 
 function getObject(response: AxiosResponse) {
@@ -53,13 +39,13 @@ serverInstance.interceptors.request.use((config) => {
 });
 
 serverInstance.interceptors.response.use(
-  (response): any => getObject(response),
+  (response) => getObject(response),
   (error) => genErrorResponse(error),
 );
 
 authInstance.interceptors.request.use((config) => {
   config.baseURL = hasBrowser() ? '' : process.env.NEXT_ORIGIN;
-  const accessToken = hasBrowser() ? accessTokenInstace : getTokens(request).accessToken;
+  const accessToken = accessTokenInstace;
   config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });
@@ -70,12 +56,12 @@ unauthInstance.interceptors.request.use((config) => {
 });
 
 unauthInstance.interceptors.response.use(
-  (response): any => getObject(response),
+  (response) => getObject(response),
   (error) => genErrorResponse(error),
 );
 
 authInstance.interceptors.response.use(
-  (response): any => getObject(response),
+  (response) => getObject(response),
   (error) => {
     if (!hasBrowser() && error.response.status === 401) {
       // TODO add token refresh logic

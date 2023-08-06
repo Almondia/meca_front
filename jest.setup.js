@@ -15,6 +15,10 @@ afterEach(() => server.resetHandlers());
 // Clean up after the tests are finished.
 afterAll(() => server.close());
 
+jest.mock('./apis/config/baseAxios', () => {
+  return jest.requireActual('axios');
+});
+
 jest.mock('./components/common/Icon', () => {
   const MockedIcon = ({ icon }) => <div>{icon}</div>;
   return MockedIcon;

@@ -43,11 +43,11 @@ const nextConfig = {
     BASE_URL: process.env.BASE_URL,
   },
   webpack(config) {
+    config.experiments = { ...config.experiments, topLevelAwait: true };
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
-
     return config;
   },
 };

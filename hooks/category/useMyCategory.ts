@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
+import categoryApi from '@/apis/categoryApi';
 import { hasAuthState } from '@/atoms/common';
 import { useFlatInfiniteQuery } from '@/query/hooks/useFlatInfiniteQuery';
 import queryKey from '@/query/queryKey';
@@ -20,7 +21,6 @@ const useMyCategory = (enabled?: boolean) => {
       const props = {
         hasNext: pageParam,
       };
-      const { default: categoryApi } = await import('@/apis/categoryApi');
       return categoryApi.getMyCategoryList({ ...props, containTitle: query });
     },
     {

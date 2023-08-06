@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import React, { useState } from 'react';
 
+import mecaApi from '@/apis/mecaApi';
 import Button from '@/components/atoms/Button';
 import AvatarUser from '@/components/molcules/AvatarUser';
 import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
@@ -28,9 +29,7 @@ const CardControl = ({ categoryId, categoryTitle, isMine, name, profile, hasAuth
   const [quiznum, setQuizNum] = useState<number>(0);
   const { visible: isPlayModalVisible, open: playModalOpen, close: playModalClose } = useModal();
 
-  // TODO: 최소문제 처리 개선할 것: 3문제 이하일 경우 플레이버튼이 안나오게 한다던가?
   const handlePlayClick = async () => {
-    const { default: mecaApi } = await import('@/apis/mecaApi');
     const { data } = await fetchOrGetQuery([queryKey.mecas, categoryId, 'count'], () =>
       mecaApi.getCountByCategoryId(categoryId),
     );

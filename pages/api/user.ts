@@ -2,29 +2,23 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import nookies from 'nookies';
 
-import { AxiosErrorResponse, setRequest } from '@/apis/config/instance';
+import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
 import userApi from '@/apis/userApi';
-import { MyProfile } from '@/types/domain';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<MyProfile | AxiosErrorResponse | null>,
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { accessToken } = nookies.get({ req });
   if (!accessToken) {
-    res.status(200).json(null);
-    return;
+    return res.status(200).json(null);
   }
-  setRequest(req);
+  setAccessTokenFromServerRequest(accessToken);
   try {
     const response = await userApi.getMe();
-    res.status(200).json({ ...response, accessToken });
-    return;
+    return res.status(200).json({ ...response, accessToken });
   } catch {
     nookies.destroy({ res }, 'accessToken', {
       path: '/',
     });
-    res.status(401).json({
+    return res.status(401).json({
       message: '사용자 정보 조회 실패',
       status: 401,
     });

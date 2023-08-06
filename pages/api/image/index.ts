@@ -6,7 +6,7 @@ import formidable from 'formidable';
 import nookies from 'nookies';
 import sharp from 'sharp';
 
-import { setRequest } from '@/apis/config/instance';
+import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
 import imageApi from '@/apis/imageApi';
 import { ImageUploadRequestType } from '@/types/domain';
 import { getJWTPayload } from '@/utils/jwtHandler';
@@ -69,7 +69,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!accessToken && !getJWTPayload(accessToken, 'id')) {
     return res.status(401).json({ message: '로그인이 필요합니다.' });
   }
-  setRequest(req);
   try {
     const chunks: never[] = [];
     const { fields } = await formidablePromise(req, {
@@ -83,6 +82,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       fileName: fileNames[0],
     } as ImageUploadRequestType;
     const buffer = Buffer.concat(chunks);
+    setAccessTokenFromServerRequest(accessToken);
     const { url, objectKey } = await imageApi.getPresignedUrl({ purpose, extension, fileName });
     const resizedBuffer = await resize({ buffer });
     try {

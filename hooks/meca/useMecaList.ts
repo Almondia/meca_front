@@ -1,5 +1,6 @@
 import { useRecoilValue } from 'recoil';
 
+import mecaApi from '@/apis/mecaApi';
 import { hasAuthState } from '@/atoms/common';
 import { useFlatInfiniteQuery } from '@/query/hooks/useFlatInfiniteQuery';
 import queryKey from '@/query/queryKey';
@@ -21,7 +22,6 @@ const useMecaList = (categoryId: string, isMine: boolean) => {
         hasNext: pageParam,
       };
       !pageParam && delete props.hasNext;
-      const { default: mecaApi } = await import('@/apis/mecaApi');
       if (isMine) {
         return mecaApi.getMyMecaList(props);
       }

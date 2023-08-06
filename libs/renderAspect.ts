@@ -13,7 +13,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import nookies from 'nookies';
 
-import { setRequest } from '@/apis/config/instance';
+import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
 import userApi from '@/apis/userApi';
 import { generateQueryClient } from '@/query/queryClient';
 import queryKey from '@/query/queryKey';
@@ -38,7 +38,6 @@ function serverSideRenderAuthorizedAspect(
   skipAuth?: boolean,
 ): GetServerSideProps {
   const ssrFn = async (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
-    setRequest(context.req);
     const { accessToken } = nookies.get(context);
     if (!accessToken && !skipAuth) {
       return {
@@ -48,6 +47,7 @@ function serverSideRenderAuthorizedAspect(
         },
       };
     }
+    setAccessTokenFromServerRequest(accessToken);
     try {
       const queryClient = generateQueryClient();
       const memberId = getJWTPayload(accessToken, 'id');

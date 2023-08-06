@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
+import { setAccessToken } from '@/apis/config/instance';
+import userApi from '@/apis/userApi';
 import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
 
@@ -19,7 +21,6 @@ const useUser = () => {
   } = useQuery(
     [queryKey.me],
     async () => {
-      const userApi = await import('@/apis/userApi').then((res) => res.default);
       const result = await userApi.getMeFromServer().then((res) => (res.accessToken ? res : null));
       return result;
     },
@@ -37,11 +38,8 @@ const useUser = () => {
   useEffect(() => {
     if (user && user.accessToken) {
       const token = user.accessToken;
-      (async () => {
-        const setAccessToken = await import('@/apis/config/instance').then((res) => res.setAccessToken);
-        setAccessToken(token);
-        setHasAuth(true);
-      })();
+      setAccessToken(token);
+      setHasAuth(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
