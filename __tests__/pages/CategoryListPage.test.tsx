@@ -26,7 +26,7 @@ describe('CategoryListPage', () => {
     jest.clearAllMocks();
   });
   it('개인 카테고리 목록 페이지 UI가 식별된다.', async () => {
-    await waitFor(() => renderQuery(<Category />));
+    renderQuery(<Category />);
     const categoryListPageHead = await screen.findByRole('heading', {
       name: /내 카테고리/i,
     });
@@ -40,7 +40,7 @@ describe('CategoryListPage', () => {
   });
 
   it('검색어를 입력해 검색하면 개인 카테고리 목록이 필터링되어 식별된다.', async () => {
-    await waitFor(() => renderQuery(<Category />));
+    renderQuery(<Category />);
     const searchInput = await screen.findByRole('searchbox', { name: 'input-category-search' });
     const searchButton = screen.getByRole('button', { name: '검색' });
     expect(searchInput).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe('CategoryListPage', () => {
         sortOrder: 'ASC',
       }),
     ]);
-    await waitFor(() => renderQuery(<Category />));
+    renderQuery(<Category />);
     const listPageHead = await screen.findByRole('heading', {
       name: /내 카테고리/i,
     });
@@ -91,7 +91,7 @@ describe('CategoryListPage', () => {
 
   it('카테고리 하나를 정상적으로 추가하면 카테고리 목록에 새로운 데이터가 추가된다.', async () => {
     implementServer([restHandler(mockedPostCategoryApi)]);
-    await waitFor(() => renderQuery(<Category />));
+    renderQuery(<Category />);
     const inputTitleText = 'HELL';
     // 추가하기 버튼을 누르면
     const addButton = await screen.findByRole('button', {
@@ -126,7 +126,7 @@ describe('CategoryListPage', () => {
 
   it('카테고리 추가 실패 시 카테고리 추가가 되지 않고 toast가 식별된다.', async () => {
     implementServer([restHandler(mockedPostCategoryApi, { status: 400, message: '제목 오류' })]);
-    await waitFor(() => renderQuery(<Category />));
+    renderQuery(<Category />);
     const inputTitleText = 'geaighalgiahglaghalgah';
     const addButton = await screen.findByRole('button', {
       name: /추가하기/i,
@@ -219,7 +219,7 @@ describe('CategoryListPage', () => {
       } as unknown as GetServerSidePropsContext;
       const { props } = (await getServerSideProps(mockedContext)) as any;
       expect(props).toHaveProperty('isRecommendedRequest', true);
-      await waitFor(() => renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState));
+      renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState);
       const categoryListPageHead = screen.getByRole('heading', { name: /추천한 카테고리/i });
       const cardUserAvatar = screen.getByRole('img', { name: 'member-name-avatar' });
       expect(categoryListPageHead).toBeInTheDocument();
@@ -241,7 +241,7 @@ describe('CategoryListPage', () => {
       expect(props).toHaveProperty('dehydratedState');
       expect(mockedSetHeader).not.toHaveBeenCalled();
       renderQuery(<Category />, undefined, undefined, props.dehydratedState);
-      const emptyListText = screen.getByText('목록이 존재하지 않습니다');
+      const emptyListText = await screen.findByText('목록이 존재하지 않습니다');
       expect(emptyListText).toBeInTheDocument();
     });
   });
