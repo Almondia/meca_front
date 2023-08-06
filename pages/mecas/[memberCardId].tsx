@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-import mecaApi from '@/apis/mecaApi';
 import PageTitle from '@/components/atoms/PageTitle';
 import MetaHead from '@/components/common/MetaHead';
 import AvatarUser from '@/components/molcules/AvatarUser';
@@ -10,7 +9,6 @@ import MecaPost from '@/components/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import { isrAspect } from '@/libs/renderAspect';
 import NotFound from '@/pages/404';
-import queryKey from '@/query/queryKey';
 import { Devide, PostSection } from '@/styles/layout';
 import { MecaType, UserProfile } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
@@ -71,9 +69,7 @@ export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, query
     throw { message: '잘못된 요청' };
   }
   try {
-    const { question, description } = await queryClient.fetchQuery([queryKey.meca, cardId], () =>
-      mecaApi.getSharedCardById(cardId),
-    );
+    const { question, description } = await useMeca.fetchQuery(true, cardId, queryClient);
     const thumbnailUrl = extractFirstImageFromHTML(question.concat(description))?.src ?? '';
     const questionText = extractTextFromHTML(question);
     return {
