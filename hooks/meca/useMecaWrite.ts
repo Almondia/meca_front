@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -10,12 +10,21 @@ import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import useCachedOrFetchQuery from '../useCachedOrFetchQuery';
+import useMecaCount from './useMecaCount';
 
 const useMecaWrite = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { fetchOrGetQuery } = useCachedOrFetchQuery();
+
+  const revalidateWithWrite = async (categoryId: string) => {
+    const { count, cached } = await useMecaCount.fetchOrGetQuery(categoryId, queryClient);
+    count === (cached ? 0 : 1) && utilApi.revalidate(['/']);
+    cached && useMecaCount.updateQuery(categoryId, 1, queryClient);
+  };
+
+  const revalidateWithUpdate = (cardId: string, memberId: string) => {
+    utilApi.revalidate([`/mecas/${combineUUID(memberId, cardId)}`]);
+  };
 
   const successHandler = useCallback((categoryId: string, cardId: string, message: string) => {
     queryClient.invalidateQueries([queryKey.mecas, categoryId]);
@@ -29,13 +38,7 @@ const useMecaWrite = () => {
     async (props: AddMecaRequest) => mecaApi.addMeca(props),
     {
       onSuccess: async ({ categoryId, cardId }) => {
-        const countQuery = [queryKey.mecas, categoryId, 'count'];
-        const { data, isCachedData } = await fetchOrGetQuery(countQuery, () =>
-          mecaApi.getCountByCategoryId(categoryId),
-        );
-        data.count === (isCachedData ? 0 : 1) && utilApi.revalidate(['/']);
-        isCachedData &&
-          queryClient.setQueryData<{ count: number }>(countQuery, (prev) => ({ count: (prev?.count ?? 0) + 1 }));
+        revalidateWithWrite(categoryId);
         successHandler(categoryId, cardId, '카드 등록 성공');
       },
     },
@@ -46,7 +49,7 @@ const useMecaWrite = () => {
     {
       onSuccess: ({ categoryId, cardId, memberId }) => {
         successHandler(categoryId, cardId, '카드 수정 성공');
-        utilApi.revalidate([`/mecas/${combineUUID(memberId, cardId)}`]);
+        revalidateWithUpdate(cardId, memberId);
       },
     },
   );

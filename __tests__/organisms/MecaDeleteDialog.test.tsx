@@ -4,14 +4,23 @@ import { MOCK_MECAS } from '../__mocks__/msw/data';
 import { restHandler } from '../__mocks__/msw/handlers';
 import { implementServer } from '../__mocks__/msw/server';
 import MecaDeleteDialog from '@/components/organisms/MecaDeleteDialog';
-import { mockedDeleteMecaApi, mockedGetMecaCountApi, mockedGetUserWithServerApi } from '../__mocks__/msw/api';
+import {
+  mockedDeleteMecaApi,
+  mockedGetMecaCountApi,
+  mockedGetUserWithServerApi,
+  mockedPostRevalidateApi,
+} from '../__mocks__/msw/api';
 
 describe('MecaDeleteDialog', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
   it('존재하는 카드 하나를 삭제하면 삭제 성공 toast가 식별된다.', async () => {
     implementServer([
       restHandler(mockedGetUserWithServerApi),
       restHandler(mockedDeleteMecaApi),
       restHandler(mockedGetMecaCountApi),
+      restHandler(mockedPostRevalidateApi),
     ]);
     const { cardId, categoryId } = MOCK_MECAS[0];
     renderQuery(
@@ -26,7 +35,7 @@ describe('MecaDeleteDialog', () => {
     expect(toastText).toBeInTheDocument();
   });
 
-  it('카테고리 삭제에 실패하면 실패 메시지 toast가 식별된다.', async () => {
+  it('카드 삭제에 실패하면 실패 메시지 toast가 식별된다.', async () => {
     implementServer([
       restHandler(mockedGetUserWithServerApi),
       restHandler(mockedDeleteMecaApi, { status: 400, message: '삭제 실패' }),

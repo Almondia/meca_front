@@ -1,9 +1,9 @@
 import { QueryClient } from '@tanstack/react-query';
 
+import axiosErrorHandler from '@/apis/config/errorHandler';
+
 function queryErrorHandler(error: unknown): void {
-  import('@/apis/config/errorHandler').then((module) => {
-    module.default(error);
-  });
+  axiosErrorHandler(error);
 }
 
 export function generateQueryClient(): QueryClient {

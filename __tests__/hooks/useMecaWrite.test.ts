@@ -49,7 +49,7 @@ describe('useMecaWrite', () => {
     it('Meca 등록 전 해당 카테고리에 카드가 0개라면 revalidate가 동작한다', async () => {
       implementServer([restHandler(mockedPostMecaApi)]);
       const queryClient = new QueryClient();
-      queryClient.setQueryData<{ count: number }>([queryKey.mecas, 'cid01', 'count'], { count: 0 });
+      queryClient.setQueryData([queryKey.mecas, 'cid01', 'count'], { count: 0, cached: true });
       const { result } = renderHook(() => useMecaWrite(), { wrapper: createQueryClientWrapper(queryClient) });
       const { createMeca } = result.current;
       createMeca({
@@ -66,7 +66,7 @@ describe('useMecaWrite', () => {
     it('Meca 등록 전 해당 카테고리에 카드가 1개 이상이면 revalidate가 동작하지 않는다.', async () => {
       implementServer([restHandler(mockedPostMecaApi)]);
       const queryClient = new QueryClient();
-      queryClient.setQueryData<{ count: number }>([queryKey.mecas, 'cid01', 'count'], { count: 99 });
+      queryClient.setQueryData([queryKey.mecas, 'cid01', 'count'], { count: 5, cached: true });
       const { result } = renderHook(() => useMecaWrite(), { wrapper: createQueryClientWrapper(queryClient) });
       const { createMeca } = result.current;
       createMeca({

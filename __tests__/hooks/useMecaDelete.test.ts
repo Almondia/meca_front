@@ -32,28 +32,28 @@ describe('useMecaDelete', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it('Meca 삭제 후 해당 카테고리에 카드가 0개라면 revalidate가 동작한다', async () => {
+  it('Meca 삭제 후 해당 카테고리에 카드가 0개라면 [shared category, meca] revalidate가 동작한다', async () => {
     implementServer([restHandler(() => mockedGetMecaCountApi(0))]);
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/', '/mecas/member01-cardId01']));
+    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-cardId01', '/']));
   });
 
-  it('Meca 삭제 후 해당 카테고리에 카드가 0개가 아니라면 revalidate가 동작하지 않는다', async () => {
+  it('Meca 삭제 후 해당 카테고리에 카드가 0개가 아니라면 [meca] revalidate가 동작한다.', async () => {
     implementServer([restHandler(() => mockedGetMecaCountApi(55))]);
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalled());
+    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-cardId01']));
   });
 
-  it('Meca 삭제 전 해당 카테고리에 카드가 1개라면 revalidate가 동작한다.', async () => {
+  it('Meca 삭제 전 해당 카테고리에 카드가 1개라면 [shared category, meca] revalidate가 동작한다.', async () => {
     const queryClient = new QueryClient();
-    queryClient.setQueryData<{ count: number }>([queryKey.mecas, categoryId, 'count'], { count: 1 });
+    queryClient.setQueryData([queryKey.mecas, categoryId, 'count'], { count: 1, cached: true });
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper(queryClient) });
     const { deleteMeca } = result.current;
     deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/', '/mecas/member01-cardId01']));
+    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-cardId01', '/']));
   });
 });
