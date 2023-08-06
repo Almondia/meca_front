@@ -43,6 +43,7 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
           }
           return { hasLike, likeCount: prev.likeCount + count };
         });
+        queryClient.invalidateQueries([queryKey.categories, 'recommended']);
       },
     },
   );
