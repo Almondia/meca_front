@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-import PageTitle from '@/components/atoms/PageTitle';
-import MetaHead from '@/components/common/MetaHead';
-import AvatarUser from '@/components/molcules/AvatarUser';
-import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
-import MecaPost from '@/components/organisms/MecaPost';
+import PageTitle from '@/components/@common/atoms/PageTitle';
+import AvatarUser from '@/components/@common/molecules/AvatarUser';
+import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import MetaHead from '@/components/@util/MetaHead';
+import MecaPost from '@/components/meca/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import { isrAspect } from '@/libs/renderAspect';
 import NotFound from '@/pages/404';

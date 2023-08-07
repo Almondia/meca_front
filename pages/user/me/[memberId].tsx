@@ -2,12 +2,12 @@
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 
-import AuthPageProvider from '@/components/common/AuthPageProvider';
-import MetaHead from '@/components/common/MetaHead';
-import RelativeDateText from '@/components/common/RelativeDateText';
-import PostBody from '@/components/molcules/PostBody';
-import PostSubInfo from '@/components/molcules/PostSubInfo';
-import UserProfileHeader from '@/components/organisms/UserProfileHeader';
+import RelativeDate from '@/components/@common/atoms/RelativeDate';
+import PostBody from '@/components/@common/molecules/PostBody';
+import PostSubInfo from '@/components/@common/molecules/PostSubInfo';
+import AuthPageProvider from '@/components/@util/AuthPageProvider';
+import MetaHead from '@/components/@util/MetaHead';
+import UserProfileHeader from '@/components/user/organisms/UserProfileHeader';
 import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
@@ -15,7 +15,7 @@ import { TextCaption } from '@/styles/common';
 import { Devide, PostSection } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
-const QuizHistoryList = dynamic(() => import('@/components/organisms/QuizHistoryList'));
+const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
 
 export interface UserPageProps {
   memberId: string;
@@ -40,7 +40,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
                 </PostSubInfo.Content>
                 <PostSubInfo.Content title="가입일">
                   <TextCaption>
-                    <RelativeDateText date={user.createdAt} />
+                    <RelativeDate date={user.createdAt} />
                   </TextCaption>
                 </PostSubInfo.Content>
                 <PostSubInfo.Content title="SNS">

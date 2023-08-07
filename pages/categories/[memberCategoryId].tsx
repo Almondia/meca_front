@@ -3,12 +3,12 @@ import { GetServerSideProps } from 'next';
 
 import { useMemo } from 'react';
 
-import LikeButton from '@/components/atoms/LikeButton';
-import PageTitle from '@/components/atoms/PageTitle';
-import MetaHead from '@/components/common/MetaHead';
-import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
-import MecaControl from '@/components/organisms/MecaControl';
-import MecaList from '@/components/organisms/MecaList';
+import PageTitle from '@/components/@common/atoms/PageTitle';
+import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import LikeButton from '@/components/@common/molecules/LikeButton';
+import MetaHead from '@/components/@util/MetaHead';
+import MecaControl from '@/components/meca/organisms/MecaControl';
+import MecaList from '@/components/meca/organisms/MecaList';
 import useCategoryLike from '@/hooks/category/useCategoryLike';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';

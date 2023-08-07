@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import Button from '@/components/atoms/Button';
-import MetaHead from '@/components/common/MetaHead';
+import Button from '@/components/@common/atoms/Button';
+import MetaHead from '@/components/@util/MetaHead';
 import { HiddenText, TextBodySubtitle, TextCaption } from '@/styles/common';
 import { ErrorPageSection } from '@/styles/layout';
 

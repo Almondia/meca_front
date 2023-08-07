@@ -1,0 +1,73 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import Image from 'next/image';
+
+import { memo, useEffect, useMemo, useState } from 'react';
+
+import Icon from '@/components/@common/atoms/Icon';
+import LinkButton from '@/components/@common/atoms/LinkButton';
+import ImageCropper from '@/components/@common/molecules/ImageCropper';
+import useModal from '@/hooks/useModal';
+import { getRemoteImageUrl } from '@/utils/imageHandler';
+
+import { ThumbnailChangeBox, ThumbnailImageContainer, ThumbnailUploadButton, ThumbnailUploaderWrapper } from './styled';
+
+interface ThumbnailUploaderProps {
+  image?: string | File;
+  onSetImage: (image: File) => void;
+  onDelete: () => void;
+  onUpload: () => void;
+}
+
+const ThumbnailUploader = memo(({ image, onSetImage, onDelete, onUpload }: ThumbnailUploaderProps) => {
+  const [currentImage, setCurrentImage] = useState<string | File | undefined>();
+  const { visible: isCropperVisible, close: onCloseCropper, open: onOpenCropper } = useModal();
+
+  useEffect(() => {
+    setCurrentImage(image);
+  }, [image]);
+
+  const visibleImageUrl = useMemo(() => {
+    if (!currentImage) {
+      return undefined;
+    }
+    return typeof currentImage === 'string' ? getRemoteImageUrl(currentImage) : URL.createObjectURL(currentImage);
+  }, [currentImage]);
+
+  return (
+    <>
+      {visibleImageUrl && (
+        <>
+          <ThumbnailChangeBox>
+            <LinkButton onClick={onOpenCropper}>편집</LinkButton>
+            <LinkButton onClick={onUpload}>재업로드</LinkButton>
+            <LinkButton onClick={onDelete}>제거</LinkButton>
+          </ThumbnailChangeBox>
+          {isCropperVisible && (
+            <ImageCropper
+              image={visibleImageUrl}
+              setImage={onSetImage}
+              isCropBoxRatioChangeable={false}
+              minCropBoxHeight={75}
+              minCropBoxWidth={150}
+              onClose={onCloseCropper}
+            />
+          )}
+        </>
+      )}
+      <ThumbnailUploaderWrapper>
+        {visibleImageUrl ? (
+          <ThumbnailImageContainer data-testid="id-thumbnail-background">
+            <Image src={visibleImageUrl} fill alt="category-thumbnail-image" sizes="360px" />
+          </ThumbnailImageContainer>
+        ) : (
+          <ThumbnailUploadButton onClick={onUpload}>
+            <Icon size="30px" icon="Logo" color="var(--color-gray)" />
+            썸네일 업로드
+          </ThumbnailUploadButton>
+        )}
+      </ThumbnailUploaderWrapper>
+    </>
+  );
+});
+
+export default ThumbnailUploader;

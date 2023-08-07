@@ -2,9 +2,9 @@
 import { GetServerSideProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
-import AuthPageProvider from '@/components/common/AuthPageProvider';
-import MetaHead from '@/components/common/MetaHead';
-import MecaWrite from '@/components/organisms/MecaWrite';
+import AuthPageProvider from '@/components/@util/AuthPageProvider';
+import MetaHead from '@/components/@util/MetaHead';
+import MecaWrite from '@/components/meca/organisms/MecaWrite';
 import useMeca from '@/hooks/meca/useMeca';
 import useMecaCount from '@/hooks/meca/useMecaCount';
 import { ssrAspect } from '@/libs/renderAspect';

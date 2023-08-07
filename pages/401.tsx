@@ -1,15 +1,15 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
-import Button from '@/components/atoms/Button';
-import MetaHead from '@/components/common/MetaHead';
+import Button from '@/components/@common/atoms/Button';
+import MetaHead from '@/components/@util/MetaHead';
 import useModal from '@/hooks/useModal';
 import { HiddenText, TextBodySubtitle } from '@/styles/common';
 import { ErrorPageSection } from '@/styles/layout';
 
-const LoginDialog = dynamic(() => import('@/components/organisms/LoginDialog'));
+const LoginDialog = dynamic(() => import('@/components/@common/organisms/LoginDialog'), { ssr: false });
 
-export interface UnauthorizedProps {
+interface UnauthorizedProps {
   message?: string;
 }
 

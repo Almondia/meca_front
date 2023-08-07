@@ -1,13 +1,14 @@
-import QuizPage from '@/pages/quiz';
 import { renderQuery } from '../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { MOCK_MECAS } from '../__mocks__/msw/data';
+import { MOCK_MECAS } from '@/mock/data';
 import { MecaTagResponseType } from '@/types/domain';
-import { implementServer, resetServer } from '../__mocks__/msw/server';
+import { implementServer, resetServer } from '@/mock/server';
 import useQuiz from '@/hooks/quiz/useQuiz';
-import { restHandler } from '../__mocks__/msw/handlers';
-import { mockedPostQuizResultApi } from '../__mocks__/msw/api';
+import { restHandler } from '@/mock/handlers';
+import { mockedPostQuizResultApi } from '@/mock/api';
 import cardHistoryApi from '@/apis/cardHistoryApi';
+
+import QuizPage from '@/pages/quiz';
 
 const mockQuizs = MOCK_MECAS.slice(0, 2);
 
@@ -15,6 +16,10 @@ jest.mock('@/hooks/quiz/useQuiz', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
+
+jest.mock('@/components/quiz/organisms/QuizResult', () => {
+  return () => <div></div>;
+});
 
 describe('QuizPage', () => {
   beforeEach(() => {

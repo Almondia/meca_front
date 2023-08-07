@@ -3,11 +3,11 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import { createQueryClientWrapper } from '../utils';
 import { QueryClient } from '@tanstack/react-query';
-import { implementServer } from '../__mocks__/msw/server';
-import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
+import { implementServer } from '@/mock/server';
+import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
 import utilApi from '@/apis/utilApi';
 import queryKey from '@/query/queryKey';
-import { mockedGetMecaCountApi, mockedPostMecaApi, mockedPutMecaUpdateApi } from '../__mocks__/msw/api';
+import { mockedGetMecaCountApi, mockedPostMecaApi, mockedPutMecaUpdateApi } from '@/mock/api';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),

@@ -4,12 +4,12 @@ import { GetServerSideProps } from 'next';
 import { useRecoilValue } from 'recoil';
 
 import { hasAuthState } from '@/atoms/common';
-import PageTitle from '@/components/atoms/PageTitle';
-import Selection from '@/components/atoms/Selection';
-import AuthPageProvider from '@/components/common/AuthPageProvider';
-import MetaHead from '@/components/common/MetaHead';
-import CategoryControl from '@/components/organisms/CategoryControl';
-import CategoryList from '@/components/organisms/CategoryList';
+import PageTitle from '@/components/@common/atoms/PageTitle';
+import Selection from '@/components/@common/molecules/Selection';
+import AuthPageProvider from '@/components/@util/AuthPageProvider';
+import MetaHead from '@/components/@util/MetaHead';
+import CategoryControl from '@/components/category/organisms/CategoryControl';
+import CategoryList from '@/components/category/organisms/CategoryList';
 import useCategoryList, { CategoryListFetcherKey } from '@/hooks/category/useCategoryList';
 import useQueryRouter from '@/hooks/useQueryRouter';
 import { ssrAspect } from '@/libs/renderAspect';

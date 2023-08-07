@@ -8,31 +8,26 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import CountIndicator from '@/components/atoms/CountIndicator';
-import LinkButton from '@/components/atoms/LinkButton';
-import LoadSpinner from '@/components/atoms/LoadSpinner';
-import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
+import CountIndicator from '@/components/@common/atoms/CountIndicator';
+import LinkButton from '@/components/@common/atoms/LinkButton';
+import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
+import PageTitle from '@/components/@common/atoms/PageTitle';
+import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { PostSection } from '@/styles/layout';
 import { QuizPhaseType, QuizSucceedType } from '@/types/domain';
 
-const QuizPost = dynamic(() => import('@/components/organisms/QuizPost'), {
+const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
+const QuizRetryController = dynamic(() => import('@/components/quiz/organisms/QuizRetryController'), { ssr: false });
+const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
+  ssr: false,
   loading: () => <LoadSpinner width="100%" />,
-  ssr: false,
 });
-
-const QuizResult = dynamic(() => import('@/components/organisms/QuizResult'), {
+const QuizResult = dynamic(() => import('@/components/quiz/organisms/QuizResult'), {
+  ssr: false,
   loading: () => <LoadSpinner width="100%" />,
-  ssr: false,
 });
-
-const QuizRetryController = dynamic(() => import('@/components/organisms/QuizRetryController'), {
-  ssr: false,
-});
-
-const TimerBar = dynamic(() => import('@/components/molcules/TimerBar'));
-const PageTitle = dynamic(() => import('@/components/atoms/PageTitle'));
 
 type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhaseType, QuizSucceedType>, 'result'>;
 

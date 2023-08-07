@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 
 import cardHistoryApi from '@/apis/cardHistoryApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import { MECATAG_VALUES } from '@/components/molcules/MecaTag/type';
+import { MECATAG_VALUES } from '@/components/meca/molecules/MecaTag/type';
 import queryKey from '@/query/queryKey';
 import { MECA_RESPONE_TO_TAG, MecaTagType, QuizType } from '@/types/domain';
 import alertToast from '@/utils/toastHandler';

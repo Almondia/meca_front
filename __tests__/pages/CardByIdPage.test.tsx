@@ -2,8 +2,8 @@ import { renderQuery } from '../utils';
 import { screen, waitFor } from '@testing-library/react';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { combineUUID } from '@/utils/uuidHandler';
-import { implementServer, resetServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
+import { implementServer } from '@/mock/server';
+import { restHandler } from '@/mock/handlers';
 import nookies from 'nookies';
 import * as SharedCardPage from '@/pages/mecas/[memberCardId]';
 import * as PrivateCardPage from '@/pages/mecas/me/[cardId]';
@@ -12,7 +12,7 @@ import {
   mockedGetMecaHistoryByCardApi,
   mockedGetSharedMecaApi,
   mockedGetUserApi,
-} from '../__mocks__/msw/api';
+} from '@/mock/api';
 jest.mock('nookies', () => ({
   get: jest.fn(),
 }));

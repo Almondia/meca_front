@@ -2,12 +2,12 @@ import utilApi from '@/apis/utilApi';
 import useMecaDelete from '@/hooks/meca/useMecaDelete';
 import { renderHook, waitFor } from '@testing-library/react';
 import { createQueryClientWrapper } from '../utils';
-import { restHandler } from '../__mocks__/msw/handlers';
-import { implementServer } from '../__mocks__/msw/server';
+import { restHandler } from '@/mock/handlers';
+import { implementServer } from '@/mock/server';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
 import useUser from '@/hooks/user/useUser';
-import { mockedDeleteMecaApi, mockedGetMecaCountApi } from '../__mocks__/msw/api';
+import { mockedDeleteMecaApi, mockedGetMecaCountApi } from '@/mock/api';
 
 jest.mock('next/router', () => require('next-router-mock'));
 

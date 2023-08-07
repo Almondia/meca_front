@@ -1,17 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-throw-literal */
-/* eslint-disable react/jsx-no-useless-fragment */
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import LinkButton from '@/components/atoms/LinkButton';
-import PageTitle from '@/components/atoms/PageTitle';
-import AuthPageProvider from '@/components/common/AuthPageProvider';
-import MetaHead from '@/components/common/MetaHead';
-import AvatarUser from '@/components/molcules/AvatarUser';
-import BetweenControlGroup from '@/components/molcules/BetweenControlGroup';
-import MecaPost from '@/components/organisms/MecaPost';
+import LinkButton from '@/components/@common/atoms/LinkButton';
+import PageTitle from '@/components/@common/atoms/PageTitle';
+import AvatarUser from '@/components/@common/molecules/AvatarUser';
+import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import AuthPageProvider from '@/components/@util/AuthPageProvider';
+import MetaHead from '@/components/@util/MetaHead';
+import MecaPost from '@/components/meca/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
 import useUser from '@/hooks/user/useUser';
@@ -20,8 +18,7 @@ import { Devide, PostSection } from '@/styles/layout';
 import { MyProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
-const MecaDeleteDialog = dynamic(() => import('@/components/organisms/MecaDeleteDialog'));
-
+const MecaDeleteDialog = dynamic(() => import('@/components/meca/organisms/MecaDeleteDialog'), { ssr: false });
 export interface MecaPageProps {
   cardId: string;
 }
@@ -76,7 +73,6 @@ const MecaById = ({ cardId }: MecaPageProps) => {
   );
 };
 
-// middleware rewrite로 접근되는 본인 카드 조회 페이지
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   const cardId = context.params?.cardId;
   if (!cardId || typeof cardId !== 'string') {

@@ -7,8 +7,8 @@ import { Hydrate, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RecoilRoot } from 'recoil';
 
-import FontProvider from '@/components/common/FontProvider';
-import Layout from '@/components/common/Layout';
+import PageLayout from '@/components/@common/templates/PageLayout';
+import FontProvider from '@/components/@util/FontProvider';
 import useSSRInterception from '@/hooks/useSSRInterception';
 import { generateQueryClient } from '@/query/queryClient';
 import commonTheme from '@/styles/theme';
@@ -16,8 +16,8 @@ import ThemeProvider from '@/styles/ThemeProvider';
 
 const Unauthorized = dynamic(() => import('./401'), { ssr: false });
 const NotFound = dynamic(() => import('./404'), { ssr: false });
-const ToastProvider = dynamic(() => import('@/components/common/ToastProvider'), { ssr: false });
-const GlobalLoadingSpinner = dynamic(() => import('@/components/molcules/GlobalLoadingSpinner'), { ssr: false });
+const GlobalLoadingSpinner = dynamic(() => import('@/components/@util/GlobalLoadingSpinner'));
+const ToastProvider = dynamic(() => import('@/components/@util/ToastProvider'));
 
 interface ErrorProps {
   errorStatus?: 401 | 404;
@@ -41,9 +41,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <FontProvider />
           <ThemeProvider theme={commonTheme}>
             <ToastProvider />
-            <Layout>
+            <PageLayout>
               {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
-            </Layout>
+            </PageLayout>
             <div id="modal-root" />
             <div id="image-crop-root" />
             <GlobalLoadingSpinner />

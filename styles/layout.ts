@@ -88,12 +88,3 @@ export const ErrorPageSection = styled.section`
   width: 100vw;
   height: 90vh;
 `;
-
-export const EditorContainer = styled.div`
-  padding: 30px;
-  border-radius: 4px;
-  background-color: var(--color-brightgray);
-  @media ${({ theme }) => theme.media.mobile} {
-    padding: 15px;
-  }
-`;

@@ -1,9 +1,9 @@
 import { GetStaticProps } from 'next';
 
-import MetaHead from '@/components/common/MetaHead';
-import CategoryControl from '@/components/organisms/CategoryControl';
-import CategoryList from '@/components/organisms/CategoryList';
-import HomeCarousel from '@/components/organisms/HomeCarousel';
+import HomeCarousel from '@/components/@common/organisms/HomeCarousel';
+import MetaHead from '@/components/@util/MetaHead';
+import CategoryControl from '@/components/category/organisms/CategoryControl';
+import CategoryList from '@/components/category/organisms/CategoryList';
 import useCategoryList from '@/hooks/category/useCategoryList';
 import { isrAspect } from '@/libs/renderAspect';
 import { Devide, ListSection } from '@/styles/layout';
