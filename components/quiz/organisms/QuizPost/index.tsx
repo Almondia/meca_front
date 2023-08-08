@@ -7,7 +7,7 @@ import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
 import { TextCaption } from '@/styles/common';
-import { MECA_RESPONE_TO_TAG, MecaTagResponseType, MecaTagType, QuizSucceedType } from '@/types/domain';
+import { MecaTagType, QuizSucceedType } from '@/types/domain';
 import { Constraints } from '@/utils/validation';
 
 import { DescriptionQuiz, KeywordQuiz, OxQuiz, SelectQuiz } from './content';
@@ -18,7 +18,7 @@ export interface QuizPostProps {
   question: string;
   answer: string;
   description: string;
-  quizType: MecaTagResponseType;
+  quizType: MecaTagType;
   isAnswerState: boolean;
   handleSucceed: QuizSucceedType;
   score?: number;
@@ -26,10 +26,10 @@ export interface QuizPostProps {
 }
 
 const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
-  ox: OxQuiz,
-  desc: DescriptionQuiz,
-  keyword: KeywordQuiz,
-  select: SelectQuiz,
+  OX_QUIZ: OxQuiz,
+  ESSAY: DescriptionQuiz,
+  KEYWORD: KeywordQuiz,
+  MULTI_CHOICE: SelectQuiz,
 };
 
 const QuizPost = ({
@@ -42,7 +42,7 @@ const QuizPost = ({
   score,
   inputAnswer,
 }: QuizPostProps) => {
-  const QuizContent = QUIZ_CONTENTS[MECA_RESPONE_TO_TAG[quizType]];
+  const QuizContent = QUIZ_CONTENTS[quizType];
   const { input: answerInput, onInputChange: answerInputChange, inputReset } = useInput('');
   const { inputsValidState, validateAll, resetValidateState } = useInputValidation(1);
 
@@ -62,7 +62,7 @@ const QuizPost = ({
       handleSucceed.succeedHandler();
       return;
     }
-    const { hasInvalid } = validateAll([() => Constraints.cardAnswer(answerInput, MECA_RESPONE_TO_TAG[quizType])]);
+    const { hasInvalid } = validateAll([() => Constraints.cardAnswer(answerInput, quizType)]);
     !hasInvalid && handleSucceed.succeedHandler(answerInput);
   };
 

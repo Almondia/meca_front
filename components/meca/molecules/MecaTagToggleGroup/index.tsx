@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
-import MecaTag from '@/components/meca/molecules/MecaTag';
+import IconTag from '@/components/@common/molecules/IconTag';
 import { MecaTagType } from '@/types/domain';
+import { MECA_TAGS } from '@/utils/constants';
 
 import { MecaTagButton, MecaTagToggleGroupWrapper } from './styled';
 
@@ -24,8 +25,8 @@ const MecaTagToggleGroup = ({ options, selected, onToggle, onlySelected }: MecaT
   return (
     <MecaTagToggleGroupWrapper>
       {tagOptions.map((option: MecaTagType) => (
-        <MecaTagButton key={option} onClick={() => handleButtonClick(option)}>
-          <MecaTag tagName={option} isNotOpaque={selected !== option} scale={selected === option ? 1.025 : 1} />
+        <MecaTagButton key={option} selected={selected === option} onClick={() => handleButtonClick(option)}>
+          <IconTag scale={selected === option ? 1.025 : 1} {...MECA_TAGS[option]} />
         </MecaTagButton>
       ))}
     </MecaTagToggleGroupWrapper>

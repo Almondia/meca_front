@@ -5,9 +5,9 @@ import { useSetRecoilState } from 'recoil';
 
 import cardHistoryApi from '@/apis/cardHistoryApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import { MECATAG_VALUES } from '@/components/meca/molecules/MecaTag/type';
 import queryKey from '@/query/queryKey';
-import { MECA_RESPONE_TO_TAG, MecaTagType, QuizType } from '@/types/domain';
+import { MecaTagType, QuizType } from '@/types/domain';
+import { MECA_TAGS } from '@/utils/constants';
 import alertToast from '@/utils/toastHandler';
 
 import useQuiz from './useQuiz';
@@ -62,17 +62,17 @@ const useQuizResult = () => {
   );
 
   const getQuizTypeRateResult = () => {
-    const keys = Object.keys(MECATAG_VALUES) as MecaTagType[];
+    const keys = Object.keys(MECA_TAGS) as MecaTagType[];
     const names = keys.reduce((prev, next, idx) => ({ ...prev, [next]: idx }), {}) as Record<MecaTagType, number>;
     const answerRate = [...Array(keys.length)].fill(0);
     const count = [...Array(keys.length)].fill(0);
     quizList.forEach((quiz) => {
-      const tag = MECA_RESPONE_TO_TAG[quiz.cardType];
+      const tag = quiz.cardType;
       answerRate[names[tag]] += (quiz.result?.score ?? 0) * 0.01;
       count[names[tag]] += 1;
     });
     return {
-      names: (Object.getOwnPropertyNames(names) as MecaTagType[]).map((name) => MECATAG_VALUES[name].text),
+      names: (Object.getOwnPropertyNames(names) as MecaTagType[]).map((name) => MECA_TAGS[name].text),
       answerRate,
       count,
     };

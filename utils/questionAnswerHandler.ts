@@ -1,13 +1,13 @@
 /* eslint-disable import/prefer-default-export */
 
-import { MecaTagResponseType } from '@/types/domain';
+import { MecaTagType } from '@/types/domain';
 
 import { stringToJsonStringArrayConverter } from './jsonHandler';
 
 interface QuestionAnswerConverterProps {
   question: string;
   answer?: string;
-  cardType: MecaTagResponseType;
+  cardType: MecaTagType;
 }
 
 export const getQuestionAnswerByCardType = ({ question, answer, cardType }: QuestionAnswerConverterProps) => {

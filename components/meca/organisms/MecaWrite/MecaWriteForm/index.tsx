@@ -10,7 +10,7 @@ import useMecaWrite from '@/hooks/meca/useMecaWrite';
 import useIncrease from '@/hooks/useCount';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
-import { MECA_TAG_TO_RESPONSE, MecaTagType, MecaType } from '@/types/domain';
+import { MecaTagType, MecaType } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { Constraints } from '@/utils/validation';
 
@@ -19,17 +19,17 @@ import { DescriptionQuestion, KeywordQuestion, OxQuestion, SelectQuestion } from
 import { MecaWriteAnswerComponentType, MecaWriteQuestionComponentType } from './type';
 
 const QUESTION_COMPONENTS: Record<MecaTagType, MecaWriteQuestionComponentType> = {
-  ox: OxQuestion,
-  desc: DescriptionQuestion,
-  keyword: KeywordQuestion,
-  select: SelectQuestion,
+  OX_QUIZ: OxQuestion,
+  ESSAY: DescriptionQuestion,
+  KEYWORD: KeywordQuestion,
+  MULTI_CHOICE: SelectQuestion,
 };
 
 const ANSWER_COMPONENTS: Record<MecaTagType, MecaWriteAnswerComponentType> = {
-  ox: OxAnswer,
-  desc: DescriptionAnswer,
-  keyword: KeywordAnswer,
-  select: SelectAnswer,
+  OX_QUIZ: OxAnswer,
+  ESSAY: DescriptionAnswer,
+  KEYWORD: KeywordAnswer,
+  MULTI_CHOICE: SelectAnswer,
 };
 
 export interface MecaWriteFormProps extends Partial<MecaType> {
@@ -54,7 +54,7 @@ const MecaWriteForm = ({
   const { input: questionInput, setInput: setQuestionInput } = useInput(question ?? '');
   const { input: answerInput, onInputChange: onAnswerChange, setInput: setAnswerInput } = useInput(answer ?? '');
   const { number: caseNum, increaseNumber: changeCaseNum } = useIncrease(
-    question && mecaTagType === 'select' ? JSON.parse(question).length - 1 : 3,
+    question && mecaTagType === 'MULTI_CHOICE' ? JSON.parse(question).length - 1 : 3,
     3,
     5,
   );
@@ -66,7 +66,7 @@ const MecaWriteForm = ({
     setAnswer(() => ANSWER_COMPONENTS[mecaTagType]);
     resetValidateState();
     if (!cardId && questionInput) {
-      setQuestionInput((prev) => (mecaTagType === 'select' ? JSON.stringify([prev]) : prev));
+      setQuestionInput((prev) => (mecaTagType === 'MULTI_CHOICE' ? JSON.stringify([prev]) : prev));
     }
     return () => {
       if (cardId) {
@@ -76,7 +76,7 @@ const MecaWriteForm = ({
         (prev) =>
           getQuestionAnswerByCardType({
             question: prev,
-            cardType: MECA_TAG_TO_RESPONSE[mecaTagType],
+            cardType: mecaTagType,
           }).question,
       );
       setAnswerInput(answer ?? '');
@@ -104,7 +104,7 @@ const MecaWriteForm = ({
       description: descInput,
       answer: answerInput,
     };
-    cardId ? updateMeca({ ...body, cardId }) : createMeca({ ...body, cardType: MECA_TAG_TO_RESPONSE[mecaTagType] });
+    cardId ? updateMeca({ ...body, cardId }) : createMeca({ ...body, cardType: mecaTagType });
   };
 
   return (
@@ -133,7 +133,7 @@ const MecaWriteForm = ({
           </InputGroup.Validation>
         </InputGroup>
       )}
-      {mecaTagType === 'select' && (
+      {mecaTagType === 'MULTI_CHOICE' && (
         <InputGroup>
           <InputGroup.Label>문항 수를 선택하세요</InputGroup.Label>
           <NumberIncrementer value={caseNum} onChange={changeCaseNum} />

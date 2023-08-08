@@ -29,11 +29,11 @@ describe('MecaWrite', () => {
     const selectedTagToggle = screen.getByRole('button', {
       name: /OX퀴즈/i,
     });
-    expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
+    expect(selectedTagToggle).toHaveStyleRule('opacity', '1');
     const notSelectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
-    expect(notSelectedTagToggle.firstChild).toHaveStyleRule('opacity', '0.3');
+    expect(notSelectedTagToggle).toHaveStyleRule('opacity', '0.3');
     const oxQuizQuestionText = screen.getByText('OX퀴즈 문제를 설명하세요');
     expect(oxQuizQuestionText).toBeInTheDocument();
     const questionInput = screen.getByPlaceholderText('OX 문제를 설명하세요');
@@ -58,12 +58,12 @@ describe('MecaWrite', () => {
     const selectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
-    expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
+    expect(selectedTagToggle).toHaveStyleRule('opacity', '1');
     // 이미 선택된 태그가 존재해 다른 태그타입을 선택할 수 없다.
     const notSelectedTagToggle = screen.queryByRole('button', {
       name: /OX퀴즈/i,
     });
-    expect(selectedTagToggle.firstChild).toHaveStyleRule('opacity', '1');
+    expect(selectedTagToggle).toHaveStyleRule('opacity', '1');
     const questionInput = screen.getByPlaceholderText('키워드 문제를 설명하세요');
     expect(questionInput).toHaveValue(card.question);
   });

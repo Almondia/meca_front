@@ -4,6 +4,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import MecaTagToggleGroup from '@/components/meca/molecules/MecaTagToggleGroup';
 import { MecaTagType } from '@/types/domain';
+import { MECA_TAGS } from '@/utils/constants';
 
 export default {
   title: 'components/meca/MecaTagToggleGroup',
@@ -16,8 +17,8 @@ export default {
 } as ComponentMeta<typeof MecaTagToggleGroup>;
 
 const Template: ComponentStory<typeof MecaTagToggleGroup> = (args) => {
-  const options: MecaTagType[] = ['ox', 'keyword', 'select', 'desc'];
-  const [selected, setSelected] = useState<MecaTagType>('keyword');
+  const options = Object.keys(MECA_TAGS) as MecaTagType[];
+  const [selected, setSelected] = useState<MecaTagType>('KEYWORD');
   const onToggle = (value: MecaTagType) => {
     setSelected(value);
   };

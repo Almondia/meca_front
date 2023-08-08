@@ -1,21 +1,6 @@
 import { PreloadedImageInfo } from './common';
 
-export type MecaTagType = 'ox' | 'desc' | 'keyword' | 'select';
-export type MecaTagResponseType = 'OX_QUIZ' | 'KEYWORD' | 'MULTI_CHOICE' | 'ESSAY';
-
-export const MECA_TAG_TO_RESPONSE: Record<MecaTagType, MecaTagResponseType> = {
-  ox: 'OX_QUIZ',
-  keyword: 'KEYWORD',
-  select: 'MULTI_CHOICE',
-  desc: 'ESSAY',
-};
-
-export const MECA_RESPONE_TO_TAG: Record<MecaTagResponseType, MecaTagType> = {
-  OX_QUIZ: 'ox',
-  KEYWORD: 'keyword',
-  MULTI_CHOICE: 'select',
-  ESSAY: 'desc',
-};
+export type MecaTagType = 'OX_QUIZ' | 'KEYWORD' | 'MULTI_CHOICE' | 'ESSAY';
 
 export const SOCIAL_TYPES = ['kakao', 'naver', 'google'] as const;
 export type SocialType = (typeof SOCIAL_TYPES)[number];
@@ -80,7 +65,7 @@ export interface CursorPaginationType {
 export interface MecaType {
   cardId: string;
   categoryId: string;
-  cardType: MecaTagResponseType;
+  cardType: MecaTagType;
   title: string;
   question: string;
   answer: string;

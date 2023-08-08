@@ -17,7 +17,7 @@ describe('MecaWriteForm', () => {
       cardType: 'MULTI_CHOICE',
       createdAt: '2024',
       description: '나는 INFP이고 INFP가 나이다.',
-      mecaTagType: 'select',
+      mecaTagType: 'MULTI_CHOICE',
       title: '박동석 MBTI',
       titleRef: mockDivRef,
     };
@@ -38,7 +38,7 @@ describe('MecaWriteForm', () => {
     const wrtieProps: MecaWriteFormProps = {
       categoryId: 'catid01',
       titleRef: mockDivRef,
-      mecaTagType: 'select',
+      mecaTagType: 'MULTI_CHOICE',
     };
     renderQuery(<MecaWriteForm {...wrtieProps} />);
     const selectLabel = screen.queryByText('문항 수를 선택하세요');
@@ -58,7 +58,7 @@ describe('MecaWriteForm', () => {
     const wrtieProps: MecaWriteFormProps = {
       categoryId: 'catid01',
       titleRef: mockDivRef,
-      mecaTagType: 'select',
+      mecaTagType: 'MULTI_CHOICE',
     };
     renderQuery(<MecaWriteForm {...wrtieProps} />);
     const exam4Label = screen.queryByText('보기 (4)');

@@ -1,5 +1,6 @@
-import MecaTag from '@/components/meca/molecules/MecaTag';
+import IconTag from '@/components/@common/molecules/IconTag';
 import { MecaTagType } from '@/types/domain';
+import { MECA_TAGS } from '@/utils/constants';
 
 import { QuizResultItemTitleGroup, QuizResultItemWrapper } from './styled';
 
@@ -15,7 +16,7 @@ const QuizResultItem = ({ question, answer, userAnswer, quizType }: QuizResultIt
     <div>
       <QuizResultItemTitleGroup>
         <strong>[문제 질문]</strong>
-        {quizType && <MecaTag tagName={quizType} scale={0.7} />}
+        {quizType && <IconTag {...MECA_TAGS[quizType]} scale={0.7} />}
       </QuizResultItemTitleGroup>
       <span>{question}</span>
     </div>

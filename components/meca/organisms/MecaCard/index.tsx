@@ -5,10 +5,11 @@ import { memo } from 'react';
 import ColorizedScore from '@/components/@common/atoms/ColorizedScore';
 import Card from '@/components/@common/molecules/Card';
 import DropdownMenu from '@/components/@common/molecules/DropdownMenu';
-import MecaTag from '@/components/meca/molecules/MecaTag';
+import IconTag from '@/components/@common/molecules/IconTag';
 import useModal from '@/hooks/useModal';
 import { TextCaption } from '@/styles/common';
-import { MECA_TAG_TO_RESPONSE, MecaStatisticsType, MecaTagType, MecaType } from '@/types/domain';
+import { MecaStatisticsType, MecaTagType, MecaType } from '@/types/domain';
+import { MECA_TAGS } from '@/utils/constants';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
@@ -53,7 +54,7 @@ const MecaCard = memo(
         <Card.Title link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</Card.Title>
         <Card.Body>
           <MecaQuestionTextContainer>
-            {getQuestionAnswerByCardType({ question, cardType: MECA_TAG_TO_RESPONSE[tagType] }).question}
+            {getQuestionAnswerByCardType({ question, cardType: tagType }).question}
           </MecaQuestionTextContainer>
           <MecaSubInfoContainer>
             <TextCaption>
@@ -69,7 +70,7 @@ const MecaCard = memo(
                 </span>
               )}
             </TextCaption>
-            <MecaTag tagName={tagType} />
+            <IconTag {...MECA_TAGS[tagType]} />
           </MecaSubInfoContainer>
           {isMine && (
             <>

@@ -1,3 +1,5 @@
+import { MecaTagType } from '@/types/domain';
+
 /* eslint-disable import/prefer-default-export */
 export const PAGINATION_NUM = 12;
 
@@ -11,3 +13,32 @@ export const UUID_PATTERN = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-
 
 export const IDEAL_QUIZ_SCORE = 70;
 export const BAD_QUIZ_SCORE = 40;
+
+interface TagProps {
+  icon: 'Ox' | 'Bubble' | 'Check' | 'Dice';
+  tagColor: string;
+  text: string;
+}
+
+export const MECA_TAGS: Record<MecaTagType, TagProps> = {
+  OX_QUIZ: {
+    icon: 'Ox',
+    tagColor: '#A6880D',
+    text: 'OX퀴즈',
+  },
+  ESSAY: {
+    icon: 'Bubble',
+    tagColor: '#E78565',
+    text: '주관식',
+  },
+  KEYWORD: {
+    icon: 'Check',
+    tagColor: '#7B61FF',
+    text: '키워드',
+  },
+  MULTI_CHOICE: {
+    icon: 'Dice',
+    tagColor: '#64ab38',
+    text: '객관식',
+  },
+};

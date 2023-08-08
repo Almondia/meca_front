@@ -14,11 +14,11 @@ export const cardAnswerValidation: Record<
   MecaTagType,
   { validFn: (answer: string) => ContraintsResultType; maxLength: number }
 > = {
-  desc: {
+  ESSAY: {
     maxLength: 500,
     validFn: (answer) => ({ message: '500자 이내로 작성하세요', isValid: answer.length <= 500 }),
   },
-  keyword: {
+  KEYWORD: {
     maxLength: 100,
     validFn: (answer) => {
       const areAnswerNotEmpty = answer.split(',').every((a) => !isBlank(a));
@@ -28,14 +28,14 @@ export const cardAnswerValidation: Record<
       return { message: '모든 정답을 입력했는지 확인해주세요!', isValid: areAnswerNotEmpty };
     },
   },
-  select: {
+  MULTI_CHOICE: {
     maxLength: 1,
     validFn: (answer) => ({
       message: '올바른 항목을 선택하세요',
       isValid: typeof parseInt(answer, 10) === 'number' && parseInt(answer, 10) <= 5,
     }),
   },
-  ox: {
+  OX_QUIZ: {
     maxLength: 1,
     validFn: (answer) => ({ message: '올바른 항목을 선택하세요', isValid: answer === 'O' || answer === 'X' }),
   },
@@ -47,7 +47,7 @@ export const Constraints: Record<string, (value: string, ...args: any[]) => Cont
     isValid: title.length >= 2 && title.length <= 40,
   }),
   cardQuestion: (question: string, mecaTag: MecaTagType) => {
-    if (mecaTag === 'select') {
+    if (mecaTag === 'MULTI_CHOICE') {
       const questions = stringToJsonStringArrayConverter(question);
       questions[0] = extractTextFromHTML(questions[0]);
       if (!isBlank(questions[0])) {

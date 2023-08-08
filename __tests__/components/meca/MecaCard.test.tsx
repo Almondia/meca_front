@@ -12,7 +12,7 @@ describe('MecaCard', () => {
         categoryId={'categoryId'}
         title={'mytitle'}
         question={'question'}
-        tagType={'ox'}
+        tagType={'OX_QUIZ'}
         thumbnail={'/01879c33-ebf3-6056-952f-d6d831d4b0bb/card/1682306625453.png'}
       />,
     );
@@ -33,7 +33,7 @@ describe('MecaCard', () => {
         categoryId={'categoryId'}
         title={'title'}
         question={'question'}
-        tagType={'ox'}
+        tagType={'OX_QUIZ'}
       />,
     );
     const dotButton = screen.getByRole('button', {
@@ -54,7 +54,7 @@ describe('MecaCard', () => {
         memberId={''}
         title={'title'}
         question={'["real question","111","222","333"]'}
-        tagType={'select'}
+        tagType={'MULTI_CHOICE'}
       />,
     );
     const tagText = screen.getByText(/객관식/i);
@@ -74,7 +74,7 @@ describe('MecaCard', () => {
         memberId={''}
         title={'title'}
         question={'박동석의 MBTI는 무엇인가'}
-        tagType={'keyword'}
+        tagType={'KEYWORD'}
         scoreAvg={24.46}
         tryCount={14}
       />,

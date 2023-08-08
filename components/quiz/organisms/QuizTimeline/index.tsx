@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ColorizedScore from '@/components/@common/atoms/ColorizedScore';
 import QuizResultItem from '@/components/quiz/molecules/QuizResultItem';
 import { COLOR } from '@/styles/constants';
-import { MECA_RESPONE_TO_TAG, QuizResultType, QuizType } from '@/types/domain';
+import { QuizResultType, QuizType } from '@/types/domain';
 import { IDEAL_QUIZ_SCORE } from '@/utils/constants';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
@@ -52,7 +52,7 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
                 question={extractTextFromHTML(question)}
                 answer={answer}
                 userAnswer={userAnswer}
-                quizType={MECA_RESPONE_TO_TAG[quiz.cardType]}
+                quizType={quiz.cardType}
               />
             </QuizTimelineActivity>
           );

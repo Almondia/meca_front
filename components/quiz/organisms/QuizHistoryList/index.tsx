@@ -9,7 +9,6 @@ import InfiniteList from '@/components/@common/molecules/InfiniteList';
 import QuizResultItem from '@/components/quiz/molecules/QuizResultItem';
 import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import { TextBodySubtitle, TextCaption } from '@/styles/common';
-import { MECA_RESPONE_TO_TAG } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
@@ -97,7 +96,7 @@ const QuizHistoryList = ({ resourceId, resourceType, excludeRows }: QuizHistoryL
                         question={question}
                         answer={answer}
                         userAnswer={userAnswer}
-                        quizType={hasQuizType ? MECA_RESPONE_TO_TAG[content.cardType] : undefined}
+                        quizType={hasQuizType ? content.cardType : undefined}
                       />
                     </div>
                     <TextCaption>

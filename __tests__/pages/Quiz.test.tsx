@@ -1,7 +1,6 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { MOCK_MECAS } from '@/mock/data';
-import { MecaTagResponseType } from '@/types/domain';
 import { implementServer, resetServer } from '@/mock/server';
 import useQuiz from '@/hooks/quiz/useQuiz';
 import { restHandler } from '@/mock/handlers';
@@ -9,6 +8,7 @@ import { mockedPostQuizResultApi } from '@/mock/api';
 import cardHistoryApi from '@/apis/cardHistoryApi';
 
 import QuizPage from '@/pages/quiz';
+import { MecaTagType } from '@/types/domain';
 
 const mockQuizs = MOCK_MECAS.slice(0, 2);
 
@@ -33,7 +33,7 @@ describe('QuizPage', () => {
     renderQuery(<QuizPage />);
     const maxCountText = screen.getByTestId('id-count-indicator-maxcount');
     expect(maxCountText).toHaveTextContent(mockQuizs.length.toString());
-    const cardType = mockQuizs[0].cardType as MecaTagResponseType;
+    const cardType = mockQuizs[0].cardType as MecaTagType;
     await waitFor(() => {
       if (cardType === 'KEYWORD') {
         expect(screen.getByPlaceholderText('정답 입력')).toBeInTheDocument();
