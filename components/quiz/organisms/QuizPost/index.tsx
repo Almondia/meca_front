@@ -2,8 +2,8 @@
 import { useCallback, useEffect } from 'react';
 
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
-import ButtonGroup from '@/components/@common/molecules/ButtonGroup';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
+import QuizPlayButtonGroup from '@/components/quiz/molecules/QuizPlayButtonGroup';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
 import { TextCaption } from '@/styles/common';
@@ -98,13 +98,7 @@ const QuizPost = ({
         <TextCaption>&nbsp;&nbsp;- 풀이 도중 이탈 시 불러운 퀴즈 정보는 모두 만료됩니다.</TextCaption>
         <TextCaption>&nbsp;&nbsp;- 주관식 점수는 키워드 적중도로 계산되며 단순 흥미 요소입니다.</TextCaption>
       </div>
-      <ButtonGroup
-        successText={handleSucceed.succeedText}
-        onSuccess={handleSucceedClick}
-        cancelText="나가기"
-        hasCancelWarning
-        cancelWarningText="현재 페이지로 다시 돌아올 수 없습니다?"
-      />
+      <QuizPlayButtonGroup succeedText={handleSucceed.succeedText} onSucceed={handleSucceedClick} />
     </QuizPostWrapper>
   );
 };

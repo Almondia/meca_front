@@ -19,12 +19,3 @@ Default.args = {
   onSuccess: () => alert('완료!'),
   onCancel: () => alert('default: 뒤로가기'),
 };
-
-export const WithWarningModal = Template.bind({});
-WithWarningModal.args = {
-  successText: '완료하기',
-  onSuccess: () => alert('완료!'),
-  onCancel: () => alert('default: 뒤로가기'),
-  hasCancelWarning: true,
-  cancelWarningText: '정말로 취소할꺼야?',
-};

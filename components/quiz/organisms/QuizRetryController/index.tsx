@@ -22,7 +22,7 @@ const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
   return (
     <>
       <Devide />
-      <ButtonGroup successText="다시풀기" onSuccess={open} cancelText="목록으로" hasCancelWarning={false} />
+      <ButtonGroup successText="다시풀기" onSuccess={open} cancelText="목록으로" />
       <Modal visible={visible} onClose={close} isClickAwayable hasCloseIcon>
         <Modal.Title>{title}</Modal.Title>
         <Modal.Body>

@@ -2,10 +2,10 @@ import { RefObject, useEffect, useState } from 'react';
 
 import { createPortal } from 'react-dom';
 
-import ButtonGroup from '@/components/@common/molecules/ButtonGroup';
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import NumberIncrementer from '@/components/@common/molecules/NumberIncrementer';
 import QuillWriter from '@/components/@common/organisms/Editor/QuillWriter';
+import MecaUploadButtonGroup from '@/components/meca/molecules/MecaUploadButtonGroup';
 import useMecaWrite from '@/hooks/meca/useMecaWrite';
 import useIncrease from '@/hooks/useCount';
 import useInput from '@/hooks/useInput';
@@ -37,7 +37,7 @@ export interface MecaWriteFormProps extends Partial<MecaType> {
   categoryId: string;
   mecaTagType: MecaTagType;
 }
-
+// TODO: Context Provider 방식으로 변경하면 좋을듯
 const MecaWriteForm = ({
   mecaTagType,
   titleRef,
@@ -154,13 +154,7 @@ const MecaWriteForm = ({
       </InputGroup>
       <br />
       <br />
-      <ButtonGroup
-        onSuccess={handleCreateButtonClick}
-        successText="작성 완료"
-        cancelText="취소"
-        hasCancelWarning
-        cancelWarningText="작성한 내용이 모두 사라집니다?"
-      />
+      <MecaUploadButtonGroup onSubmit={handleCreateButtonClick} />
     </div>
   );
 };
