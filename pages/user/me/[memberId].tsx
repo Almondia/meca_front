@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 
 import RelativeDate from '@/components/@common/atoms/RelativeDate';
-import PostBody from '@/components/@common/molecules/PostBody';
+import PostSection from '@/components/@common/molecules/PostSection';
 import PostSubInfo from '@/components/@common/molecules/PostSubInfo';
 import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
@@ -12,7 +12,7 @@ import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import { TextCaption } from '@/styles/common';
-import { Devide, PostSection } from '@/styles/layout';
+import { Devide, PostSection as Section } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
@@ -27,13 +27,13 @@ const UserPage = ({ memberId }: UserPageProps) => {
     <AuthPageProvider>
       <MetaHead title="Meca - My Page" />
       {user && (
-        <PostSection>
+        <Section>
           <UserProfileHeader {...user} />
           <Devide />
           <br />
-          <PostBody>
-            <PostBody.Title>기본정보</PostBody.Title>
-            <PostBody.Content hasBackground={false} hasIndent={false}>
+          <PostSection>
+            <PostSection.Title>기본정보</PostSection.Title>
+            <PostSection.Body boxed={false} indented={false}>
               <PostSubInfo columnGutter="12px" rowGutter="12px">
                 <PostSubInfo.Content title="Email">
                   <TextCaption>{user.email}</TextCaption>
@@ -47,17 +47,17 @@ const UserPage = ({ memberId }: UserPageProps) => {
                   <TextCaption>{user.oauthType}</TextCaption>
                 </PostSubInfo.Content>
               </PostSubInfo>
-            </PostBody.Content>
-          </PostBody>
+            </PostSection.Body>
+          </PostSection>
           <Devide />
           <br />
-          <PostBody>
-            <PostBody.Title>퀴즈 기록</PostBody.Title>
-            <PostBody.Content hasBackground={false} hasIndent={false}>
+          <PostSection>
+            <PostSection.Title>퀴즈 기록</PostSection.Title>
+            <PostSection.Body boxed={false} indented={false}>
               <QuizHistoryList resourceType="members" resourceId={memberId} excludeRows={['user']} />
-            </PostBody.Content>
-          </PostBody>
-        </PostSection>
+            </PostSection.Body>
+          </PostSection>
+        </Section>
       )}
     </AuthPageProvider>
   );

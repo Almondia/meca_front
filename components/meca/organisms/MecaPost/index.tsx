@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 import RelativeDate from '@/components/@common/atoms/RelativeDate';
 import IconTag from '@/components/@common/molecules/IconTag';
-import PostBody from '@/components/@common/molecules/PostBody';
+import PostSection from '@/components/@common/molecules/PostSection';
 import PostSubInfo from '@/components/@common/molecules/PostSubInfo';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { TextCaption } from '@/styles/common';
@@ -41,19 +41,19 @@ const MecaPost = memo(({ cardId, cardType, question, answer, description, create
         </PostSubInfo.Content>
       </PostSubInfo>
       <MecaBody question={question} answer={answer} />
-      <PostBody>
-        <PostBody.Title>Description</PostBody.Title>
-        <PostBody.Content>
+      <PostSection>
+        <PostSection.Title>Description</PostSection.Title>
+        <PostSection.Body>
           <QuillReader content={description || '내용이 없습니다.'} />
-        </PostBody.Content>
-      </PostBody>
-      <PostBody>
-        <PostBody.Title>History</PostBody.Title>
-        <PostBody.Content hasBackground={false} hasIndent={false}>
+        </PostSection.Body>
+      </PostSection>
+      <PostSection>
+        <PostSection.Title>History</PostSection.Title>
+        <PostSection.Body indented={false} boxed={false}>
           {/* FIX: need fix */}
           <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
-        </PostBody.Content>
-      </PostBody>
+        </PostSection.Body>
+      </PostSection>
     </MecaPostWrapper>
   );
 });

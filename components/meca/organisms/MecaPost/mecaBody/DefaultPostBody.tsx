@@ -1,19 +1,19 @@
-import PostBody from '@/components/@common/molecules/PostBody';
+import PostSection from '@/components/@common/molecules/PostSection';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 
 import { MecaPostBodyProps } from '../type';
 
 export const DefaultPostBody = ({ question, answer }: MecaPostBodyProps) => (
   <>
-    <PostBody>
-      <PostBody.Title>Question</PostBody.Title>
-      <PostBody.Content>
+    <PostSection>
+      <PostSection.Title>Question</PostSection.Title>
+      <PostSection.Body>
         <QuillReader content={question} />
-      </PostBody.Content>
-    </PostBody>
-    <PostBody>
-      <PostBody.Title>Answer</PostBody.Title>
-      <PostBody.Content>{answer}</PostBody.Content>
-    </PostBody>
+      </PostSection.Body>
+    </PostSection>
+    <PostSection>
+      <PostSection.Title>Answer</PostSection.Title>
+      <PostSection.Body>{answer}</PostSection.Body>
+    </PostSection>
   </>
 );

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styled from 'styled-components';
 
-import PostBody from '@/components/@common/molecules/PostBody';
+import PostSection from '@/components/@common/molecules/PostSection';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { TextBody } from '@/styles/common';
 import { TextAreaBox } from '@/styles/layout';
@@ -27,20 +27,20 @@ export const SelectPostBody = ({ question, answer }: MecaPostBodyProps) => {
   const questionArray = stringToJsonStringArrayConverter(question);
   return (
     <>
-      <PostBody>
-        <PostBody.Title>Question</PostBody.Title>
-        <PostBody.Content>
+      <PostSection>
+        <PostSection.Title>Question</PostSection.Title>
+        <PostSection.Body>
           <QuillReader content={questionArray[0]} />
-        </PostBody.Content>
-      </PostBody>
-      <PostBody>
+        </PostSection.Body>
+      </PostSection>
+      <PostSection>
         {[...questionArray].slice(1).map((q, i) => (
           <QuestionItemContainer key={i}>
-            <PostBody.Title>Q{i + 1}.</PostBody.Title>
+            <PostSection.Title>Q{i + 1}.</PostSection.Title>
             <QuestionItemText isAnswer={answer === (i + 1).toString()}>{q}</QuestionItemText>
           </QuestionItemContainer>
         ))}
-      </PostBody>
+      </PostSection>
     </>
   );
 };
