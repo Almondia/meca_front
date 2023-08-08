@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect } from 'react';
 
+import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import ButtonGroup from '@/components/@common/molecules/ButtonGroup';
-import ContentsBox from '@/components/@common/molecules/ContentsBox';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
@@ -82,7 +82,7 @@ const QuizPost = ({
         invalidAnswerMessage={inputsValidState[0].isValid ? undefined : inputsValidState[0].message}
       />
       {isAnswerState && description && (
-        <ContentsBox
+        <BoxedSection
           header="Commentary."
           isColumn
           body={

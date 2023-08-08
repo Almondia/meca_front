@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Icon from '@/components/@common/atoms/Icon';
 import RadioGroup from '@/components/@common/atoms/Input/Radio';
-import ContentsBox from '@/components/@common/molecules/ContentsBox';
+import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { NonVisibleRadioBox } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
@@ -65,8 +65,8 @@ export const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: Qui
   );
   return (
     <QuizContentWrapper>
-      <ContentsBox header="Question." isColumn body={<QuillReader content={question} />} />
-      <ContentsBox
+      <BoxedSection header="Question." isColumn body={<QuillReader content={question} />} />
+      <BoxedSection
         header="Check Answer!"
         body={
           <SelectGroup ref={fieldsetRef}>

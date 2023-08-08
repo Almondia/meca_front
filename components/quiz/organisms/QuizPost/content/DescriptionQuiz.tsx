@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import ContentsBox from '@/components/@common/molecules/ContentsBox';
+import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { TextCaption } from '@/styles/common';
@@ -36,11 +36,11 @@ export const DescriptionQuiz = ({
   onChange,
 }: QuizContentProps) => (
   <QuizContentWrapper>
-    <ContentsBox header="Question." isColumn body={<QuillReader content={question} />} />
+    <BoxedSection header="Question." isColumn body={<QuillReader content={question} />} />
     {isAnswerState ? (
       <>
-        <ContentsBox header="Answer." body={answer} isColumn />
-        <ContentsBox
+        <BoxedSection header="Answer." body={answer} isColumn />
+        <BoxedSection
           header={
             <AnswerBetweenHeader>
               <p>Your Answer.</p>
@@ -56,7 +56,7 @@ export const DescriptionQuiz = ({
         />
       </>
     ) : (
-      <ContentsBox
+      <BoxedSection
         header="Let's Answer!"
         body={
           <KeywordAnswerInputContainer>
