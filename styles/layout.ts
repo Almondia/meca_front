@@ -42,7 +42,7 @@ export const TextAreaBox = css`
   word-break: break-all;
 `;
 
-const Section = styled.div`
+const PageLayout = styled.main`
   margin: 0 auto;
   padding: 90px 0px;
   @media ${({ theme }) => theme.media.tablet} {
@@ -54,7 +54,7 @@ const Section = styled.div`
   }
 `;
 
-export const ListSection = styled(Section)`
+export const ListPageLayout = styled(PageLayout)`
   max-width: 1376px;
   @media ${({ theme }) => theme.media.desktop} {
     max-width: 1024px;
@@ -64,7 +64,7 @@ export const ListSection = styled(Section)`
   }
 `;
 
-export const PostSection = styled(Section)`
+export const PostPageLayout = styled(PageLayout)`
   max-width: 864px;
   @media ${({ theme }) => theme.media.tablet} {
     width: 768px;
@@ -72,14 +72,7 @@ export const PostSection = styled(Section)`
   }
 `;
 
-export const Devide = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: var(--color-lightgray);
-  margin: 24px 0;
-`;
-
-export const ErrorPageSection = styled.section`
+export const ErrorPageLayout = styled.main`
   position: fixed;
   left: 0;
   top: 60px;
@@ -87,4 +80,11 @@ export const ErrorPageSection = styled.section`
   row-gap: 30px;
   width: 100vw;
   height: 90vh;
+`;
+
+export const Devide = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-lightgray);
+  margin: 24px 0;
 `;

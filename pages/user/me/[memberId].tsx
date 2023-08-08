@@ -12,7 +12,7 @@ import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import { TextCaption } from '@/styles/common';
-import { Devide, PostSection as Section } from '@/styles/layout';
+import { Devide, PostPageLayout } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
@@ -27,7 +27,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
     <AuthPageProvider>
       <MetaHead title="Meca - My Page" />
       {user && (
-        <Section>
+        <PostPageLayout>
           <UserProfileHeader {...user} />
           <Devide />
           <br />
@@ -57,7 +57,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
               <QuizHistoryList resourceType="members" resourceId={memberId} excludeRows={['user']} />
             </PostSection.Body>
           </PostSection>
-        </Section>
+        </PostPageLayout>
       )}
     </AuthPageProvider>
   );

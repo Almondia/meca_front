@@ -9,7 +9,7 @@ import MecaPost from '@/components/meca/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import { isrAspect } from '@/libs/renderAspect';
 import NotFound from '@/pages/404';
-import { Devide, PostSection } from '@/styles/layout';
+import { Devide, PostPageLayout } from '@/styles/layout';
 import { MecaType, UserProfile } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { extractFirstImageFromHTML } from '@/utils/imageHandler';
@@ -36,7 +36,7 @@ const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProp
         image={thumbnailUrl}
         ogType="article"
       />
-      <PostSection>
+      <PostPageLayout>
         <PageTitle>{meca.title}</PageTitle>
         <br />
         <BetweenControlGroup>
@@ -46,7 +46,7 @@ const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProp
         </BetweenControlGroup>
         <Devide />
         <MecaPost {...meca} />
-      </PostSection>
+      </PostPageLayout>
     </>
   );
 };

@@ -6,7 +6,7 @@ import QuizHistoryList from '@/components/quiz/organisms/QuizHistoryList';
 import { mockedGetMecaHistoryByMemberApi } from '@/mock/api';
 import { restHandler } from '@/mock/handlers';
 import { implementWorker } from '@/mock/worker';
-import { PostSection } from '@/styles/layout';
+import { PostPageLayout } from '@/styles/layout';
 
 export default {
   title: 'components/quiz/QuizHistoryList',
@@ -96,14 +96,14 @@ export const Default = () => {
 
   useEffect(() => {}, []);
   return (
-    <PostSection>
+    <PostPageLayout>
       <Template resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" excludeRows={['user']} />
-    </PostSection>
+    </PostPageLayout>
   );
 };
 
 export const Empty = () => (
-  <PostSection>
+  <PostPageLayout>
     <Template resourceId="" resourceType="members" excludeRows={['user']} />
-  </PostSection>
+  </PostPageLayout>
 );

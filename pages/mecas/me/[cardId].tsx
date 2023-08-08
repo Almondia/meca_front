@@ -14,7 +14,7 @@ import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
-import { Devide, PostSection } from '@/styles/layout';
+import { Devide, PostPageLayout } from '@/styles/layout';
 import { MyProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
@@ -41,7 +41,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
       {meca && (
         <>
           <MetaHead title={`${meca.title}- by ${user?.name}`} ogType="article" />
-          <PostSection>
+          <PostPageLayout>
             <PageTitle>{meca.title}</PageTitle>
             <br />
             <BetweenControlGroup>
@@ -66,7 +66,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
             />
             <Devide />
             <MecaPost {...meca} />
-          </PostSection>
+          </PostPageLayout>
         </>
       )}
     </AuthPageProvider>

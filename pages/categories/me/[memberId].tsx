@@ -13,7 +13,7 @@ import CategoryList from '@/components/category/organisms/CategoryList';
 import useCategoryList, { CategoryListFetcherKey } from '@/hooks/category/useCategoryList';
 import useQueryRouter from '@/hooks/useQueryRouter';
 import { ssrAspect } from '@/libs/renderAspect';
-import { Devide, ListSection } from '@/styles/layout';
+import { Devide, ListPageLayout } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 interface CategoryProps {
@@ -32,7 +32,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
   return (
     <AuthPageProvider>
       <MetaHead title="내 카테고리 목록" description="로그인 후 이용할 수 있어요!" />
-      <ListSection>
+      <ListPageLayout>
         <PageTitle>{recommended ? '추천한 카테고리' : '내 카테고리'}</PageTitle>
         <CategoryControl query={query} onChangeQuery={changeSearchQuery} />
         <Devide />
@@ -50,7 +50,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
           fetchNextPage={fetchNextPage}
           isEmpty={isEmpty}
         />
-      </ListSection>
+      </ListPageLayout>
     </AuthPageProvider>
   );
 };

@@ -4,7 +4,7 @@ import MecaPost from '@/components/meca/organisms/MecaPost';
 import { mockedGetMecaHistoryByCardApi } from '@/mock/api';
 import { restHandler } from '@/mock/handlers';
 import { implementWorker } from '@/mock/worker';
-import { PostSection } from '@/styles/layout';
+import { PostPageLayout } from '@/styles/layout';
 
 export default {
   title: 'components/meca/MecaPost',
@@ -20,9 +20,9 @@ export default {
 const Template: ComponentStory<typeof MecaPost> = (args) => {
   implementWorker([restHandler(mockedGetMecaHistoryByCardApi)]);
   return (
-    <PostSection>
+    <PostPageLayout>
       <MecaPost {...args} />
-    </PostSection>
+    </PostPageLayout>
   );
 };
 

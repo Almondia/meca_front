@@ -9,7 +9,7 @@ import useMeca from '@/hooks/meca/useMeca';
 import useMecaCount from '@/hooks/meca/useMecaCount';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
-import { PostSection } from '@/styles/layout';
+import { PostPageLayout } from '@/styles/layout';
 
 export interface MecaWritePageProps {
   categoryId: string;
@@ -21,9 +21,9 @@ const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
   return (
     <AuthPageProvider>
       <MetaHead title="Meca Card 작성하기" />
-      <PostSection>
+      <PostPageLayout>
         {cardId ? <MecaWrite {...meca} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
-      </PostSection>
+      </PostPageLayout>
     </AuthPageProvider>
   );
 };

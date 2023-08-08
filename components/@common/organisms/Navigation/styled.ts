@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import styled from 'styled-components';
 
-import { FlexCenter, FlexSpaceBetween, ListSection } from '@/styles/layout';
+import { FlexCenter, FlexSpaceBetween, ListPageLayout } from '@/styles/layout';
 
 export const NavigationWrapper = styled.header`
   padding: 16px 0;
@@ -12,7 +12,7 @@ export const NavigationWrapper = styled.header`
   }
 `;
 
-export const NavigationContentsSection = styled(ListSection)`
+export const NavigationContentsSection = styled(ListPageLayout).attrs({ as: 'div' })`
   ${FlexSpaceBetween};
   padding-top: 0px;
   padding-bottom: 0px;

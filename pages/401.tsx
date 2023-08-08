@@ -5,7 +5,7 @@ import Button from '@/components/@common/atoms/Button';
 import MetaHead from '@/components/@util/MetaHead';
 import useModal from '@/hooks/useModal';
 import { HiddenText, TextBodySubtitle } from '@/styles/common';
-import { ErrorPageSection } from '@/styles/layout';
+import { ErrorPageLayout } from '@/styles/layout';
 
 const LoginDialog = dynamic(() => import('@/components/@common/organisms/LoginDialog'), { ssr: false });
 
@@ -18,7 +18,7 @@ const Unauthorized = ({ message }: UnauthorizedProps) => {
   return (
     <>
       <MetaHead />
-      <ErrorPageSection>
+      <ErrorPageLayout>
         <Image src="/images/401img.png" width={343} height={238} alt="401-image" />
         <TextBodySubtitle> 로그인이... 필요합니다!!</TextBodySubtitle>
         <Button colorTheme="primary" onClick={open}>
@@ -26,7 +26,7 @@ const Unauthorized = ({ message }: UnauthorizedProps) => {
         </Button>
         {visible && <LoginDialog visible={visible} onClose={close} />}
         <HiddenText>{message ?? 'unauthorized'}</HiddenText>
-      </ErrorPageSection>
+      </ErrorPageLayout>
     </>
   );
 };

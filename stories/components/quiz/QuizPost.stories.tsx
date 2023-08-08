@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import QuizPost from '@/components/quiz/organisms/QuizPost';
-import { PostSection } from '@/styles/layout';
+import { PostPageLayout } from '@/styles/layout';
 
 export default {
   title: 'components/quiz/QuizPost',
@@ -14,9 +14,9 @@ export default {
 } as ComponentMeta<typeof QuizPost>;
 
 const Template: ComponentStory<typeof QuizPost> = (args) => (
-  <PostSection>
+  <PostPageLayout>
     <QuizPost {...args} />
-  </PostSection>
+  </PostPageLayout>
 );
 
 export const OxQuiz = Template.bind({});

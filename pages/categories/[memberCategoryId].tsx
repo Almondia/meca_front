@@ -13,7 +13,7 @@ import useCategoryLike from '@/hooks/category/useCategoryLike';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
-import { Devide, ListSection } from '@/styles/layout';
+import { Devide, ListPageLayout } from '@/styles/layout';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
@@ -36,7 +36,7 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
         description={`${writerInfo?.name}님의 MecaSet`}
         image={category?.thumbnail && getRemoteImageUrl(category.thumbnail)}
       />
-      <ListSection>
+      <ListPageLayout>
         <BetweenControlGroup>
           <BetweenControlGroup.Left>
             <PageTitle>{category?.title}</PageTitle>
@@ -68,7 +68,7 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
           isMine={isMine}
           isEmpty={isEmpty}
         />
-      </ListSection>
+      </ListPageLayout>
     </>
   );
 };

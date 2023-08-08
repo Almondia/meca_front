@@ -15,7 +15,7 @@ import PageTitle from '@/components/@common/atoms/PageTitle';
 import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
-import { PostSection } from '@/styles/layout';
+import { PostPageLayout } from '@/styles/layout';
 import { QuizPhaseType, QuizSucceedType } from '@/types/domain';
 
 const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
@@ -105,15 +105,15 @@ const QuizPage = () => {
 
   if (quizList.length === 0) {
     return (
-      <PostSection>
+      <PostPageLayout>
         {/* TODO: UI 추가할 것 */}
         <p>퀴즈 정보가 만료되었거나 풀이할 퀴즈가 없어요!</p>
         <Link href="/">홈으로</Link>
-      </PostSection>
+      </PostPageLayout>
     );
   }
   return (
-    <PostSection>
+    <PostPageLayout>
       <BetweenControlGroup>
         <BetweenControlGroup.Left>
           <PageTitle>{quizPhase === 'result' ? quizTitle : quizList[quizIndex].title}</PageTitle>
@@ -158,7 +158,7 @@ const QuizPage = () => {
           />
         </>
       )}
-    </PostSection>
+    </PostPageLayout>
   );
 };
 

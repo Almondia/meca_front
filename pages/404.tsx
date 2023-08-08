@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Button from '@/components/@common/atoms/Button';
 import MetaHead from '@/components/@util/MetaHead';
 import { HiddenText, TextBodySubtitle, TextCaption } from '@/styles/common';
-import { ErrorPageSection } from '@/styles/layout';
+import { ErrorPageLayout } from '@/styles/layout';
 
 export interface NotFoundProps {
   message?: string;
@@ -16,7 +16,7 @@ const NotFound = ({ message, isMessageVisible = false }: NotFoundProps) => {
   return (
     <>
       <MetaHead />
-      <ErrorPageSection>
+      <ErrorPageLayout>
         <Image src="/images/404img.png" width={260} height={238} alt="404-image" />
         <h4>404 Not Found!</h4>
         <TextBodySubtitle>아무일도... 없었다!!</TextBodySubtitle>
@@ -24,7 +24,7 @@ const NotFound = ({ message, isMessageVisible = false }: NotFoundProps) => {
         <Button colorTheme="primary" onClick={() => router.push('/')}>
           홈으로
         </Button>
-      </ErrorPageSection>
+      </ErrorPageLayout>
     </>
   );
 };

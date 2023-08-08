@@ -6,7 +6,7 @@ import CategoryControl from '@/components/category/organisms/CategoryControl';
 import CategoryList from '@/components/category/organisms/CategoryList';
 import useCategoryList from '@/hooks/category/useCategoryList';
 import { isrAspect } from '@/libs/renderAspect';
-import { Devide, ListSection } from '@/styles/layout';
+import { Devide, ListPageLayout } from '@/styles/layout';
 import { getPlaceholderBlurImage } from '@/utils/placeholderHandler';
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <MetaHead />
       <HomeCarousel />
-      <ListSection>
+      <ListPageLayout>
         <CategoryControl onChangeQuery={changeSearchQuery} isShared />
         <Devide />
         <CategoryList
@@ -24,7 +24,7 @@ export default function Home() {
           fetchNextPage={fetchNextPage}
           isEmpty={isEmpty}
         />
-      </ListSection>
+      </ListPageLayout>
     </>
   );
 }
