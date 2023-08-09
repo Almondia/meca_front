@@ -1,15 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { memo, useMemo, useRef, useState } from 'react';
 
 import InputGroup from '@/components/@common/molecules/InputGroup';
-import QuillWriter from '@/components/@common/organisms/Editor/QuillWriter';
+import { QuestionInputGroupProps } from '@/components/meca/molecules/MecaQuestionInputGroup/types';
+import {
+  useMecaQuestionContext,
+  useMecaSelectTypeCaseNumberContext,
+} from '@/components/meca/molecules/MecaWriteContextProvider';
 import useClickAway from '@/hooks/useClickAway';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
-import { MecaWriteFormQuestionProps } from '../type';
-
-export const SelectQuestion = memo(({ value, setValue, selectionNum = 3 }: MecaWriteFormQuestionProps) => {
+export const Select = memo(({ QuestionEditor, minHeight, maxHeight }: QuestionInputGroupProps) => {
+  const { input: value, setInput: setValue, isValid, message } = useMecaQuestionContext();
+  const { number: selectionNum } = useMecaSelectTypeCaseNumberContext();
   const ref = useRef<HTMLDivElement>(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const existed = useMemo(() => (value ? stringToJsonStringArrayConverter(value) : []), []);
   const [sampleValues, setSampleValues] = useState<string[]>(existed.concat(new Array(6 - existed.length).fill('')));
   const parsedSampleValue = JSON.stringify(sampleValues.slice(0, selectionNum + 1));
@@ -39,12 +43,12 @@ export const SelectQuestion = memo(({ value, setValue, selectionNum = 3 }: MecaW
   };
 
   return (
-    <>
+    <InputGroup>
       <InputGroup.Label>객관식 문제 제목을 작성하세요</InputGroup.Label>
       <div ref={ref}>
-        <QuillWriter
-          minHeight="150px"
-          maxHeight="780px"
+        <QuestionEditor
+          minHeight={minHeight}
+          maxHeight={maxHeight}
           contents={sampleValues[0]}
           setContents={setQuestion}
           placeholder="객관식 문제를 설명하세요"
@@ -62,7 +66,8 @@ export const SelectQuestion = memo(({ value, setValue, selectionNum = 3 }: MecaW
             />
           </InputGroup>
         ))}
+        <InputGroup.Validation visible={!isValid}>{message}</InputGroup.Validation>
       </div>
-    </>
+    </InputGroup>
   );
 });

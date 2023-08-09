@@ -13,7 +13,7 @@ import alertToast from '@/utils/toastHandler';
 
 import { WriteEditorWrapper } from '../styled';
 
-interface EditorComponentProps {
+export interface EditorComponentProps {
   contents: string;
   setContents: Dispatch<SetStateAction<string>>;
   minHeight?: ElementSizeType;

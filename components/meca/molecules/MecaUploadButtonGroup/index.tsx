@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router';
 
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import ButtonGroup from '@/components/@common/molecules/ButtonGroup';
 import Modal from '@/components/@common/molecules/Modal';
+import { useGetValidatedMecaInputsContext } from '@/components/meca/molecules/MecaWriteContextProvider';
+import useMecaWrite from '@/hooks/meca/useMecaWrite';
 import useModal from '@/hooks/useModal';
 
-interface MecaUploadButtonGroupProps {
-  onSubmit: () => void;
-}
-
-const MecaUploadButtonGroup = ({ onSubmit }: MecaUploadButtonGroupProps) => {
+const MecaUploadButtonGroup = memo(() => {
   const { visible, open, close } = useModal();
   const router = useRouter();
+  const { createMeca, updateMeca } = useMecaWrite();
+  const getValidatedInputs = useGetValidatedMecaInputsContext();
 
   const handleOpenConfirmModalClick = useCallback(() => {
     !visible && open();
@@ -22,10 +22,18 @@ const MecaUploadButtonGroup = ({ onSubmit }: MecaUploadButtonGroupProps) => {
     router.back();
   }, [router]);
 
+  const handleSubmit = () => {
+    const data = getValidatedInputs();
+    if (!data) {
+      return;
+    }
+    data.cardId ? updateMeca({ ...data, cardId: data.cardId }) : createMeca(data);
+  };
+
   return (
     <>
       <ButtonGroup
-        onSuccess={onSubmit}
+        onSuccess={handleSubmit}
         onCancel={handleOpenConfirmModalClick}
         successText="작성 완료"
         cancelText="나가기"
@@ -37,6 +45,6 @@ const MecaUploadButtonGroup = ({ onSubmit }: MecaUploadButtonGroupProps) => {
       </Modal>
     </>
   );
-};
+});
 
 export default MecaUploadButtonGroup;

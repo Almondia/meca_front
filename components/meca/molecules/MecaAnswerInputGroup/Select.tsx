@@ -2,11 +2,16 @@
 import { useEffect } from 'react';
 
 import InputGroup from '@/components/@common/molecules/InputGroup';
+import NumberIncrementer from '@/components/@common/molecules/NumberIncrementer';
+import {
+  useMecaAnswerContext,
+  useMecaSelectTypeCaseNumberContext,
+} from '@/components/meca/molecules/MecaWriteContextProvider';
 import useRadio from '@/hooks/useRadio';
 
-import { MecaWriteFormAnswerProps } from '../type';
-
-export const SelectAnswer = ({ value, onChange, selectionNum }: MecaWriteFormAnswerProps) => {
+export const Select = () => {
+  const { input: value, onInputChange: onChange } = useMecaAnswerContext();
+  const { number: selectionNum, increaseNumber: changeCaseNum } = useMecaSelectTypeCaseNumberContext();
   const { fieldSet: fieldSetRef, forceClick, hasCheckedRadio } = useRadio();
 
   useEffect(() => {
@@ -20,7 +25,10 @@ export const SelectAnswer = ({ value, onChange, selectionNum }: MecaWriteFormAns
   }, [selectionNum]);
 
   return (
-    <>
+    <InputGroup>
+      <InputGroup.Label>문항 수를 선택하세요</InputGroup.Label>
+      <NumberIncrementer value={selectionNum} onChange={changeCaseNum} />
+      <br />
       <InputGroup.Label>정답을 선택하세요</InputGroup.Label>
       <InputGroup.Input.ForwardRadioGroup ref={fieldSetRef}>
         {[...Array(selectionNum)].map((_, i) => (
@@ -36,6 +44,6 @@ export const SelectAnswer = ({ value, onChange, selectionNum }: MecaWriteFormAns
           </InputGroup.Input.RadioGroup.Radio>
         ))}
       </InputGroup.Input.ForwardRadioGroup>
-    </>
+    </InputGroup>
   );
 };

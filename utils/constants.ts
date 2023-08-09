@@ -26,11 +26,6 @@ export const MECA_TAGS: Record<MecaTagType, TagProps> = {
     tagColor: '#A6880D',
     text: 'OX퀴즈',
   },
-  ESSAY: {
-    icon: 'Bubble',
-    tagColor: '#E78565',
-    text: '주관식',
-  },
   KEYWORD: {
     icon: 'Check',
     tagColor: '#7B61FF',
@@ -40,5 +35,10 @@ export const MECA_TAGS: Record<MecaTagType, TagProps> = {
     icon: 'Dice',
     tagColor: '#64ab38',
     text: '객관식',
+  },
+  ESSAY: {
+    icon: 'Bubble',
+    tagColor: '#E78565',
+    text: '주관식',
   },
 };

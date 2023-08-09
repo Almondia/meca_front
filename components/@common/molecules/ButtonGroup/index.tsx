@@ -21,10 +21,10 @@ const ButtonGroup = ({ successText, cancelText = '취소하기', onSuccess, onCa
   }, []);
   return (
     <ButtonGroupWrapper>
-      <Button width="160px" size="small" onClick={onSuccess} colorTheme="primary">
+      <Button width="160px" onClick={onSuccess} colorTheme="primary">
         {successText}
       </Button>
-      <Button width="160px" size="small" onClick={handleCancelClick} colorTheme="cancel">
+      <Button width="160px" onClick={handleCancelClick} colorTheme="cancel">
         {cancelText}
       </Button>
     </ButtonGroupWrapper>

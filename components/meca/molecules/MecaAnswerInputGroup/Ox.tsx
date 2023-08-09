@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
 import InputGroup from '@/components/@common/molecules/InputGroup';
+import { useMecaAnswerContext } from '@/components/meca/molecules/MecaWriteContextProvider';
 import useRadio from '@/hooks/useRadio';
 
-import { MecaWriteFormAnswerProps } from '../type';
-
-export const OxAnswer = ({ value, onChange }: MecaWriteFormAnswerProps) => {
+export const Ox = () => {
   const { fieldSet: fieldSetRef, forceClick } = useRadio();
+  const { input: value, onInputChange: onChange } = useMecaAnswerContext();
 
   useEffect(() => {
     forceClick(value || 'O', onChange);
@@ -14,7 +14,7 @@ export const OxAnswer = ({ value, onChange }: MecaWriteFormAnswerProps) => {
   }, []);
 
   return (
-    <>
+    <InputGroup>
       <InputGroup.Label>정답을 선택하세요</InputGroup.Label>
       <InputGroup.Input.ForwardRadioGroup ref={fieldSetRef}>
         <InputGroup.Input.RadioGroup.Radio
@@ -36,6 +36,6 @@ export const OxAnswer = ({ value, onChange }: MecaWriteFormAnswerProps) => {
           X
         </InputGroup.Input.RadioGroup.Radio>
       </InputGroup.Input.ForwardRadioGroup>
-    </>
+    </InputGroup>
   );
 };
