@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import InputGroup from '@/components/@common/molecules/InputGroup';
-import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { TextCaption } from '@/styles/common';
 
 import { QuizContentWrapper } from '../styled';
@@ -27,7 +26,6 @@ const AnswerBetweenHeader = styled.div`
 `;
 
 export const DescriptionQuiz = ({
-  question,
   answer,
   invalidAnswerMessage,
   isAnswerState,
@@ -36,7 +34,6 @@ export const DescriptionQuiz = ({
   onChange,
 }: QuizContentProps) => (
   <QuizContentWrapper>
-    <BoxedSection header="Question." isColumn body={<QuillReader content={question} />} />
     {isAnswerState ? (
       <>
         <BoxedSection header="Answer." body={answer} isColumn />

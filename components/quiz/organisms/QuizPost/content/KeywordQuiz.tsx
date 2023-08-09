@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import InputGroup from '@/components/@common/molecules/InputGroup';
-import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 
 import { QuizContentWrapper } from '../styled';
 import { QuizContentProps } from '../type';
@@ -21,7 +20,6 @@ const KeywordAnswerSpan = styled.span<{ isCorrectAnswer: boolean }>`
 `;
 
 export const KeywordQuiz = ({
-  question,
   answer,
   score,
   invalidAnswerMessage,
@@ -30,7 +28,6 @@ export const KeywordQuiz = ({
   onChange,
 }: QuizContentProps) => (
   <QuizContentWrapper>
-    <BoxedSection header="Question." body={<QuillReader content={question} />} isColumn />
     {isAnswerState ? (
       <>
         <BoxedSection header="Answer." body={answer} isColumn />

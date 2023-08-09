@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import RadioGroup from '@/components/@common/atoms/Input/Radio';
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
-import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { NonVisibleRadioBox } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 import { FlexColumnCenter } from '@/styles/layout';
@@ -46,7 +45,6 @@ export const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }:
   };
   return (
     <QuizContentWrapper>
-      <BoxedSection header="Question." isColumn body={<QuillReader content={questions[0]} />} />
       <SelectGroup>
         {questions.slice(1).map((qs, index) => (
           <RadioGroup.Radio

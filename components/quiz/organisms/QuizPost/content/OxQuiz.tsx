@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Icon from '@/components/@common/atoms/Icon';
 import RadioGroup from '@/components/@common/atoms/Input/Radio';
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
-import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { NonVisibleRadioBox } from '@/styles/common';
 import { COLOR } from '@/styles/constants';
 
@@ -44,7 +43,7 @@ const AnswerCircle = styled.div`
   content: '';
 `;
 
-export const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => {
+export const OxQuiz = ({  answer, isAnswerState, value, onChange }: QuizContentProps) => {
   const fieldsetRef = useRef<HTMLFieldSetElement>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === 'O' || e.target.value === 'X') {
@@ -65,7 +64,6 @@ export const OxQuiz = ({ question, answer, isAnswerState, value, onChange }: Qui
   );
   return (
     <QuizContentWrapper>
-      <BoxedSection header="Question." isColumn body={<QuillReader content={question} />} />
       <BoxedSection
         header="Check Answer!"
         body={

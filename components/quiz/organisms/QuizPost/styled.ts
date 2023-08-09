@@ -9,10 +9,4 @@ export const QuizPostWrapper = styled.div`
   row-gap: 40px;
 `;
 
-export const QuizEditorWrapper = styled.div`
-  .ql-editor {
-    padding: 0;
-  }
-`;
-
 export const QuizContentWrapper = styled(QuizPostWrapper)``;

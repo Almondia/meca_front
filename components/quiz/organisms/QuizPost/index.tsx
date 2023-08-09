@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
+import QuizInstruction from '@/components/quiz/atoms/QuizInstruction';
 import QuizPlayButtonGroup from '@/components/quiz/molecules/QuizPlayButtonGroup';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
-import { TextCaption } from '@/styles/common';
 import { MecaTagType, QuizSucceedType } from '@/types/domain';
+import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { Constraints } from '@/utils/validation';
 
 import { DescriptionQuiz, KeywordQuiz, OxQuiz, SelectQuiz } from './content';
-import { QuizEditorWrapper, QuizPostWrapper } from './styled';
+import { QuizPostWrapper } from './styled';
 import { QuizContentComponentType } from './type';
 
 export interface QuizPostProps {
@@ -45,7 +46,10 @@ const QuizPost = ({
   const QuizContent = QUIZ_CONTENTS[quizType];
   const { input: answerInput, onInputChange: answerInputChange, inputReset } = useInput('');
   const { inputsValidState, validateAll, resetValidateState } = useInputValidation(1);
-
+  const { question: normalizedQuestionText } = useMemo(
+    () => getQuestionAnswerByCardType({ question, cardType: quizType }),
+    [question, quizType],
+  );
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => {
       if (isAnswerState) {
@@ -72,6 +76,7 @@ const QuizPost = ({
 
   return (
     <QuizPostWrapper>
+      <BoxedSection header="Question." isColumn body={<QuillReader content={normalizedQuestionText} />} />
       <QuizContent
         value={isAnswerState ? inputAnswer ?? answerInput : answerInput}
         score={score}
@@ -82,22 +87,11 @@ const QuizPost = ({
         invalidAnswerMessage={inputsValidState[0].isValid ? undefined : inputsValidState[0].message}
       />
       {isAnswerState && description && (
-        <BoxedSection
-          header="Commentary."
-          isColumn
-          body={
-            <QuizEditorWrapper data-testid="id-quizpost-editor">
-              <QuillReader content={description} />
-            </QuizEditorWrapper>
-          }
-        />
+        <div data-testid="id-quizpost-editor">
+          <BoxedSection header="Commentary." isColumn body={<QuillReader content={description} />} />
+        </div>
       )}
-      <div>
-        <TextCaption>&nbsp;&nbsp;- 주어진 시간 내에 정답을 제출해야 채점됩니다!</TextCaption>
-        <TextCaption>&nbsp;&nbsp;- 불러온 모든 문제들을 풀면 최종 결과를 확인할 수 있습니다!</TextCaption>
-        <TextCaption>&nbsp;&nbsp;- 풀이 도중 이탈 시 불러운 퀴즈 정보는 모두 만료됩니다.</TextCaption>
-        <TextCaption>&nbsp;&nbsp;- 주관식 점수는 키워드 적중도로 계산되며 단순 흥미 요소입니다.</TextCaption>
-      </div>
+      <QuizInstruction />
       <QuizPlayButtonGroup succeedText={handleSucceed.succeedText} onSucceed={handleSucceedClick} />
     </QuizPostWrapper>
   );
