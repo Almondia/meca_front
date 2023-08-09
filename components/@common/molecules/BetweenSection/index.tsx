@@ -6,20 +6,20 @@ import {
   ControlRightBox,
   ControlRightBoxComponentType,
 } from './inner/ControlInnerBox';
-import { BetweenControlGroupWrapper } from './styled';
+import { BetweenSectionWrapper } from './styled';
 
-const BetweenControlGroup = ({ children }: { children: React.ReactNode }) => {
+const BetweenSection = ({ children }: { children: React.ReactNode }) => {
   const leftBox = getInnerComponents(children, ControlLeftBoxComponentType);
   const rightBox = getInnerComponents(children, ControlRightBoxComponentType);
   return (
-    <BetweenControlGroupWrapper>
+    <BetweenSectionWrapper>
       {!leftBox ? <div>&nbsp;</div> : leftBox}
       {rightBox}
-    </BetweenControlGroupWrapper>
+    </BetweenSectionWrapper>
   );
 };
 
-BetweenControlGroup.Left = ControlLeftBox;
-BetweenControlGroup.Right = ControlRightBox;
+BetweenSection.Left = ControlLeftBox;
+BetweenSection.Right = ControlRightBox;
 
-export default BetweenControlGroup;
+export default BetweenSection;

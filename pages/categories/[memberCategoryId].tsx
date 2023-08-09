@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 import { useMemo } from 'react';
 
 import PageTitle from '@/components/@common/atoms/PageTitle';
-import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import LikeButton from '@/components/@common/molecules/LikeButton';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaControl from '@/components/meca/organisms/MecaControl';
@@ -37,11 +37,11 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
         image={category?.thumbnail && getRemoteImageUrl(category.thumbnail)}
       />
       <ListPageLayout>
-        <BetweenControlGroup>
-          <BetweenControlGroup.Left>
+        <BetweenSection>
+          <BetweenSection.Left>
             <PageTitle>{category?.title}</PageTitle>
-          </BetweenControlGroup.Left>
-          <BetweenControlGroup.Right>
+          </BetweenSection.Left>
+          <BetweenSection.Right>
             <LikeButton
               buttonName={`${category?.title} 카테고리 추천 버튼`}
               onClick={postLike}
@@ -49,8 +49,8 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
               disabled={!user}
             />
             {likeCount}
-          </BetweenControlGroup.Right>
-        </BetweenControlGroup>
+          </BetweenSection.Right>
+        </BetweenSection>
         <br />
         <MecaControl
           categoryId={categoryId}

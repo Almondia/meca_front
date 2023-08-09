@@ -7,7 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import Button from '@/components/@common/atoms/Button';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
-import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import useMecaCount from '@/hooks/meca/useMecaCount';
 import useModal from '@/hooks/useModal';
 import alertToast from '@/utils/toastHandler';
@@ -39,11 +39,11 @@ const MecaControl = memo(({ categoryId, categoryTitle, isMine, name, profile, ha
     playModalOpen();
   };
   return (
-    <BetweenControlGroup>
-      <BetweenControlGroup.Left>
+    <BetweenSection>
+      <BetweenSection.Left>
         <AvatarUser name={name ?? 'user'} profile={profile} />
-      </BetweenControlGroup.Left>
-      <BetweenControlGroup.Right>
+      </BetweenSection.Left>
+      <BetweenSection.Right>
         {isMine && (
           <Button colorTheme="primary" onClick={() => router.push(`/mecas/write/${categoryId}`)} size="small">
             추가하기 +
@@ -65,8 +65,8 @@ const MecaControl = memo(({ categoryId, categoryTitle, isMine, name, profile, ha
             onClose={playModalClose}
           />
         )}
-      </BetweenControlGroup.Right>
-    </BetweenControlGroup>
+      </BetweenSection.Right>
+    </BetweenSection>
   );
 });
 

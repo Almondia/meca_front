@@ -4,7 +4,7 @@ import { memo, useEffect } from 'react';
 
 import Button from '@/components/@common/atoms/Button';
 import Input from '@/components/@common/atoms/Input';
-import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
 
@@ -37,8 +37,8 @@ const CategoryControl = memo(({ query, onChangeQuery, isShared }: CategoryContro
     onChangeQuery?.(searchKeyword);
   };
   return (
-    <BetweenControlGroup>
-      <BetweenControlGroup.Left>
+    <BetweenSection>
+      <BetweenSection.Left>
         <Input.Search
           width="155px"
           name="search"
@@ -51,8 +51,8 @@ const CategoryControl = memo(({ query, onChangeQuery, isShared }: CategoryContro
         <Button colorTheme="primary" onClick={handleSearchQuery} size="small">
           검색
         </Button>
-      </BetweenControlGroup.Left>
-      <BetweenControlGroup.Right>
+      </BetweenSection.Left>
+      <BetweenSection.Right>
         {!isShared && (
           <>
             <Button colorTheme="primary" onClick={addCategoryOpen} size="small">
@@ -68,8 +68,8 @@ const CategoryControl = memo(({ query, onChangeQuery, isShared }: CategoryContro
             )}
           </>
         )}
-      </BetweenControlGroup.Right>
-    </BetweenControlGroup>
+      </BetweenSection.Right>
+    </BetweenSection>
   );
 });
 

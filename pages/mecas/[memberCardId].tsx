@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 
 import PageTitle from '@/components/@common/atoms/PageTitle';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
-import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import PostSection from '@/components/@common/molecules/PostSection';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaPost from '@/components/meca/organisms/MecaPost';
@@ -43,11 +43,11 @@ const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProp
       <PostPageLayout>
         <PageTitle>{meca.title}</PageTitle>
         <br />
-        <BetweenControlGroup>
-          <BetweenControlGroup.Left>
+        <BetweenSection>
+          <BetweenSection.Left>
             <AvatarUser name={meca.name} profile={meca.profile} />
-          </BetweenControlGroup.Left>
-        </BetweenControlGroup>
+          </BetweenSection.Left>
+        </BetweenSection>
         <Devide />
         <MecaPost {...meca} />
         <PostSection>

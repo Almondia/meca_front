@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import LinkButton from '@/components/@common/atoms/LinkButton';
 import PageTitle from '@/components/@common/atoms/PageTitle';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
-import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import PostSection from '@/components/@common/molecules/PostSection';
 import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
@@ -47,19 +47,19 @@ const MecaById = ({ cardId }: MecaPageProps) => {
           <PostPageLayout>
             <PageTitle>{meca.title}</PageTitle>
             <br />
-            <BetweenControlGroup>
-              <BetweenControlGroup.Left>
+            <BetweenSection>
+              <BetweenSection.Left>
                 <AvatarUser {...user} />
-              </BetweenControlGroup.Left>
-              <BetweenControlGroup.Right>
+              </BetweenSection.Left>
+              <BetweenSection.Right>
                 <LinkButton onClick={handleUpdateCardButtonClick} textSize="main">
                   수정하기
                 </LinkButton>
                 <LinkButton onClick={handleDeleteCardButtonClick} textSize="main">
                   삭제하기
                 </LinkButton>
-              </BetweenControlGroup.Right>
-            </BetweenControlGroup>
+              </BetweenSection.Right>
+            </BetweenSection>
             <MecaDeleteDialog
               cardId={cardId}
               categoryId={meca.categoryId}

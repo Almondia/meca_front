@@ -12,7 +12,7 @@ import CountIndicator from '@/components/@common/atoms/CountIndicator';
 import LinkButton from '@/components/@common/atoms/LinkButton';
 import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import PageTitle from '@/components/@common/atoms/PageTitle';
-import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { PostPageLayout } from '@/styles/layout';
@@ -114,11 +114,11 @@ const QuizPage = () => {
   }
   return (
     <PostPageLayout>
-      <BetweenControlGroup>
-        <BetweenControlGroup.Left>
+      <BetweenSection>
+        <BetweenSection.Left>
           <PageTitle>{quizPhase === 'result' ? quizTitle : quizList[quizIndex].title}</PageTitle>
-        </BetweenControlGroup.Left>
-        <BetweenControlGroup.Right>
+        </BetweenSection.Left>
+        <BetweenSection.Right>
           {quizPhase === 'result' ? (
             <LinkButton onClick={() => router.back()} textSize="main">
               목록으로
@@ -126,8 +126,8 @@ const QuizPage = () => {
           ) : (
             <CountIndicator currentCount={round} maxCount={quizList.length} />
           )}
-        </BetweenControlGroup.Right>
-      </BetweenControlGroup>
+        </BetweenSection.Right>
+      </BetweenSection>
       {quizPhase === 'result' ? (
         <>
           <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />

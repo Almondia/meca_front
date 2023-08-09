@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { FlexCenter, FlexSpaceBetween } from '@/styles/layout';
 
-export const BetweenControlGroupWrapper = styled.div`
+export const BetweenSectionWrapper = styled.div`
   ${FlexSpaceBetween};
   flex-wrap: wrap;
   gap: 20px;
