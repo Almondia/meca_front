@@ -1,5 +1,3 @@
-import dynamic from 'next/dynamic';
-
 import { memo } from 'react';
 
 import RelativeDate from '@/components/@common/atoms/RelativeDate';
@@ -15,9 +13,7 @@ import { DefaultPostBody, OxPostBody, SelectPostBody } from './mecaBody';
 import { MecaPostWrapper } from './styled';
 import { MecaPostBodyComponentType } from './type';
 
-const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
-
-type MecaPostProps = Omit<MecaType, 'categoryId' | 'title'>;
+type MecaPostProps = Omit<MecaType, 'cardId' | 'categoryId' | 'title'>;
 
 const ContentBody: Record<MecaTagType, MecaPostBodyComponentType> = {
   MULTI_CHOICE: SelectPostBody,
@@ -26,7 +22,7 @@ const ContentBody: Record<MecaTagType, MecaPostBodyComponentType> = {
   OX_QUIZ: OxPostBody,
 };
 
-const MecaPost = memo(({ cardId, cardType, question, answer, description, createdAt }: MecaPostProps) => {
+const MecaPost = memo(({ cardType, question, answer, description, createdAt }: MecaPostProps) => {
   const MecaBody = ContentBody[cardType];
   return (
     <MecaPostWrapper>
@@ -45,13 +41,6 @@ const MecaPost = memo(({ cardId, cardType, question, answer, description, create
         <PostSection.Title>Description</PostSection.Title>
         <PostSection.Body>
           <QuillReader content={description || '내용이 없습니다.'} />
-        </PostSection.Body>
-      </PostSection>
-      <PostSection>
-        <PostSection.Title>History</PostSection.Title>
-        <PostSection.Body indented={false} boxed={false}>
-          {/* FIX: need fix */}
-          <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
         </PostSection.Body>
       </PostSection>
     </MecaPostWrapper>

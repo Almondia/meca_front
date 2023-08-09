@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetStaticPaths, GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 
 import PageTitle from '@/components/@common/atoms/PageTitle';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
 import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import PostSection from '@/components/@common/molecules/PostSection';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaPost from '@/components/meca/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
@@ -14,6 +16,8 @@ import { MecaType, UserProfile } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { extractFirstImageFromHTML } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
+
+const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
 
 export interface MecaByIdProps {
   cardId: string;
@@ -46,6 +50,12 @@ const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProp
         </BetweenControlGroup>
         <Devide />
         <MecaPost {...meca} />
+        <PostSection>
+          <PostSection.Title>History</PostSection.Title>
+          <PostSection.Body indented={false} boxed={false}>
+            <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
+          </PostSection.Body>
+        </PostSection>
       </PostPageLayout>
     </>
   );

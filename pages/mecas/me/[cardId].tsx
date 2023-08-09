@@ -7,6 +7,7 @@ import LinkButton from '@/components/@common/atoms/LinkButton';
 import PageTitle from '@/components/@common/atoms/PageTitle';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
 import BetweenControlGroup from '@/components/@common/molecules/BetweenControlGroup';
+import PostSection from '@/components/@common/molecules/PostSection';
 import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaPost from '@/components/meca/organisms/MecaPost';
@@ -19,6 +20,8 @@ import { MyProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/meca/organisms/MecaDeleteDialog'), { ssr: false });
+const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
+
 export interface MecaPageProps {
   cardId: string;
 }
@@ -66,6 +69,12 @@ const MecaById = ({ cardId }: MecaPageProps) => {
             />
             <Devide />
             <MecaPost {...meca} />
+            <PostSection>
+              <PostSection.Title>History</PostSection.Title>
+              <PostSection.Body indented={false} boxed={false}>
+                <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
+              </PostSection.Body>
+            </PostSection>
           </PostPageLayout>
         </>
       )}
