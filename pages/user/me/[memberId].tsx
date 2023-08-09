@@ -2,16 +2,14 @@
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 
-import RelativeDate from '@/components/@common/atoms/RelativeDate';
 import PostSection from '@/components/@common/molecules/PostSection';
-import PostSubInfo from '@/components/@common/molecules/PostSubInfo';
 import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
+import UserBasicInfo from '@/components/user/molecules/UserBasicInfo';
 import UserProfileHeader from '@/components/user/organisms/UserProfileHeader';
 import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
-import { TextCaption } from '@/styles/common';
 import { Devide, PostPageLayout } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
@@ -25,7 +23,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
   const { user } = useUser();
   return (
     <AuthPageProvider>
-      <MetaHead title="Meca - My Page" />
+      <MetaHead title={`${user?.name ?? 'User'} Page`} />
       {user && (
         <PostPageLayout>
           <UserProfileHeader {...user} />
@@ -34,19 +32,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
           <PostSection>
             <PostSection.Title>기본정보</PostSection.Title>
             <PostSection.Body boxed={false} indented={false}>
-              <PostSubInfo columnGutter="12px" rowGutter="12px">
-                <PostSubInfo.Content title="Email">
-                  <TextCaption>{user.email}</TextCaption>
-                </PostSubInfo.Content>
-                <PostSubInfo.Content title="가입일">
-                  <TextCaption>
-                    <RelativeDate date={user.createdAt} />
-                  </TextCaption>
-                </PostSubInfo.Content>
-                <PostSubInfo.Content title="SNS">
-                  <TextCaption>{user.oauthType}</TextCaption>
-                </PostSubInfo.Content>
-              </PostSubInfo>
+              <UserBasicInfo {...user} />
             </PostSection.Body>
           </PostSection>
           <Devide />

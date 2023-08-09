@@ -34,6 +34,4 @@ const Template: ComponentStory<typeof UserProfileHeader> = () => {
 };
 
 export const Default = Template.bind({});
-Default.args = {
-  isMe: true,
-};
+Default.args = {};
