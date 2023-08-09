@@ -45,7 +45,7 @@ describe('Homepage', () => {
       expect(searchInput).toHaveValue('');
       fireEvent.change(searchInput, { target: { value: containTitle } });
       expect(searchInput).toHaveValue(containTitle);
-      fireEvent.click(screen.getByRole('button', { name: '검색' }));
+      fireEvent.click(screen.getByRole('button', { name: /검색/i }));
       const categoryCards = await screen.findAllByRole('article');
       expect(categoryCards.length).toEqual(searchedCategories.length);
       categoryCards.forEach((card) => expect(card).toHaveTextContent(/title1/i));

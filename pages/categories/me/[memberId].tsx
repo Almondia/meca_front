@@ -8,8 +8,8 @@ import PageTitle from '@/components/@common/atoms/PageTitle';
 import Selection from '@/components/@common/molecules/Selection';
 import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
-import CategoryControl from '@/components/category/organisms/CategoryControl';
 import CategoryList from '@/components/category/organisms/CategoryList';
+import CategoryListHeader from '@/components/category/organisms/CategoryListHeader';
 import useCategoryList, { CategoryListFetcherKey } from '@/hooks/category/useCategoryList';
 import useQueryRouter from '@/hooks/useQueryRouter';
 import { ssrAspect } from '@/libs/renderAspect';
@@ -34,7 +34,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
       <MetaHead title="내 카테고리 목록" description="로그인 후 이용할 수 있어요!" />
       <ListPageLayout>
         <PageTitle>{recommended ? '추천한 카테고리' : '내 카테고리'}</PageTitle>
-        <CategoryControl query={query} onChangeQuery={changeSearchQuery} />
+        <CategoryListHeader isMine query={query} onChangeQuery={changeSearchQuery} />
         <Devide />
         <Selection
           initialSelectedIndex={recommended ? 1 : 0}

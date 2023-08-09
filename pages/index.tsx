@@ -2,8 +2,8 @@ import { GetStaticProps } from 'next';
 
 import HomeCarousel from '@/components/@common/organisms/HomeCarousel';
 import MetaHead from '@/components/@util/MetaHead';
-import CategoryControl from '@/components/category/organisms/CategoryControl';
 import CategoryList from '@/components/category/organisms/CategoryList';
+import CategoryListHeader from '@/components/category/organisms/CategoryListHeader';
 import useCategoryList from '@/hooks/category/useCategoryList';
 import { isrAspect } from '@/libs/renderAspect';
 import { Devide, ListPageLayout } from '@/styles/layout';
@@ -16,8 +16,7 @@ export default function Home() {
       <MetaHead />
       <HomeCarousel />
       <ListPageLayout>
-        <CategoryControl onChangeQuery={changeSearchQuery} isShared />
-        <Devide />
+        <CategoryListHeader onChangeQuery={changeSearchQuery} /> <Devide />
         <CategoryList
           categoryList={categoryList}
           hasNextPage={hasNextPage}

@@ -42,7 +42,7 @@ describe('CategoryListPage', () => {
   it('검색어를 입력해 검색하면 개인 카테고리 목록이 필터링되어 식별된다.', async () => {
     renderQuery(<Category />);
     const searchInput = await screen.findByRole('searchbox', { name: 'input-category-search' });
-    const searchButton = screen.getByRole('button', { name: '검색' });
+    const searchButton = screen.getByRole('button', { name: /검색/i });
     expect(searchInput).toBeInTheDocument();
     expect(searchButton).toBeInTheDocument();
     fireEvent.change(searchInput, { target: { value: 'title3' } });
