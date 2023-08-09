@@ -65,7 +65,7 @@ export const Private = () => {
       sortOrder: 'DESC',
     }),
   ]);
-  const { categoryList } = useCategoryList('me', true);
+  const { categoryList } = useCategoryList('me', false);
   if (!categoryList.contents[0]) {
     return <div>no data!</div>;
   }
