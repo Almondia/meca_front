@@ -2,7 +2,7 @@
 import useKeydown from '@/hooks/useKeydown';
 import { ElementSizeType } from '@/types/common';
 
-import { TextInputBox, TextInputWrapper } from './styled';
+import { SearchInputWrapper, TextInputBox } from './styled';
 import { InputProps } from './type';
 
 export interface TextInputProps extends InputProps {
@@ -15,7 +15,7 @@ export interface TextInputProps extends InputProps {
 const Search = ({ name, value, placeholder = '', ariaLabel, width, onChange, onSearch }: TextInputProps) => {
   const { ref } = useKeydown<HTMLInputElement>(onSearch, 'Enter');
   return (
-    <TextInputWrapper>
+    <SearchInputWrapper>
       <TextInputBox
         ref={ref}
         name={name}
@@ -28,7 +28,7 @@ const Search = ({ name, value, placeholder = '', ariaLabel, width, onChange, onS
         autoComplete="off"
         enterKeyHint="search"
       />
-    </TextInputWrapper>
+    </SearchInputWrapper>
   );
 };
 

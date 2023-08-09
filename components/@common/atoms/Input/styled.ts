@@ -15,6 +15,25 @@ export const TextInputWrapper = styled.div`
   color: var(--color-text);
 `;
 
+export const SearchInputWrapper = styled(TextInputWrapper)`
+  input[type='search']::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  input[type='search']::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  input[type='search']::-webkit-search-decoration,
+  input[type='search']::-webkit-search-cancel-button,
+  input[type='search']::-webkit-search-results-button,
+  input[type='search']::-webkit-search-results-decoration {
+    display: none;
+  }
+`;
+
 export const TextInputBox = styled.input<{ width?: ElementSizeType }>`
   width: ${(props) => (props.width ? props.width : '100%')};
   line-height: 150%;
