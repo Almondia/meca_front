@@ -136,4 +136,25 @@ describe('MecaWrite', () => {
     const invalidQuestion = screen.getByText('문제를 입력했는지 확인해주세요!');
     expect(invalidQuestion).toBeInTheDocument();
   });
+
+  it('객관식 카드 등록 문항 수 변경 시 보기, 정답 선택 UI가 변경된다.', () => {
+    renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} cardType="MULTI_CHOICE" />);
+    expect(screen.getByText('객관식'));
+    expect(screen.getAllByText(/보기 \([0-9]\)/i)).toHaveLength(3);
+    expect(screen.getAllByRole('radio')).toHaveLength(3);
+    const addOptionButton = screen.getByRole('button', { name: '+' });
+    fireEvent.click(addOptionButton);
+    fireEvent.click(addOptionButton);
+    expect(screen.getAllByText(/보기 \([0-9]\)/i)).toHaveLength(5);
+    expect(screen.getAllByRole('radio')).toHaveLength(5);
+    const lastRadioInput = screen.getByRole('radio', { name: '5' });
+    fireEvent.click(lastRadioInput);
+    expect(lastRadioInput).toBeChecked();
+    const deleteOptionButton = screen.getByRole('button', { name: '-' });
+    fireEvent.click(deleteOptionButton);
+    expect(screen.getAllByText(/보기 \([0-9]\)/i)).toHaveLength(4);
+    expect(screen.getAllByRole('radio')).toHaveLength(4);
+    expect(lastRadioInput).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: '4' })).toBeChecked();
+  });
 });
