@@ -1,15 +1,15 @@
 import * as NextImage from 'next/image';
 import { RecoilRoot } from 'recoil';
-import ThemeProvider from '../styles/ThemeProvider';
+import ThemeProvider from '../src/styles/ThemeProvider';
 import { DecoratorFn } from '@storybook/react';
 import React, { useEffect } from 'react';
 import { RouterContext } from 'next/dist/shared/lib/router-context'; // next 12
 import { useQueryClient, QueryClientProvider } from '@tanstack/react-query';
-import useCustomTheme from '../hooks/useCustomTheme';
-import commonTheme from '../styles/theme';
+import useCustomTheme from '../src/hooks/useCustomTheme';
+import commonTheme from '../src/styles/theme';
 import { ToastContainer } from 'react-toastify';
 import { worker } from '../__tests__/__mocks__/msw/worker';
-import { generateQueryClient } from '../query/queryClient';
+import { generateQueryClient } from '../src/query/queryClient';
 import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = generateQueryClient();

@@ -1,14 +1,14 @@
 import { renderQuery } from '../utils';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import { MOCK_CATEGORY_ID, MOCK_MEMBER_ID } from '../__mocks__/msw/data';
+import { MOCK_CATEGORY_ID, MOCK_MEMBER_ID } from '@/mock/data';
 import CategoryById, { getServerSideProps } from '@/pages/categories/[memberCategoryId]';
 import { screen, waitFor } from '@testing-library/react';
-import { implementServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
+import { implementServer } from '@/mock/server';
+import { restHandler } from '@/mock/handlers';
 import { combineUUID } from '@/utils/uuidHandler';
 import useCategoryLike from '@/hooks/category/useCategoryLike';
-import { mockedGetAuthUserMecaListApi, mockedGetSharedMecaListApi, mockedGetUserApi } from '../__mocks__/msw/api';
+import { mockedGetAuthUserMecaListApi, mockedGetSharedMecaListApi, mockedGetUserApi } from '@/mock/api';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),

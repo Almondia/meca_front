@@ -1,11 +1,12 @@
+import { renderHook, waitFor } from '@testing-library/react';
+import { createQueryClientWrapper } from '../utils';
+import { mockedGetAreCategoriesLike, mockedPostCategoryLike, mockedPostCategoryUnlike } from '@/mock/api';
+import { restHandler } from '@/mock/handlers';
+import { implementServer } from '@/mock/server';
+
+import { useRecoilValue } from 'recoil';
 import categoryApi from '@/apis/categoryApi';
 import useCategoryLike from '@/hooks/category/useCategoryLike';
-import { renderHook, waitFor } from '@testing-library/react';
-import { useRecoilValue } from 'recoil';
-import { createQueryClientWrapper } from '../utils';
-import { mockedGetAreCategoriesLike, mockedPostCategoryLike, mockedPostCategoryUnlike } from '../__mocks__/msw/api';
-import { restHandler } from '../__mocks__/msw/handlers';
-import { implementServer } from '../__mocks__/msw/server';
 
 jest.mock('recoil', () => ({
   useRecoilValue: jest.fn(),

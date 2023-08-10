@@ -1,10 +1,10 @@
-import { implementServer } from '../__mocks__/msw/server';
-
-import useFetchImage from '@/hooks/useFetchImage';
+import { implementServer } from '@/mock/server';
 import { renderHook } from '@testing-library/react';
 import { createQueryClientWrapper } from '../utils';
-import { restHandler } from '../__mocks__/msw/handlers';
-import { mockedPutImageUploadApi } from '../__mocks__/msw/api';
+import { restHandler } from '@/mock/handlers';
+import { mockedPutImageUploadApi } from '@/mock/api';
+
+import useFetchImage from '@/hooks/useFetchImage';
 
 describe('useFetchImage', () => {
   it('이미지를 업로드하면 업로드된 이미지 url이 리턴된다.', async () => {

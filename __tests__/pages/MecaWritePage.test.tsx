@@ -1,17 +1,17 @@
+import { renderQuery } from '../utils';
 import MecaWritePage, { getServerSideProps } from '@/pages/mecas/write/[categoryId]';
 import { GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';
-import { MOCK_CATEGORY_ID, MOCK_MECA } from '../__mocks__/msw/data';
-import { renderQuery } from '../utils';
-import { screen, waitFor } from '@testing-library/react';
-import { implementServer, resetServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
+import { MOCK_CATEGORY_ID, MOCK_MECA } from '@/mock/data';
+import { screen } from '@testing-library/react';
+import { implementServer, resetServer } from '@/mock/server';
+import { restHandler } from '@/mock/handlers';
 import {
   mockedGetAuthUserdMecaApi,
   mockedGetAuthUserMecaListApi,
   mockedGetMecaCountApi,
   mockedGetUserApi,
-} from '../__mocks__/msw/api';
+} from '@/mock/api';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),

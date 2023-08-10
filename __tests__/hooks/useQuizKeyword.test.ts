@@ -4,9 +4,9 @@ import { createQueryClientWrapper } from '../utils';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
 import { QuizType } from '@/types/domain';
-import { implementServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
-import { mockedPostKeywords } from '../__mocks__/msw/api';
+import { implementServer } from '@/mock/server';
+import { restHandler } from '@/mock/handlers';
+import { mockedPostKeywords } from '@/mock/api';
 import statisticsApi from '@/apis/statisticsApi';
 
 describe('useQuizKeyword', () => {

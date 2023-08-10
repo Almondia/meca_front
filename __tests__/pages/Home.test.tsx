@@ -1,11 +1,11 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent } from '@testing-library/react';
 import Home, { getStaticProps } from '@/pages';
-import { MOCK_CATEGORIES } from '../__mocks__/msw/data';
+import { MOCK_CATEGORIES } from '@/mock/data';
 import { GetStaticPropsContext } from 'next';
-import { implementServer } from '../__mocks__/msw/server';
-import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
-import { mockedGetSharedCategoryListApi } from '../__mocks__/msw/api';
+import { implementServer } from '@/mock/server';
+import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
+import { mockedGetSharedCategoryListApi } from '@/mock/api';
 import { getPlaiceholder } from 'plaiceholder';
 
 jest.mock('plaiceholder', () => ({
@@ -45,7 +45,7 @@ describe('Homepage', () => {
       expect(searchInput).toHaveValue('');
       fireEvent.change(searchInput, { target: { value: containTitle } });
       expect(searchInput).toHaveValue(containTitle);
-      fireEvent.click(screen.getByRole('button', { name: '검색' }));
+      fireEvent.click(screen.getByRole('button', { name: /검색/i }));
       const categoryCards = await screen.findAllByRole('article');
       expect(categoryCards.length).toEqual(searchedCategories.length);
       categoryCards.forEach((card) => expect(card).toHaveTextContent(/title1/i));

@@ -1,12 +1,12 @@
 import { renderQuery } from '../utils';
 import { screen, waitFor } from '@testing-library/react';
-import { implementServer, resetServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
+import { implementServer, resetServer } from '@/mock/server';
+import { restHandler } from '@/mock/handlers';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import UserPage, { getServerSideProps } from '@/pages/user/me/[memberId]';
-import { mockedGetMecaHistoryByMemberApi, mockedGetUserApi } from '../__mocks__/msw/api';
-import { MOCK_MEMBER } from '../__mocks__/msw/data';
+import { mockedGetMecaHistoryByMemberApi, mockedGetUserApi } from '@/mock/api';
+import { MOCK_MEMBER } from '@/mock/data';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),

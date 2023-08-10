@@ -1,9 +1,9 @@
 /**
  * @jest-environment node
  */
-import { middleware } from '../../middleware';
 import { NextRequest, NextResponse } from 'next/server';
 import { combineUUID } from '@/utils/uuidHandler';
+import { middleware } from '@/middleware';
 
 jest.unmock('@/utils/jwtHandler');
 

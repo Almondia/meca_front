@@ -4,9 +4,9 @@ import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
 import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 import { MyProfile } from '@/types/domain';
-import { implementServer, resetServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
-import { mockedPutImageUploadApi, mockedPutUserApi } from '../__mocks__/msw/api';
+import { implementServer, resetServer } from '@/mock/server';
+import { restHandler } from '@/mock/handlers';
+import { mockedPutImageUploadApi, mockedPutUserApi } from '@/mock/api';
 
 describe('useProfileUpdate', () => {
   const USER: MyProfile = {

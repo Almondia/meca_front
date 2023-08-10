@@ -4,15 +4,15 @@ import { PAGINATION_NUM, PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import Category, { getServerSideProps } from '@/pages/categories/me/[memberId]';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import { implementServer } from '../__mocks__/msw/server';
-import { restHandler, restOverridedResponseHandler } from '../__mocks__/msw/handlers';
+import { implementServer } from '@/mock/server';
+import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
 import {
   mockedGetAuthUserCategoryListApi,
   mockedGetUserApi,
   mockedGetUserWithServerApi,
   mockedPostCategoryApi,
-} from '../__mocks__/msw/api';
-import { MOCK_CATEGORIES } from '../__mocks__/msw/data';
+} from '@/mock/api';
+import { MOCK_CATEGORIES } from '@/mock/data';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),
@@ -42,7 +42,7 @@ describe('CategoryListPage', () => {
   it('검색어를 입력해 검색하면 개인 카테고리 목록이 필터링되어 식별된다.', async () => {
     renderQuery(<Category />);
     const searchInput = await screen.findByRole('searchbox', { name: 'input-category-search' });
-    const searchButton = screen.getByRole('button', { name: '검색' });
+    const searchButton = screen.getByRole('button', { name: /검색/i });
     expect(searchInput).toBeInTheDocument();
     expect(searchButton).toBeInTheDocument();
     fireEvent.change(searchInput, { target: { value: 'title3' } });

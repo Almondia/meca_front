@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@/mock/*": ["./__tests__/__mocks__/msw/*"],
-      "@/*": ["*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -2,11 +2,11 @@ import { renderQuery } from '../utils';
 import Login, { getServerSideProps } from '@/pages/login';
 import { screen, waitFor } from '@testing-library/react';
 import { GetServerSidePropsContext } from 'next';
-import { implementServer } from '../__mocks__/msw/server';
-import { restHandler } from '../__mocks__/msw/handlers';
+import { implementServer } from '@/mock/server';
+import { restHandler } from '@/mock/handlers';
 import nookies from 'nookies';
 import mockRouter from 'next-router-mock';
-import { mockedGetSharedCategoryListApi, mockedPostKakaoLoginApi } from '../__mocks__/msw/api';
+import { mockedGetSharedCategoryListApi, mockedPostKakaoLoginApi } from '@/mock/api';
 
 jest.mock('nookies', () => ({
   set: jest.fn(),

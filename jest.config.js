@@ -11,8 +11,8 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js', 'jest-styled-components'],
   testRegex: '\\.test\\.[jt]sx?$',
   moduleNameMapper: {
-    // Handle module aliases (this will be automatically configured for you soon)
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/mock/(.*)$': '<rootDir>/__tests__/__mocks__/msw/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
 };
