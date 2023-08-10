@@ -48,7 +48,10 @@ const useCategoryUpdate = (successHandler?: () => void) => {
     },
   );
 
-  const uploadThumbnail = useCallback(async (image: File) => {
+  const uploadThumbnail = useCallback(async (image: string | File | undefined) => {
+    if (typeof image === 'string' || !image) {
+      return image;
+    }
     const uploadedImage = await uploadImage(
       {
         purpose: 'thumbnail',

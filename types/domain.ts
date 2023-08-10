@@ -104,7 +104,7 @@ export interface CardHistoryType extends Omit<MecaType, 'description'> {
   memberId: string;
 }
 
-export const IMAGE_EXTENTIONS = ['jpg', 'jpeg', 'gif', 'png'] as const;
+export const IMAGE_EXTENTIONS = ['jpg', 'jpeg', 'gif', 'png', 'webp'] as const;
 export const IMAGE_PURPOSES = ['thumbnail', 'card', 'profile'] as const;
 
 export interface ImageUploadRequestType {

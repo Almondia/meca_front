@@ -59,7 +59,7 @@ export const validImageFile = (uploadImage?: File) => {
     return { valid: false, message: '올바른 이미지 파일을 등록하세요' };
   }
   if (!IMAGE_EXTENTIONS.includes(uploadImage.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number])) {
-    return { valid: false, message: 'jpg/jpeg/png/gif 확장자만 업로드 가능합니다.' };
+    return { valid: false, message: 'jpg/jpeg/png/webp/gif 확장자만 업로드 가능합니다.' };
   }
   if (uploadImage.name.split('.').length !== 2) {
     return { valid: false, message: '경로를 제외한 이미지 파일 이름에 "." 이 포함되어있습니다.' };

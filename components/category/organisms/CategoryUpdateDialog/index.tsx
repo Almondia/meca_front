@@ -10,6 +10,7 @@ import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
 import { DefaultModalOptions } from '@/types/common';
+import { IMAGE_EXTENTIONS } from '@/types/domain';
 import { Constraints } from '@/utils/validation';
 
 interface CategoryUpdateDialogProps extends DefaultModalOptions {
@@ -44,14 +45,8 @@ const CategoryUpdateDialog = ({
       onClose();
       return;
     }
-    const requestedThumbnail =
-      typeof image === 'string' || !image
-        ? image
-        : await asyncCallbackLoader<string | undefined>(() => uploadThumbnail(image));
-    if (requestedThumbnail === undefined) {
-      return;
-    }
-    updateCategory({ categoryId, title, thumbnail: requestedThumbnail, shared, prevShared: isShared });
+    const uploadedThumbnail = await asyncCallbackLoader<string | undefined>(() => uploadThumbnail(image));
+    updateCategory({ categoryId, title, thumbnail: uploadedThumbnail ?? '', shared, prevShared: isShared });
   };
 
   return (
@@ -66,7 +61,7 @@ const CategoryUpdateDialog = ({
             onDelete={onDeleteImage}
             onUpload={onUploadLocalImage}
           />
-          <InputGroup.Description descLists={['jpg, jpeg, png, gif 파일 업로드 가능']} />
+          <InputGroup.Description descLists={[`${IMAGE_EXTENTIONS.join('/')} 업로드 가능`]} />
         </InputGroup>
         <InputGroup>
           <InputGroup.Label>제목 {actionKeyword}하기</InputGroup.Label>
