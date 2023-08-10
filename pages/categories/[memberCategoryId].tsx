@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
-import { useMemo } from 'react';
-
 import PageTitle from '@/components/@common/atoms/PageTitle';
-import BetweenSection from '@/components/@common/molecules/BetweenSection';
-import LikeButton from '@/components/@common/molecules/LikeButton';
 import MetaHead from '@/components/@util/MetaHead';
-import MecaControl from '@/components/meca/organisms/MecaControl';
+import CategoryLikeButton from '@/components/category/molecules/CategoryLikeButton';
 import MecaList from '@/components/meca/organisms/MecaList';
-import useCategoryLike from '@/hooks/category/useCategoryLike';
+import MecaListHeader from '@/components/meca/organisms/MecaListHeader';
 import useMecaList from '@/hooks/meca/useMecaList';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
@@ -26,9 +22,6 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
   const { mecaList, hasNextPage, fetchNextPage, isEmpty } = useMecaList(categoryId, isMine);
   const { category, member: writerInfo } = mecaList;
   const { user } = useUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const initialLikeCount = useMemo(() => mecaList.categoryLikeCount ?? 0, []);
-  const { hasLike, likeCount, postLike } = useCategoryLike(categoryId, initialLikeCount);
   return (
     <>
       <MetaHead
@@ -37,22 +30,12 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
         image={category?.thumbnail && getRemoteImageUrl(category.thumbnail)}
       />
       <ListPageLayout>
-        <BetweenSection>
-          <BetweenSection.Left>
-            <PageTitle>{category?.title}</PageTitle>
-          </BetweenSection.Left>
-          <BetweenSection.Right>
-            <LikeButton
-              buttonName={`${category?.title} 카테고리 추천 버튼`}
-              onClick={postLike}
-              defaultActiveState={hasLike}
-              disabled={!user}
-            />
-            {likeCount}
-          </BetweenSection.Right>
-        </BetweenSection>
+        <PageTitle>
+          <p style={{ marginBottom: '8px' }}>{category?.title}</p>
+          <CategoryLikeButton categoryId={categoryId} initialLikeCount={mecaList.categoryLikeCount} />
+        </PageTitle>
         <br />
-        <MecaControl
+        <MecaListHeader
           categoryId={categoryId}
           categoryTitle={category?.title ?? 'category'}
           name={writerInfo?.name ?? 'writer name'}

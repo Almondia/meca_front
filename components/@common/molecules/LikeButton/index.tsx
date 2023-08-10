@@ -8,12 +8,19 @@ import { LikeButtonWrapper } from './styled';
 
 interface LikeButtonProps {
   buttonName?: string;
+  likeCount: number;
   onClick: () => void;
   defaultActiveState: boolean;
   disabled: boolean;
 }
 
-const LikeButton = ({ buttonName = '추천 버튼', onClick, defaultActiveState, disabled }: LikeButtonProps) => {
+const LikeButton = ({
+  buttonName = '추천 버튼',
+  likeCount,
+  onClick,
+  defaultActiveState,
+  disabled,
+}: LikeButtonProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const handleLikeButtonClick = useThrottle(() => {
     !disabled && setIsActive((prev) => !prev);
@@ -24,8 +31,9 @@ const LikeButton = ({ buttonName = '추천 버튼', onClick, defaultActiveState,
   }, [defaultActiveState]);
   return (
     <LikeButtonWrapper onClick={handleLikeButtonClick} isActive={isActive}>
-      <Icon icon="Like" color={isActive ? 'white' : 'var(--color-gray)'} />
+      <Icon icon="Like" color={isActive ? 'white' : 'var(--color-gray)'} size="16px" />
       <HiddenText>{buttonName}</HiddenText>
+      <p className="like-count">{likeCount}</p>
     </LikeButtonWrapper>
   );
 };

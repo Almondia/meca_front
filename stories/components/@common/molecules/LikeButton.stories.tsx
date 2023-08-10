@@ -13,3 +13,6 @@ export default {
 const Template: ComponentStory<typeof LikeButton> = (args) => <LikeButton {...args} />;
 
 export const Default = Template.bind({});
+Default.args = {
+  likeCount: 12,
+};
