@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const CategorySearchBarWrapper = styled.div`
   display: flex;
   align-items: center;
+  width: 200px;
   border: 1px solid var(--color-gray);
   border-radius: ${({ theme }) => theme.border.button};
   & > *:first-child {

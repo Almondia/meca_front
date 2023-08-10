@@ -10,11 +10,7 @@ export default {
   },
 } as ComponentMeta<typeof CategorySearchBar>;
 
-const Template: ComponentStory<typeof CategorySearchBar> = (args) => (
-  <div style={{ maxWidth: '600px' }}>
-    <CategorySearchBar {...args} />
-  </div>
-);
+const Template: ComponentStory<typeof CategorySearchBar> = (args) => <CategorySearchBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
