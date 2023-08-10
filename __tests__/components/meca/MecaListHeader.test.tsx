@@ -1,4 +1,4 @@
-import { renderQuery } from '@/__tests__/utils';
+import { renderQuery } from '../../utils';
 import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import { mockedGetMecaCountApi } from '@/mock/api';

@@ -2,11 +2,13 @@ import Image from 'next/image';
 
 import { memo } from 'react';
 
-import MainImage from '@/public/images/mainimg1.png';
 import { TextBody } from '@/styles/common';
 import { COLOR, MEDIA } from '@/styles/constants';
 
 import { HomeCarouselContent, HomeCarouselContentBackground, HomeCarouselSlider, HomeCarouselWrapper } from './styled';
+
+// eslint-disable-next-line import/no-absolute-path
+import MainImage from '/public/images/mainimg1.png';
 
 import 'slick-carousel/slick/slick.css';
 

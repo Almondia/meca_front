@@ -15,17 +15,17 @@ afterEach(() => server.resetHandlers());
 // Clean up after the tests are finished.
 afterAll(() => server.close());
 
-jest.mock('./apis/config/baseAxios', () => {
+jest.mock('@/apis/config/baseAxios', () => {
   return jest.requireActual('axios');
 });
 
-jest.mock('./components/@common/atoms/Icon', () => {
+jest.mock('@/components/@common/atoms/Icon', () => {
   const MockedIcon = ({ icon }) => <div>{icon}</div>;
   return MockedIcon;
 });
 
 // TODO: mocking 없이 동작하도록 개선 시도해볼 것
-jest.mock('./components/@common/organisms/Editor/QuillWriter', () => {
+jest.mock('@/components/@common/organisms/Editor/QuillWriter', () => {
   const MockedQuillWriter = ({ contents, setContents, placeholder }) => (
     <div>
       <input type="text" value={contents} placeholder={placeholder} onChange={(e) => setContents(e.target.value)} />
@@ -34,12 +34,12 @@ jest.mock('./components/@common/organisms/Editor/QuillWriter', () => {
   return MockedQuillWriter;
 });
 
-jest.mock('./components/@common/organisms/Editor/QuillReader', () => {
+jest.mock('@/components/@common/organisms/Editor/QuillReader', () => {
   const MockedQuillReader = ({ content }) => <div dangerouslySetInnerHTML={{ __html: content }} />;
   return MockedQuillReader;
 });
 
-jest.mock('./utils/jwtHandler', () => ({
+jest.mock('@/utils/jwtHandler', () => ({
   getJWTPayload: (token, key) => (token && key === 'id' ? MOCK_MEMBER_ID : undefined),
 }));
 

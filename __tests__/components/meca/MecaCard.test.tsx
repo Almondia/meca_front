@@ -1,4 +1,4 @@
-import { renderQuery } from '@/__tests__/utils';
+import { renderQuery } from '../../utils';
 import { fireEvent, screen } from '@testing-library/react';
 
 import MecaCard from '@/components/meca/organisms/MecaCard';

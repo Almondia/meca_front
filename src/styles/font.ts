@@ -3,7 +3,7 @@ import localFont from '@next/font/local';
 export const sahitya = localFont({
   src: [
     {
-      path: '../public/fonts/Sahitya-Bold.ttf',
+      path: '../../public//fonts/Sahitya-Bold.ttf',
       weight: '700',
       style: 'normal',
     },
@@ -13,7 +13,7 @@ export const sahitya = localFont({
 export const pretendard = localFont({
   src: [
     {
-      path: '../public/fonts/Pretendard-Regular.woff',
+      path: '../../public/fonts/Pretendard-Regular.woff',
       weight: '400',
       style: 'normal',
     },

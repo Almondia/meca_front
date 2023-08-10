@@ -1,8 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 // quill-image-resize.d.ts
 declare module 'quill-image-resize' {
-  import { Quill } from 'react-quill';
-
   interface ResizeOptions {
     modules: {
       [moduleName: string]: any;

@@ -11,7 +11,7 @@ import { mockedDeleteMecaApi, mockedGetMecaCountApi } from '@/mock/api';
 
 jest.mock('next/router', () => require('next-router-mock'));
 
-jest.mock('../../apis/utilApi', () => ({
+jest.mock('@/apis/utilApi', () => ({
   revalidate: jest.fn(),
 }));
 

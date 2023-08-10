@@ -13,7 +13,7 @@ jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock('../../apis/utilApi', () => ({
+jest.mock('@/apis/utilApi', () => ({
   revalidate: jest.fn(),
 }));
 

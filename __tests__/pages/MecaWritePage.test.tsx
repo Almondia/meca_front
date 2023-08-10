@@ -1,4 +1,4 @@
-import { renderQuery } from '@/__tests__/utils';
+import { renderQuery } from '../utils';
 import MecaWritePage, { getServerSideProps } from '@/pages/mecas/write/[categoryId]';
 import { GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';

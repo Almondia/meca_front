@@ -1,4 +1,4 @@
-import { render } from '@/__tests__/utils';
+import { render } from '../../utils';
 import { screen, waitFor } from '@testing-library/react';
 import { MOCK_MEMBER, MOCK_MEMBER_ID } from '@/mock/data';
 

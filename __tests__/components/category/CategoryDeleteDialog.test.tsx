@@ -1,4 +1,4 @@
-import { renderQuery } from '@/__tests__/utils';
+import { renderQuery } from '../../utils';
 import { screen, fireEvent } from '@testing-library/react';
 import { restHandler } from '@/mock/handlers';
 import { implementServer, resetServer } from '@/mock/server';

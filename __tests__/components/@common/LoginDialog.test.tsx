@@ -1,5 +1,5 @@
 import { screen, fireEvent } from '@testing-library/react';
-import { render } from '@/__tests__/utils';
+import { render } from '../../utils';
 import mockRouter from 'next-router-mock';
 
 import LoginDialog from '@/components/@common/organisms/LoginDialog';

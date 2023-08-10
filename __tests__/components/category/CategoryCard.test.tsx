@@ -1,4 +1,4 @@
-import { render } from '@/__tests__/utils';
+import { render } from '../../utils';
 import { screen, fireEvent } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 

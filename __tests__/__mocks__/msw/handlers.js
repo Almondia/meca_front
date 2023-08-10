@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { authInstance } from '../../../apis/config/instance';
+import { authInstance } from '@/apis/config/instance';
 export const ENDPOINT = authInstance.defaults.baseURL + '/api/v1';
 export const ENDPOINT_V2 = authInstance.defaults.baseURL + '/api/v2';
 

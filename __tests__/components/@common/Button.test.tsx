@@ -1,6 +1,6 @@
 import 'jest-styled-components';
 
-import { render } from '@/__tests__/utils';
+import { render } from '../../utils';
 import { fireEvent } from '@testing-library/react';
 
 import Button from '@/components/@common/atoms/Button';

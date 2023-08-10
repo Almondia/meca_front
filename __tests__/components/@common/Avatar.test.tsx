@@ -1,4 +1,4 @@
-import { render } from '@/__tests__/utils';
+import { render } from '../../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { useState } from 'react';
 
