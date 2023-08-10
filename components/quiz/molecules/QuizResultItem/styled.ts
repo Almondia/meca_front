@@ -5,7 +5,7 @@ import { FlexColumn } from '@/styles/layout';
 
 export const QuizResultItemWrapper = styled(TextCaption)`
   ${FlexColumn};
-  row-gap: 10px;
+  row-gap: 20px;
   width: 95%;
   word-wrap: break-word;
   word-break: break-all;

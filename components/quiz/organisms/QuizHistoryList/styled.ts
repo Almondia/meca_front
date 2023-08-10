@@ -39,12 +39,6 @@ const QuizHistoryListContent = styled.div`
     & > * {
       width: 60px;
     }
-    .user {
-      width: 75px;
-      @media ${({ theme }) => theme.media.mobile} {
-        width: 60px;
-      }
-    }
   }
 `;
 
@@ -62,6 +56,10 @@ export const QuizHistoryListItem = styled(QuizHistoryListContent)`
   border-top: 1px solid var(--color-lightgray);
   & > div {
     padding: 12px 8px;
+  }
+  .user {
+    width: 50px;
+    padding-right: 10px;
   }
 `;
 
