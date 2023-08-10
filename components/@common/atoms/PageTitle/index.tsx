@@ -7,6 +7,9 @@ const PageTitleWrapper = styled.div`
     font-size: 2rem;
     line-height: 2.375rem;
   }
+  @media ${({ theme }) => theme.media.mobile} {
+    margin-bottom: 15px;
+  }
 `;
 
 const PageTitle = ({ children }: { children: React.ReactNode }) => (

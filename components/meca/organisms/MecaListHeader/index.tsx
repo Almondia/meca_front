@@ -51,9 +51,7 @@ const MecaControl = memo(({ categoryId, categoryTitle, isMine, name, profile, ha
         )}
         {hasAuth && (
           <Button colorTheme="success" onClick={handlePlayClick} size="small">
-            {/* FIX: need fix */}
-            {/* <Button.RightIcon icon="Play" */}
-            플레이
+            플레이 ▶
           </Button>
         )}
         {isPlayModalVisible && (
