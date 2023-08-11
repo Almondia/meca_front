@@ -1,3 +1,5 @@
+import type { MecaHistoryListPaginationResponse } from '@/types/domain/mecaHistory';
+
 import { renderQuery } from '../../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { implementServer, resetServer } from '@/mock/server';
@@ -6,7 +8,7 @@ import { mockedGetMecaHistoryByMemberApi } from '@/mock/api';
 
 import QuizHistoryList from '@/components/quiz/organisms/QuizHistoryList';
 
-const HISTORY_LIST = {
+const HISTORY_LIST: MecaHistoryListPaginationResponse = {
   contents: [
     {
       cardHistory: {
@@ -22,12 +24,12 @@ const HISTORY_LIST = {
       card: {
         cardId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf29',
         memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
+        categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd09',
         title: '퀴즈제목',
         question: '박동석의 MBTI는 무엇일까요?',
         answer: 'INFP',
         cardType: 'KEYWORD',
         createdAt: '2023-06-16T14:24:57.2667251',
-        modifiedAt: '2023-06-16T14:24:57.2667251',
       },
     },
     {
@@ -45,13 +47,13 @@ const HISTORY_LIST = {
       card: {
         cardId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf29',
         memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
+        categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd09',
         title: 'Event Loop',
         question: 'event loop를 설명해보세요',
         answer:
           'JavaScript 런타임 환경에서 동작하는 기능으로 callstack, callback queue, microtask queue를 감시하며 callstack이 비워졌을 경우 적절한 callback queue를 호출하도록 하는 비동기/논블로킹 동작의 핵심이 되는 기술',
         cardType: 'ESSAY',
         createdAt: '2023-06-16T14:24:57.2667251',
-        modifiedAt: '2023-06-16T14:24:57.2667251',
       },
     },
     {
@@ -68,13 +70,13 @@ const HISTORY_LIST = {
       card: {
         cardId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf29',
         memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
+        categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd09',
         title: 'Event Loop',
         question:
           '질문이 엄청나게 길어서 짤릴수도 있으니까 이렇게 길게써보려는데 어느정도 길이까지 커버가 가능할까요 질문이 엄청나게 길어서 짤릴수도 있으니까 이렇게 길게써보려는데 어느정도 길이까지 커버가 가능할까요',
         answer: '정답이아주길면어떡하지어떡해어떡해해야할까요',
         cardType: 'ESSAY',
         createdAt: '2023-06-16T14:24:57.2667251',
-        modifiedAt: '2023-06-16T14:24:57.2667251',
       },
     },
   ],
@@ -82,9 +84,9 @@ const HISTORY_LIST = {
   pageSize: 3,
 };
 
-const EMPTY_LIST = {
+const EMPTY_LIST: MecaHistoryListPaginationResponse = {
   contents: [],
-  hasNext: undefined,
+  hasNext: null,
   pageSize: 0,
 };
 
@@ -120,7 +122,7 @@ describe('QuizHistoryList', () => {
   });
 
   it('더이상 페이지가 없다면 더보기 버튼이 식별되지 않는다', async () => {
-    const notHasNextHistoryList = { ...HISTORY_LIST, hasNext: false };
+    const notHasNextHistoryList = { ...HISTORY_LIST, hasNext: null };
     resetServer([restHandler(() => mockedGetMecaHistoryByMemberApi(notHasNextHistoryList))]);
     await waitFor(() =>
       renderQuery(<QuizHistoryList resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),

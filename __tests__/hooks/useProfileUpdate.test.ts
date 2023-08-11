@@ -1,9 +1,10 @@
+import type { MyProfile } from '@/types/domain/user';
+
 import { renderHook, waitFor } from '@testing-library/react';
 import { createQueryClientWrapper } from '../utils';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
 import useProfileUpdate from '@/hooks/user/useProfileUpdate';
-import { MyProfile } from '@/types/domain';
 import { implementServer, resetServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import { mockedPutImageUploadApi, mockedPutUserApi } from '@/mock/api';
@@ -11,10 +12,10 @@ import { mockedPutImageUploadApi, mockedPutUserApi } from '@/mock/api';
 describe('useProfileUpdate', () => {
   const USER: MyProfile = {
     memberId: '0187934c-bd9d-eb51-758f-3b3723a0d3a7',
+    accessToken: 'token',
     name: '임현규',
     email: 'email',
     profile: 'profile',
-    role: 'USER',
     createdAt: '2023-04-18T16:38:12.861907',
     oauthType: 'kakao',
   };

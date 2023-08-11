@@ -1,3 +1,5 @@
+import type { MyProfile } from '@/types/domain/user';
+
 import { renderQuery } from '../../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { implementServer, resetServer } from '@/mock/server';
@@ -6,22 +8,14 @@ import { mockedPutUserApi } from '@/mock/api';
 
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
-import { MyProfile } from '@/types/domain';
 import useUser from '@/hooks/user/useUser';
 
 import UserProfileHeader from '@/components/user/organisms/UserProfileHeader';
+import { MOCK_MEMBER } from '@/mock/data';
 
 describe('UserProfileHeader', () => {
   const queryClient = new QueryClient();
-  const USER: MyProfile = {
-    memberId: '0187934c-bd9d-eb51-758f-3b3723a0d3a7',
-    name: '임현규',
-    email: 'email',
-    profile: '/images/noimage.png',
-    role: 'USER',
-    createdAt: '2023-04-18T16:38:12.861907',
-    oauthType: 'kakao',
-  };
+  const USER: MyProfile = { ...MOCK_MEMBER, profile: '/images/noimage.png' };
   beforeEach(() => {
     implementServer([restHandler(mockedPutUserApi)]);
     queryClient.setQueryData([queryKey.me], USER);

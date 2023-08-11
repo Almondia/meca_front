@@ -3,16 +3,17 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { createQueryClientWrapper } from '../utils';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
-import { QuizType } from '@/types/domain';
+import { Quiz } from '@/types/domain/quiz';
 import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import { mockedPostKeywords } from '@/mock/api';
 import statisticsApi from '@/apis/statisticsApi';
 
 describe('useQuizKeyword', () => {
-  const MOCKED_QUIZLIST: QuizType[] = [
+  const MOCKED_QUIZLIST: Quiz[] = [
     {
       cardId: 'cid',
+      memberId: 'mid',
       title: 'title',
       question: 'question',
       answer: 'answer',

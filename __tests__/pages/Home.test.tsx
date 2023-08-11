@@ -1,7 +1,7 @@
 import { renderQuery } from '../utils';
 import { screen, fireEvent } from '@testing-library/react';
 import Home, { getStaticProps } from '@/pages';
-import { MOCK_CATEGORIES } from '@/mock/data';
+import { MOCK_CATEGORIES, MOCK_CATEGORY_PAGINATION_LIST } from '@/mock/data';
 import { GetStaticPropsContext } from 'next';
 import { implementServer } from '@/mock/server';
 import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
@@ -62,61 +62,9 @@ describe('Homepage', () => {
         img: { src: img },
       }));
       const thumbnail1 = 'http://localhost/images/noimage.png';
-      implementServer([
-        restOverridedResponseHandler(mockedGetSharedCategoryListApi, {
-          contents: [
-            {
-              categoryInfo: {
-                categoryId: '018819c4-e42d-1534-5c24-89c19a260cc9',
-                memberId: '018819c4-e42d-1534-5c24-89c19a260cc8',
-                thumbnail: thumbnail1,
-                title: 'title1',
-                createdAt: '2023-05-14T19:18:33.9016305',
-                modifiedAt: '2023-05-14T19:18:33.9016305',
-                shared: true,
-                deleted: false,
-              },
-              memberInfo: {
-                memberId: '018819c4-e42d-1534-5c24-89c19a260cca',
-                name: 'name',
-                email: 'www@gmail.com',
-                profile: null,
-                role: 'USER',
-                createdAt: '2023-05-14T19:18:33.9016305',
-                modifiedAt: '2023-05-14T19:18:33.9016305',
-                deleted: false,
-                oauthType: 'GOOGLE',
-              },
-            },
-            {
-              categoryInfo: {
-                categoryId: '018819c4-e42d-1534-5c24-89c19a260cc0',
-                memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
-                thumbnail: null,
-                title: 'title2',
-                createdAt: '2023-05-14T19:18:33.9016305',
-                modifiedAt: '2023-05-14T19:18:33.9016305',
-                shared: true,
-                deleted: false,
-              },
-              memberInfo: {
-                memberId: '018819c4-e42d-1534-5c24-89c19a260cc0',
-                name: 'name',
-                email: 'www@gmail.com',
-                profile: null,
-                role: 'USER',
-                createdAt: '2023-05-14T19:18:33.9016305',
-                modifiedAt: '2023-05-14T19:18:33.9016305',
-                deleted: false,
-                oauthType: 'GOOGLE',
-              },
-            },
-          ],
-          hasNext: null,
-          pageSize: 2,
-          sortOrder: 'DESC',
-        }),
-      ]);
+      const mockedCategoryPaginationList = MOCK_CATEGORY_PAGINATION_LIST;
+      mockedCategoryPaginationList.contents[0].category.thumbnail = thumbnail1;
+      implementServer([restOverridedResponseHandler(mockedGetSharedCategoryListApi, mockedCategoryPaginationList)]);
       const context = {} as unknown as GetStaticPropsContext;
       const { props, revalidate } = (await getStaticProps(context)) as any;
       expect(revalidate).toEqual(3600);
