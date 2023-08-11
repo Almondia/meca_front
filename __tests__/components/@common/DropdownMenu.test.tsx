@@ -4,52 +4,47 @@ import { screen, fireEvent } from '@testing-library/react';
 import DropdownMenu from '@/components/@common/molecules/DropdownMenu';
 
 describe('DropdownMenu', () => {
-  it('Opener 내부 클릭 시 클릭 이벤트가 발생하고 Opener가 close 된다.', () => {
-    const mockClick = jest.fn();
+  it('Menu 클릭 시 클릭 이벤트가 발생하고 Menu가 close 된다.', async () => {
     render(
-      <DropdownMenu name="name">
-        <button onClick={mockClick}>hello</button>
+      <DropdownMenu wrapperComponent={({ onClick }) => <button onClick={onClick}>button</button>}>
+        <DropdownMenu.Menu>menu</DropdownMenu.Menu>
       </DropdownMenu>,
     );
-    const dotButton = screen.getByRole('button', { name: /verticaldot/i });
-    fireEvent.click(dotButton);
-    const helloButton = screen.getByRole('button', { name: 'hello' });
-    expect(helloButton).toBeInTheDocument();
-    fireEvent.click(helloButton);
-    expect(mockClick).toBeCalledTimes(1);
-    expect(helloButton).not.toBeInTheDocument();
+    const button = screen.getByRole('button', { name: 'button' });
+    fireEvent.click(button);
+    const menuLink = await screen.findByRole('link', { name: 'menu' });
+    expect(menuLink).toBeInTheDocument();
+    fireEvent.click(menuLink);
+    expect(menuLink).not.toBeInTheDocument();
   });
 
-  it('Opener 외부를 클릭하면 Opener가 close 된다.', async () => {
-    const mockClick = jest.fn();
+  it('Menu Wrapper 버튼 외부를 클릭하면 메뉴가 close된다.', async () => {
     render(
-      <div>
-        <p onClick={mockClick}>hello</p>
-        <DropdownMenu name="name">
-          <h3>inner</h3>
+      <>
+        <h3>hello</h3>
+        <DropdownMenu wrapperComponent={({ onClick }) => <button onClick={onClick}>button</button>}>
+          <DropdownMenu.Menu>menu</DropdownMenu.Menu>
         </DropdownMenu>
-      </div>,
+      </>,
     );
-    const dotButton = screen.getByRole('button', { name: /verticaldot/i });
-    fireEvent.click(dotButton);
-    const innerHeading = screen.getByRole('heading', { name: 'inner' });
-    expect(innerHeading).toBeInTheDocument();
-    const helloText = screen.getByText('hello');
-    fireEvent.mouseDown(helloText);
-    expect(innerHeading).not.toBeInTheDocument();
+    const button = screen.getByRole('button', { name: 'button' });
+    fireEvent.click(button);
+    await screen.findByRole('link', { name: 'menu' });
+    const helloHeading = screen.getByRole('heading', { name: 'hello' });
+    fireEvent.mouseDown(helloHeading);
+    expect(screen.queryByRole('link', { name: 'menu' })).not.toBeInTheDocument();
   });
 
-  it('Opener Dot Button을 두번 클릭하면 close된다.', () => {
+  it('Wrapper Button을 두번 클릭하면 close된다.', async () => {
     render(
-      <DropdownMenu name="name">
-        <p>hello</p>
+      <DropdownMenu wrapperComponent={({ onClick }) => <button onClick={onClick}>button</button>}>
+        <DropdownMenu.Menu>menu</DropdownMenu.Menu>
       </DropdownMenu>,
     );
-    const dotButton = screen.getByRole('button', { name: /verticaldot/i });
-    fireEvent.click(dotButton);
-    const helloText = screen.getByText('hello');
-    expect(helloText).toBeInTheDocument();
-    fireEvent.click(dotButton);
-    expect(helloText).not.toBeInTheDocument();
+    const button = screen.getByRole('button', { name: 'button' });
+    fireEvent.click(button);
+    await screen.findByRole('link', { name: 'menu' });
+    fireEvent.click(button);
+    expect(screen.queryByRole('link', { name: 'menu' })).not.toBeInTheDocument();
   });
 });
