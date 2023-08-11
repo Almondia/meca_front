@@ -1,12 +1,8 @@
-import { ENDPOINT } from '../handlers';
+import { ENDPOINT, ResponseResolver } from '../handlers';
 
-/**
- * @param {boolean} [revalidated=true]
- * @returns
- */
 export const mockedPostRevalidateApi = (revalidated = true) => {
   const [uri, method] = [`/api/revalidate`, 'post'];
-  const responseResolver = (_, res, ctx) => {
+  const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -17,14 +13,9 @@ export const mockedPostRevalidateApi = (revalidated = true) => {
   return { uri, method, responseResolver };
 };
 
-/**
- * @description queries: [ purpose, extension, fileName ]
- * @property {string} url - `/ENDPOINT/${purpose}/${fileName}.${extension}`
- * @property {string} objectKey - `${purpose}/${fileName}.${extension}`
- */
 export const mockedGetPresignImageUrlApi = () => {
   const [uri, method] = [`${ENDPOINT}/presign/images/upload`, 'get'];
-  const responseResolver = (req, res, ctx) => {
+  const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const purpose = req.url.searchParams.get('purpose');
     const extension = req.url.searchParams.get('extension');
     const fileName = req.url.searchParams.get('fileName');
@@ -41,8 +32,9 @@ export const mockedGetPresignImageUrlApi = () => {
 
 export const mockedPutImageUploadApi = () => {
   const [uri, method] = ['/api/image', 'post'];
-  const responseResolver = async (req, res, ctx) => {
-    req.headers['content-type'] = 'multipart/form-data';
+  const responseResolver: ResponseResolver = async (req, res, ctx) => {
+    req.headers.set('content-type', 'multipart/form-data');
+    //@ts-ignore
     const image = req._body.get('file');
     return res(
       ctx.status(200),
@@ -54,13 +46,9 @@ export const mockedPutImageUploadApi = () => {
   return { uri, method, responseResolver };
 };
 
-/**
- * @param {[key: string]: number} body
- * @property {Object} keywords
- */
-export const mockedPostKeywords = (body) => {
+export const mockedPostKeywords = (body: { [key: string]: number }) => {
   const [uri, method] = ['/api/keyword', 'post'];
-  const responseResolver = (_, res, ctx) => {
+  const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(ctx.status(200), ctx.json({ keywords: { ...body } }));
   };
   return { uri, method, responseResolver };
