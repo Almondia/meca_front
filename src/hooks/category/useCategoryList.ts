@@ -2,7 +2,9 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { QueryClient } from '@tanstack/react-query';
 
-import categoryApi, { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/categoryApi';
+import { CategoryListPaginationResponse } from '@/types/domain/category';
+
+import categoryApi from '@/apis/categoryApi';
 import { useFlatInfiniteQuery } from '@/query/hooks/useFlatInfiniteQuery';
 import queryKey from '@/query/queryKey';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
@@ -62,18 +64,15 @@ const useCategoryList = (key: CategoryListFetcherKey, disable?: boolean) => {
   return { categoryList, fetchNextPage, hasNextPage, query: currentSearchQuery, changeSearchQuery, isEmpty };
 };
 
-const genContentsWithPlaceholder = (
-  categoryList: SharedCategoriesResponse | PrivateCategoriesResponse,
-  blurFn: BlurFn,
-) =>
-  categoryList.contents.map(async (category) => {
-    const { thumbnail } = category;
+const genContentsWithPlaceholder = (categoryList: CategoryListPaginationResponse, blurFn: BlurFn) =>
+  categoryList.contents.map(async (content) => {
+    const { thumbnail } = content.category;
     const placeholderThumbnail = thumbnail && (await blurFn(getRemoteImageUrl(thumbnail), 20));
     if (!placeholderThumbnail) {
-      return category;
+      return content;
     }
     const { img, blurDataURL } = placeholderThumbnail;
-    return { ...category, blurThumbnail: { ...img, blurDataURL } };
+    return { ...content, category: { ...content.category, blurThumbnail: { ...img, blurDataURL } } };
   });
 
 useCategoryList.prefetchInfiniteQuery = (key: CategoryListFetcherKey, queryClient: QueryClient) =>

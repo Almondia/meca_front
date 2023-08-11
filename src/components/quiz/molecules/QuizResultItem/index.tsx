@@ -1,5 +1,6 @@
+import type { MecaTag as MecaTagType } from '@/types/domain/meca';
+
 import IconTag from '@/components/@common/molecules/IconTag';
-import { MecaTagType } from '@/types/domain';
 import { MECA_TAGS } from '@/utils/constants';
 
 import { QuizResultItemTitleGroup, QuizResultItemWrapper } from './styled';

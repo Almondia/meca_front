@@ -3,10 +3,12 @@ import { useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
+import type { MecaTag } from '@/types/domain/meca';
+import type { Quiz } from '@/types/domain/quiz';
+
 import cardHistoryApi from '@/apis/cardHistoryApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import queryKey from '@/query/queryKey';
-import { MecaTagType, QuizType } from '@/types/domain';
 import { MECA_TAGS } from '@/utils/constants';
 import alertToast from '@/utils/toastHandler';
 
@@ -14,7 +16,7 @@ import useQuiz from './useQuiz';
 
 const useQuizResult = () => {
   const queryClient = useQueryClient();
-  const fallback: QuizType[] = [];
+  const fallback: Quiz[] = [];
   const { quizList = fallback } = useQuiz();
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
@@ -30,7 +32,7 @@ const useQuizResult = () => {
   }, []);
 
   const { mutate: solveQuiz, data: currentQuizList } = useMutation<
-    { solvedQuizList: QuizType[]; currentQuizResult?: { score: number; inputAnswer: string } },
+    { solvedQuizList: Quiz[]; currentQuizResult?: { score: number; inputAnswer: string } },
     never,
     { cardId: string; spendTime: number; answer: string }
   >(
@@ -39,7 +41,7 @@ const useQuizResult = () => {
         return quizList;
       }
       const currentScore = await applyScore(answer, cardId);
-      const solvedQuizList: QuizType[] = quizList.map((quiz) =>
+      const solvedQuizList: Quiz[] = quizList.map((quiz) =>
         quiz.cardId === cardId
           ? {
               ...quiz,
@@ -62,8 +64,8 @@ const useQuizResult = () => {
   );
 
   const getQuizTypeRateResult = () => {
-    const keys = Object.keys(MECA_TAGS) as MecaTagType[];
-    const names = keys.reduce((prev, next, idx) => ({ ...prev, [next]: idx }), {}) as Record<MecaTagType, number>;
+    const keys = Object.keys(MECA_TAGS) as MecaTag[];
+    const names = keys.reduce((prev, next, idx) => ({ ...prev, [next]: idx }), {}) as Record<MecaTag, number>;
     const answerRate = [...Array(keys.length)].fill(0);
     const count = [...Array(keys.length)].fill(0);
     quizList.forEach((quiz) => {
@@ -72,14 +74,14 @@ const useQuizResult = () => {
       count[names[tag]] += 1;
     });
     return {
-      names: (Object.getOwnPropertyNames(names) as MecaTagType[]).map((name) => MECA_TAGS[name].text),
+      names: (Object.getOwnPropertyNames(names) as MecaTag[]).map((name) => MECA_TAGS[name].text),
       answerRate,
       count,
     };
   };
 
   const getAnswerRateResult = () => {
-    const [totalScore, totalSecond] = ([...quizList] as Required<QuizType>[]).reduce(
+    const [totalScore, totalSecond] = ([...quizList] as Required<Quiz>[]).reduce(
       (prev, next) => [prev[0] + next.result.score, prev[1] + next.result.spendTime],
       [0, 0],
     );

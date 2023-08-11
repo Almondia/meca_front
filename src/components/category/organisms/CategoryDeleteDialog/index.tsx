@@ -1,6 +1,7 @@
+import { DefaultModalOptions } from '@/types/common';
+
 import Modal from '@/components/@common/molecules/Modal';
 import useCategoryDelete from '@/hooks/category/useCategoryDelete';
-import { DefaultModalOptions } from '@/types/common';
 
 interface CategoryDeleteDialogProps extends DefaultModalOptions {
   categoryId: string;

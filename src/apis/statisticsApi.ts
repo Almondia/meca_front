@@ -1,15 +1,11 @@
-import { serverInstance } from './config/instance';
+import type { ExtractedKeywordsResponse } from '@/types/domain';
 
-export interface KeywordResponse {
-  keywords: {
-    [key: string]: number;
-  };
-}
+import { serverInstance } from './config/instance';
 
 const statisticsApi = {
   postKeywordBySentence: (sentence: string) =>
-    serverInstance.post<never, KeywordResponse>('/api/keyword', { sentence }),
-  getAllKeyword: () => serverInstance.get<never, KeywordResponse>('/api/keyword'),
+    serverInstance.post<never, ExtractedKeywordsResponse>('/api/keyword', { sentence }),
+  getAllKeyword: () => serverInstance.get<never, ExtractedKeywordsResponse>('/api/keyword'),
 };
 
 export default statisticsApi;

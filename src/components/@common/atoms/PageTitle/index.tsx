@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { CSSProp } from 'styled-components';
 
 const PageTitleWrapper = styled.div`
   margin-bottom: 30px;
@@ -12,8 +12,8 @@ const PageTitleWrapper = styled.div`
   }
 `;
 
-const PageTitle = ({ children }: { children: React.ReactNode }) => (
-  <PageTitleWrapper>
+const PageTitle = ({ children, style }: { children: React.ReactNode; style?: CSSProp }) => (
+  <PageTitleWrapper css={style}>
     <h2>{children}</h2>
   </PageTitleWrapper>
 );

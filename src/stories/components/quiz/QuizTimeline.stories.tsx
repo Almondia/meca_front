@@ -1,16 +1,18 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
+import type { Quiz } from '@/types/domain/quiz';
+
 import QuizTimeline from '@/components/quiz/organisms/QuizTimeline';
-import { QuizType } from '@/types/domain';
 
 export default {
   title: 'components/quiz/QuizTimeline',
   component: QuizTimeline,
 } as ComponentMeta<typeof QuizTimeline>;
 
-const quizList: QuizType[] = [
+const quizList: Quiz[] = [
   {
     cardId: 'cid01',
+    memberId: 'mid01',
     cardType: 'KEYWORD',
     answer: 'answer',
     categoryId: 'cat01',
@@ -22,6 +24,7 @@ const quizList: QuizType[] = [
   },
   {
     cardId: 'cid02',
+    memberId: 'mid01',
     cardType: 'KEYWORD',
     answer: 'answer',
     categoryId: 'cat02',
@@ -33,6 +36,7 @@ const quizList: QuizType[] = [
   },
   {
     cardId: 'cid04',
+    memberId: 'mid01',
     cardType: 'ESSAY',
     answer:
       'JavaScript 런타임 환경에서 동작하는 기능으로 callstack, callback queue, microtask queue를 감시하며 callstack이 비워졌을 경우 적절한 callback queue를 호출하도록 하는 비동기/논블로킹 동작의 핵심이 되는 기술',
@@ -50,6 +54,7 @@ const quizList: QuizType[] = [
   },
   {
     cardId: 'cid03',
+    memberId: 'mid01',
     cardType: 'MULTI_CHOICE',
     answer: '2',
     categoryId: 'cat02',

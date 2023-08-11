@@ -1,5 +1,6 @@
-import { TextCaption } from '@/styles/common';
 import { ElementSizeType } from '@/types/common';
+
+import { TextCaption } from '@/styles/common';
 
 import { PostSubInfoContentWrapper, PostSubInfoWrapper } from './styled';
 

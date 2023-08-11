@@ -1,39 +1,26 @@
+import type { MyProfile } from '@/types/domain/user';
 import { MOCK_MEMBER } from '../data';
-import { ENDPOINT } from '../handlers';
+import { ENDPOINT, ResponseResolver } from '../handlers';
 
-/**
- *
- * @param {*} [body=MOCK_MEMBER] - default: MOCK_MEMBER
- * @returns
- */
-export const mockedGetUserWithServerApi = (body = MOCK_MEMBER) => {
+export const mockedGetUserWithServerApi = (body?: MyProfile | null) => {
   const [uri, method] = ['/api/user', 'get'];
-  const responseResolver = (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(body));
+  const responseResolver: ResponseResolver = async (_, res, ctx) => {
+    return res(ctx.status(200), ctx.json(body === undefined ? MOCK_MEMBER : body));
   };
   return { uri, method, responseResolver };
 };
 
-/**
- *
- * @param {*} [body=MOCK_MEMBER] - default: MOCK_MEMBER
- * @returns
- */
 export const mockedGetUserApi = (body = MOCK_MEMBER) => {
   const [uri, method] = [`${ENDPOINT}/members/me`, 'get'];
-  const responseResolver = (_, res, ctx) => {
+  const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(ctx.status(200), ctx.json(body));
   };
   return { uri, method, responseResolver };
 };
 
-/**
- * @description queries: [code]
- * @returns
- */
 export const mockedPostKakaoLoginApi = () => {
   const [uri, method] = [`${ENDPOINT}/oauth/login/kakao`, 'post'];
-  const responseResolver = (req, res, ctx) => {
+  const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const code = req.url.searchParams.get('code');
     const token = {
       accessToken: 'kakao_token',
@@ -45,7 +32,7 @@ export const mockedPostKakaoLoginApi = () => {
 
 export const mockedPostLogoutApi = () => {
   const [uri, method] = [`/api/logout`, 'post'];
-  const responseResolver = (_, res, ctx) => {
+  const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(
       ctx.json({
         deleted: true,
@@ -55,13 +42,9 @@ export const mockedPostLogoutApi = () => {
   return { uri, method, responseResolver };
 };
 
-/**
- * @description request body: [name, profile]
- * @returns
- */
 export const mockedPutUserApi = () => {
   const [uri, method] = [`${ENDPOINT}/members/me`, 'put'];
-  const responseResolver = async (req, res, ctx) => {
+  const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const { name, profile } = await req.json();
     return res(
       ctx.json({

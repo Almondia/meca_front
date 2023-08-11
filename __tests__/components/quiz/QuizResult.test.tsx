@@ -1,3 +1,5 @@
+import type { Quiz } from '@/types/domain/quiz';
+
 import { renderQuery } from '../../utils';
 import { screen, waitFor } from '@testing-library/react';
 import { mockedPostKeywords } from '@/mock/api';
@@ -5,15 +7,15 @@ import { restHandler } from '@/mock/handlers';
 import { implementServer } from '@/mock/server';
 
 import queryKey from '@/query/queryKey';
-import { QuizType } from '@/types/domain';
 import { QueryClient } from '@tanstack/react-query';
 import statisticsApi from '@/apis/statisticsApi';
 import QuizResult from '@/components/quiz/organisms/QuizResult';
 
-const MOCK_QUIZS: QuizType[] = [
+const MOCK_QUIZS: Quiz[] = [
   {
     cardId: 'cid01',
     categoryId: 'cat01',
+    memberId: 'mid01',
     title: 'title01',
     question: 'question01',
     answer: 'O',
@@ -29,6 +31,7 @@ const MOCK_QUIZS: QuizType[] = [
   {
     cardId: 'cid02',
     categoryId: 'cat02',
+    memberId: 'mid01',
     title: 'title02',
     question: '["다음 중 박동석의 MBTI로 적절한 것은?","ENFJ","INFP","ISTJ","ESTJ"]',
     answer: '2',

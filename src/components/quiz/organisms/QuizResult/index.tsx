@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import { Quiz } from '@/types/domain/quiz';
+
 import Card from '@/components/@common/molecules/Card';
 import Chart from '@/components/@common/molecules/Chart';
 import QuizTimeline from '@/components/quiz/organisms/QuizTimeline';
 import useQuizKeyword from '@/hooks/quiz/useQuizKeyword';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import { COLOR } from '@/styles/constants';
-import { QuizType } from '@/types/domain';
 
 import {
   QuizResulDashBoard,
@@ -18,7 +19,7 @@ import {
 } from './styled';
 
 interface QuizResultProps {
-  quizList: QuizType[];
+  quizList: Quiz[];
   maxQuizTime: number;
 }
 

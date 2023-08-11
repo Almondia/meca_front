@@ -1,6 +1,7 @@
+import { ElementSizeType } from '@/types/common';
+
 import Icon, { IconType } from '@/components/@common/atoms/Icon';
 import { HiddenText } from '@/styles/common';
-import { ElementSizeType } from '@/types/common';
 
 import { IconButtonWrapper } from './styled';
 

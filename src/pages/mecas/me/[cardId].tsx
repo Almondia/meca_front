@@ -13,71 +13,66 @@ import MetaHead from '@/components/@util/MetaHead';
 import MecaPost from '@/components/meca/organisms/MecaPost';
 import useMeca from '@/hooks/meca/useMeca';
 import useModal from '@/hooks/useModal';
-import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import { Devide, PostPageLayout } from '@/styles/layout';
-import { MyProfile } from '@/types/domain';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/meca/organisms/MecaDeleteDialog'), { ssr: false });
 const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
-
+const NotFound = dynamic(() => import('@/pages/404'));
 export interface MecaPageProps {
   cardId: string;
 }
 
 const MecaById = ({ cardId }: MecaPageProps) => {
-  const { meca } = useMeca(cardId);
-  const { user } = useUser() as { user: MyProfile };
+  const { meca: mecaResponse } = useMeca(cardId);
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const router = useRouter();
-  const handleUpdateCardButtonClick = () => {
-    if (meca) {
-      router.push(`/mecas/write/${meca.categoryId}?cardId=${cardId}`);
-    }
+  const handleUpdateCardButtonClick = (categoryId: string) => {
+    router.push(`/mecas/write/${categoryId}?cardId=${cardId}`);
   };
   const handleDeleteCardButtonClick = () => {
     !isDeleteModalVisible && deleteModalOpen();
   };
+  if (!mecaResponse) {
+    return <NotFound isMessageVisible message="요청하신 페이지가 없거나 비공개 처리되어있어요!" />;
+  }
+  const { card: meca, member: user } = mecaResponse;
   return (
     <AuthPageProvider reload>
-      {meca && (
-        <>
-          <MetaHead title={`${meca.title}- by ${user?.name}`} ogType="article" />
-          <PostPageLayout>
-            <PageTitle>{meca.title}</PageTitle>
-            <br />
-            <BetweenSection>
-              <BetweenSection.Left>
-                <AvatarUser {...user} />
-              </BetweenSection.Left>
-              <BetweenSection.Right>
-                <LinkButton onClick={handleUpdateCardButtonClick} textSize="main">
-                  수정하기
-                </LinkButton>
-                <LinkButton onClick={handleDeleteCardButtonClick} textSize="main">
-                  삭제하기
-                </LinkButton>
-              </BetweenSection.Right>
-            </BetweenSection>
-            <MecaDeleteDialog
-              cardId={cardId}
-              categoryId={meca.categoryId}
-              cardTitle={meca.title}
-              visible={isDeleteModalVisible}
-              onClose={deleteModalClose}
-            />
-            <Devide />
-            <MecaPost {...meca} />
-            <PostSection>
-              <PostSection.Title>History</PostSection.Title>
-              <PostSection.Body indented={false} boxed={false}>
-                <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
-              </PostSection.Body>
-            </PostSection>
-          </PostPageLayout>
-        </>
-      )}
+      <MetaHead title={`${meca.title}- by ${user?.name}`} ogType="article" />
+      <PostPageLayout>
+        <PageTitle>{meca.title}</PageTitle>
+        <br />
+        <BetweenSection>
+          <BetweenSection.Left>
+            <AvatarUser {...user} />
+          </BetweenSection.Left>
+          <BetweenSection.Right>
+            <LinkButton onClick={() => handleUpdateCardButtonClick(meca.categoryId)} textSize="main">
+              수정하기
+            </LinkButton>
+            <LinkButton onClick={handleDeleteCardButtonClick} textSize="main">
+              삭제하기
+            </LinkButton>
+          </BetweenSection.Right>
+        </BetweenSection>
+        <MecaDeleteDialog
+          cardId={cardId}
+          categoryId={meca.categoryId}
+          cardTitle={meca.title}
+          visible={isDeleteModalVisible}
+          onClose={deleteModalClose}
+        />
+        <Devide />
+        <MecaPost {...meca} />
+        <PostSection>
+          <PostSection.Title>History</PostSection.Title>
+          <PostSection.Body indented={false} boxed={false}>
+            <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
+          </PostSection.Body>
+        </PostSection>
+      </PostPageLayout>
     </AuthPageProvider>
   );
 };
@@ -87,11 +82,11 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   if (!cardId || typeof cardId !== 'string') {
     throw { message: '잘못된 요청' };
   }
-  const { categoryId } = await useMeca.fetchQuery(false, cardId, queryClient);
+  const { card } = await useMeca.fetchQuery(false, cardId, queryClient);
   context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   return {
     cardId,
-    categoryId,
+    categoryId: card.categoryId,
   };
 });
 

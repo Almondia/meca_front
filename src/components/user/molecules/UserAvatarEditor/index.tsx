@@ -2,17 +2,18 @@ import dynamic from 'next/dynamic';
 
 import { useEffect, useMemo } from 'react';
 
+import type { User } from '@/types/domain/user';
+
 import Avatar from '@/components/@common/atoms/Avatar';
 import LinkButton from '@/components/@common/atoms/LinkButton';
 import useImage from '@/hooks/useImage';
 import useModal from '@/hooks/useModal';
-import { UserProfile } from '@/types/domain';
 
 import { UserAvatarEditorWrapper } from './styled';
 
 const ImageCropper = dynamic(() => import('@/components/@common/molecules/ImageCropper'));
 
-interface UserAvatarEditorProps extends Omit<UserProfile, 'name'> {
+interface UserAvatarEditorProps extends Omit<User, 'name'> {
   updateProfileImage: (image: string | File | undefined) => void;
   deleteProfileImage: () => void;
 }

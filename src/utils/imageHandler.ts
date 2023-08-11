@@ -1,4 +1,6 @@
-import { IMAGE_EXTENTIONS, ImageUploadRequestType } from '@/types/domain';
+import type { ImageUploadRequest } from '@/types/domain';
+
+import { IMAGE_EXTENTIONS } from '@/utils/constants';
 
 const REMOTE_IMAGE_URL = process.env.NEXT_PUBLIC_REMOTE_IMAGE_URL ?? '';
 
@@ -67,7 +69,7 @@ export const validImageFile = (uploadImage?: File) => {
   return { valid: true, message: '' };
 };
 
-export const getImageInfo = (uploadedImage: File): Omit<ImageUploadRequestType, 'purpose'> => {
+export const getImageInfo = (uploadedImage: File): Omit<ImageUploadRequest, 'purpose'> => {
   const fileName = uploadedImage.name.split('.')[0];
   const extension = uploadedImage.type.replace('image/', '') as (typeof IMAGE_EXTENTIONS)[number];
   return { fileName, extension };

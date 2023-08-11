@@ -1,9 +1,10 @@
+import { ImageUploadRequest } from '@/types/domain';
+
 import imageApi from '@/apis/imageApi';
-import { ImageUploadRequestType } from '@/types/domain';
 import alertToast from '@/utils/toastHandler';
 
 const useFetchImage = () => {
-  const uploadImage = async (props: ImageUploadRequestType, image: File) => {
+  const uploadImage = async (props: ImageUploadRequest, image: File) => {
     try {
       const { uploadedImageUrl } = await imageApi.uploadImage(image, { ...props });
       return uploadedImageUrl;

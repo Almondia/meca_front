@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import LoginDialog from '@/components/@common/organisms/LoginDialog';
 import { DefaultModalOptions } from '@/types/common';
+
+import LoginDialog from '@/components/@common/organisms/LoginDialog';
 
 export default {
   title: 'components/@common/organisms/LoginDialog',

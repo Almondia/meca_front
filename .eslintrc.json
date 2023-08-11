@@ -79,6 +79,11 @@
             "position": "after"
           },
           {
+            "pattern": "@/types/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
             "pattern": "@/**",
             "group": "internal",
             "position": "after"

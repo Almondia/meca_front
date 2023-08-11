@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-import { FlexCenter, FlexColumnCenter } from '@/styles/layout';
-import { SocialType } from '@/types/domain';
+import type { OauthType } from '@/types/domain/user';
 
-type SocialColors = Record<SocialType, { color: string; backgroundColor: string }>;
+import { FlexCenter, FlexColumnCenter } from '@/styles/layout';
+
+type SocialColors = Record<OauthType, { color: string; backgroundColor: string }>;
 
 const SOCIAL_COLORS: SocialColors = {
   google: {
@@ -34,7 +35,7 @@ export const SocialButtonContainer = styled.div`
   margin-top: 16px;
 `;
 
-export const SocialButton = styled.button<{ socialType: SocialType; hasBorder?: boolean }>`
+export const SocialButton = styled.button<{ socialType: OauthType; hasBorder?: boolean }>`
   border-radius: 50%;
   padding: 8px 8px 4px 8px;
   color: ${(props) => SOCIAL_COLORS[props.socialType].color};

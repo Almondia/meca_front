@@ -6,9 +6,10 @@ import formidable from 'formidable';
 import nookies from 'nookies';
 import sharp from 'sharp';
 
+import { ImageUploadRequest } from '@/types/domain';
+
 import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
 import imageApi from '@/apis/imageApi';
-import { ImageUploadRequestType } from '@/types/domain';
 import { getJWTPayload } from '@/utils/jwtHandler';
 
 const MAX_IMAGE_WIDTH = 1080;
@@ -80,7 +81,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       purpose: purposes[0],
       extension: extensions[0],
       fileName: fileNames[0],
-    } as ImageUploadRequestType;
+    } as ImageUploadRequest;
     const buffer = Buffer.concat(chunks);
     setAccessTokenFromServerRequest(accessToken);
     const { url, objectKey } = await imageApi.getPresignedUrl({ purpose, extension, fileName });

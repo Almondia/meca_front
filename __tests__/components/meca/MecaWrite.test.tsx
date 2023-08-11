@@ -69,9 +69,9 @@ describe('MecaWrite', () => {
   });
 
   it('카드를 정상적으로 등록하면 성공 toast가 식별된다,', async () => {
-    const mockBack = jest.fn();
+    const mockReplace = jest.fn();
     (useRouter as jest.Mock).mockReturnValue({
-      back: mockBack,
+      replace: mockReplace,
     });
     renderQuery(<MecaWrite categoryId={EXISTS_CATEGORY.categoryId} />);
     const questionInput = screen.getByPlaceholderText('OX 문제를 설명하세요');
@@ -92,12 +92,16 @@ describe('MecaWrite', () => {
     fireEvent.click(submitButton);
     const successToastText = await screen.findByText(/카드 등록 성공/i);
     expect(successToastText).toBeInTheDocument();
-    expect(mockBack).toHaveBeenCalledTimes(1);
+    expect(mockReplace).toHaveBeenCalledTimes(1);
   });
 
   it('카드 수정(카드 정보가 있다면)을 정상적으로 시도하면 수정 toast가 식별된다.', async () => {
     const card = MOCK_MECAS[0];
-    renderQuery(<MecaWrite {...card} cardType="KEYWORD" />);
+    const mockReplace = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({
+      replace: mockReplace,
+    });
+    renderQuery(<MecaWrite {...card} answer="answer" cardType="KEYWORD" />);
     const selectedTagToggle = screen.getByRole('button', {
       name: /키워드/i,
     });
@@ -113,6 +117,8 @@ describe('MecaWrite', () => {
     fireEvent.click(submitButton);
     const successToastText = await screen.findByText(/카드 수정 성공/i);
     expect(successToastText).toBeInTheDocument();
+    expect(mockReplace).toHaveBeenCalledTimes(1);
+    expect(mockReplace).toHaveBeenCalledWith(`/mecas/${card.memberId}-${card.cardId}`);
   });
 
   it('항목을 입력하지 않고 등록을 시도하면 등록되지 않고 invalid text가 식별된다.', async () => {

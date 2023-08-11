@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import type { DefaultModalOptions } from '@/types/common';
+
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
 import ToggleSwitch from '@/components/@common/molecules/ToggleSwitch';
@@ -9,8 +11,7 @@ import useGlobalLoading from '@/hooks/useGlobalLoading';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
-import { DefaultModalOptions } from '@/types/common';
-import { IMAGE_EXTENTIONS } from '@/types/domain';
+import { IMAGE_EXTENTIONS } from '@/utils/constants';
 import { Constraints } from '@/utils/validation';
 
 interface CategoryUpdateDialogProps extends DefaultModalOptions {
@@ -33,7 +34,7 @@ const CategoryUpdateDialog = ({
   const { inputsValidState, validateAll } = useInputValidation(1);
   const { asyncCallbackLoader } = useGlobalLoading();
   const { image, onSetFileImage, onDelete: onDeleteImage, onUploadLocalImage } = useImage(thumbnail);
-  const { updateCategory, uploadThumbnail } = useCategoryUpdate(onClose);
+  const { addCategory, updateCategory, uploadThumbnail } = useCategoryUpdate(onClose);
   const actionKeyword = categoryId ? '수정' : '추가';
 
   const handleUpdateClick = async () => {
@@ -45,8 +46,10 @@ const CategoryUpdateDialog = ({
       onClose();
       return;
     }
-    const uploadedThumbnail = await asyncCallbackLoader<string | undefined>(() => uploadThumbnail(image));
-    updateCategory({ categoryId, title, thumbnail: uploadedThumbnail ?? '', shared, prevShared: isShared });
+    const uploadedThumbnail = (await asyncCallbackLoader<string | undefined>(() => uploadThumbnail(image))) ?? '';
+    categoryId
+      ? updateCategory({ categoryId, title, thumbnail: uploadedThumbnail, shared, prevShared: isShared })
+      : addCategory({ title, thumbnail: uploadedThumbnail });
   };
 
   return (

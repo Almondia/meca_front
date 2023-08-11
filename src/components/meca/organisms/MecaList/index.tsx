@@ -1,10 +1,11 @@
-import { MecaListResponse } from '@/apis/mecaApi';
+import type { MecaListPaginationResponse } from '@/types/domain/meca';
+
 import EmptyList from '@/components/@common/atoms/EmptyList';
 import InfiniteList from '@/components/@common/molecules/InfiniteList';
 import MecaCard from '@/components/meca/organisms/MecaCard';
 
 interface MecaListProps {
-  mecaList: MecaListResponse;
+  mecaList: MecaListPaginationResponse;
   hasNextPage?: boolean;
   isEmpty?: boolean;
   fetchNextPage: () => void;
@@ -17,8 +18,8 @@ const MecaList = ({ mecaList, hasNextPage, fetchNextPage, isMine, isEmpty }: Mec
   }
   return (
     <InfiniteList type="masonry" loadMore={fetchNextPage} hasNext={hasNextPage}>
-      {mecaList.contents.map(({ card, statistics }) => (
-        <MecaCard key={card.cardId} tagType={card.cardType} isMine={isMine} {...card} {...statistics} />
+      {mecaList.contents.map((content) => (
+        <MecaCard key={content.card.cardId} isMine={isMine} {...content} />
       ))}
     </InfiniteList>
   );

@@ -1,7 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 
-import { FlexCenter } from '@/styles/layout';
 import { ElementSizeType } from '@/types/common';
+
+import { FlexCenter } from '@/styles/layout';
 
 const SpinFrame = keyframes`
   from {

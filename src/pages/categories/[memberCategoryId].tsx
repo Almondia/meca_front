@@ -30,10 +30,9 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
         image={category?.thumbnail && getRemoteImageUrl(category.thumbnail)}
       />
       <ListPageLayout>
-        <PageTitle>
-          <p style={{ marginBottom: '8px' }}>{category?.title}</p>
-          <CategoryLikeButton categoryId={categoryId} initialLikeCount={mecaList.categoryLikeCount} />
-        </PageTitle>
+        <PageTitle style={{ marginBottom: '8px' }}>{category?.title}</PageTitle>
+        <CategoryLikeButton categoryId={categoryId} initialLikeCount={mecaList.categoryLikeCount} />
+        <br />
         <br />
         <MecaListHeader
           categoryId={categoryId}

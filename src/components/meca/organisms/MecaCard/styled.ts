@@ -3,20 +3,12 @@ import styled from 'styled-components';
 import { TextBody } from '@/styles/common';
 import { FlexSpaceBetween } from '@/styles/layout';
 
-export const MecaSubInfoContainer = styled.div`
-  ${FlexSpaceBetween};
-  align-items: center;
-  strong {
-    color: var(--color-text);
-  }
-`;
-
 export const MecaSubInfoStrongText = styled.strong<{ color?: string }>`
   font-size: ${({ theme }) => theme.fontSize.caption};
   color: ${(props) => props.color ?? 'var(--color-text)'};
 `;
 
-export const MecaQuestionTextContainer = styled(TextBody)`
+export const BodyMain = styled(TextBody)`
   display: -webkit-box;
   width: 95%;
   margin-bottom: 0.375rem;
@@ -27,6 +19,14 @@ export const MecaQuestionTextContainer = styled(TextBody)`
   line-height: 130%;
   font-size: 0.8rem;
   color: var(--color-gray);
+`;
+
+export const BodySub = styled.div`
+  ${FlexSpaceBetween};
+  align-items: center;
+  strong {
+    color: var(--color-text);
+  }
 `;
 
 export const ProgressesInfoContainer = styled.div`

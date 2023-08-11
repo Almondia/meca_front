@@ -1,9 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import { QueryFunction, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
 
-import { CursorPaginationType } from '@/types/domain';
+import { CursorPaginationResponse } from '@/types/domain';
 
-interface QueryFnData extends CursorPaginationType {
+interface QueryFnData extends CursorPaginationResponse {
   contents: any[];
   [key: string]: any;
 }

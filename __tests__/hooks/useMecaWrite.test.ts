@@ -19,10 +19,10 @@ jest.mock('@/apis/utilApi', () => ({
 
 describe('useMecaWrite', () => {
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValueOnce({
-      back: jest.fn(),
-    });
     (utilApi.revalidate as jest.Mock).mockReturnValueOnce(true);
+    (useRouter as jest.Mock).mockReturnValue({
+      replace: jest.fn,
+    });
   });
   afterEach(() => {
     jest.clearAllMocks();

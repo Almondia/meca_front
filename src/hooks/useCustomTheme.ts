@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ThemeType } from '@/types/common';
+
 import storage from '@/utils/storageHandler';
 
 const useCustomTheme = () => {

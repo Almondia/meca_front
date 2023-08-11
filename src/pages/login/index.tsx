@@ -5,14 +5,15 @@ import { useEffect } from 'react';
 
 import nookies from 'nookies';
 
+import { OauthType } from '@/types/domain/user';
+
 import userApi from '@/apis/userApi';
-import { SOCIAL_TYPES, SocialType } from '@/types/domain';
 import { parseQueryString } from '@/utils/queryStringHandler';
 import alertToast from '@/utils/toastHandler';
 
 import Home from '..';
 
-const isSocialType = (value: any): value is SocialType => SOCIAL_TYPES.includes(value);
+const isSocialType = (value: any): value is OauthType => ['kakao', 'naver', 'google'].includes(value);
 
 export interface LoginPageProps {
   message: string;
@@ -40,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
   try {
-    const tokenResponse = await userApi[`${auth}Login`](code);
+    const tokenResponse = await userApi.oauthLogin(code, auth);
     nookies.set(context, 'accessToken', tokenResponse.accessToken, {
       maxAge: 6 * 60 * 60,
       path: '/',

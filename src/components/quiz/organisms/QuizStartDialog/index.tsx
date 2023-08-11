@@ -2,12 +2,13 @@ import { useRouter } from 'next/router';
 
 import { useCallback, useState } from 'react';
 
+import { DefaultModalOptions } from '@/types/common';
+
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
 import Selection from '@/components/@common/molecules/Selection';
 import useQuiz from '@/hooks/quiz/useQuiz';
 import useInput from '@/hooks/useInput';
-import { DefaultModalOptions } from '@/types/common';
 
 interface QuizStartDialogProps extends DefaultModalOptions {
   categoryId: string;
