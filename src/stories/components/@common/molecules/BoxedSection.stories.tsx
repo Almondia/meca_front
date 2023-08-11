@@ -10,11 +10,7 @@ export default {
   },
 } as ComponentMeta<typeof BoxedSection>;
 
-const Template: ComponentStory<typeof BoxedSection> = (args) => (
-  <div style={{ padding: '30px' }}>
-    <BoxedSection {...args} />
-  </div>
-);
+const Template: ComponentStory<typeof BoxedSection> = (args) => <BoxedSection {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
@@ -26,4 +22,5 @@ export const Column = Template.bind({});
 Column.args = {
   header: 'Title.',
   body: 'Work it Harder Make it Better Do it Faster Makes as Stronger',
+  isColumn: true,
 };
