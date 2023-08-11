@@ -7,6 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import type { CategoryListPaginationResponse } from '@/types/domain/category';
 
 import { hasAuthState } from '@/atoms/common';
+import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import CategoryCard from '@/components/category/organisms/CategoryCard';
 import useCategoryList from '@/hooks/category/useCategoryList';
 import {
@@ -73,7 +74,7 @@ export const Private = () => {
   ]);
   const { categoryList } = useCategoryList('me', false);
   if (!categoryList.contents[0]) {
-    return <div>no data!</div>;
+    return <LoadSpinner width="380px" height="380px" />;
   }
   const category = categoryList.contents[0];
   return <Template {...category} isMine />;
