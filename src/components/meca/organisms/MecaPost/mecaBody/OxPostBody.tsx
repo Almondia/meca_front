@@ -7,8 +7,8 @@ import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 
 import { MecaPostBodyProps } from '../type';
 
-const OxIcon = styled(IconButtonWrapper.withComponent('div'))`
-  margin: 8px 0 0 16px;
+const OxIconWrapper = styled(IconButtonWrapper.withComponent('div'))`
+  margin: 4px 0 0 16px;
   background-color: var(--color-brightgray);
   :hover {
     background-color: var(--color-brightgray);
@@ -25,9 +25,9 @@ export const OxPostBody = ({ question, answer }: MecaPostBodyProps) => (
     </PostSection>
     <PostSection>
       <PostSection.Title>Answer</PostSection.Title>
-      <OxIcon>
+      <OxIconWrapper iconSize={20} hasHoverEffect>
         <Icon icon={answer === 'O' ? 'O' : 'Ax'} />
-      </OxIcon>
+      </OxIconWrapper>
     </PostSection>
   </>
 );

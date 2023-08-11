@@ -29,7 +29,7 @@ const Navigation = () => {
           <div>
             <IconButton
               icon={theme === 'light' ? 'Lightmode' : 'Darkmode'}
-              iconSize="20px"
+              iconSize={20}
               onClick={toggleTheme}
               name={theme === 'light' ? '라이트모드로 변경' : '다크모드로 변경'}
             />
