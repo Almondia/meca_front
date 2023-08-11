@@ -1,15 +1,16 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
 import { memo, useEffect, useMemo, useState } from 'react';
 
 import Icon from '@/components/@common/atoms/Icon';
 import LinkButton from '@/components/@common/atoms/LinkButton';
-import ImageCropper from '@/components/@common/molecules/ImageCropper';
 import useModal from '@/hooks/useModal';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 
 import { ThumbnailChangeBox, ThumbnailImageContainer, ThumbnailUploadButton, ThumbnailUploaderWrapper } from './styled';
+
+const ImageCropper = dynamic(() => import('@/components/@common/molecules/ImageCropper'), { ssr: false });
 
 interface ThumbnailUploaderProps {
   image?: string | File;

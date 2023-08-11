@@ -1,4 +1,4 @@
-import { MecaTagType } from '@/types/domain';
+import type { MecaTag as MecaTagType } from '@/types/domain/meca';
 
 import { extractTextFromHTML } from './htmlTextHandler';
 import { stringToJsonStringArrayConverter } from './jsonHandler';
@@ -10,7 +10,7 @@ export interface ContraintsResultType {
 
 const isBlank = (value: string) => !value || !value.trim();
 
-export const cardAnswerValidation: Record<
+const cardAnswerValidation: Record<
   MecaTagType,
   { validFn: (answer: string) => ContraintsResultType; maxLength: number }
 > = {

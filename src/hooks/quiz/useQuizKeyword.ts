@@ -1,13 +1,15 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import statisticsApi, { KeywordResponse } from '@/apis/statisticsApi';
+import type { ExtractedKeywordsResponse } from '@/types/domain';
+import type { Quiz } from '@/types/domain/quiz';
+
+import statisticsApi from '@/apis/statisticsApi';
 import queryKey from '@/query/queryKey';
-import { QuizType } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 
 const useQuizKeyword = () => {
   const queryClient = useQueryClient();
-  const fallbackKeywordResult: KeywordResponse = { keywords: {} };
+  const fallbackKeywordResult: ExtractedKeywordsResponse = { keywords: {} };
   const {
     data: quizPhaseKeywords = fallbackKeywordResult,
     isLoading: isQuizPhaseKeywordsLoading,
@@ -15,7 +17,7 @@ const useQuizKeyword = () => {
   } = useQuery(
     [queryKey.keyword, 'quiz'],
     async () => {
-      const quizList = queryClient.getQueryData<QuizType[]>([queryKey.quiz]);
+      const quizList = queryClient.getQueryData<Quiz[]>([queryKey.quiz]);
       if (!quizList) {
         return fallbackKeywordResult;
       }

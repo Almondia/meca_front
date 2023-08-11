@@ -1,10 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import { useState } from 'react';
 
+import { Quiz } from '@/types/domain/quiz';
+
 import ColorizedScore from '@/components/@common/atoms/ColorizedScore';
 import QuizResultItem from '@/components/quiz/molecules/QuizResultItem';
 import { COLOR } from '@/styles/constants';
-import { QuizResultType, QuizType } from '@/types/domain';
 import { IDEAL_QUIZ_SCORE } from '@/utils/constants';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
@@ -19,7 +20,7 @@ import {
 } from './styled';
 
 interface QuizTimelineProps {
-  quizList: QuizType[];
+  quizList: Quiz[];
 }
 
 const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
@@ -31,7 +32,10 @@ const QuizTimeline = ({ quizList }: QuizTimelineProps) => {
     <QuizTimelineWrapper>
       <QuizActivityContainer>
         {(isMore ? quizList : quizList.slice(0, 6)).map((quiz) => {
-          const quizResult = quiz.result as Omit<QuizResultType, 'cardId'>;
+          const quizResult = quiz.result;
+          if (!quizResult) {
+            return null;
+          }
           const { question, answer } = getQuestionAnswerByCardType({ ...quiz });
           const { answer: userAnswer } = getQuestionAnswerByCardType({ ...quiz, answer: quiz.result?.userAnswer });
           const answerColor = quizResult.score >= IDEAL_QUIZ_SCORE ? COLOR.success : COLOR.warning;

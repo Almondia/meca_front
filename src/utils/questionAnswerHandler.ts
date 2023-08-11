@@ -1,6 +1,4 @@
-/* eslint-disable import/prefer-default-export */
-
-import { MecaTagType } from '@/types/domain';
+import type { MecaTag as MecaTagType } from '@/types/domain/meca';
 
 import { stringToJsonStringArrayConverter } from './jsonHandler';
 

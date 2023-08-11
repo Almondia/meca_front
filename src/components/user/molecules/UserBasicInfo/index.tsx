@@ -1,7 +1,8 @@
+import type { MyProfile } from '@/types/domain/user';
+
 import RelativeDate from '@/components/@common/atoms/RelativeDate';
 import PostSubInfo from '@/components/@common/molecules/PostSubInfo';
 import { TextCaption } from '@/styles/common';
-import { MyProfile } from '@/types/domain';
 
 type UserBasicInfoProps = MyProfile | null | undefined;
 

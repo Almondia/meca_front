@@ -4,11 +4,12 @@ import dynamic from 'next/dynamic';
 
 import { useCallback, useRef, useState } from 'react';
 
+import { ElementSizeType } from '@/types/common';
+
 import LinkButton from '@/components/@common/atoms/LinkButton';
 import IconButton from '@/components/@common/molecules/IconButton';
 import useClickAway from '@/hooks/useClickAway';
 import { HiddenText } from '@/styles/common';
-import { ElementSizeType } from '@/types/common';
 
 import { DropdownMenuContentsContainer, DropdownMenuWrapper } from './styled';
 

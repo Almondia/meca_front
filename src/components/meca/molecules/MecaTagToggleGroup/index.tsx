@@ -1,8 +1,9 @@
 import { memo, useMemo } from 'react';
 
+import type { MecaTag as MecaTagType } from '@/types/domain/meca';
+
 import IconTag from '@/components/@common/molecules/IconTag';
 import InputGroup from '@/components/@common/molecules/InputGroup';
-import { MecaTagType } from '@/types/domain';
 import { MECA_TAGS } from '@/utils/constants';
 
 import { MecaTagButton, MecaTagToggleGroupWrapper } from './styled';

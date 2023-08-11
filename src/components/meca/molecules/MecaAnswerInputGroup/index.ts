@@ -1,13 +1,13 @@
 import { ComponentType } from 'react';
 
-import { MecaTagType } from '@/types/domain';
+import type { MecaTag } from '@/types/domain/meca';
 
 import { Essay } from './Essay';
 import { Keyword } from './Keyword';
 import { Ox } from './Ox';
 import { Select } from './Select';
 
-const MecaAnswerInputGroup: Record<MecaTagType, ComponentType> = {
+const MecaAnswerInputGroup: Record<MecaTag, ComponentType> = {
   OX_QUIZ: Ox,
   ESSAY: Essay,
   KEYWORD: Keyword,

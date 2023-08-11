@@ -3,9 +3,10 @@ import { useRef } from 'react';
 
 import { createPortal } from 'react-dom';
 
+import { DefaultModalOptions } from '@/types/common';
+
 import IconButton from '@/components/@common/molecules/IconButton';
 import useClickAway from '@/hooks/useClickAway';
-import { DefaultModalOptions } from '@/types/common';
 import { hasBrowser } from '@/utils/common';
 import getInnerComponents from '@/utils/getInnerComponent.s';
 

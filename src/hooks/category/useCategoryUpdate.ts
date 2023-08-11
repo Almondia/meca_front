@@ -2,45 +2,45 @@ import { useCallback } from 'react';
 
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import categoryApi, { PrivateCategoriesResponse, UpdateCategoryType } from '@/apis/categoryApi';
+import type { Category, CategoryListPaginationResponse, CategoryUpdateRequest } from '@/types/domain/category';
+
+import categoryApi from '@/apis/categoryApi';
 import utilApi from '@/apis/utilApi';
 import queryKey from '@/query/queryKey';
-import { CategoryType, IMAGE_EXTENTIONS } from '@/types/domain';
+import { IMAGE_EXTENTIONS } from '@/utils/constants';
 
 import useFetchImage from '../useFetchImage';
-
-interface CategoryUpdateType {
-  categoryId?: string;
-  title: string;
-  thumbnail: string;
-  shared: boolean;
-  prevShared?: boolean;
-}
 
 const useCategoryUpdate = (successHandler?: () => void) => {
   const queryClient = useQueryClient();
   const { uploadImage } = useFetchImage();
 
-  const { mutate: putCategory } = useMutation<CategoryType, unknown, UpdateCategoryType & { prevShared: boolean }>(
+  const { mutate: updateCategory } = useMutation<Category, unknown, CategoryUpdateRequest & { prevShared?: boolean }>(
     ({ categoryId, title, thumbnail, shared }) => categoryApi.updateCategory({ categoryId, title, thumbnail, shared }),
     {
-      onSuccess: (data: CategoryType, { prevShared, shared }) => {
-        queryClient.invalidateQueries([queryKey.mecas, data.categoryId]);
-        queryClient.setQueriesData<InfiniteData<PrivateCategoriesResponse>>([queryKey.categories, 'me'], (prev) => {
-          if (!prev) {
-            return prev;
-          }
-          return {
-            ...prev,
-            pages: [...prev.pages].map((page) => ({
-              ...page,
-              contents: page.contents.map((content) =>
-                content.categoryId === data.categoryId ? { ...content, ...data } : content,
-              ),
-            })),
-          };
-        });
-        if (shared || prevShared !== shared) {
+      onSuccess: (data: Category, { prevShared, shared }) => {
+        const { categoryId } = data;
+        queryClient.invalidateQueries([queryKey.mecas, categoryId]);
+        queryClient.setQueriesData<InfiniteData<CategoryListPaginationResponse>>(
+          [queryKey.categories, 'me'],
+          (prev) => {
+            if (!prev) {
+              return prev;
+            }
+            return {
+              ...prev,
+              pages: [...prev.pages].map((page) => ({
+                ...page,
+                contents: page.contents.map((content) => ({
+                  ...content,
+                  category:
+                    content.category.categoryId === categoryId ? { ...content.category, ...data } : content.category,
+                })),
+              })),
+            };
+          },
+        );
+        if (shared || (prevShared ?? false) !== shared) {
           utilApi.revalidate(['/']);
         }
         successHandler?.();
@@ -64,28 +64,14 @@ const useCategoryUpdate = (successHandler?: () => void) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { mutate: postCategory } = useMutation(categoryApi.addCategory, {
+  const { mutate: addCategory } = useMutation(categoryApi.addCategory, {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKey.categories, 'me']);
       successHandler?.();
     },
   });
 
-  const updateCategory = ({ categoryId, title, thumbnail, shared, prevShared }: CategoryUpdateType) => {
-    if (categoryId) {
-      putCategory({
-        categoryId,
-        title,
-        thumbnail,
-        shared,
-        prevShared: prevShared ?? false,
-      });
-      return;
-    }
-    postCategory({ title, thumbnail });
-  };
-
-  return { updateCategory, uploadThumbnail };
+  return { addCategory, updateCategory, uploadThumbnail };
 };
 
 export default useCategoryUpdate;

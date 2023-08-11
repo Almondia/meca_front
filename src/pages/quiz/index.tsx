@@ -7,6 +7,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
+import { QuizPhase, QuizSucceedType } from '@/types/domain/quiz';
+
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import CountIndicator from '@/components/@common/atoms/CountIndicator';
 import LinkButton from '@/components/@common/atoms/LinkButton';
@@ -16,7 +18,6 @@ import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { PostPageLayout } from '@/styles/layout';
-import { QuizPhaseType, QuizSucceedType } from '@/types/domain';
 
 const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
 const QuizRetryController = dynamic(() => import('@/components/quiz/organisms/QuizRetryController'), { ssr: false });
@@ -29,7 +30,7 @@ const QuizResult = dynamic(() => import('@/components/quiz/organisms/QuizResult'
   loading: () => <LoadSpinner width="100%" />,
 });
 
-type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhaseType, QuizSucceedType>, 'result'>;
+type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhase, QuizSucceedType>, 'result'>;
 
 const QuizPage = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const QuizPage = () => {
   const quizPhaseTime = useRecoilValue(quizTimeState);
   const { quizList, solveQuiz, clearQuizPhase, currentQuizResult, retryQuiz } = useQuizResult();
   const { number: round, increaseNumber: setNextRound, resetNumber: resetRound } = useCount(1, 1, quizList.length);
-  const [quizPhase, setQuizPhase] = useState<QuizPhaseType>('progress');
+  const [quizPhase, setQuizPhase] = useState<QuizPhase>('progress');
   const quizSpendTimeRef = useRef<number>(0);
   const quizIndex = round - 1;
 

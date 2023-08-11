@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import { COLOR, FONT_SIZE } from '@/styles/constants';
 import { ElementSizeType } from '@/types/common';
+
+import { COLOR, FONT_SIZE } from '@/styles/constants';
 
 const BUTTON_THEME = {
   primary: ['var(--color-brand)', COLOR.txtLight],

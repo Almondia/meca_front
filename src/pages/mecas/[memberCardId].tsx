@@ -12,7 +12,6 @@ import useMeca from '@/hooks/meca/useMeca';
 import { isrAspect } from '@/libs/renderAspect';
 import NotFound from '@/pages/404';
 import { Devide, PostPageLayout } from '@/styles/layout';
-import { MecaType, UserProfile } from '@/types/domain';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { extractFirstImageFromHTML } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
@@ -27,29 +26,29 @@ export interface MecaByIdProps {
 }
 
 const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProps) => {
-  const { meca: response } = useMeca(cardId, true, memberId);
-  if (!response) {
+  const { meca } = useMeca(cardId, true, memberId);
+  if (!meca) {
     return <NotFound isMessageVisible message="요청하신 페이지가 없거나 비공개 처리되어있어요!" />;
   }
-  const meca = response as MecaType & UserProfile;
+  const { card, member } = meca;
   return (
     <>
       <MetaHead
-        title={`${meca.title} - by ${meca.name}`}
+        title={`${card.title} - by ${member.name}`}
         description={questionText}
         image={thumbnailUrl}
         ogType="article"
       />
       <PostPageLayout>
-        <PageTitle>{meca.title}</PageTitle>
+        <PageTitle>{card.title}</PageTitle>
         <br />
         <BetweenSection>
           <BetweenSection.Left>
-            <AvatarUser name={meca.name} profile={meca.profile} />
+            <AvatarUser {...member} />
           </BetweenSection.Left>
         </BetweenSection>
         <Devide />
-        <MecaPost {...meca} />
+        <MecaPost {...card} />
         <PostSection>
           <PostSection.Title>History</PostSection.Title>
           <PostSection.Body indented={false} boxed={false}>
@@ -79,7 +78,8 @@ export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, query
     throw { message: '잘못된 요청' };
   }
   try {
-    const { question, description } = await useMeca.fetchQuery(true, cardId, queryClient);
+    const { card } = await useMeca.fetchQuery(true, cardId, queryClient);
+    const { question, description } = card;
     const thumbnailUrl = extractFirstImageFromHTML(question.concat(description))?.src ?? '';
     const questionText = extractTextFromHTML(question);
     return {

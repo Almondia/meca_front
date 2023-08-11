@@ -1,21 +1,26 @@
+import type { DefaultModalOptions } from '@/types/common';
+import type { CategoryListContent } from '@/types/domain/category';
+
+import Icon from '@/components/@common/atoms/Icon';
+import AvatarUser from '@/components/@common/molecules/AvatarUser';
 import Card from '@/components/@common/molecules/Card';
-import { CategoryType } from '@/types/domain';
-import getInnerComponents from '@/utils/getInnerComponent.s';
+import IconTag from '@/components/@common/molecules/IconTag';
+import CategoryStatisticsProgressBar from '@/components/category/molecules/CategoryStatisticsProgressBar';
+import CategoryUpdateDropdown from '@/components/category/molecules/CategoryUpdateDropdown';
+import CategoryDeleteDialog from '@/components/category/organisms/CategoryDeleteDialog';
+import CategoryUpdateDialog from '@/components/category/organisms/CategoryUpdateDialog';
+import { TextOverline } from '@/styles/common';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import PrivateCategoryBody, { PrivateCategoryBodyComponentType } from './inner/PrivateCategoryBody';
-import SharedCategoryBody, { SharedCategoryBodyComponentType } from './inner/SharedCategoryBody';
+import * as CategoryCardStyled from './styled';
 
-export interface CategoryCardProps extends Omit<CategoryType, 'shared'> {
-  children: React.ReactNode;
-  memberId: string;
-  categoryId: string;
+interface CategoryCardProps extends CategoryListContent {
+  isMine?: boolean;
 }
 
-const CategoryCard = ({ categoryId, title, thumbnail, memberId, children, blurThumbnail }: CategoryCardProps) => {
-  const PrivateBody = getInnerComponents(children, PrivateCategoryBodyComponentType);
-  const SharedBody = getInnerComponents(children, SharedCategoryBodyComponentType);
+const CategoryCard = ({ category, member, statistics, likeCount, isMine }: CategoryCardProps) => {
+  const { categoryId, memberId, title, thumbnail, blurThumbnail, shared } = category;
   const srcImage = thumbnail ? getRemoteImageUrl(thumbnail) : '/images/noimage.png';
 
   return (
@@ -31,12 +36,40 @@ const CategoryCard = ({ categoryId, title, thumbnail, memberId, children, blurTh
         }}
       />
       <Card.Title link={`/categories/${combineUUID(memberId, categoryId)}`}>{title}</Card.Title>
-      <Card.Body>{PrivateBody || SharedBody}</Card.Body>
+      <Card.Body>
+        <CategoryCardStyled.Between>
+          <CategoryCardStyled.BodyLeft>
+            {statistics && isMine && <CategoryStatisticsProgressBar {...statistics} />}
+            {member && !isMine && (
+              <CategoryCardStyled.UserInfo>
+                <AvatarUser {...member} />
+              </CategoryCardStyled.UserInfo>
+            )}
+          </CategoryCardStyled.BodyLeft>
+          <CategoryCardStyled.BodyRight>
+            <Icon icon="Like" size="1rem" />
+            <TextOverline style={{ textAlign: 'center' }}>{likeCount}</TextOverline>
+          </CategoryCardStyled.BodyRight>
+        </CategoryCardStyled.Between>
+        {isMine && (
+          <CategoryUpdateDropdown
+            title={title}
+            updateModalComponent={(props: DefaultModalOptions) =>
+              CategoryUpdateDialog({ categoryId, categoryTitle: title, thumbnail, ...props })
+            }
+            deleteModalComponent={(props: DefaultModalOptions) =>
+              CategoryDeleteDialog({ categoryId, categoryTitle: title, shared, ...props })
+            }
+          />
+        )}
+        {isMine && !shared && (
+          <CategoryCardStyled.PrivateStateTag data-testid="id-private-tag">
+            <IconTag icon="Lock" text="비공개" scale={0.85} />
+          </CategoryCardStyled.PrivateStateTag>
+        )}
+      </Card.Body>
     </Card>
   );
 };
-
-CategoryCard.Shared = SharedCategoryBody;
-CategoryCard.Private = PrivateCategoryBody;
 
 export default CategoryCard;

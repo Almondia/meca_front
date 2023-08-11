@@ -4,12 +4,11 @@ import { useRecoilValue } from 'recoil';
 import mecaApi from '@/apis/mecaApi';
 import { hasAuthState } from '@/atoms/common';
 import queryKey from '@/query/queryKey';
-import { MecaType, UserProfile } from '@/types/domain';
 
 const useMeca = (cardId: string, shared?: boolean, memberId?: string) => {
   const hasAuth = useRecoilValue(hasAuthState);
   const queryClient = useQueryClient();
-  const { data, isLoading, isSuccess, isError } = useQuery(
+  const { data, isError } = useQuery(
     [queryKey.meca, cardId],
     async () => (shared ? mecaApi.getSharedCardById(cardId, memberId) : mecaApi.getMyCardById(cardId)),
     {
@@ -22,10 +21,8 @@ const useMeca = (cardId: string, shared?: boolean, memberId?: string) => {
       },
     },
   );
-  const meca: (typeof shared extends boolean ? MecaType & UserProfile : MecaType) | undefined = isError
-    ? undefined
-    : data;
-  return { meca, isSuccess, isLoading, isError };
+  const meca = isError ? undefined : data;
+  return { meca, isError };
 };
 
 useMeca.fetchQuery = (shared: boolean, cardId: string, queryClient: QueryClient) => {

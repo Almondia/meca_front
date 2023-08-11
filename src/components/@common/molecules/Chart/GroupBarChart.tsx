@@ -1,7 +1,8 @@
 import Chart from 'react-apexcharts';
 
-import { COLOR } from '@/styles/constants';
 import { ElementSizeType } from '@/types/common';
+
+import { COLOR } from '@/styles/constants';
 
 import { ChartWrapper } from './styled';
 

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
+import { ElementSizeType } from '@/types/common';
+
 import { COLOR } from '@/styles/constants';
 import { FlexCenter, FlexColumn } from '@/styles/layout';
-import { ElementSizeType } from '@/types/common';
 
 export const InputWrapper = styled.div``;
 

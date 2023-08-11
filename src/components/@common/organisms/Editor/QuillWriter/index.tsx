@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import hljs from 'highlight.js/lib/core';
 import ReactQuill from 'react-quill';
 
+import type { ElementSizeType } from '@/types/common';
+
 import { WriterComponent } from '@/components/@common/organisms/Editor/QuillWriter/WriterComponent';
 import useFetchImage from '@/hooks/useFetchImage';
-import { ElementSizeType } from '@/types/common';
 import { getImageInfo, getOriginImageSize, getRemoteImageUrl, validImageFile } from '@/utils/imageHandler';
 import alertToast from '@/utils/toastHandler';
 

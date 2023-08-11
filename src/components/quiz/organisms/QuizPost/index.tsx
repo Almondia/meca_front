@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo } from 'react';
 
+import type { MecaTag as MecaTagType } from '@/types/domain/meca';
+import type { QuizSucceedType } from '@/types/domain/quiz';
+
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import QuizInstruction from '@/components/quiz/atoms/QuizInstruction';
 import QuizPlayButtonGroup from '@/components/quiz/molecules/QuizPlayButtonGroup';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
-import { MecaTagType, QuizSucceedType } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { Constraints } from '@/utils/validation';
 

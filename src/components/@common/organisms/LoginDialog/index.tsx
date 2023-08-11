@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 
+import type { DefaultModalOptions } from '@/types/common';
+
 import Icon from '@/components/@common/atoms/Icon';
 import Logo from '@/components/@common/atoms/Logo';
 import Modal from '@/components/@common/molecules/Modal';
 import { HiddenText, TextBodyTitle, TextCaption } from '@/styles/common';
-import { DefaultModalOptions } from '@/types/common';
 
 import { SocialButton, SocialButtonContainer } from './styled';
 

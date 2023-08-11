@@ -1,21 +1,22 @@
 import { memo } from 'react';
 
+import type { Meca, MecaTag } from '@/types/domain/meca';
+
 import RelativeDate from '@/components/@common/atoms/RelativeDate';
 import IconTag from '@/components/@common/molecules/IconTag';
 import PostSection from '@/components/@common/molecules/PostSection';
 import PostSubInfo from '@/components/@common/molecules/PostSubInfo';
 import QuillReader from '@/components/@common/organisms/Editor/QuillReader';
 import { TextCaption } from '@/styles/common';
-import { MecaTagType, MecaType } from '@/types/domain';
 import { MECA_TAGS } from '@/utils/constants';
 
 import { DefaultPostBody, OxPostBody, SelectPostBody } from './mecaBody';
 import { MecaPostWrapper } from './styled';
 import { MecaPostBodyComponentType } from './type';
 
-type MecaPostProps = Omit<MecaType, 'cardId' | 'categoryId' | 'title'>;
+type MecaPostProps = Omit<Meca, 'cardId' | 'categoryId' | 'title'>;
 
-const ContentBody: Record<MecaTagType, MecaPostBodyComponentType> = {
+const ContentBody: Record<MecaTag, MecaPostBodyComponentType> = {
   MULTI_CHOICE: SelectPostBody,
   ESSAY: DefaultPostBody,
   KEYWORD: DefaultPostBody,

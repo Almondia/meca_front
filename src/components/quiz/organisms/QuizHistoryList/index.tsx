@@ -77,33 +77,32 @@ const QuizHistoryList = ({ resourceId, resourceType, excludeRows }: QuizHistoryL
         <QuizHistoryInfiniteListContainer>
           <InfiniteList loadMore={fetchNextPage} hasNext={requestedNextPage && hasNextPage} type="wide">
             {historyList.contents.map((content) => {
-              const { question, answer } = getQuestionAnswerByCardType({ ...content });
+              const { card, cardHistory, solvedMember } = content;
+              const { question, answer } = getQuestionAnswerByCardType({ ...card });
               const { answer: userAnswer } = getQuestionAnswerByCardType({
-                ...content,
-                answer: content.userAnswer,
+                ...card,
+                answer: cardHistory.userAnswer,
               });
               return (
-                <QuizHistoryListItem data-testid="id-history-list" key={content.cardHistoryId}>
+                <QuizHistoryListItem data-testid="id-history-list" key={cardHistory.cardHistoryId}>
                   <div>
                     <TextCaption className="card-id">
-                      <LinkButton onClick={() => handleCardLinkClick({ ...content })}>
-                        {content.cardId.slice(-6)}
-                      </LinkButton>
+                      <LinkButton onClick={() => handleCardLinkClick({ ...card })}>{card.cardId.slice(-6)}</LinkButton>
                     </TextCaption>
-                    <TextCaption className="user">{content.solvedMemberName}</TextCaption>
+                    <TextCaption className="user">{solvedMember.solvedMemberName}</TextCaption>
                     <div className="question-info">
                       <QuizResultItem
                         question={question}
                         answer={answer}
                         userAnswer={userAnswer}
-                        quizType={hasQuizType ? content.cardType : undefined}
+                        quizType={hasQuizType ? card.cardType : undefined}
                       />
                     </div>
                     <TextCaption>
-                      <ColorizedScore score={content.score} size="caption" hasPostFixText />
+                      <ColorizedScore score={cardHistory.score} size="caption" hasPostFixText />
                     </TextCaption>
                     <TextCaption>
-                      <RelativeDate date={content.createdAt} />
+                      <RelativeDate date={cardHistory.createdAt} />
                     </TextCaption>
                   </div>
                 </QuizHistoryListItem>

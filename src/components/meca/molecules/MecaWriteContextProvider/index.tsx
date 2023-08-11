@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
 
+import type { MecaCreateRequest, MecaTag as MecaTagType } from '@/types/domain/meca';
+
 import useIncrease from '@/hooks/useCount';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
-import { MecaTagType, MecaType } from '@/types/domain';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { Constraints, ContraintsResultType } from '@/utils/validation';
 
@@ -12,9 +13,9 @@ type InputContextProps = Omit<ReturnType<typeof useInput>, 'changed' | 'inputRes
 type NumberIncreaseProps = Omit<ReturnType<typeof useIncrease>, 'resetNumber'>;
 interface MecaWriteContextProviderProps {
   children: React.ReactNode;
-  meca: Partial<MecaType> & { cardType: MecaTagType; categoryId: string };
+  meca: Partial<MecaCreateRequest> & { categoryId: string; cardId?: string; cardType: MecaTagType };
 }
-interface MecaValidatedInputsProps extends Omit<MecaType, 'cardId' | 'createdAt'> {
+interface MecaValidatedInputsProps extends MecaCreateRequest {
   cardId?: string;
 }
 
@@ -98,7 +99,7 @@ export const MecaWriteContextProvider = ({ children, meca }: MecaWriteContextPro
       cardType,
       description: descriptionInput.input,
     };
-  }, [titleInput.input, questionInput.input, answerInput.input, cardType]);
+  }, [titleInput.input, questionInput.input, answerInput.input, descriptionInput.input, cardType]);
 
   return (
     <MecaTitleInputContext.Provider value={titleInputContextProps}>

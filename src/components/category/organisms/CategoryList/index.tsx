@@ -1,20 +1,17 @@
-import { PrivateCategoriesResponse, SharedCategoriesResponse } from '@/apis/categoryApi';
+import dynamic from 'next/dynamic';
+
+import type { CategoryListPaginationResponse } from '@/types/domain/category';
+
 import EmptyList from '@/components/@common/atoms/EmptyList';
 import InfiniteList from '@/components/@common/molecules/InfiniteList';
-import CategoryCard from '@/components/category/organisms/CategoryCard';
-import { CategoryDetailType, CategoryType, UserProfile } from '@/types/domain';
+
+const CategoryCard = dynamic(() => import('@/components/category/organisms/CategoryCard'), { ssr: true });
 
 interface CategoryListProps {
-  categoryList: PrivateCategoriesResponse | SharedCategoriesResponse;
+  categoryList: CategoryListPaginationResponse;
   hasNextPage?: boolean;
   isEmpty?: boolean;
   fetchNextPage: () => void;
-}
-
-function determineContentsIsPrivate(
-  contents: CategoryDetailType | (CategoryType & UserProfile),
-): contents is CategoryDetailType {
-  return (contents as CategoryDetailType).solveCount !== undefined;
 }
 
 const CategoryList = ({ categoryList, fetchNextPage, hasNextPage, isEmpty }: CategoryListProps) => {
@@ -23,14 +20,8 @@ const CategoryList = ({ categoryList, fetchNextPage, hasNextPage, isEmpty }: Cat
   }
   return (
     <InfiniteList type="grid" loadMore={fetchNextPage} hasNext={hasNextPage}>
-      {categoryList.contents.map((category) => (
-        <CategoryCard key={category.categoryId} {...category}>
-          {determineContentsIsPrivate(category) ? (
-            <CategoryCard.Private {...category} />
-          ) : (
-            <CategoryCard.Shared {...category} />
-          )}
-        </CategoryCard>
+      {categoryList.contents.map((content) => (
+        <CategoryCard key={content.category.categoryId} {...content} isMine={categoryList.isMine} />
       ))}
     </InfiniteList>
   );

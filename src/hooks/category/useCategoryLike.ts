@@ -18,10 +18,10 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
   const { data = fallbackLikeQueryData } = useQuery<LikeQueryType>(
     [queryKey.categories, categoryId, 'like'],
     async () => {
-      const { recommendedCategories } = await categoryApi.getCategoriesLikeState([categoryId]);
+      const hasLike = await categoryApi.getCategoryLikeState(categoryId);
       return {
         likeCount: initialLikeCount,
-        hasLike: recommendedCategories.some((recommendedId) => recommendedId === categoryId),
+        hasLike,
       };
     },
     {

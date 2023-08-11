@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import type { PreloadedThumbnailImage } from '@/types/domain';
+
 import { MEDIA } from '@/styles/constants';
-import { PreloadedImageInfo } from '@/types/common';
 import { THUMBNAIL_BLUR_URL } from '@/utils/constants';
 
 import { CardThumbnailWrapper } from '../styled';
@@ -11,11 +12,11 @@ interface CardThumbnailProps {
   href: string;
   src: string;
   altText: string;
-  preloadedInfo?: PreloadedImageInfo;
+  preloadedInfo?: PreloadedThumbnailImage;
   onError?: () => void;
 }
 
-const getRatioSize = (preloadedInfo?: PreloadedImageInfo) => {
+const getRatioSize = (preloadedInfo?: PreloadedThumbnailImage) => {
   if (!preloadedInfo) {
     return { ratioWidth: 2, ratioHeight: 1 };
   }

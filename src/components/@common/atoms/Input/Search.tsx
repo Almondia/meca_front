@@ -1,6 +1,7 @@
 // import Icon from '@/components/common/atoms/Icon';
-import useKeydown from '@/hooks/useKeydown';
 import { ElementSizeType } from '@/types/common';
+
+import useKeydown from '@/hooks/useKeydown';
 
 import { SearchInputWrapper, TextInputBox } from './styled';
 import { InputProps } from './type';

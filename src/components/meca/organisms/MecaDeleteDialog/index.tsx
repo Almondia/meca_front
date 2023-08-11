@@ -1,6 +1,7 @@
+import { DefaultModalOptions } from '@/types/common';
+
 import Modal from '@/components/@common/molecules/Modal';
 import useMecaDelete from '@/hooks/meca/useMecaDelete';
-import { DefaultModalOptions } from '@/types/common';
 
 interface MecaDeleteDialogProps extends DefaultModalOptions {
   cardId: string;

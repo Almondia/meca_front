@@ -22,7 +22,7 @@ const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
     <AuthPageProvider>
       <MetaHead title="Meca Card 작성하기" />
       <PostPageLayout>
-        {cardId ? <MecaWrite {...meca} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
+        {cardId ? <MecaWrite {...meca?.card} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
       </PostPageLayout>
     </AuthPageProvider>
   );
