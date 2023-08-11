@@ -31,7 +31,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'my-meca.s3.ap-northeast-2.amazonaws.com',
+        hostname: '*-meca.s3.ap-northeast-2.amazonaws.com',
       },
     ],
     minimumCacheTTL: 3600,
