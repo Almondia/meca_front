@@ -6,7 +6,7 @@ import { DefaultModalOptions } from '@/types/common';
 
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
-import Selection from '@/components/@common/molecules/Selection';
+import Tab from '@/components/@common/molecules/Tab';
 import useQuiz from '@/hooks/quiz/useQuiz';
 import useInput from '@/hooks/useInput';
 
@@ -16,12 +16,12 @@ interface QuizStartDialogProps extends DefaultModalOptions {
   quizNum: number;
 }
 
-const MIN_QUIZNUM = 1;
-const QUIZ_SECONDS = ['15초', '30초', '60초'] as const;
+const MIN_QUIZNUM = 1 as const;
+const QUIZ_SECONDS = [15, 30, 60] as const;
 
 const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizStartDialogProps) => {
   const { input: quizCountInput, onInputChange: onQuizCountChange } = useInput(quizNum.toString());
-  const [quizTimeInput, setQuizTimeInput] = useState<(typeof QUIZ_SECONDS)[number]>('15초');
+  const [quizTimeInput, setQuizTimeInput] = useState<(typeof QUIZ_SECONDS)[number]>(15);
 
   const quizCountInputNumber = parseInt(quizCountInput, 10);
   const router = useRouter();
@@ -50,7 +50,7 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
       limit: quizCountInputNumber,
       algorithm: 'random',
       title,
-      quizTime: parseInt(quizTimeInput, 10),
+      quizTime: quizTimeInput,
     });
   };
 
@@ -87,9 +87,11 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
         </InputGroup>
         <InputGroup>
           <InputGroup.Label>문제 풀이 시간</InputGroup.Label>
-          <Selection
-            innerTexts={[...QUIZ_SECONDS]}
-            onClicks={QUIZ_SECONDS.map((quiz) => () => setQuizTimeInput(quiz))}
+          <Tab
+            tabButtonProps={QUIZ_SECONDS.map((quizTime) => ({
+              name: `${quizTime}초`,
+              onClick: () => setQuizTimeInput(quizTime),
+            }))}
           />
         </InputGroup>
       </Modal.Body>
