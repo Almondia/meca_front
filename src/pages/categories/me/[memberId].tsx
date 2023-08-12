@@ -39,10 +39,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
         <Selection
           initialSelectedIndex={recommended ? 1 : 0}
           innerTexts={['작성 목록', '추천 목록']}
-          onClicks={[
-            () => !!recommended && replaceWithQuery({}),
-            () => !recommended && replaceWithQuery(RECOMMEND_QUERY),
-          ]}
+          onClicks={[() => replaceWithQuery({}), () => replaceWithQuery(RECOMMEND_QUERY)]}
         />
         <CategoryList
           categoryList={categoryList}

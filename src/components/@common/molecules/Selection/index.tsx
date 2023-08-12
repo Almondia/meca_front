@@ -32,6 +32,9 @@ const Selection = <T extends number>({
   }, [forceSelectedIndex]);
 
   const handleClick = (index: number) => {
+    if (selected === index) {
+      return;
+    }
     setSelected(index);
     onClicks[index]?.();
   };
