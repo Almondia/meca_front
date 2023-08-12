@@ -1,19 +1,18 @@
-import type { DefaultModalOptions } from '@/types/common';
 import type { CategoryListContent } from '@/types/domain/category';
 
 import Icon from '@/components/@common/atoms/Icon';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
 import Card from '@/components/@common/molecules/Card';
 import IconTag from '@/components/@common/molecules/IconTag';
+import CategoryCardMenu from '@/components/category/molecules/CategoryCardUpdateMenu';
 import CategoryStatisticsProgressBar from '@/components/category/molecules/CategoryStatisticsProgressBar';
-import CategoryUpdateDropdown from '@/components/category/molecules/CategoryUpdateDropdown';
 import CategoryDeleteDialog from '@/components/category/organisms/CategoryDeleteDialog';
 import CategoryUpdateDialog from '@/components/category/organisms/CategoryUpdateDialog';
 import { TextOverline } from '@/styles/common';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import * as CategoryCardStyled from './styled';
+import * as ST from './styled';
 
 interface CategoryCardProps extends CategoryListContent {
   isMine?: boolean;
@@ -37,35 +36,37 @@ const CategoryCard = ({ category, member, statistics, likeCount, isMine }: Categ
       />
       <Card.Title link={`/categories/${combineUUID(memberId, categoryId)}`}>{title}</Card.Title>
       <Card.Body>
-        <CategoryCardStyled.Between>
-          <CategoryCardStyled.BodyLeft>
+        <ST.Between>
+          <ST.BodyLeft>
             {statistics && isMine && <CategoryStatisticsProgressBar {...statistics} />}
             {member && !isMine && (
-              <CategoryCardStyled.UserInfo>
+              <ST.UserInfo>
                 <AvatarUser {...member} />
-              </CategoryCardStyled.UserInfo>
+              </ST.UserInfo>
             )}
-          </CategoryCardStyled.BodyLeft>
-          <CategoryCardStyled.BodyRight>
+          </ST.BodyLeft>
+          <ST.BodyRight>
             <Icon icon="Like" size="1rem" />
             <TextOverline style={{ textAlign: 'center' }}>{likeCount}</TextOverline>
-          </CategoryCardStyled.BodyRight>
-        </CategoryCardStyled.Between>
+          </ST.BodyRight>
+        </ST.Between>
         {isMine && (
-          <CategoryUpdateDropdown
-            title={title}
-            updateModalComponent={(props: DefaultModalOptions) =>
-              CategoryUpdateDialog({ categoryId, categoryTitle: title, thumbnail, ...props })
-            }
-            deleteModalComponent={(props: DefaultModalOptions) =>
-              CategoryDeleteDialog({ categoryId, categoryTitle: title, shared, ...props })
-            }
-          />
+          <ST.PrivateMenu>
+            <CategoryCardMenu
+              title={title}
+              updateModalComponent={(props) =>
+                CategoryUpdateDialog({ categoryId, categoryTitle: title, thumbnail, ...props })
+              }
+              deleteModalComponent={(props) =>
+                CategoryDeleteDialog({ categoryId, categoryTitle: title, shared, ...props })
+              }
+            />
+          </ST.PrivateMenu>
         )}
         {isMine && !shared && (
-          <CategoryCardStyled.PrivateStateTag data-testid="id-private-tag">
+          <ST.PrivateStateTag data-testid="id-private-tag">
             <IconTag icon="Lock" text="비공개" scale={0.85} />
-          </CategoryCardStyled.PrivateStateTag>
+          </ST.PrivateStateTag>
         )}
       </Card.Body>
     </Card>

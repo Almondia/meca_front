@@ -25,3 +25,9 @@ export const PrivateStateTag = styled.div`
   top: -19px;
   right: 0;
 `;
+
+export const PrivateMenu = styled.div`
+  position: absolute;
+  top: 22px;
+  right: 12px;
+`;

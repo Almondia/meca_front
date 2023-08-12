@@ -20,6 +20,7 @@ export const DropdownMenuContentsContainer = styled.div<{ scale: number; directi
   & > * {
     width: ${(props) => props.width};
   }
+  z-index: 2;
 `;
 
 export const DropdownMenuContentWrapper = styled(Link)`

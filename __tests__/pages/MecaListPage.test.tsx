@@ -47,7 +47,7 @@ describe('MecaListPage', () => {
     expect(props).toHaveProperty('dehydratedState');
     await waitFor(() => renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState));
     const addButton = screen.getByRole('button', { name: /추가하기/i });
-    const dotButtons = screen.getAllByRole('button', { name: /카드 수정 삭제 메뉴 오프너/i });
+    const dotButtons = screen.getAllByRole('button', { name: /카테고리 수정 삭제 메뉴 열기 버튼/i });
     const noListText = screen.queryByText(/목록이 존재하지 않습니다/i);
     const profileImage = screen.queryByRole('img', { name: /avatar/i });
     const likeButton = screen.getByRole('button', { name: /Like/i });
@@ -115,7 +115,7 @@ describe('MecaListPage', () => {
     renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState);
     const addButton = screen.queryByRole('button', { name: /추가하기/i });
     const playButton = screen.queryByRole('button', { name: /플레이/i });
-    const dotButton = screen.queryByRole('button', { name: /카드 수정 삭제 메뉴 오프너/i });
+    const dotButton = screen.queryByRole('button', { name: /카드 수정 삭제 메뉴 열기 버튼/i });
     const profileImage = screen.queryByRole('img', { name: /임현규-avatar/i });
     expect(addButton).not.toBeInTheDocument();
     expect(dotButton).not.toBeInTheDocument();
