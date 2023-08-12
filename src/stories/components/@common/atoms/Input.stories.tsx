@@ -123,3 +123,14 @@ export const SearchInput = () => {
     </div>
   );
 };
+
+export const CheckBox = () => {
+  const [value, setValue] = useState<boolean>(true);
+  return (
+    <Template>
+      <Input.CheckBox isChecked={value} name="checkbox" onCheck={() => setValue((prev) => !prev)}>
+        {value ? 'checked' : 'not-chekced'}
+      </Input.CheckBox>
+    </Template>
+  );
+};

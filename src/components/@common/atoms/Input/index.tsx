@@ -1,3 +1,5 @@
+import CheckBox from '@/components/@common/atoms/Input/CheckBox';
+
 import RadioGroup, { ForwardRadioGroup } from './Radio';
 import Range from './Range';
 import Search from './Search';
@@ -6,21 +8,6 @@ import TextArea from './TextArea';
 import TextInput from './TextInput';
 import TitleInput from './TitleInput';
 
-/**
- * Input 처리 합성 컴포넌트
- * - Text
- * - Radio
- * - TextArea
- * <br />
- *
- * > 예시
- *
- * ```html
- * <Input>
- *  <Input.Text {...props} />
- * </Input>
- * ```
- */
 const Input = ({ children }: { children: React.ReactNode }) => <InputWrapper>{children}</InputWrapper>;
 
 Input.Text = TextInput;
@@ -30,5 +17,6 @@ Input.TextArea = TextArea;
 Input.Title = TitleInput;
 Input.Range = Range;
 Input.Search = Search;
+Input.CheckBox = CheckBox;
 
 export default Input;
