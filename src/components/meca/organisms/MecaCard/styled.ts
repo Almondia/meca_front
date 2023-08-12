@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import { TextBody } from '@/styles/common';
 import { FlexSpaceBetween } from '@/styles/layout';
 
-export const MecaSubInfoStrongText = styled.strong<{ color?: string }>`
-  font-size: ${({ theme }) => theme.fontSize.caption};
-  color: ${(props) => props.color ?? 'var(--color-text)'};
-`;
-
 export const BodyMain = styled(TextBody)`
   display: -webkit-box;
   width: 95%;
@@ -29,17 +24,8 @@ export const BodySub = styled.div`
   }
 `;
 
-export const ProgressesInfoContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  column-gap: 6px;
-  & > div {
-    min-width: 120px;
-  }
-  & > p {
-    margin-bottom: -1px;
-    color: var(--color-darkgray);
-    font-size: ${({ theme }) => theme.fontSize.caption};
-  }
+export const PrivateMenu = styled.div`
+  position: absolute;
+  top: 22px;
+  right: 12px;
 `;

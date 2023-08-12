@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 
 import { hasAuthState } from '@/atoms/common';
 import PageTitle from '@/components/@common/atoms/PageTitle';
-import Selection from '@/components/@common/molecules/Selection';
+import Tab from '@/components/@common/molecules/Tab';
 import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
 import CategoryList from '@/components/category/organisms/CategoryList';
@@ -36,12 +36,11 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
         <PageTitle>{recommended ? '추천한 카테고리' : '내 카테고리'}</PageTitle>
         <CategoryListHeader isMine query={query} onChangeQuery={changeSearchQuery} />
         <Devide />
-        <Selection
+        <Tab
           initialSelectedIndex={recommended ? 1 : 0}
-          innerTexts={['작성 목록', '추천 목록']}
-          onClicks={[
-            () => !!recommended && replaceWithQuery({}),
-            () => !recommended && replaceWithQuery(RECOMMEND_QUERY),
+          tabButtonProps={[
+            { name: '작성 목록', onClick: () => replaceWithQuery({}) },
+            { name: '추천 목록', onClick: () => replaceWithQuery(RECOMMEND_QUERY) },
           ]}
         />
         <CategoryList

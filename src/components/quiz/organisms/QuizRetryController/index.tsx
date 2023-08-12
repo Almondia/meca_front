@@ -1,7 +1,7 @@
 import ButtonGroup from '@/components/@common/molecules/ButtonGroup';
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
-import Selection from '@/components/@common/molecules/Selection';
+import Tab from '@/components/@common/molecules/Tab';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
 import { Devide } from '@/styles/layout';
@@ -38,10 +38,12 @@ const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
               ariaLabel="id-retry-score-range"
             />
           </InputGroup>
-          <Selection
+          <Tab
             forceSelectedIndex={selectionForcedIndexValue}
-            innerTexts={['틀린것만 풀기', '전부 다시 풀기']}
-            onClicks={[() => handleRetryOptionSelect('0'), () => handleRetryOptionSelect('100')]}
+            tabButtonProps={[
+              { name: '오답문제', onClick: () => handleRetryOptionSelect('0') },
+              { name: '모든문제', onClick: () => handleRetryOptionSelect('100') },
+            ]}
           />
         </Modal.Body>
         <Modal.ConfirmButton onClick={() => onRetry(parseInt(retryOption, 10))}>다시풀기!</Modal.ConfirmButton>

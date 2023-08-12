@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { ElementSizeType } from '@/types/common';
 
-export const SelectionWrapper = styled.div`
+export const TabWrapper = styled.div`
   & > button:first-child {
     border-radius: 4px 0 0 4px;
   }
@@ -11,7 +11,7 @@ export const SelectionWrapper = styled.div`
   }
 `;
 
-export const SelectionToggle = styled.button<{ isSelected: boolean; minWidth?: ElementSizeType }>`
+export const TabButton = styled.button<{ isSelected: boolean; minWidth?: ElementSizeType }>`
   min-width: ${(props) => props.minWidth ?? '60px'};
   padding: 8px;
   border-radius: 0;
