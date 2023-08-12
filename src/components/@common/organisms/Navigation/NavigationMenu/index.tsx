@@ -5,19 +5,19 @@ import useLogout from '@/hooks/user/useLogout';
 
 import { NavigationMenuWrapper, ProfileDivButton } from '../styled';
 
-interface NavSelectionProps {
+interface NavigationMenuProps {
   profile?: string;
   username?: string;
 }
 
-const ProfileButton = ({ profile, username = '', onClick }: NavSelectionProps & { onClick: () => void }) => (
+const ProfileButton = ({ profile, username = '', onClick }: NavigationMenuProps & { onClick: () => void }) => (
   <ProfileDivButton onClick={onClick}>
     <Avatar imgSrc={profile} imgSize={30} imgName={username} />
     <Icon icon="CompactDown" size="14px" color="var(--color-text)" />
   </ProfileDivButton>
 );
 
-const NavigationMenu = ({ profile, username }: NavSelectionProps) => {
+const NavigationMenu = ({ profile, username }: NavigationMenuProps) => {
   const { logout } = useLogout();
   return (
     <NavigationMenuWrapper>
