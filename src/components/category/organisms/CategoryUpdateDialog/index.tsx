@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import type { DefaultModalOptions } from '@/types/common';
 
+import Input from '@/components/@common/atoms/Input';
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
-import ToggleSwitch from '@/components/@common/molecules/ToggleSwitch';
 import ThumbnailUploader from '@/components/@common/organisms/ThumbnailUploader';
 import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
 import useGlobalLoading from '@/hooks/useGlobalLoading';
@@ -81,12 +81,14 @@ const CategoryUpdateDialog = ({
         </InputGroup>
         {categoryId && (
           <InputGroup>
-            <InputGroup.Label>공개 여부: &nbsp;{shared ? '공개' : '비공개'}</InputGroup.Label>
-            <ToggleSwitch
-              toggleName="카테고리 공개여부 설정 토글"
-              initialState={shared}
-              onClick={() => setShared((prev) => !prev)}
-            />
+            <InputGroup.Label>공개 여부</InputGroup.Label>
+            <Input.CheckBox
+              name={`${categoryId}-category-share`}
+              isChecked={shared}
+              onCheck={() => setShared((prev) => !prev)}
+            >
+              {shared ? '공개됨' : '비공개'}
+            </Input.CheckBox>
           </InputGroup>
         )}
       </Modal.Body>
