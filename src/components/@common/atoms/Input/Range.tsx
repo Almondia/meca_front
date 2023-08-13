@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { ElementSizeType } from '@/types/common';
 
+import { HiddenText } from '@/styles/common';
 import { FlexCenter } from '@/styles/layout';
 
 import { InputProps } from './type';
@@ -126,6 +127,9 @@ const Range = ({ width = '100%', min, max, step = 1, value, name, onChange }: Ra
           <RangeInnerFilled width={((Number(value) - min) / (max - min)) * 100} />
           <RangeInnerUnfilled width={((max - Number(value)) / (max - min)) * 100} />
         </RangeInner>
+        <HiddenText>
+          <label htmlFor={name}>{name}</label>
+        </HiddenText>
         <RangeInput
           ref={ref}
           id={name}

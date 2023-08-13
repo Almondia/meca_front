@@ -9,7 +9,7 @@ import mecaApi from '@/apis/mecaApi';
 import { quizTimeState, quizTitleState } from '@/atoms/quiz';
 import queryKey from '@/query/queryKey';
 
-const useQuiz = (successHandler?: () => void) => {
+const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
   const fallback: Quiz[] = [];
   const [quizInfo, setQuizInfo] = useState<QuizListRequest | undefined>(undefined);
   const setQuizTime = useSetRecoilState(quizTimeState);
@@ -33,6 +33,9 @@ const useQuiz = (successHandler?: () => void) => {
       staleTime: 3000000,
       onSuccess: () => {
         successHandler?.();
+      },
+      onError: () => {
+        errorHandler?.();
       },
     },
   );

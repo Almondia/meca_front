@@ -23,7 +23,7 @@ const QuizPlayScoreFilterInputGroup = ({
         max={100}
         min={0}
         step={10}
-        name="retry-score-input"
+        name="score-filter-input"
         onChange={onChangeScoreRange}
         ariaLabel="id-retry-score-range"
       />
