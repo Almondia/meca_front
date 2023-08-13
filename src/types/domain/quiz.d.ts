@@ -25,3 +25,8 @@ export interface QuizSucceedType {
   succeedText: string;
   succeedHandler: (...args: any[]) => void;
 }
+
+export interface QuizSimulationStateResponse {
+  score: number;
+  count: number;
+}
