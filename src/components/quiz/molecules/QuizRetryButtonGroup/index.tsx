@@ -6,12 +6,12 @@ import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
 import { Devide } from '@/styles/layout';
 
-interface QuizRetryControllerProps {
+interface QuizRetryButtonGroupProps {
   title: string;
   onRetry: (optionScore: number) => void;
 }
 
-const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
+const QuizRetryButtonGroup = ({ title, onRetry }: QuizRetryButtonGroupProps) => {
   const { visible, open, close } = useModal();
   const { input: retryOption, onInputChange: onRetryOptionChange, setInput: setRetryOption } = useInput('100');
   const handleRetryOptionSelect = (option: string) => {
@@ -53,4 +53,4 @@ const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
   );
 };
 
-export default QuizRetryController;
+export default QuizRetryButtonGroup;
