@@ -98,13 +98,14 @@ export const mockedGetSharedMecaListApi = (body = MOCK_MECA_PAGINATION_LIST) => 
   return { uri, method, responseResolver };
 };
 
-export const mockedGetMecaCountApi = (count: number) => {
+export const mockedGetMecaCountApi = (count: number, shared = false) => {
   const [uri, method] = [`${ENDPOINT}/cards/categories/:id/me/count`, 'get'];
   const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
         count,
+        shared,
       }),
     );
   };
