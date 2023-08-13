@@ -7,9 +7,9 @@ import { FlexCenter, FlexColumn } from '@/styles/layout';
 
 export const InputWrapper = styled.div``;
 
-export const TextInputWrapper = styled.div`
+export const TextInputWrapper = styled.div<{ width?: string }>`
   ${FlexCenter};
-  width: auto;
+  width: ${(props) => props.width ?? 'auto'};
   padding: 2px 12px;
   border: 1px solid var(--color-gray);
   border-radius: ${({ theme }) => theme.border.button};

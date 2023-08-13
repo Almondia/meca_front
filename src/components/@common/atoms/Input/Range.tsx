@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import styled from 'styled-components';
 
 import { ElementSizeType } from '@/types/common';
@@ -5,16 +7,6 @@ import { ElementSizeType } from '@/types/common';
 import { FlexCenter } from '@/styles/layout';
 
 import { InputProps } from './type';
-
-export interface RangeProps extends InputProps {
-  /** [선택] default: 100% */
-  width?: ElementSizeType;
-  /** [필수] 정수 입력 */
-  min: number;
-  /** [필수] 정수 입력 */
-  max: number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
 
 const RangeWrapper = styled.div<{ width: ElementSizeType }>`
   ${FlexCenter};
@@ -58,14 +50,21 @@ const RangeInput = styled.input`
   background-color: inherit;
   -webkit-appearance: none;
   -moz-appearance: none;
+  cursor: pointer;
+
   &::-webkit-slider-thumb {
+    position: relative;
     margin-top: -1px;
     height: 24px;
     width: 24px;
     border-radius: 50%;
     -webkit-appearance: none;
     background-color: var(--color-brand);
+    :hover {
+      opacity: 0.92;
+    }
   }
+
   &::-moz-range-thumb {
     height: 24px;
     width: 24px;
@@ -75,17 +74,71 @@ const RangeInput = styled.input`
   }
 `;
 
-/**
- * 정수 range를 범위로 가지는 1방향 range input 컴포넌트
- */
-const Range = ({ width = '100%', min, max, value, name, onChange }: RangeProps) => (
-  <RangeWrapper width={width}>
-    <RangeInner>
-      <RangeInnerFilled width={((Number(value) - min) / (max - min)) * 100} />
-      <RangeInnerUnfilled width={((max - Number(value)) / (max - min)) * 100} />
-    </RangeInner>
-    <RangeInput name={name} type="range" min={min} max={max} value={value} onChange={onChange} />
-  </RangeWrapper>
-);
+const Bubble = styled.span<{ left: string }>`
+  position: absolute;
+  top: 6px;
+  right: 0;
+  left: ${(props) => props.left};
+  margin-left: -28px;
+  text-align: center;
+  box-shadow: 0 0 4px var(--color-brand);
+  border-radius: ${({ theme }) => theme.border.card};
+  width: 40px;
+  padding: 4px 10px;
+  font-size: ${({ theme }) => theme.fontSize.caption};
+`;
+
+export interface RangeProps extends InputProps {
+  width?: ElementSizeType;
+  min: number;
+  max: number;
+  step?: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Range = ({ width = '100%', min, max, step = 1, value, name, onChange }: RangeProps) => {
+  const ref = useRef<HTMLInputElement>(null);
+  const [bubbleLeft, setBubbleLeft] = useState<string>('0%');
+  const thumbWidth = 20;
+
+  const getBubblePosition = useCallback(() => {
+    const total = max - min;
+    const perc = (Number(value) - Number(min)) / total;
+    const offset = thumbWidth / 2 - thumbWidth * perc;
+    setBubbleLeft(`calc(${perc * 100}% + ${offset}px)`);
+  }, [min, max, value]);
+
+  useEffect(() => {
+    if (Number(value) >= min && Number(value) <= max) {
+      getBubblePosition();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, max, min]);
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <Bubble left={bubbleLeft}>{value}</Bubble>
+      <p>&nbsp;</p>
+      <br />
+      <RangeWrapper width={width}>
+        <RangeInner>
+          <RangeInnerFilled width={((Number(value) - min) / (max - min)) * 100} />
+          <RangeInnerUnfilled width={((max - Number(value)) / (max - min)) * 100} />
+        </RangeInner>
+        <RangeInput
+          ref={ref}
+          id={name}
+          name={name}
+          type="range"
+          step={step.toString()}
+          min={min}
+          max={max}
+          value={value}
+          onChange={onChange}
+        />
+      </RangeWrapper>
+    </div>
+  );
+};
 
 export default Range;
