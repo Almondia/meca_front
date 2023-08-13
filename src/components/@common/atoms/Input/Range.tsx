@@ -11,6 +11,7 @@ import { InputProps } from './type';
 const RangeWrapper = styled.div<{ width: ElementSizeType }>`
   ${FlexCenter};
   position: relative;
+  overflow: hidden;
   width: ${(props) => props.width ?? '100%'};
   height: 24px;
   border-radius: 10px;
