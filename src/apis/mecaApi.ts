@@ -86,8 +86,9 @@ const mecaApi = {
         algorithm,
       },
     }),
+  // TODO: api URI 바뀔 예정
   getCountByCategoryId: (categoryId: string) =>
-    authInstance.get<never, { count: number }>(`/api/v1/cards/categories/${categoryId}/me/count`),
+    authInstance.get<never, { count: number; shared: boolean }>(`/api/v1/cards/categories/${categoryId}/me/count`),
 };
 
 export default mecaApi;

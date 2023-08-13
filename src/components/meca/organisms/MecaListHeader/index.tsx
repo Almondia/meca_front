@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/@common/atoms/Button';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
 import BetweenSection from '@/components/@common/molecules/BetweenSection';
-import useMecaCount from '@/hooks/meca/useMecaCount';
+import useMecaCheckValid from '@/hooks/meca/useMecaCheckValid';
 import useModal from '@/hooks/useModal';
 import alertToast from '@/utils/toastHandler';
 
@@ -30,7 +30,7 @@ const MecaControl = memo(({ categoryId, categoryTitle, isMine, name, profile, ha
   const { visible: isPlayModalVisible, open: playModalOpen, close: playModalClose } = useModal();
 
   const handlePlayClick = async () => {
-    const { count } = await useMecaCount.fetchOrGetQuery(categoryId, queryClient);
+    const { count } = await useMecaCheckValid.checkValid(categoryId, queryClient);
     if (count <= 0) {
       alertToast('플레이할 카드가 없어요!', 'info');
       return;
