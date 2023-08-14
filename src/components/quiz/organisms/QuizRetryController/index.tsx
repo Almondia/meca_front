@@ -4,7 +4,6 @@ import Modal from '@/components/@common/molecules/Modal';
 import Tab from '@/components/@common/molecules/Tab';
 import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
-import { Devide } from '@/styles/layout';
 
 interface QuizRetryControllerProps {
   title: string;
@@ -21,7 +20,6 @@ const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
   const selectionForcedIndexValue = retryOption === '100' ? 1 : retryOption === '0' ? 0 : -1;
   return (
     <>
-      <Devide />
       <ButtonGroup successText="다시풀기" onSuccess={open} cancelText="목록으로" />
       <Modal visible={visible} onClose={close} isClickAwayable hasCloseIcon>
         <Modal.Title>{title}</Modal.Title>
