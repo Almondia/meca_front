@@ -32,4 +32,9 @@ export const MoreLinkBox = styled.div`
   justify-content: flex-end;
   min-height: 16px;
   margin: 4px 4px 0 0;
+  button {
+    color: var(--color-brand);
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    padding: 1px;
+  }
 `;
