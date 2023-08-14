@@ -16,7 +16,7 @@ import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { extractFirstImageFromHTML } from '@/utils/imageHandler';
 import { extractCombinedUUID } from '@/utils/uuidHandler';
 
-const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
+const QuizHistoryTimeline = dynamic(() => import('@/components/quiz/organisms/QuizHistoryTimeline'));
 
 export interface MecaByIdProps {
   cardId: string;
@@ -52,7 +52,7 @@ const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProp
         <PostSection>
           <PostSection.Title>History</PostSection.Title>
           <PostSection.Body indented={false} boxed={false}>
-            <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
+            <QuizHistoryTimeline resourceId={cardId} resourceType="cards" />
           </PostSection.Body>
         </PostSection>
       </PostPageLayout>
