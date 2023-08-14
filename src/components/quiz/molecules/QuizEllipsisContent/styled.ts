@@ -16,6 +16,7 @@ const Ellipsis = css`
 
 export const TitleBox = styled(TextBodySubtitle)`
   font-size: ${({ theme }) => theme.fontSize.caption};
+  color: var(--color-darkgray);
 `;
 
 export const ContentBox = styled(TextSubBody)<{ ellipsis?: boolean }>`

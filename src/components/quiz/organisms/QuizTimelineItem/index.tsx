@@ -64,7 +64,7 @@ const QuizTimelineItem = ({
       <ST.TimelineSubInfoBox left={isLeft}>
         <div>
           <ColorizedScore score={score} size="large" />
-          <span style={{ fontSize: '0.875rem' }}>점 · {scorePostfixText}</span>
+          <span style={{ fontSize: '0.875rem' }}>점 {scorePostfixText && `· ${scorePostfixText}`}</span>
         </div>
         <TextCaption>{createdAt && <RelativeDate date={createdAt} />}</TextCaption>
       </ST.TimelineSubInfoBox>
