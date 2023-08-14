@@ -20,7 +20,7 @@ import useCount from '@/hooks/useCount';
 import { PostPageLayout } from '@/styles/layout';
 
 const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
-const QuizRetryController = dynamic(() => import('@/components/quiz/organisms/QuizRetryController'), { ssr: false });
+const QuizRetryButtonGroup = dynamic(() => import('@/components/quiz/molecules/QuizRetryButtonGroup'), { ssr: false });
 const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" />,
@@ -132,7 +132,7 @@ const QuizPage = () => {
       {quizPhase === 'result' ? (
         <>
           <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
-          <QuizRetryController
+          <QuizRetryButtonGroup
             title={quizTitle}
             onRetry={(optionScore: number) => {
               retryQuiz(optionScore, () => {

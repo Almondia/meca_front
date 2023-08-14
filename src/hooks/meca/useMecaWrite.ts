@@ -12,16 +12,16 @@ import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
 import { combineUUID } from '@/utils/uuidHandler';
 
-import useMecaCount from './useMecaCount';
+import useMecaCheckValid from './useMecaCheckValid';
 
 const useMecaWrite = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const revalidateWithWrite = async (categoryId: string) => {
-    const { count, cached } = await useMecaCount.fetchOrGetQuery(categoryId, queryClient);
-    count === (cached ? 0 : 1) && utilApi.revalidate(['/']);
-    cached && useMecaCount.updateQuery(categoryId, 1, queryClient);
+    const { cached, needRevalidation } = await useMecaCheckValid.checkNeedRevalidate(categoryId, 1, queryClient);
+    needRevalidation && utilApi.revalidate(['/']);
+    cached && useMecaCheckValid.updateQuery(categoryId, 1, queryClient);
   };
 
   const revalidateWithUpdate = (cardId: string, memberId: string) => {

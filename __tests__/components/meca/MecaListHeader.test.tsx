@@ -1,11 +1,13 @@
 import { renderQuery } from '../../utils';
 import { implementServer } from '@/mock/server';
-import { restHandler } from '@/mock/handlers';
-import { mockedGetMecaCountApi } from '@/mock/api';
+import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
+import { mockedGetMecaCountApi, mockedGetQuizCardsSimulationStateByCategoryIdApi } from '@/mock/api';
 import { screen, fireEvent } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 
 import MecaListHeader from '@/components/meca/organisms/MecaListHeader';
+import { MOCK_QUIZ_SIMULATION_INFO_LIST } from '@/mock/data';
+import { QuizSimulationStateResponse } from '@/types/domain/quiz';
 
 describe('MecaListHeader', () => {
   const props = {
@@ -44,18 +46,29 @@ describe('MecaListHeader', () => {
     expect(name).toBeInTheDocument();
   });
 
-  it('카드 목록이 존재할 때 플레이를 누르면 QuizStartDialog가 식별된다.', async () => {
-    const count = 15;
-    implementServer([restHandler(() => mockedGetMecaCountApi(count))]);
+  it('퀴즈 풀이를 위한 카드 목록이 존재할 때 플레이 버튼을 클릭하면 QuizStartDialog가 식별된다.', async () => {
+    implementServer([restHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi)]);
     renderQuery(<MecaListHeader {...props} isMine />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     fireEvent.click(playButton);
-    const modalQuizCountText = await screen.findByText(`문제 수 (최대 ${count})`);
+    const modalQuizCountText = await screen.findByText(`문제 수 (최대 30문제)`);
     expect(modalQuizCountText).toBeInTheDocument();
   });
 
-  it('카드 목록이 존재하지 않을 때 플레이를 누르면 toast가 식별된다.', async () => {
-    implementServer([restHandler(() => mockedGetMecaCountApi(0))]);
+  it('퀴즈 풀이를 위한 카드 목록이 존재하지 않을 때 플레이 버튼을 클릭하면 플레이 불가 toast가 식별된다.', async () => {
+    const emptyQuizSimulationInfoList: QuizSimulationStateResponse[] = [];
+    implementServer([
+      restOverridedResponseHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi, emptyQuizSimulationInfoList),
+    ]);
+    renderQuery(<MecaListHeader {...props} isMine />);
+    const playButton = screen.getByRole('button', { name: /플레이/i });
+    fireEvent.click(playButton);
+    const toastText = await screen.findByText('플레이할 카드가 없어요!');
+    expect(toastText).toBeInTheDocument();
+  });
+
+  it('퀴즈 풀이를 위한 카드 목록을 조회 실패 시 플레이 불가 toast가 식별된다', async () => {
+    implementServer([restHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi, { status: 400 })]);
     renderQuery(<MecaListHeader {...props} isMine />);
     const playButton = screen.getByRole('button', { name: /플레이/i });
     fireEvent.click(playButton);

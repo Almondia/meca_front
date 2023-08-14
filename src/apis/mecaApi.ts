@@ -6,7 +6,7 @@ import type {
   MecaListPaginationResponse,
   MecaUpdateRequest,
 } from '@/types/domain/meca';
-import type { Quiz, QuizListRequest } from '@/types/domain/quiz';
+import type { Quiz, QuizListRequest, QuizSimulationStateResponse } from '@/types/domain/quiz';
 
 import { PAGINATION_NUM } from '@/utils/constants';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
@@ -79,15 +79,21 @@ const mecaApi = {
       },
     }),
   getMyCardById: (cardId: string) => authInstance.get<never, MecaByIdResponse>(`/api/v1/cards/${cardId}/me`),
-  getQuizCards: ({ categoryId, limit, algorithm }: QuizListRequest) =>
+  getQuizCards: ({ categoryId, limit, score }: QuizListRequest) =>
     authInstance.get<never, Quiz[]>(`/api/v1/cards/categories/${categoryId}/simulation`, {
       params: {
         limit,
-        algorithm,
+        score,
       },
     }),
+  // TODO: api URI 바뀔 가능성 높음
   getCountByCategoryId: (categoryId: string) =>
-    authInstance.get<never, { count: number }>(`/api/v1/cards/categories/${categoryId}/me/count`),
+    authInstance.get<never, { count: number; shared: boolean }>(`/api/v1/cards/categories/${categoryId}/me/count`),
+  // TODO: api URI 바뀔 가능성 높음
+  getQuizCardsSimulationStateByCategoryId: (categoryId: string) =>
+    authInstance.get<never, QuizSimulationStateResponse[]>(
+      `/api/v1/cards/categories/${categoryId}/simulation/before/count`,
+    ),
 };
 
 export default mecaApi;

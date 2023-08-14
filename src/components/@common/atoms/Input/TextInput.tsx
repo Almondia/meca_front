@@ -30,7 +30,7 @@ const TextInput = ({
   width,
   ariaLabel,
 }: TextInputProps) => (
-  <TextInputWrapper>
+  <TextInputWrapper width={width}>
     <TextInputBox
       name={name}
       width={width}

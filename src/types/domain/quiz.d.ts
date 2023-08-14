@@ -1,7 +1,5 @@
 import type { Meca } from '@/types/domain/meca';
 
-export type QuizAlgorithmType = 'score' | 'random';
-
 export type QuizPhase = 'progress' | 'done' | 'end' | 'result';
 
 export interface QuizResult {
@@ -18,10 +16,15 @@ export interface Quiz extends Meca {
 export interface QuizListRequest {
   categoryId: string;
   limit: number;
-  algorithm: QuizAlgorithmType;
+  score: number;
 }
 
 export interface QuizSucceedType {
   succeedText: string;
   succeedHandler: (...args: any[]) => void;
+}
+
+export interface QuizSimulationStateResponse {
+  score: number;
+  count: number;
 }
