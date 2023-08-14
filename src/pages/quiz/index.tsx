@@ -21,8 +21,8 @@ import useCount from '@/hooks/useCount';
 import { Devide, PostPageLayout } from '@/styles/layout';
 
 const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
-const QuizRetryController = dynamic(() => import('@/components/quiz/organisms/QuizRetryController'), { ssr: false });
 // TODO: Skeleton UI 적용 고려
+const QuizRetryButtonGroup = dynamic(() => import('@/components/quiz/molecules/QuizRetryButtonGroup'), { ssr: false });
 const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" />,
@@ -145,7 +145,7 @@ const QuizPage = () => {
               <QuizPlayResultTimeline quizList={quizList} />
             </PostSection.Body>
           </PostSection>
-          <QuizRetryController
+          <QuizRetryButtonGroup
             title={quizTitle}
             onRetry={(optionScore: number) => {
               retryQuiz(optionScore, () => {
