@@ -43,13 +43,13 @@ const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
   const initQuiz = ({
     categoryId,
     limit,
-    algorithm,
+    score,
     title,
     quizTime,
   }: QuizListRequest & { title: string; quizTime: number }) => {
     setQuizTitle(title);
     setQuizTime(quizTime);
-    setQuizInfo({ categoryId, limit, algorithm });
+    setQuizInfo({ categoryId, limit, score });
   };
 
   return { quizList, isLoading, isError, initQuiz };

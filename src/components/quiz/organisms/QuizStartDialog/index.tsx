@@ -54,7 +54,7 @@ const QuizStartDialog = ({ categoryId, title, visible, onClose }: QuizStartDialo
     initQuiz({
       categoryId,
       limit: quizCountInputNumber,
-      algorithm: 'random',
+      score: parseInt(tryScore, 10),
       title,
       quizTime: quizTimeInput,
     });

@@ -79,11 +79,11 @@ const mecaApi = {
       },
     }),
   getMyCardById: (cardId: string) => authInstance.get<never, MecaByIdResponse>(`/api/v1/cards/${cardId}/me`),
-  getQuizCards: ({ categoryId, limit, algorithm }: QuizListRequest) =>
+  getQuizCards: ({ categoryId, limit, score }: QuizListRequest) =>
     authInstance.get<never, Quiz[]>(`/api/v1/cards/categories/${categoryId}/simulation`, {
       params: {
         limit,
-        algorithm,
+        score,
       },
     }),
   // TODO: api URI 바뀔 가능성 높음
