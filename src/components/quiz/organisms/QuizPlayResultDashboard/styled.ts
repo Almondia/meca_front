@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const QuizResulDashBoard = styled.div`
+export const QuizPlayResultDashBoardWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 210px minmax(45px, auto) auto;

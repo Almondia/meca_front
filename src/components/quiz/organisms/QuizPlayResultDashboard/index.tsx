@@ -7,18 +7,18 @@ import useQuizResult from '@/hooks/quiz/useQuizResult';
 import { COLOR } from '@/styles/constants';
 
 import {
-  QuizResulDashBoard,
+  QuizPlayResultDashBoardWrapper,
   QuizResultAnswerRateDougnutArea,
   QuizResultScoreRateBarArea,
   QuizResultTimeRateDougnutArea,
   QuizResultWordCloudArea,
 } from './styled';
 
-interface QuizResultProps {
+interface QuizPlayResultDashboardProps {
   maxQuizTime: number;
 }
 
-const QuizResult = ({ maxQuizTime }: QuizResultProps) => {
+const QuizPlayResultDashBoard = ({ maxQuizTime }: QuizPlayResultDashboardProps) => {
   const { getQuizTypeRateResult, getAnswerRateResult } = useQuizResult();
   const { quizPhaseKeywords: quizKeywords, isQuizPhaseKeywordsLoading, fetchQuizPhaseKeywords } = useQuizKeyword();
   const [{ avgTime, avgScore }] = useState(getAnswerRateResult());
@@ -30,7 +30,7 @@ const QuizResult = ({ maxQuizTime }: QuizResultProps) => {
   }, []);
 
   return (
-    <QuizResulDashBoard>
+    <QuizPlayResultDashBoardWrapper>
       <QuizResultAnswerRateDougnutArea>
         <Card>
           <Card.Title>전체 정답률</Card.Title>
@@ -83,8 +83,8 @@ const QuizResult = ({ maxQuizTime }: QuizResultProps) => {
           </Card.Body>
         </Card>
       </QuizResultWordCloudArea>
-    </QuizResulDashBoard>
+    </QuizPlayResultDashBoardWrapper>
   );
 };
 
-export default QuizResult;
+export default QuizPlayResultDashBoard;

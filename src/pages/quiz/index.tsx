@@ -27,7 +27,7 @@ const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" />,
 });
-const QuizResult = dynamic(() => import('@/components/quiz/organisms/QuizResult'), {
+const QuizPlayResultDashBoard = dynamic(() => import('@/components/quiz/organisms/QuizPlayResultDashboard'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" height="510px" />,
 });
@@ -137,7 +137,7 @@ const QuizPage = () => {
       </BetweenSection>
       {quizPhase === 'result' ? (
         <>
-          <QuizResult maxQuizTime={quizPhaseTime} />
+          <QuizPlayResultDashBoard maxQuizTime={quizPhaseTime} />
           <Devide />
           <PostSection>
             <PostSection.Title>Play Timeline</PostSection.Title>

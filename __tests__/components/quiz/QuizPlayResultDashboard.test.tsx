@@ -9,7 +9,7 @@ import { implementServer } from '@/mock/server';
 import queryKey from '@/query/queryKey';
 import { QueryClient } from '@tanstack/react-query';
 import statisticsApi from '@/apis/statisticsApi';
-import QuizResult from '@/components/quiz/organisms/QuizResult';
+import QuizPlayResultDashboard from '@/components/quiz/organisms/QuizPlayResultDashboard';
 
 const MOCK_QUIZS: Quiz[] = [
   {
@@ -65,7 +65,7 @@ describe('QuizResult', () => {
     queryClient.setQueryData([queryKey.quiz], MOCK_QUIZS);
     const spyApplyQuizKeywordFn = jest.spyOn(statisticsApi, 'postKeywordBySentence');
     implementServer([restHandler(() => mockedPostKeywords({ hello: 25, world: 10 }))]);
-    renderQuery(<QuizResult maxQuizTime={20} />, undefined, queryClient);
+    renderQuery(<QuizPlayResultDashboard maxQuizTime={20} />, undefined, queryClient);
     expect(screen.getByRole('heading', { name: 'Keyword Cloud' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '유형별 평균점수/문제 수' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '전체 정답률' })).toBeInTheDocument();
