@@ -6,6 +6,7 @@ import { memo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import Button from '@/components/@common/atoms/Button';
+import Icon from '@/components/@common/atoms/Icon';
 import AvatarUser from '@/components/@common/molecules/AvatarUser';
 import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import useQuizInfoBeforePlay from '@/hooks/quiz/useQuizInfoBeforePlay';
@@ -49,7 +50,7 @@ const MecaControl = memo(({ categoryId, categoryTitle, isMine, name, profile, ha
         )}
         {hasAuth && (
           <Button colorTheme="success" onClick={handlePlayClick} size="small">
-            플레이 ▶
+            플레이 <Icon icon="Play" size="0.875rem" style={{ transform: 'translateY(2px)' }} />
           </Button>
         )}
         {isPlayModalVisible && (
