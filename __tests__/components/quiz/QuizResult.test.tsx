@@ -65,8 +65,7 @@ describe('QuizResult', () => {
     queryClient.setQueryData([queryKey.quiz], MOCK_QUIZS);
     const spyApplyQuizKeywordFn = jest.spyOn(statisticsApi, 'postKeywordBySentence');
     implementServer([restHandler(() => mockedPostKeywords({ hello: 25, world: 10 }))]);
-    renderQuery(<QuizResult quizList={MOCK_QUIZS} maxQuizTime={20} />, undefined, queryClient);
-    expect(screen.getByRole('heading', { name: 'Quiz Timeline' })).toBeInTheDocument();
+    renderQuery(<QuizResult maxQuizTime={20} />, undefined, queryClient);
     expect(screen.getByRole('heading', { name: 'Keyword Cloud' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '유형별 평균점수/문제 수' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '전체 정답률' })).toBeInTheDocument();
@@ -77,10 +76,6 @@ describe('QuizResult', () => {
     expect(mockedDChart).toHaveTextContent('0.5%');
     // case 2 : [5, 10]
     expect(mockedRChart).toHaveTextContent('7.5-20');
-    const timelineAnswers = screen.getAllByText(/문제 정답/i);
-    const timelineUserAnswers = screen.getAllByText(/제출 결과/i);
-    expect(timelineAnswers).toHaveLength(2);
-    expect(timelineUserAnswers).toHaveLength(2);
     await waitFor(() => expect(screen.queryByTestId('id-wordcloud')).toHaveTextContent(/hello-25/i));
     expect(spyApplyQuizKeywordFn).toHaveBeenCalledWith(expect.any(String));
     spyApplyQuizKeywordFn.mockClear();

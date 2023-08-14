@@ -131,7 +131,7 @@ const QuizPage = () => {
       </BetweenSection>
       {quizPhase === 'result' ? (
         <>
-          <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
+          <QuizResult maxQuizTime={quizPhaseTime} />
           <QuizRetryController
             title={quizTitle}
             onRetry={(optionScore: number) => {

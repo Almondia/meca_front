@@ -8,14 +8,12 @@ export const QuizResulDashBoard = styled.div`
   grid-template-areas:
     'wordcloud wordcloud answer-rate'
     'ratebar ratebar answer-rate'
-    'ratebar ratebar time-rate'
-    'content-1 content-1 content-1';
+    'ratebar ratebar time-rate';
   @media ${({ theme }) => theme.media.tablet} {
     grid-template-columns: 3fr 4fr 3fr;
     grid-template-areas:
       'wordcloud wordcloud wordcloud'
-      'answer-rate ratebar time-rate'
-      'content-1 content-1 content-1';
+      'answer-rate ratebar time-rate';
   }
   @media ${({ theme }) => theme.media.mobile} {
     grid-template-columns: 1fr;
@@ -23,14 +21,9 @@ export const QuizResulDashBoard = styled.div`
       'wordcloud'
       'ratebar'
       'answer-rate'
-      'time-rate'
-      'content-1';
+      'time-rate';
   }
   position: relative;
-`;
-
-export const QuizResultContentArea = styled.div`
-  grid-area: content-1;
 `;
 
 export const QuizResultWordCloudArea = styled.div`

@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Quiz } from '@/types/domain/quiz';
-
 import Card from '@/components/@common/molecules/Card';
 import Chart from '@/components/@common/molecules/Chart';
-import QuizTimeline from '@/components/quiz/organisms/QuizTimeline';
 import useQuizKeyword from '@/hooks/quiz/useQuizKeyword';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import { COLOR } from '@/styles/constants';
@@ -12,18 +9,16 @@ import { COLOR } from '@/styles/constants';
 import {
   QuizResulDashBoard,
   QuizResultAnswerRateDougnutArea,
-  QuizResultContentArea,
   QuizResultScoreRateBarArea,
   QuizResultTimeRateDougnutArea,
   QuizResultWordCloudArea,
 } from './styled';
 
 interface QuizResultProps {
-  quizList: Quiz[];
   maxQuizTime: number;
 }
 
-const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
+const QuizResult = ({ maxQuizTime }: QuizResultProps) => {
   const { getQuizTypeRateResult, getAnswerRateResult } = useQuizResult();
   const { quizPhaseKeywords: quizKeywords, isQuizPhaseKeywordsLoading, fetchQuizPhaseKeywords } = useQuizKeyword();
   const [{ avgTime, avgScore }] = useState(getAnswerRateResult());
@@ -88,14 +83,6 @@ const QuizResult = ({ quizList, maxQuizTime }: QuizResultProps) => {
           </Card.Body>
         </Card>
       </QuizResultWordCloudArea>
-      <QuizResultContentArea>
-        <Card>
-          <Card.Title>Quiz Timeline</Card.Title>
-          <Card.Body>
-            <QuizTimeline quizList={quizList} />
-          </Card.Body>
-        </Card>
-      </QuizResultContentArea>
     </QuizResulDashBoard>
   );
 };
