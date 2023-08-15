@@ -2,9 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { TextBodySubtitle, TextSubBody } from '@/styles/common';
 
-export const Wrapper = styled.div`
-  margin-bottom: -12px;
-`;
+export const Wrapper = styled.div``;
 
 const Ellipsis = css`
   display: -webkit-box;
@@ -22,17 +20,17 @@ export const TitleBox = styled(TextBodySubtitle)`
 export const ContentBox = styled(TextSubBody)<{ ellipsis?: boolean }>`
   position: relative;
   word-wrap: break-word;
+  overflow: hidden;
   ${(props) => (props.ellipsis ?? true) && Ellipsis};
   font-size: 14px;
-  max-height: ${(props) => (props.ellipsis ?? true ? '70px' : '600px')};
+  max-height: ${(props) => (props.ellipsis ?? true ? '70px' : '700px')};
   transition: max-height 1s ease-in-out;
 `;
 
 export const MoreLinkBox = styled.div`
   display: flex;
   justify-content: flex-end;
-  min-height: 16px;
-  margin: 4px 4px 0 0;
+  margin-right: 4px;
   button {
     color: var(--color-brand);
     font-weight: ${({ theme }) => theme.fontWeight.bold};
