@@ -41,6 +41,7 @@ export const TimelineCard = styled.div<{ left?: boolean }>`
       padding: 12px;
     }
   }
+  z-index: 1;
 `;
 
 export const TimelineCardBubbleArea = styled.div`
@@ -116,6 +117,7 @@ export const TimelineSubInfoBox = styled.div<{ left?: boolean }>`
     column-gap: 12px;
     padding: 6px 12px;
   }
+  z-index: 0;
 `;
 
 export const VerticalLinePoint = styled.div<{ color: string }>`
