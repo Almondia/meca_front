@@ -1,26 +1,21 @@
 import dynamic from 'next/dynamic';
 
 import Button from '@/components/@common/atoms/Button';
+import PageTitle from '@/components/@common/atoms/PageTitle';
 import BetweenSection from '@/components/@common/molecules/BetweenSection';
-import CategorySearchBar from '@/components/category/molecules/CategorySearchBar';
+import { CategoryListHeaderWrapper } from '@/components/category/organisms/CategoryListHeader/styled';
 import useModal from '@/hooks/useModal';
 
 const CategoryUpdateDialog = dynamic(() => import('@/components/category/organisms/CategoryUpdateDialog'));
 
-interface CategoryListHeaderProps {
-  query?: string;
-  onChangeQuery: (query: string) => void;
-  isMine?: boolean;
-}
-
-const CategoryListHeader = ({ query, onChangeQuery, isMine }: CategoryListHeaderProps) => {
+const CategoryListHeader = ({ pageTitle }: { pageTitle: React.ReactNode }) => {
   const { visible: addCategoryVisible, open: addCategoryOpen, close: addCategoryClose } = useModal();
   return (
-    <BetweenSection>
-      <BetweenSection.Left>
-        <CategorySearchBar query={query} onChangeQuery={onChangeQuery} />
-      </BetweenSection.Left>
-      {isMine && (
+    <CategoryListHeaderWrapper>
+      <BetweenSection>
+        <BetweenSection.Left>
+          <PageTitle style={{ marginBottom: '0px' }}>{pageTitle}</PageTitle>
+        </BetweenSection.Left>
         <BetweenSection.Right>
           <Button colorTheme="primary" size="small" onClick={addCategoryOpen}>
             추가하기 +
@@ -34,8 +29,8 @@ const CategoryListHeader = ({ query, onChangeQuery, isMine }: CategoryListHeader
             />
           )}
         </BetweenSection.Right>
-      )}
-    </BetweenSection>
+      </BetweenSection>
+    </CategoryListHeaderWrapper>
   );
 };
 
