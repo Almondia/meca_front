@@ -16,7 +16,7 @@ export default {
 } as ComponentMeta<typeof Input>;
 
 const Template: ComponentStory<typeof Input> = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ width: '100%', padding: '30px', maxWidth: '500px' }}>
+  <div style={{ width: '100%', maxWidth: '500px' }}>
     <Input>{children}</Input>
   </div>
 );

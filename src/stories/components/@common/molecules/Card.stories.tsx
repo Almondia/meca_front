@@ -12,7 +12,7 @@ export default {
 } as ComponentMeta<typeof Card>;
 
 export const Default = () => (
-  <div style={{ maxWidth: '360px', padding: '30px' }}>
+  <div style={{ maxWidth: '360px' }}>
     <Card>
       <Card.Title link="/">Card Title</Card.Title>
       <Card.Thumbnail src="/images/noimage.png" altText="alt" href="/" />
@@ -24,7 +24,7 @@ export const Default = () => (
 );
 
 export const NoThumbnail = () => (
-  <div style={{ maxWidth: '360px', padding: '30px' }}>
+  <div style={{ maxWidth: '360px' }}>
     <Card>
       <Card.Title link="/">Card Title</Card.Title>
       <Card.Body>
@@ -35,7 +35,7 @@ export const NoThumbnail = () => (
 );
 
 export const WithThumbnailHasSize = () => (
-  <div style={{ maxWidth: '360px', padding: '30px' }}>
+  <div style={{ maxWidth: '360px' }}>
     <Card>
       <Card.Title link="/">WithThumbnailHasSize</Card.Title>
       <Card.Thumbnail
@@ -52,7 +52,7 @@ export const WithThumbnailHasSize = () => (
 );
 
 export const WithThumbnailHasLongSize = () => (
-  <div style={{ maxWidth: '360px', padding: '30px' }}>
+  <div style={{ maxWidth: '360px' }}>
     <Card>
       <Card.Title link="/">WithThumbnailHasLongSize</Card.Title>
       <Card.Thumbnail

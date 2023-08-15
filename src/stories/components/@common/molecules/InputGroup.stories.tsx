@@ -13,24 +13,21 @@ const Template: ComponentStory<typeof InputGroup> = () => {
   const [value, setValue] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(true);
   return (
-    <div style={{ padding: '60px' }}>
-      <InputGroup>
-        <InputGroup.Label>Value를 입력하세요</InputGroup.Label>
-        <InputGroup.Validation visible={!isValid}>1557을 입력했다</InputGroup.Validation>
-        <InputGroup.Input>
-          <InputGroup.Input.Text
-            name="name"
-            value={value}
-            onChange={(e) => {
-              e.target.value === '1557' ? setIsValid(false) : setIsValid(true);
-              setValue(e.target.value);
-            }}
-            placeholder="placeholder"
-          />
-        </InputGroup.Input>
-        <InputGroup.Description descLists={['1557을 입력하면 안됩니다', '안녕하세요']} />
-      </InputGroup>
-    </div>
+    <InputGroup>
+      <InputGroup.Label>Value를 입력하세요</InputGroup.Label>
+      <InputGroup.Input>
+        <InputGroup.Input.Text
+          name="name"
+          value={value}
+          onChange={(e) => {
+            e.target.value === '0309' ? setIsValid(false) : setIsValid(true);
+            setValue(e.target.value);
+          }}
+          placeholder="0309를 입력하면 안됩니다."
+        />
+      </InputGroup.Input>
+      <InputGroup.Validation visible={!isValid}>0309를 입력할 수 없습니다</InputGroup.Validation>
+    </InputGroup>
   );
 };
 export const Default = Template.bind({});
