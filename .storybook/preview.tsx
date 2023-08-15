@@ -15,7 +15,9 @@ import 'react-toastify/dist/ReactToastify.css';
 const queryClient = generateQueryClient();
 
 if (typeof global.process === 'undefined') {
-  worker.start();
+  worker.start({
+    onUnhandledRequest: 'bypass',
+  });
 }
 
 const customViewports = {
