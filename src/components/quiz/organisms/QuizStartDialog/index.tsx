@@ -9,11 +9,12 @@ import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
 import Tab from '@/components/@common/molecules/Tab';
 import QuizPlayScoreFilterInputGroup from '@/components/quiz/molecules/QuizPlayScoreFilterInputGroup';
-import { QuizStartDialogEmptyContent } from '@/components/quiz/organisms/QuizStartDialog/styled';
 import useQuiz from '@/hooks/quiz/useQuiz';
 import useQuizInfoBeforePlay from '@/hooks/quiz/useQuizInfoBeforePlay';
 import useInput from '@/hooks/useInput';
 import alertToast from '@/utils/toastHandler';
+
+import { QuizStartDialogEmptyContent, QuizStartDialogEmptyFilteredCount } from './styled';
 
 interface QuizStartDialogProps extends DefaultModalOptions {
   categoryId: string;
@@ -34,14 +35,12 @@ const QuizStartDialog = ({ categoryId, title, visible, onClose }: QuizStartDialo
   const { isLoading, isEmpty, getQuizCountByFilteredScore: getCount } = useQuizInfoBeforePlay(categoryId);
   const { input: tryScore, onInputChange: onTryScoreChange, setInput: setTryScore } = useInput('100');
   const currentMaxCount = useMemo(() => getCount(parseInt(tryScore, 10)), [tryScore, getCount]);
-  const { input: quizCountInput, onInputChange: onQuizCountChange, setInput: setQuizCountInput } = useInput('');
+  const { input: quizCountInput, onInputChange: onQuizCountChange, setInput: setQuizCountInput } = useInput('31');
   const [quizTimeInput, setQuizTimeInput] = useState<(typeof QUIZ_SECONDS)[number]>(15);
 
   const isCountValid = (count: number) => count > 0 && count <= currentMaxCount;
-
   useEffect(() => {
-    const changedMaxCount = getCount(parseInt(tryScore, 10));
-    setQuizCountInput((prev) => (parseInt(prev, 10) > changedMaxCount ? changedMaxCount.toString() : prev));
+    setQuizCountInput(currentMaxCount.toString());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tryScore, getCount]);
 
@@ -71,14 +70,20 @@ const QuizStartDialog = ({ categoryId, title, visible, onClose }: QuizStartDialo
           <>
             <InputGroup>
               <InputGroup.Label>문제 수 (최대 30문제)</InputGroup.Label>
-              <InputGroup.Input.Range
-                name="quiz-count"
-                value={quizCountInput === '' ? currentMaxCount.toString() : quizCountInput}
-                min={0}
-                max={currentMaxCount}
-                onChange={onQuizCountChange}
-                ariaLabel="input-quizcount-range"
-              />
+              {currentMaxCount <= 0 ? (
+                <QuizStartDialogEmptyFilteredCount>
+                  {tryScore}점 이하의 문제가 없습니다!
+                </QuizStartDialogEmptyFilteredCount>
+              ) : (
+                <InputGroup.Input.Range
+                  name="quiz-count"
+                  value={quizCountInput}
+                  min={1}
+                  max={currentMaxCount}
+                  onChange={onQuizCountChange}
+                  ariaLabel="input-quizcount-range"
+                />
+              )}
             </InputGroup>
             <QuizPlayScoreFilterInputGroup input={tryScore} onInputChange={onTryScoreChange} setInput={setTryScore} />
             <InputGroup>
