@@ -14,7 +14,7 @@ export default {
 } as ComponentMeta<typeof WordCloud>;
 
 const Template: ComponentStory<typeof WordCloud> = (args) => (
-  <div style={{ padding: '30px', maxWidth: '700px' }}>
+  <div style={{ maxWidth: '700px' }}>
     <WordCloud {...args} />
   </div>
 );

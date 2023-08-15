@@ -7,11 +7,7 @@ export default {
   component: TimerBar,
 } as ComponentMeta<typeof TimerBar>;
 
-const Template: ComponentStory<typeof TimerBar> = (args) => (
-  <div style={{ padding: '30px' }}>
-    <TimerBar {...args} />
-  </div>
-);
+const Template: ComponentStory<typeof TimerBar> = (args) => <TimerBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

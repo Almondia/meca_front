@@ -31,13 +31,13 @@ const Template: ComponentStory<typeof MecaList> = (args) => <MecaList {...args} 
 
 export const Default = ({ isMine, hasNextPage }: { isMine: boolean; hasNextPage: boolean }) => {
   const setHasAuth = useSetRecoilState(hasAuthState);
+  implementWorker([
+    restHandler(mockedGetUserWithServerApi),
+    restHandler(() => mockedGetMecaCountApi(50)),
+    restHandler(mockedGetAuthUserMecaListApi),
+    restHandler(mockedDeleteMecaApi),
+  ]);
   useEffect(() => {
-    implementWorker([
-      restHandler(mockedGetUserWithServerApi),
-      restHandler(() => mockedGetMecaCountApi(50)),
-      restHandler(mockedGetAuthUserMecaListApi),
-      restHandler(mockedDeleteMecaApi),
-    ]);
     setHasAuth(true);
     return () => {
       setHasAuth(false);

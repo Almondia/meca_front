@@ -10,11 +10,7 @@ export default {
   },
 } as ComponentMeta<typeof CountIndicator>;
 
-const Template: ComponentStory<typeof CountIndicator> = (args) => (
-  <div style={{ padding: '30px' }}>
-    <CountIndicator {...args} />
-  </div>
-);
+const Template: ComponentStory<typeof CountIndicator> = (args) => <CountIndicator {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
