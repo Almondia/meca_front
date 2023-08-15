@@ -4,10 +4,11 @@ import { GetServerSideProps } from 'next';
 import { useRecoilValue } from 'recoil';
 
 import { hasAuthState } from '@/atoms/common';
-import PageTitle from '@/components/@common/atoms/PageTitle';
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import Tab from '@/components/@common/molecules/Tab';
 import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
+import CategorySearchBar from '@/components/category/molecules/CategorySearchBar';
 import CategoryList from '@/components/category/organisms/CategoryList';
 import CategoryListHeader from '@/components/category/organisms/CategoryListHeader';
 import useCategoryList, { CategoryListFetcherKey } from '@/hooks/category/useCategoryList';
@@ -33,16 +34,22 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
     <AuthPageProvider>
       <MetaHead title="내 카테고리 목록" description="로그인 후 이용할 수 있어요!" />
       <ListPageLayout>
-        <PageTitle>{recommended ? '추천한 카테고리' : '내 카테고리'}</PageTitle>
-        <CategoryListHeader isMine query={query} onChangeQuery={changeSearchQuery} />
+        <CategoryListHeader pageTitle={recommended ? '추천한 카테고리' : '내 카테고리'} />
         <Devide />
-        <Tab
-          initialSelectedIndex={recommended ? 1 : 0}
-          tabButtonProps={[
-            { name: '작성 목록', onClick: () => replaceWithQuery({}) },
-            { name: '추천 목록', onClick: () => replaceWithQuery(RECOMMEND_QUERY) },
-          ]}
-        />
+        <BetweenSection>
+          <BetweenSection.Left>
+            <Tab
+              initialSelectedIndex={recommended ? 1 : 0}
+              tabButtonProps={[
+                { name: '작성 목록', onClick: () => replaceWithQuery({}) },
+                { name: '추천 목록', onClick: () => replaceWithQuery(RECOMMEND_QUERY) },
+              ]}
+            />
+          </BetweenSection.Left>
+          <BetweenSection.Right>
+            <CategorySearchBar query={query} onChangeQuery={changeSearchQuery} />
+          </BetweenSection.Right>
+        </BetweenSection>
         <CategoryList
           categoryList={categoryList}
           hasNextPage={hasNextPage}
