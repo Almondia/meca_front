@@ -13,7 +13,7 @@ import { ssrAspect } from '@/libs/renderAspect';
 import { Devide, PostPageLayout } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
-const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
+const QuizHistoryTimeline = dynamic(() => import('@/components/quiz/organisms/QuizHistoryTimeline'));
 
 export interface UserPageProps {
   memberId: string;
@@ -40,7 +40,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
           <PostSection>
             <PostSection.Title>퀴즈 기록</PostSection.Title>
             <PostSection.Body boxed={false} indented={false}>
-              <QuizHistoryList resourceType="members" resourceId={memberId} excludeRows={['user']} />
+              <QuizHistoryTimeline resourceType="members" resourceId={memberId} />
             </PostSection.Body>
           </PostSection>
         </PostPageLayout>

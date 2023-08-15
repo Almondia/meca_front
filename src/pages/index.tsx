@@ -1,9 +1,10 @@
 import { GetStaticProps } from 'next';
 
+import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import HomeCarousel from '@/components/@common/organisms/HomeCarousel';
 import MetaHead from '@/components/@util/MetaHead';
+import CategorySearchBar from '@/components/category/molecules/CategorySearchBar';
 import CategoryList from '@/components/category/organisms/CategoryList';
-import CategoryListHeader from '@/components/category/organisms/CategoryListHeader';
 import useCategoryList from '@/hooks/category/useCategoryList';
 import { isrAspect } from '@/libs/renderAspect';
 import { Devide, ListPageLayout } from '@/styles/layout';
@@ -16,7 +17,12 @@ export default function Home() {
       <MetaHead />
       <HomeCarousel />
       <ListPageLayout>
-        <CategoryListHeader onChangeQuery={changeSearchQuery} /> <Devide />
+        <BetweenSection>
+          <BetweenSection.Right>
+            <CategorySearchBar onChangeQuery={changeSearchQuery} />
+          </BetweenSection.Right>
+        </BetweenSection>
+        <Devide />
         <CategoryList
           categoryList={categoryList}
           hasNextPage={hasNextPage}

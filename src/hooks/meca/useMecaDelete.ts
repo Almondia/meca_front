@@ -4,12 +4,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import mecaApi from '@/apis/mecaApi';
 import utilApi from '@/apis/utilApi';
+import useMecaCheckValid from '@/hooks/meca/useMecaCheckValid';
 import useUser from '@/hooks/user/useUser';
 import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
 import { combineUUID } from '@/utils/uuidHandler';
-
-import useMecaCount from './useMecaCount';
 
 const useMecaDelete = () => {
   const queryClient = useQueryClient();
@@ -17,11 +16,11 @@ const useMecaDelete = () => {
   const { user } = useUser();
 
   const revalidate = async (categoryId: string, cardId: string) => {
-    const { count, cached } = await useMecaCount.fetchOrGetQuery(categoryId, queryClient);
+    const { cached, needRevalidation } = await useMecaCheckValid.checkNeedRevalidate(categoryId, 0, queryClient);
     const revalidateUrls = [`/mecas/${combineUUID(user?.memberId ?? '', cardId)}`];
-    count === (cached ? 1 : 0) && revalidateUrls.push('/');
+    needRevalidation && revalidateUrls.push('/');
     utilApi.revalidate(revalidateUrls);
-    cached && useMecaCount.updateQuery(categoryId, -1, queryClient);
+    cached && useMecaCheckValid.updateQuery(categoryId, -1, queryClient);
   };
 
   const { mutate: deleteMeca } = useMutation<never, unknown, { cardId: string; categoryId: string }>(

@@ -15,19 +15,25 @@ import LinkButton from '@/components/@common/atoms/LinkButton';
 import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import PageTitle from '@/components/@common/atoms/PageTitle';
 import BetweenSection from '@/components/@common/molecules/BetweenSection';
+import PostSection from '@/components/@common/molecules/PostSection';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
-import { PostPageLayout } from '@/styles/layout';
+import { Devide, PostPageLayout } from '@/styles/layout';
 
 const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
-const QuizRetryController = dynamic(() => import('@/components/quiz/organisms/QuizRetryController'), { ssr: false });
+// TODO: Skeleton UI 적용 고려
+const QuizRetryButtonGroup = dynamic(() => import('@/components/quiz/molecules/QuizRetryButtonGroup'), { ssr: false });
 const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" />,
 });
-const QuizResult = dynamic(() => import('@/components/quiz/organisms/QuizResult'), {
+const QuizPlayResultDashBoard = dynamic(() => import('@/components/quiz/organisms/QuizPlayResultDashboard'), {
   ssr: false,
-  loading: () => <LoadSpinner width="100%" />,
+  loading: () => <LoadSpinner width="100%" height="510px" />,
+});
+const QuizPlayResultTimeline = dynamic(() => import('@/components/quiz/organisms/QuizPlayResultTimeline'), {
+  ssr: false,
+  loading: () => <LoadSpinner width="100%" height="600px" />,
 });
 
 type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhase, QuizSucceedType>, 'result'>;
@@ -131,8 +137,15 @@ const QuizPage = () => {
       </BetweenSection>
       {quizPhase === 'result' ? (
         <>
-          <QuizResult quizList={quizList} maxQuizTime={quizPhaseTime} />
-          <QuizRetryController
+          <QuizPlayResultDashBoard maxQuizTime={quizPhaseTime} />
+          <Devide />
+          <PostSection>
+            <PostSection.Title>Play Timeline</PostSection.Title>
+            <PostSection.Body boxed={false} indented={false}>
+              <QuizPlayResultTimeline quizList={quizList} />
+            </PostSection.Body>
+          </PostSection>
+          <QuizRetryButtonGroup
             title={quizTitle}
             onRetry={(optionScore: number) => {
               retryQuiz(optionScore, () => {

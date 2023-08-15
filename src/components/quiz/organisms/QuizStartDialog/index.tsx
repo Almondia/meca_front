@@ -1,56 +1,62 @@
 import { useRouter } from 'next/router';
 
-import { useCallback, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { DefaultModalOptions } from '@/types/common';
 
+import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
-import Selection from '@/components/@common/molecules/Selection';
+import Tab from '@/components/@common/molecules/Tab';
+import QuizPlayScoreFilterInputGroup from '@/components/quiz/molecules/QuizPlayScoreFilterInputGroup';
+import { QuizStartDialogEmptyContent } from '@/components/quiz/organisms/QuizStartDialog/styled';
 import useQuiz from '@/hooks/quiz/useQuiz';
+import useQuizInfoBeforePlay from '@/hooks/quiz/useQuizInfoBeforePlay';
 import useInput from '@/hooks/useInput';
+import alertToast from '@/utils/toastHandler';
 
 interface QuizStartDialogProps extends DefaultModalOptions {
   categoryId: string;
   title: string;
-  quizNum: number;
 }
 
-const MIN_QUIZNUM = 1;
-const QUIZ_SECONDS = ['15초', '30초', '60초'] as const;
+const QUIZ_SECONDS = [15, 30, 60, 90] as const;
 
-const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizStartDialogProps) => {
-  const { input: quizCountInput, onInputChange: onQuizCountChange } = useInput(quizNum.toString());
-  const [quizTimeInput, setQuizTimeInput] = useState<(typeof QUIZ_SECONDS)[number]>('15초');
-
-  const quizCountInputNumber = parseInt(quizCountInput, 10);
+const QuizStartDialog = ({ categoryId, title, visible, onClose }: QuizStartDialogProps) => {
   const router = useRouter();
-  const { initQuiz } = useQuiz(() => {
-    onClose();
-    router.push('/quiz');
-  });
+  const { initQuiz } = useQuiz(
+    () => {
+      onClose();
+      router.push('/quiz');
+    },
+    () => alertToast('퀴즈를 진행할 수 없습니다. 잠시 후 시도해주세요', 'info'),
+  );
+  const { isLoading, isEmpty, getQuizCountByFilteredScore: getCount } = useQuizInfoBeforePlay(categoryId);
+  const { input: tryScore, onInputChange: onTryScoreChange, setInput: setTryScore } = useInput('100');
+  const currentMaxCount = useMemo(() => getCount(parseInt(tryScore, 10)), [tryScore, getCount]);
+  const { input: quizCountInput, onInputChange: onQuizCountChange, setInput: setQuizCountInput } = useInput('');
+  const [quizTimeInput, setQuizTimeInput] = useState<(typeof QUIZ_SECONDS)[number]>(15);
 
-  const isCountValid = (count: number) => count >= MIN_QUIZNUM && count <= quizNum;
+  const isCountValid = (count: number) => count > 0 && count <= currentMaxCount;
 
-  const handleCountChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentCount = parseInt(e.target.value, 10);
-    if (!isCountValid(currentCount)) {
-      return;
-    }
-    onQuizCountChange(e);
+  useEffect(() => {
+    const changedMaxCount = getCount(parseInt(tryScore, 10));
+    setQuizCountInput((prev) => (parseInt(prev, 10) > changedMaxCount ? changedMaxCount.toString() : prev));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [tryScore, getCount]);
 
   const handleStartButtonClick = async () => {
-    if (!isCountValid(quizCountInputNumber)) {
+    const quizCountInputNumber = parseInt(quizCountInput, 10);
+    const quizLimit = Number.isNaN(quizCountInputNumber) ? currentMaxCount : quizCountInputNumber;
+    if (!isCountValid(quizLimit) || !QUIZ_SECONDS.some((q) => q === quizTimeInput)) {
       return;
     }
     initQuiz({
       categoryId,
       limit: quizCountInputNumber,
-      algorithm: 'random',
+      score: parseInt(tryScore, 10),
       title,
-      quizTime: parseInt(quizTimeInput, 10),
+      quizTime: quizTimeInput,
     });
   };
 
@@ -58,43 +64,37 @@ const QuizStartDialog = ({ categoryId, title, quizNum, visible, onClose }: QuizS
     <Modal visible={visible} hasCloseIcon onClose={onClose}>
       <Modal.Title>{title}</Modal.Title>
       <Modal.Body>
-        <InputGroup>
-          <InputGroup.Label>문제 수 (최대 {quizNum})</InputGroup.Label>
-          {quizNum > 1 ? (
-            <>
+        {isLoading && <LoadSpinner width="100%" height="225px" />}
+        {isEmpty ? (
+          <QuizStartDialogEmptyContent>퀴즈 정보가 없어요!</QuizStartDialogEmptyContent>
+        ) : (
+          <>
+            <InputGroup>
+              <InputGroup.Label>문제 수 (최대 30문제)</InputGroup.Label>
               <InputGroup.Input.Range
                 name="quiz-count"
-                value={quizCountInput === '' ? '1' : quizCountInput}
-                min={MIN_QUIZNUM}
-                max={quizNum}
+                value={quizCountInput === '' ? currentMaxCount.toString() : quizCountInput}
+                min={0}
+                max={currentMaxCount}
                 onChange={onQuizCountChange}
                 ariaLabel="input-quizcount-range"
               />
-              <InputGroup.Input.Text
-                type="number"
-                name="quiz-count2"
-                value={quizCountInput}
-                placeholder=""
-                onChange={handleCountChange}
-                ariaLabel="input-quizcount-text"
+            </InputGroup>
+            <QuizPlayScoreFilterInputGroup input={tryScore} onInputChange={onTryScoreChange} setInput={setTryScore} />
+            <InputGroup>
+              <InputGroup.Label>문제 풀이 시간</InputGroup.Label>
+              <Tab
+                tabButtonProps={QUIZ_SECONDS.map((quizTime) => ({
+                  name: `${quizTime}초`,
+                  onClick: () => setQuizTimeInput(quizTime),
+                }))}
               />
-            </>
-          ) : (
-            <p>
-              <br />
-            </p>
-          )}
-        </InputGroup>
-        <InputGroup>
-          <InputGroup.Label>문제 풀이 시간</InputGroup.Label>
-          <Selection
-            innerTexts={[...QUIZ_SECONDS]}
-            onClicks={QUIZ_SECONDS.map((quiz) => () => setQuizTimeInput(quiz))}
-          />
-        </InputGroup>
+            </InputGroup>
+          </>
+        )}
       </Modal.Body>
-      <Modal.ConfirmButton onClick={handleStartButtonClick}>시작하기</Modal.ConfirmButton>
-      <Modal.CloseButton onClick={onClose}>취소</Modal.CloseButton>
+      {!isEmpty && <Modal.ConfirmButton onClick={handleStartButtonClick}>시작하기</Modal.ConfirmButton>}
+      <Modal.CloseButton onClick={onClose}>나가기</Modal.CloseButton>
     </Modal>
   );
 };

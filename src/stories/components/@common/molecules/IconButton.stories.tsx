@@ -21,7 +21,8 @@ Default.args = {
 export const PlayButton = Template.bind({});
 PlayButton.args = {
   icon: 'Play',
-  iconSize: '36px',
+  iconSize: 36,
   color: 'white',
   onClick: () => console.log('Play!'),
+  hasHoverEffect: false,
 };

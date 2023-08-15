@@ -12,7 +12,7 @@ interface EmptyListProps {
 }
 
 const EmptyList = ({ subInfo }: EmptyListProps) => (
-  <EmptyListWrapper>{subInfo && '에 대한'} 목록이 존재하지 않습니다</EmptyListWrapper>
+  <EmptyListWrapper>{subInfo && `${subInfo}에 대한`} 목록이 존재하지 않습니다</EmptyListWrapper>
 );
 
 export default EmptyList;

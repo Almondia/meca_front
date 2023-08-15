@@ -6,7 +6,7 @@ import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaWrite from '@/components/meca/organisms/MecaWrite';
 import useMeca from '@/hooks/meca/useMeca';
-import useMecaCount from '@/hooks/meca/useMecaCount';
+import useMecaCheckValid from '@/hooks/meca/useMecaCheckValid';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { PostPageLayout } from '@/styles/layout';
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   }
   const cardId = context.query?.cardId;
   await Promise.all([
-    useMecaCount.fetchQuery(categoryId, queryClient),
+    useMecaCheckValid.checkValid(categoryId, queryClient),
     cardId &&
       typeof cardId === 'string' &&
       queryClient.prefetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId)),

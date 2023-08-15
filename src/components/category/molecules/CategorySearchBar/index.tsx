@@ -39,7 +39,7 @@ const CategorySearchBar = ({ query, onChangeQuery }: CategorySearchProps) => {
   return (
     <CategorySearchBarWrapper>
       <Input.Search
-        width="140px"
+        width="100%"
         name="search-category-by-query"
         value={searchKeyword}
         onChange={onSearchKeywordChange}

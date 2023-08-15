@@ -1,9 +1,9 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable no-alert */
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Avatar from '@/components/@common/atoms/Avatar';
-import Icon from '@/components/@common/atoms/Icon';
 import DropdownMenu from '@/components/@common/molecules/DropdownMenu';
+import IconButton from '@/components/@common/molecules/IconButton';
 
 export default {
   title: 'components/@common/molecules/DropdownMenu',
@@ -17,48 +17,23 @@ export default {
 } as ComponentMeta<typeof DropdownMenu>;
 
 const Template: ComponentStory<typeof DropdownMenu> = (args) => (
-  <div
-    style={{
-      width: '100px',
-      height: '100px',
-      position: 'relative',
-    }}
-  >
+  <div style={{ width: '21px' }}>
     <DropdownMenu {...args} />
   </div>
 );
 
-export const Default = Template.bind({});
-Default.args = {
+export const WithDotButton = Template.bind({});
+WithDotButton.args = {
   children: (
     <>
-      <DropdownMenu.Menu href="">hello</DropdownMenu.Menu>
-      <DropdownMenu.Menu href="">world</DropdownMenu.Menu>
-      <DropdownMenu.Menu href="">Storybook</DropdownMenu.Menu>
+      <DropdownMenu.Menu onClick={() => alert('hello')}>Hello</DropdownMenu.Menu>
+      <DropdownMenu.Menu>World</DropdownMenu.Menu>
+      <DropdownMenu.Menu href="/hello">{"Don't Write Long"}</DropdownMenu.Menu>
     </>
   ),
-  right: '-40px',
-  top: '10px',
-  name: 'name',
-};
-
-export const WithWrapper = Template.bind({});
-WithWrapper.args = {
-  children: (
-    <>
-      <DropdownMenu.Menu href="">hello</DropdownMenu.Menu>
-      <DropdownMenu.Menu href="">world</DropdownMenu.Menu>
-      <DropdownMenu.Menu href="">Storybook</DropdownMenu.Menu>
-    </>
-  ),
-  right: '-40px',
-  top: '10px',
-  name: 'name',
-  wrapperComponent: (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', columnGap: '2px' }}>
-      <Avatar imgSize={36} imgName="avatar" />
-      <Icon icon="CompactDown" size="16px" />
-    </div>
+  wrapperComponent: ({ onClick }) => (
+    <IconButton icon="VerticalDot" iconSize={14} color="var(--color-text)" onClick={onClick} name="Sample Dot Button" />
   ),
   scale: 0.7,
+  menuDirection: 'left',
 };

@@ -45,7 +45,7 @@ describe('CategoryUpdateDialog', () => {
     expect(thumbnailImage).toBeInTheDocument();
   });
 
-  it('카테고리 수정이라면 공유 여부 토글이 식별되며 기존 공유 상태가 반영되어있다.', () => {
+  it('카테고리 수정이라면 기존 공개여부 상태가 식별되고 변경할 수 있다.', () => {
     const { categoryId, title } = MOCK_CATEGORIES[MOCK_CATEGORIES.length - 1];
     renderQuery(
       <CategoryUpdateDialog
@@ -57,13 +57,11 @@ describe('CategoryUpdateDialog', () => {
         isShared
       />,
     );
-    const toggle = screen.getByRole('button', {
-      name: /카테고리 공개여부 설정 토글/i,
-    });
-    expect(toggle).toHaveStyleRule('background-color', 'var(--color-brand)');
-    // 토글 클릭 시 상태가 변경된다
-    fireEvent.click(toggle);
-    expect(toggle).toHaveStyleRule('background-color', 'var(--color-gray400)');
+    const shareCheckBox = screen.getByLabelText('공개됨');
+    expect(shareCheckBox).toBeChecked();
+    fireEvent.click(shareCheckBox);
+    expect(shareCheckBox).not.toBeChecked();
+    expect(screen.getByLabelText('비공개')).toBeInTheDocument();
   });
 
   it('카테고리 등록이라면 공유 여부 토글이 식별되지 않는다.', () => {

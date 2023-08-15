@@ -31,12 +31,11 @@ export const NavBar = styled.nav`
   }
 `;
 
-export const Profile = styled.div`
-  position: relative;
+export const ProfileDivButton = styled.div.attrs({ as: 'button' })`
   ${FlexCenter};
   column-gap: 6px;
   cursor: pointer;
-  margin-top: -2px;
+  margin-top: -5px;
   & > div:nth-child(2) {
     padding-top: 5px;
     :hover {
@@ -62,14 +61,10 @@ export const NavigationMenuWrapper = styled.div`
   margin-top: 2px;
   & > div {
     position: relative;
-    & > div {
-      width: 120px;
-      background-color: var(--color-element-background);
-    }
   }
   a {
     padding: 14px 16px 14px 24px;
-    text-align: left;
     font-size: ${({ theme }) => theme.fontSize.sub};
+    background-color: var(--color-element-background);
   }
 `;
