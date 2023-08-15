@@ -18,7 +18,7 @@ jest.mock('@/hooks/quiz/useQuiz', () => ({
   default: jest.fn(),
 }));
 
-jest.mock('@/components/quiz/organisms/QuizResult', () => {
+jest.mock('@/components/quiz/organisms/QuizPlayResultDashboard', () => {
   return () => <div></div>;
 });
 

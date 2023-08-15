@@ -2,18 +2,19 @@ import { useEffect } from 'react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import QuizHistoryList from '@/components/quiz/organisms/QuizHistoryList';
-import { mockedGetMecaHistoryByMemberApi } from '@/mock/api';
+import type { MecaHistoryListPaginationResponse } from '@/types/domain/mecaHistory';
+
+import QuizHistoryTimeline from '@/components/quiz/organisms/QuizHistoryTimeline';
+import { mockedGetMecaHistoryByCardApi, mockedGetMecaHistoryByMemberApi } from '@/mock/api';
 import { restHandler } from '@/mock/handlers';
 import { implementWorker } from '@/mock/worker';
-import { PostPageLayout } from '@/styles/layout';
 
 export default {
-  title: 'components/quiz/QuizHistoryList',
-  component: QuizHistoryList,
-} as ComponentMeta<typeof QuizHistoryList>;
+  title: 'components/quiz/QuizHistoryTimeline',
+  component: QuizHistoryTimeline,
+} as ComponentMeta<typeof QuizHistoryTimeline>;
 
-const HISTORY_LIST = {
+const HISTORY_LIST: MecaHistoryListPaginationResponse = {
   contents: [
     {
       cardHistory: {
@@ -29,12 +30,12 @@ const HISTORY_LIST = {
       card: {
         cardId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf29',
         memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
+        categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
         title: '퀴즈제목',
         question: '박동석의 MBTI는 무엇일까요?',
         answer: 'INFP',
         cardType: 'KEYWORD',
         createdAt: '2023-06-16T14:24:57.2667251',
-        modifiedAt: '2023-06-16T14:24:57.2667251',
       },
     },
     {
@@ -52,13 +53,13 @@ const HISTORY_LIST = {
       card: {
         cardId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf29',
         memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
+        categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
         title: 'Event Loop',
         question: 'event loop를 설명해보세요',
         answer:
           'JavaScript 런타임 환경에서 동작하는 기능으로 callstack, callback queue, microtask queue를 감시하며 callstack이 비워졌을 경우 적절한 callback queue를 호출하도록 하는 비동기/논블로킹 동작의 핵심이 되는 기술',
         cardType: 'ESSAY',
         createdAt: '2023-06-16T14:24:57.2667251',
-        modifiedAt: '2023-06-16T14:24:57.2667251',
       },
     },
     {
@@ -75,35 +76,38 @@ const HISTORY_LIST = {
       card: {
         cardId: '0188c2a9-f132-cd1b-8505-be4dcf1bcf29',
         memberId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
+        categoryId: '0188625a-433e-f7f6-0eb4-e24ef9a5bd05',
         title: 'Event Loop',
         question:
           '질문이 엄청나게 길어서 짤릴수도 있으니까 이렇게 길게써보려는데 어느정도 길이까지 커버가 가능할까요 질문이 엄청나게 길어서 짤릴수도 있으니까 이렇게 길게써보려는데 어느정도 길이까지 커버가 가능할까요',
         answer: '정답이아주길면어떡하지어떡해어떡해해야할까요',
         cardType: 'ESSAY',
         createdAt: '2023-06-16T14:24:57.2667251',
-        modifiedAt: '2023-06-16T14:24:57.2667251',
       },
     },
   ],
   hasNext: '0188625a-433e-f7f6-0eb4-e24ef9a5bd99',
   pageSize: 3,
-} as any;
+};
 
-const Template: ComponentStory<typeof QuizHistoryList> = (args) => <QuizHistoryList {...args} />;
+const Template: ComponentStory<typeof QuizHistoryTimeline> = (args) => <QuizHistoryTimeline {...args} />;
 
 export const Default = () => {
-  implementWorker([restHandler(() => mockedGetMecaHistoryByMemberApi(HISTORY_LIST))]);
-
-  useEffect(() => {}, []);
+  useEffect(() => {
+    implementWorker([
+      restHandler(() => mockedGetMecaHistoryByMemberApi(HISTORY_LIST)),
+      restHandler(() => mockedGetMecaHistoryByCardApi(HISTORY_LIST)),
+    ]);
+  }, []);
   return (
-    <PostPageLayout>
-      <Template resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" excludeRows={['user']} />
-    </PostPageLayout>
+    <div style={{ maxWidth: '864px' }}>
+      <Template resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="cards" />
+    </div>
   );
 };
 
 export const Empty = () => (
-  <PostPageLayout>
-    <Template resourceId="" resourceType="members" excludeRows={['user']} />
-  </PostPageLayout>
+  <div style={{ maxWidth: '864px' }}>
+    <Template resourceId="" resourceType="members" />
+  </div>
 );

@@ -10,7 +10,7 @@ export const COLOR = {
   txtLight: '#F1F1F1',
   txtDark: '#212529',
   success: '#12B886',
-  error: '#FF6B6B',
+  error: '#F04646',
   warning: '#FD7E40',
   gray50: '#F5F5F5',
   gray100: '#E8E8E8',

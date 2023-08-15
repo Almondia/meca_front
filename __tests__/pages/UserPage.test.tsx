@@ -1,6 +1,6 @@
 import { renderQuery } from '../utils';
 import { screen, waitFor } from '@testing-library/react';
-import { implementServer, resetServer } from '@/mock/server';
+import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
@@ -44,8 +44,8 @@ describe('User MyPage', () => {
     expect(profileImage).toBeInTheDocument();
     expect(screen.getByText(email)).toBeInTheDocument();
     expect(screen.getByText(oauthType)).toBeInTheDocument();
-    const tableContents = screen.getAllByTestId('id-history-list');
-    expect(tableContents).toHaveLength(2);
+    const historyTimelineItems = screen.getAllByTestId('id-timeline-item');
+    expect(historyTimelineItems).toHaveLength(2);
   });
 
   it('비인증 상태에서 접근 시 401 처리된다.', async () => {

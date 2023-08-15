@@ -6,7 +6,7 @@ import { implementServer, resetServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import { mockedGetMecaHistoryByMemberApi } from '@/mock/api';
 
-import QuizHistoryList from '@/components/quiz/organisms/QuizHistoryList';
+import QuizHistoryTimeline from '@/components/quiz/organisms/QuizHistoryTimeline';
 
 const HISTORY_LIST: MecaHistoryListPaginationResponse = {
   contents: [
@@ -90,53 +90,51 @@ const EMPTY_LIST: MecaHistoryListPaginationResponse = {
   pageSize: 0,
 };
 
-describe('QuizHistoryList', () => {
+describe('QuizHistoryTimeline', () => {
   beforeEach(() => {
     implementServer([restHandler(() => mockedGetMecaHistoryByMemberApi(HISTORY_LIST))]);
   });
   it('Quiz History 목록 컴포넌트가 식별된다.', async () => {
     await waitFor(() =>
-      renderQuery(<QuizHistoryList resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
+      renderQuery(<QuizHistoryTimeline resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
     );
-    const historyList = await screen.findAllByTestId('id-history-list');
-    expect(historyList).toHaveLength(3);
-    expect(screen.getByText('문제ID')).toBeInTheDocument();
-    expect(screen.getByText('점수')).toBeInTheDocument();
-    historyList.forEach((_, i) => {
+    const historyTimelineItems = await screen.findAllByTestId('id-timeline-item');
+    expect(historyTimelineItems).toHaveLength(3);
+    historyTimelineItems.forEach((_, i) => {
       expect(screen.getByText(HISTORY_LIST.contents[i].card.question)).toBeInTheDocument();
       expect(screen.getByText(HISTORY_LIST.contents[i].card.answer)).toBeInTheDocument();
     });
   });
 
-  it('다음페이지 버튼 클릭 시 다음페이지를 호출할 수 있다.', async () => {
+  it('계속보기 버튼 클릭 시 다음페이지를 호출할 수 있다.', async () => {
     await waitFor(() =>
-      renderQuery(<QuizHistoryList resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
+      renderQuery(<QuizHistoryTimeline resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
     );
-    const historyList = await screen.findAllByTestId('id-history-list');
-    expect(historyList).toHaveLength(3);
-    const nextButton = screen.getByRole('button', { name: /더보기/i });
+    const historyTimelineItems = await screen.findAllByTestId('id-timeline-item');
+    expect(historyTimelineItems).toHaveLength(3);
+    const nextButton = screen.getByRole('button', { name: /계속보기/i });
     expect(nextButton).toBeInTheDocument();
     fireEvent.click(nextButton);
     expect(screen.getByTestId('id-scroll-load-spinner')).toBeInTheDocument();
-    expect(nextButton).toHaveStyleRule('visibility', 'hidden');
+    expect(nextButton).not.toBeInTheDocument();
   });
 
-  it('더이상 페이지가 없다면 더보기 버튼이 식별되지 않는다', async () => {
+  it('더이상 불러올 타임라인이 없다면 계속보기 버튼이 식별되지 않는다', async () => {
     const notHasNextHistoryList = { ...HISTORY_LIST, hasNext: null };
     resetServer([restHandler(() => mockedGetMecaHistoryByMemberApi(notHasNextHistoryList))]);
     await waitFor(() =>
-      renderQuery(<QuizHistoryList resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
+      renderQuery(<QuizHistoryTimeline resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
     );
-    const historyList = await screen.findAllByTestId('id-history-list');
-    expect(historyList).toHaveLength(3);
-    const nextButton = screen.queryByRole('button', { name: /더보기/i });
+    const historyTimelineItems = await screen.findAllByTestId('id-timeline-item');
+    expect(historyTimelineItems).toHaveLength(3);
+    const nextButton = screen.queryByRole('button', { name: /계속보기/i });
     expect(nextButton).not.toBeInTheDocument();
   });
 
   it('목록이 없다면 기록 없음 UI가 식별된다.', async () => {
     resetServer([restHandler(() => mockedGetMecaHistoryByMemberApi(EMPTY_LIST))]);
     await waitFor(() =>
-      renderQuery(<QuizHistoryList resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
+      renderQuery(<QuizHistoryTimeline resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="members" />),
     );
     expect(await screen.findByText(/아직 기록이 없습니다/i)).toBeInTheDocument();
   });

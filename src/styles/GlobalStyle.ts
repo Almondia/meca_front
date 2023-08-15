@@ -51,8 +51,10 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-subbrand: ${COLOR.brand2};
         --color-subbrand2: ${COLOR.brand3};
         --color-background: ${COLOR.bgLight};
+        --color-background-gradient: rgba(255, 255, 255, 0);
         --color-element-background: ${COLOR.bgEleLight};
         --color-backghround-shadow: rgba(0, 0, 0, 0.5);
+        --color-card-shadow: rgba(0, 0, 0, 0.25);
         --color-text: ${COLOR.txtDark};
         --color-darkgray: ${COLOR.gray700};
         --color-gray: ${COLOR.gray600};
@@ -92,8 +94,10 @@ const GlobalStyle = createGlobalStyle<Theme>`
         --color-subbrand: ${COLOR.brand1};
         --color-subbrand2: ${COLOR.brand2};
         --color-background: ${COLOR.bgDark};
+        --color-background-gradient: rgba(18, 18, 18, 0);
         --color-element-background: ${COLOR.bgEleDark};
         --color-backghround-shadow: rgba(255, 255, 255, 0.5);
+        --color-card-shadow: rgba(255, 255, 255, 0.65);
         --color-text: ${COLOR.txtLight};
         --color-darkgray: ${COLOR.gray100};
         --color-gray: ${COLOR.gray200};

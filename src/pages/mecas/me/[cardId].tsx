@@ -18,8 +18,8 @@ import { Devide, PostPageLayout } from '@/styles/layout';
 import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const MecaDeleteDialog = dynamic(() => import('@/components/meca/organisms/MecaDeleteDialog'), { ssr: false });
-const QuizHistoryList = dynamic(() => import('@/components/quiz/organisms/QuizHistoryList'));
-const NotFound = dynamic(() => import('@/pages/404'));
+const QuizHistoryTimeline = dynamic(() => import('@/components/quiz/organisms/QuizHistoryTimeline'));
+const NotFound = dynamic(() => import('@/pages/404'), { ssr: false });
 export interface MecaPageProps {
   cardId: string;
 }
@@ -69,7 +69,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
         <PostSection>
           <PostSection.Title>History</PostSection.Title>
           <PostSection.Body indented={false} boxed={false}>
-            <QuizHistoryList resourceId={cardId} resourceType="cards" excludeRows={['card-id', 'quiz-type']} />
+            <QuizHistoryTimeline resourceId={cardId} resourceType="cards" />
           </PostSection.Body>
         </PostSection>
       </PostPageLayout>
