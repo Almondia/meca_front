@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import QuizStartDialog from '@/components/quiz/organisms/QuizStartDialog';
@@ -13,12 +11,10 @@ export default {
 } as ComponentMeta<typeof QuizStartDialog>;
 
 const Template: ComponentStory<typeof QuizStartDialog> = (args) => {
-  useEffect(() => {
-    implementWorker([
-      restHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi),
-      restHandler(mockedGetSimulationMecasApi, { status: 400, message: '퀴즈풀이 시작!' }),
-    ]);
-  }, []);
+  implementWorker([
+    restHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi),
+    restHandler(mockedGetSimulationMecasApi, { status: 400, message: '퀴즈풀이 시작!' }),
+  ]);
   return <QuizStartDialog {...args} />;
 };
 

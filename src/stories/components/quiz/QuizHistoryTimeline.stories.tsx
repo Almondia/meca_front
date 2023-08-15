@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import type { MecaHistoryListPaginationResponse } from '@/types/domain/mecaHistory';
@@ -93,12 +91,10 @@ const HISTORY_LIST: MecaHistoryListPaginationResponse = {
 const Template: ComponentStory<typeof QuizHistoryTimeline> = (args) => <QuizHistoryTimeline {...args} />;
 
 export const Default = () => {
-  useEffect(() => {
-    implementWorker([
-      restHandler(() => mockedGetMecaHistoryByMemberApi(HISTORY_LIST)),
-      restHandler(() => mockedGetMecaHistoryByCardApi(HISTORY_LIST)),
-    ]);
-  }, []);
+  implementWorker([
+    restHandler(() => mockedGetMecaHistoryByMemberApi(HISTORY_LIST)),
+    restHandler(() => mockedGetMecaHistoryByCardApi(HISTORY_LIST)),
+  ]);
   return (
     <div style={{ maxWidth: '864px' }}>
       <Template resourceId="0188625a-433e-f7f6-0eb4-e24ef9a5bd05" resourceType="cards" />
