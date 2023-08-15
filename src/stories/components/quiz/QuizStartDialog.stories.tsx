@@ -13,7 +13,7 @@ export default {
 const Template: ComponentStory<typeof QuizStartDialog> = (args) => {
   implementWorker([
     restHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi),
-    restHandler(mockedGetSimulationMecasApi, { status: 400, message: '퀴즈풀이 시작!' }),
+    restHandler(mockedGetSimulationMecasApi),
   ]);
   return <QuizStartDialog {...args} />;
 };
