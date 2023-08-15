@@ -38,7 +38,7 @@ const QuizTimelineItem = ({
   scorePostfixText,
   createdAt,
 }: QuizTimelineItemProps) => {
-  const answerColor = score >= IDEAL_QUIZ_SCORE ? 'var(--color-success)' : 'var(--color-warning)';
+  const answerColor = score >= IDEAL_QUIZ_SCORE ? 'var(--color-success)' : 'var(--color-error)';
   const { question: questionText, answer: answerText } = getQuestionAnswerByCardType({ question, answer, cardType });
   const { answer: userAnswerText } = getQuestionAnswerByCardType({ question, answer: userAnswer, cardType });
   return (
