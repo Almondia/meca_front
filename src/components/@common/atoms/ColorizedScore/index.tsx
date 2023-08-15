@@ -16,7 +16,6 @@ interface ColorizedScoreProps {
   minimumIdealScore?: number;
   maximumBadScore?: number;
   size: keyof typeof FONT_SIZE;
-  hasPostFixText?: boolean;
 }
 
 const ColorizedScore = ({
@@ -25,7 +24,6 @@ const ColorizedScore = ({
   size,
   minimumIdealScore = IDEAL_QUIZ_SCORE,
   maximumBadScore = BAD_QUIZ_SCORE,
-  hasPostFixText,
 }: ColorizedScoreProps) => {
   const fractionDigits = Math.max(Math.min(fixedValue, 4), 0);
   const adjustedScore = Math.max(Math.min(score, 100), 0);
@@ -41,7 +39,6 @@ const ColorizedScore = ({
   return (
     <ColorizedScoreWrapper size={size} color={getScoreColor(adjustedScore, minimumIdealScore, maximumBadScore)}>
       {adjustedScore.toFixed(fractionDigits)}
-      {hasPostFixText ? '점' : ''}
     </ColorizedScoreWrapper>
   );
 };
