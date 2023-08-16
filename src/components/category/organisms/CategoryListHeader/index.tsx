@@ -23,16 +23,20 @@ const CategoryListHeader = ({
           <PageTitle style={{ marginBottom: '0px' }}>{pageTitle}</PageTitle>
         </BetweenSection.Left>
         <BetweenSection.Right>
-          <Button colorTheme="primary" size="small" onClick={addCategoryOpen}>
-            추가하기 +
-          </Button>
-          {addCategoryVisible && hasAddButton && (
-            <CategoryUpdateDialog
-              categoryTitle=""
-              visible={addCategoryVisible}
-              onClose={addCategoryClose}
-              thumbnail=""
-            />
+          {hasAddButton && (
+            <>
+              <Button colorTheme="primary" size="small" onClick={addCategoryOpen}>
+                추가하기 +
+              </Button>
+              {addCategoryVisible && hasAddButton && (
+                <CategoryUpdateDialog
+                  categoryTitle=""
+                  visible={addCategoryVisible}
+                  onClose={addCategoryClose}
+                  thumbnail=""
+                />
+              )}
+            </>
           )}
         </BetweenSection.Right>
       </BetweenSection>
