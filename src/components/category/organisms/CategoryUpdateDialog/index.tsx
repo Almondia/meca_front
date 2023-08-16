@@ -11,7 +11,7 @@ import useGlobalLoading from '@/hooks/useGlobalLoading';
 import useImage from '@/hooks/useImage';
 import useInput from '@/hooks/useInput';
 import useInputValidation from '@/hooks/useInputValidation';
-import { IMAGE_EXTENTIONS } from '@/utils/constants';
+import { IMAGE_EXTENTIONS, InputValidations } from '@/utils/constants';
 import { Constraints } from '@/utils/validation';
 
 interface CategoryUpdateDialogProps extends DefaultModalOptions {
@@ -72,7 +72,7 @@ const CategoryUpdateDialog = ({
             name="category-title"
             value={title}
             onChange={onTitleChange}
-            placeholder="카테고리 제목 입력"
+            placeholder={`${InputValidations.MAX_TITLE}자 이내로 작성하세요`}
             ariaLabel="input-category-title"
           />
           <InputGroup.Validation visible={!inputsValidState[0].isValid}>
