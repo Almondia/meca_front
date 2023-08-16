@@ -46,6 +46,9 @@ export const TextInputBox = styled.input<{ width?: ElementSizeType }>`
     outline: none;
   }
   ::placeholder {
+    padding-top: 4px;
+    font-style: italic;
+    font-size: ${({ theme }) => theme.fontSize.sub};
     color: var(--color-gray);
   }
   :disabled {
@@ -117,6 +120,13 @@ export const TitleInputBox = styled(TextInputBox)<{ isValid: boolean }>`
   }
   @media ${({ theme }) => theme.media.mobile} {
     font-size: 1.5rem;
+  }
+  ::placeholder {
+    padding-top: 0px;
+    font-style: normal;
+    font-size: 2rem;
+    color: var(--color-gray);
+    opacity: 0.5;
   }
 `;
 

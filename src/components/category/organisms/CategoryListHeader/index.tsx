@@ -8,7 +8,13 @@ import useModal from '@/hooks/useModal';
 
 const CategoryUpdateDialog = dynamic(() => import('@/components/category/organisms/CategoryUpdateDialog'));
 
-const CategoryListHeader = ({ pageTitle }: { pageTitle: React.ReactNode }) => {
+const CategoryListHeader = ({
+  pageTitle,
+  hasAddButton = false,
+}: {
+  pageTitle: React.ReactNode;
+  hasAddButton?: boolean;
+}) => {
   const { visible: addCategoryVisible, open: addCategoryOpen, close: addCategoryClose } = useModal();
   return (
     <CategoryListHeaderWrapper>
@@ -20,7 +26,7 @@ const CategoryListHeader = ({ pageTitle }: { pageTitle: React.ReactNode }) => {
           <Button colorTheme="primary" size="small" onClick={addCategoryOpen}>
             추가하기 +
           </Button>
-          {addCategoryVisible && (
+          {addCategoryVisible && hasAddButton && (
             <CategoryUpdateDialog
               categoryTitle=""
               visible={addCategoryVisible}

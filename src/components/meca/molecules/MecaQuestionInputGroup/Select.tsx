@@ -8,6 +8,7 @@ import {
   useMecaSelectTypeCaseNumberContext,
 } from '@/components/meca/molecules/MecaWriteContextProvider';
 import useClickAway from '@/hooks/useClickAway';
+import { InputValidations } from '@/utils/constants';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
 export const Select = memo(({ QuestionEditor, minHeight, maxHeight }: QuestionInputGroupProps) => {
@@ -51,7 +52,7 @@ export const Select = memo(({ QuestionEditor, minHeight, maxHeight }: QuestionIn
           maxHeight={maxHeight}
           contents={sampleValues[0]}
           setContents={setQuestion}
-          placeholder="객관식 문제를 설명하세요"
+          placeholder={`객관식의 각 문항은 ${InputValidations.MAX_MULTICHOICE_QUESTION}자 이내로 작성하세요`}
         />
         {[...Array(selectionNum)].map((_, i) => (
           // eslint-disable-next-line react/no-array-index-key
@@ -64,9 +65,11 @@ export const Select = memo(({ QuestionEditor, minHeight, maxHeight }: QuestionIn
               placeholder=""
               ariaLabel={`input-meca-case-${i + 1}`}
             />
+            {!isValid && i === selectionNum - 1 && (
+              <InputGroup.Validation visible={!isValid}>{message}</InputGroup.Validation>
+            )}
           </InputGroup>
         ))}
-        <InputGroup.Validation visible={!isValid}>{message}</InputGroup.Validation>
       </div>
     </InputGroup>
   );

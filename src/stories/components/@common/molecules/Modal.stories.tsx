@@ -30,3 +30,6 @@ const Template: ComponentStory<typeof Modal> = (args) => (
 );
 
 export const Default = Template.bind({});
+Default.args = {
+  visible: true,
+};

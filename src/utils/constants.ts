@@ -45,3 +45,14 @@ export const MECA_TAGS: Record<MecaTag, TagProps> = {
     text: '주관식',
   },
 };
+
+export enum InputValidations {
+  MAX_TITLE = 40,
+  MIN_TITLE = 2,
+  MAX_USERNAME = 10,
+  MIN_USERNAME = 2,
+  MAX_MULTICHOICE_QUESTION = 100,
+  MAX_ESSAY_ANSWER = 500,
+  MAX_KEYWORD_ANSWER = 100,
+  MAX_MULTICHOICE_ANSWER = 5,
+}

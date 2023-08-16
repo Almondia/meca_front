@@ -1,11 +1,12 @@
 import { renderQuery } from '../../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { restHandler } from '@/mock/handlers';
+import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
 import { implementServer } from '@/mock/server';
 import { mockedGetQuizCardsSimulationStateByCategoryIdApi, mockedGetSimulationMecasApi } from '@/mock/api';
 import mockRouter from 'next-router-mock';
 
 import QuizStartDialog from '@/components/quiz/organisms/QuizStartDialog';
+import mecaApi from '@/apis/mecaApi';
 
 describe('QuizStartDialog', () => {
   const props = {
@@ -40,7 +41,7 @@ describe('QuizStartDialog', () => {
     expect(screen.getByLabelText('quiz-count')).toHaveValue('4');
   });
 
-  it('퀴즈 플레이를 요청하면 해당 페이지로 이동한다.', async () => {
+  it('퀴즈 플레이 버튼을 클릭하면 퀴즈 페이지로 이동한다.', async () => {
     implementServer([restHandler(mockedGetSimulationMecasApi)]);
     renderQuery(<QuizStartDialog {...props} />);
     await screen.findByLabelText('quiz-count');
@@ -50,7 +51,38 @@ describe('QuizStartDialog', () => {
     await waitFor(() => expect(mockRouter.pathname).toEqual('/quiz'));
   });
 
-  it('퀴즈 플레이 응답에 실패하면 error toast가 식별된다.', async () => {
+  it('입력요소를 수정하지 않고 퀴즈 플레이 버튼 클릭 시 기본 입력값으로 요청한다.', async () => {
+    implementServer([restHandler(mockedGetSimulationMecasApi)]);
+    const spyGetQuizCardApi = jest.spyOn(mecaApi, 'getQuizCards');
+    renderQuery(<QuizStartDialog {...props} />);
+    await screen.findByLabelText('quiz-count');
+    const startButton = screen.getByRole('button', { name: '시작하기' });
+    fireEvent.click(startButton);
+    expect(spyGetQuizCardApi).toHaveBeenCalledWith({ categoryId: props.categoryId, limit: 13, score: 100 });
+    spyGetQuizCardApi.mockClear();
+  });
+
+  it('스코어 필터링 후 문제 수가 0개라면 문제가 없음을 알리는 텍스트가 식별된다.', async () => {
+    implementServer([
+      restOverridedResponseHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi, [
+        {
+          score: 100.0,
+          count: 4,
+        },
+        {
+          score: 0,
+          count: 0,
+        },
+      ]),
+    ]);
+    renderQuery(<QuizStartDialog {...props} />);
+    await screen.findByLabelText('quiz-count');
+    const scoreFilterRange = screen.getByLabelText('score-filter-input');
+    fireEvent.change(scoreFilterRange, { target: { value: '0' } });
+    expect(screen.getByText(/0점 이하의 문제가 없습니다/i));
+  });
+
+  it('퀴즈 플레이 버튼 클릭 시 응답에 실패하면 error toast가 식별된다.', async () => {
     implementServer([restHandler(mockedGetSimulationMecasApi, { status: 400 })]);
     renderQuery(<QuizStartDialog {...props} />);
     await screen.findByLabelText('quiz-count');

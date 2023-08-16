@@ -133,7 +133,7 @@ describe('MecaWrite', () => {
     expect(submitButton).toBeInTheDocument();
     fireEvent.click(submitButton);
     await waitFor(() => expect(screen.queryByText(/카드 등록 성공/i)).not.toBeInTheDocument());
-    const invalidTitle = screen.getByText('제목을 2글자 이상 40글자이하로 작성해주세요');
+    const invalidTitle = screen.getByText('제목을 2글자 이상 40글자 이하로 작성해주세요');
     expect(invalidTitle).toBeInTheDocument();
 
     const titleInput = screen.getByRole('textbox', { name: 'input-meca-title' });

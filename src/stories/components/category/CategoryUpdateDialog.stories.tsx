@@ -16,10 +16,8 @@ export default {
 } as ComponentMeta<typeof CategoryUpdateDialog>;
 
 const Template: ComponentStory<typeof CategoryUpdateDialog> = ({ visible }: DefaultModalOptions) => {
+  implementWorker([restHandler(mockedPutCategoryApi, { status: 400, message: '업데이트 성공' })]);
   const [isVisible, setVisible] = useState(visible);
-  useEffect(() => {
-    implementWorker([restHandler(mockedPutCategoryApi, { status: 400, message: '업데이트 성공' })]);
-  }, []);
   useEffect(() => {
     setVisible(visible);
   }, [visible]);

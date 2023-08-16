@@ -60,8 +60,8 @@ KeywordQuiz.args = {
   quizType: 'KEYWORD',
 };
 
-export const DescriptionQuiz = Template.bind({});
-DescriptionQuiz.args = {
+export const EssayQuiz = Template.bind({});
+EssayQuiz.args = {
   handleSucceed: {
     succeedText: '진행하기',
     succeedHandler: () => console.log(),

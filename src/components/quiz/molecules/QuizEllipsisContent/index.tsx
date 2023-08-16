@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 import LinkButton from '@/components/@common/atoms/LinkButton';
-import { debouncedFunc } from '@/utils/common';
+import useDebounce from '@/hooks/useDebounce';
 
 import * as ST from './styled';
 
@@ -22,7 +22,7 @@ const QuizEllipsisContent = memo(({ title, content }: QuizEllipsisContentProps) 
     }
     setIsEllipsisActive(undefined);
   }, []);
-  const debouncedCheckEllipsisActive = debouncedFunc(checkEllipsisActive, 500);
+  const debouncedCheckEllipsisActive = useDebounce(checkEllipsisActive, 500);
 
   useEffect(() => {
     checkEllipsisActive();
@@ -50,9 +50,11 @@ const QuizEllipsisContent = memo(({ title, content }: QuizEllipsisContentProps) 
       <ST.ContentBox ref={contentRef} ellipsis={isEllipsisActive}>
         {content}
       </ST.ContentBox>
-      <ST.MoreLinkBox>
-        {isEllipsisActive && <LinkButton onClick={handleMoreButtonClick}>더보기</LinkButton>}
-      </ST.MoreLinkBox>
+      {isEllipsisActive && (
+        <ST.MoreLinkBox>
+          <LinkButton onClick={handleMoreButtonClick}>더보기</LinkButton>
+        </ST.MoreLinkBox>
+      )}
     </ST.Wrapper>
   );
 });

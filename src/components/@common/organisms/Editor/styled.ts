@@ -154,6 +154,13 @@ export const WriteEditorWrapper = styled(EditorWrapper)<{ minHeight?: ElementSiz
     margin-bottom: 50px;
   }
 
+  .ql-editor.ql-blank::before {
+    padding-top: 0px;
+    font-style: italic;
+    font-size: ${({ theme }) => theme.fontSize.sub};
+    color: var(--color-gray);
+  }
+
   img {
     display: block;
   }

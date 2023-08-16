@@ -55,7 +55,7 @@ const CategoryCard = ({ category, member, statistics, likeCount, isMine }: Categ
             <CategoryCardMenu
               title={title}
               updateModalComponent={(props) =>
-                CategoryUpdateDialog({ categoryId, categoryTitle: title, thumbnail, ...props })
+                CategoryUpdateDialog({ categoryId, categoryTitle: title, isShared: shared, thumbnail, ...props })
               }
               deleteModalComponent={(props) =>
                 CategoryDeleteDialog({ categoryId, categoryTitle: title, shared, ...props })
