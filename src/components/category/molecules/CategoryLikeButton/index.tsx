@@ -11,14 +11,18 @@ interface CategoryLikeButtonProps {
 }
 
 const CategoryLikeButton = ({ categoryId, initialLikeCount = 0 }: CategoryLikeButtonProps) => {
-  const { hasLike, likeCount, postLike } = useCategoryLike(categoryId, initialLikeCount);
   const hasAuth = useRecoilValue(hasAuthState);
+  const { hasLike, likeCount, postLike } = useCategoryLike(categoryId, initialLikeCount);
+  const handlePostLikeClick = () => {
+    postLike();
+    return !hasLike;
+  };
   return (
     <CategoryLikeButtonWrapper>
       <LikeButton
         buttonName="카테고리 추천 버튼"
         likeCount={likeCount}
-        onClick={postLike}
+        onClick={handlePostLikeClick}
         defaultActiveState={hasLike}
         disabled={!hasAuth}
       />
