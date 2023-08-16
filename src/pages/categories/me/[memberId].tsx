@@ -34,7 +34,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
     <AuthPageProvider>
       <MetaHead title="내 카테고리 목록" description="로그인 후 이용할 수 있어요!" />
       <ListPageLayout>
-        <CategoryListHeader pageTitle={recommended ? '추천한 카테고리' : '내 카테고리'} />
+        <CategoryListHeader hasAddButton={!recommended} pageTitle={recommended ? '추천한 카테고리' : '내 카테고리'} />
         <Devide />
         <BetweenSection>
           <BetweenSection.Left>
