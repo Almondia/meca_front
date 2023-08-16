@@ -65,9 +65,11 @@ export const Select = memo(({ QuestionEditor, minHeight, maxHeight }: QuestionIn
               placeholder=""
               ariaLabel={`input-meca-case-${i + 1}`}
             />
+            {!isValid && i === selectionNum - 1 && (
+              <InputGroup.Validation visible={!isValid}>{message}</InputGroup.Validation>
+            )}
           </InputGroup>
         ))}
-        <InputGroup.Validation visible={!isValid}>{message}</InputGroup.Validation>
       </div>
     </InputGroup>
   );

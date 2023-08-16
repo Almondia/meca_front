@@ -65,7 +65,9 @@ export const DescriptionQuiz = ({
                 placeholder="정답을 설명해보세요"
                 disabled={isAnswerState}
               />
-              <InputGroup.Validation visible={!!invalidAnswerMessage}>{invalidAnswerMessage}</InputGroup.Validation>
+              {invalidAnswerMessage && (
+                <InputGroup.Validation visible={!!invalidAnswerMessage}>{invalidAnswerMessage}</InputGroup.Validation>
+              )}
             </InputGroup>
           </KeywordAnswerInputContainer>
         }
