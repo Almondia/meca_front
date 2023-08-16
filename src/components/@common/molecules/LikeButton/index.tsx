@@ -9,7 +9,7 @@ import { LikeButtonWrapper } from './styled';
 interface LikeButtonProps {
   buttonName?: string;
   likeCount: number;
-  onClick: () => void;
+  onClick: () => boolean;
   defaultActiveState: boolean;
   disabled: boolean;
 }
@@ -23,9 +23,8 @@ const LikeButton = ({
 }: LikeButtonProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const handleLikeButtonClick = useThrottle(() => {
-    !disabled && setIsActive((prev) => !prev);
-    onClick();
-  }, 400);
+    !disabled && setIsActive(onClick());
+  }, 300);
   useEffect(() => {
     setIsActive(defaultActiveState);
   }, [defaultActiveState]);
