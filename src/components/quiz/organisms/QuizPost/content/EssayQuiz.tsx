@@ -25,7 +25,7 @@ const AnswerBetweenHeader = styled.div`
   }
 `;
 
-export const DescriptionQuiz = ({
+export const EssayQuiz = ({
   answer,
   invalidAnswerMessage,
   isAnswerState,

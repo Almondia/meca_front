@@ -13,7 +13,7 @@ import useInputValidation from '@/hooks/useInputValidation';
 import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 import { Constraints } from '@/utils/validation';
 
-import { DescriptionQuiz, KeywordQuiz, OxQuiz, SelectQuiz } from './content';
+import { EssayQuiz, KeywordQuiz, OxQuiz, SelectQuiz } from './content';
 import { QuizPostWrapper } from './styled';
 import { QuizContentComponentType } from './type';
 
@@ -30,7 +30,7 @@ export interface QuizPostProps {
 
 const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
   OX_QUIZ: OxQuiz,
-  ESSAY: DescriptionQuiz,
+  ESSAY: EssayQuiz,
   KEYWORD: KeywordQuiz,
   MULTI_CHOICE: SelectQuiz,
 };
