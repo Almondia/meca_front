@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const Text = styled.div`
   font-style: normal;
   font-weight: ${({ theme }) => theme.fontWeight.regular};
+  word-wrap: break-word;
 `;
 
 export const TextBodyTitle = styled(Text)`

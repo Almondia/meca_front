@@ -26,6 +26,6 @@ export const BodySub = styled.div`
 
 export const PrivateMenu = styled.div`
   position: absolute;
-  top: 22px;
-  right: 12px;
+  top: 20px;
+  right: 11px;
 `;

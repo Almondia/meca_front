@@ -2,6 +2,7 @@ import { memo } from 'react';
 
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import { useMecaTitleContext } from '@/components/meca/molecules/MecaWriteContextProvider';
+import { InputValidations } from '@/utils/constants';
 
 const MecaTitleInputGroup = memo(() => {
   const { input: title, onInputChange, isValid, message } = useMecaTitleContext();
@@ -10,7 +11,7 @@ const MecaTitleInputGroup = memo(() => {
       <InputGroup.Input.Title
         value={title}
         onChange={onInputChange}
-        placeholder="제목 추가"
+        placeholder={`제목 추가 (최대 ${InputValidations.MAX_TITLE}글자)`}
         name="meca-title"
         isValid={isValid}
         ariaLabel="input-meca-title"

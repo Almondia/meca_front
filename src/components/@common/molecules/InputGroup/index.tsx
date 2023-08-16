@@ -15,7 +15,7 @@ const Validation = ({ children, visible = false }: ValidationProps) => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (visible) {
-      visible && ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      visible && ref.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   }, [visible]);
   return visible ? <ValidationWrapper ref={ref}>{children}</ValidationWrapper> : <div />;

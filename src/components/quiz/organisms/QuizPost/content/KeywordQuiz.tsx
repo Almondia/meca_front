@@ -44,7 +44,9 @@ export const KeywordQuiz = ({
           <KeywordAnswerInputContainer>
             <InputGroup>
               <InputGroup.Input.Text name="quiz" value={value} onChange={onChange} placeholder="정답 입력" />
-              <InputGroup.Validation visible={!!invalidAnswerMessage}>{invalidAnswerMessage}</InputGroup.Validation>
+              {invalidAnswerMessage && (
+                <InputGroup.Validation visible={!!invalidAnswerMessage}>{invalidAnswerMessage}</InputGroup.Validation>
+              )}
             </InputGroup>
           </KeywordAnswerInputContainer>
         }
