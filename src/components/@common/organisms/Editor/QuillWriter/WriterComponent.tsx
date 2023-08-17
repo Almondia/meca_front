@@ -4,9 +4,8 @@ import dynamic from 'next/dynamic';
 
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 
-import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
-
 import WriterImageUploadButton from './WriterImageUploadButton';
+import WriterSkeleton from './WriterSkeleton';
 
 import getCustomImageBlot from '../modules/CustomImageBlot';
 import getMarkdownActivity from '../modules/CustomMarkdownActivity';
@@ -45,5 +44,5 @@ export const WriterComponent = dynamic(
     );
     return Quill;
   },
-  { loading: () => <LoadSpinner width="100%" size="4rem" />, ssr: false },
+  { loading: () => <WriterSkeleton />, ssr: false },
 );
