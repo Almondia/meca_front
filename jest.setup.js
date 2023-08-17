@@ -19,12 +19,15 @@ jest.mock('@/apis/config/baseAxios', () => {
   return jest.requireActual('axios');
 });
 
+jest.mock('@/components/@util/DeferredComponent', () => {
+  return ({ children }) => <div>{children}</div>;
+});
+
 jest.mock('@/components/@common/atoms/Icon', () => {
   const MockedIcon = ({ icon }) => <div>{icon}</div>;
   return MockedIcon;
 });
 
-// TODO: mocking 없이 동작하도록 개선 시도해볼 것
 jest.mock('@/components/@common/organisms/Editor/QuillWriter', () => {
   const MockedQuillWriter = ({ contents, setContents, placeholder }) => (
     <div>
