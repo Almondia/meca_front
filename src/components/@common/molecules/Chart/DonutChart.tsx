@@ -4,14 +4,14 @@ import { ElementSizeType } from '@/types/common';
 
 import { ChartWrapper } from './styled';
 
-interface DoughnutChartProps {
+interface DonutChartProps {
   fillColors: string[];
   labels: string[];
   values: ApexNonAxisChartSeries;
   minHeights: ElementSizeType[];
 }
 
-const DoughnutChart = ({ fillColors, values, labels, minHeights }: DoughnutChartProps) => {
+const DonutChart = ({ fillColors, values, labels, minHeights }: DonutChartProps) => {
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: 'pie',
@@ -69,4 +69,4 @@ const DoughnutChart = ({ fillColors, values, labels, minHeights }: DoughnutChart
   );
 };
 
-export default DoughnutChart;
+export default DonutChart;
