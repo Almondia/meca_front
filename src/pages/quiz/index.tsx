@@ -16,6 +16,7 @@ import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import PageTitle from '@/components/@common/atoms/PageTitle';
 import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import PostSection from '@/components/@common/molecules/PostSection';
+import QuizPlayResultDashBoard from '@/components/quiz/organisms/QuizPlayResultDashboard';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
 import { Devide, PostPageLayout } from '@/styles/layout';
@@ -27,10 +28,7 @@ const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" />,
 });
-const QuizPlayResultDashBoard = dynamic(() => import('@/components/quiz/organisms/QuizPlayResultDashboard'), {
-  ssr: false,
-  loading: () => <LoadSpinner width="100%" height="510px" />,
-});
+
 const QuizPlayResultTimeline = dynamic(() => import('@/components/quiz/organisms/QuizPlayResultTimeline'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" height="600px" />,

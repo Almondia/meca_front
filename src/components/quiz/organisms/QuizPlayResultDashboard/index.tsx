@@ -1,7 +1,9 @@
+import dynamic from 'next/dynamic';
+
 import { useEffect, useState } from 'react';
 
 import Card from '@/components/@common/molecules/Card';
-import Chart from '@/components/@common/molecules/Chart';
+import ChartSkeleton from '@/components/@common/molecules/Chart/ChartSkeleton';
 import useQuizKeyword from '@/hooks/quiz/useQuizKeyword';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import { COLOR } from '@/styles/constants';
@@ -13,6 +15,23 @@ import {
   QuizResultTimeRateDougnutArea,
   QuizResultWordCloudArea,
 } from './styled';
+
+const DonutChart = dynamic(() => import('@/components/@common/molecules/Chart/DonutChart'), {
+  ssr: false,
+  loading: () => <ChartSkeleton minHeights={['200px', '180px', '140px']} type="rounded" />,
+});
+const GroupBarChart = dynamic(() => import('@/components/@common/molecules/Chart/GroupBarChart'), {
+  ssr: false,
+  loading: () => <ChartSkeleton minHeights={['224px', '180px', '240px']} />,
+});
+const RadialChart = dynamic(() => import('@/components/@common/molecules/Chart/RadialChart'), {
+  ssr: false,
+  loading: () => <ChartSkeleton minHeights={['160px', '180px', '180px']} type="rounded" />,
+});
+const WordCloud = dynamic(() => import('@/components/@common/molecules/Chart/WordCloud'), {
+  ssr: false,
+  loading: () => <ChartSkeleton minHeights={['140px']} />,
+});
 
 interface QuizPlayResultDashboardProps {
   maxQuizTime: number;
@@ -35,7 +54,7 @@ const QuizPlayResultDashBoard = ({ maxQuizTime }: QuizPlayResultDashboardProps) 
         <Card>
           <Card.Title>전체 정답률</Card.Title>
           <Card.Body>
-            <Chart.DoughnutChart
+            <DonutChart
               labels={['오답률', '정답률']}
               fillColors={[COLOR.success, COLOR.error]}
               values={[avgScore, 1 - avgScore]}
@@ -48,7 +67,7 @@ const QuizPlayResultDashBoard = ({ maxQuizTime }: QuizPlayResultDashboardProps) 
         <Card>
           <Card.Title>평균 소요 시간</Card.Title>
           <Card.Body>
-            <Chart.RadialChart
+            <RadialChart
               value={avgTime}
               maxValue={maxQuizTime}
               label={{ pre: '평균', post: 'S' }}
@@ -61,7 +80,7 @@ const QuizPlayResultDashBoard = ({ maxQuizTime }: QuizPlayResultDashboardProps) 
         <Card>
           <Card.Title>유형별 평균점수/문제 수</Card.Title>
           <Card.Body>
-            <Chart.GroupBarChart
+            <GroupBarChart
               legends={['평균 점수', '문제수']}
               axisNames={quizTypeRate.names}
               firstValues={quizTypeRate.answerRate}
@@ -75,7 +94,7 @@ const QuizPlayResultDashBoard = ({ maxQuizTime }: QuizPlayResultDashboardProps) 
         <Card>
           <Card.Title>Keyword Cloud</Card.Title>
           <Card.Body>
-            <Chart.WordCloud
+            <WordCloud
               words={[...Object.entries(quizKeywords.keywords).map(([text, value]) => ({ text, value }))]}
               maxheight="140px"
               isLoading={isQuizPhaseKeywordsLoading}

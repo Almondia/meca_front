@@ -146,5 +146,7 @@ export const VerticalLinePoint = styled.div<{ color: string }>`
 `;
 
 export const TagContainer = styled.div`
+  width: 50%;
+  margin-top: -14px;
   margin-bottom: -4px;
 `;

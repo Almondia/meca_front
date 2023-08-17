@@ -87,7 +87,14 @@ export const RangeInput = () => {
   const [value, setValue] = useState<string>('3');
   return (
     <Template>
-      <Input.Range value={value} min={0} max={20} name="range-input" onChange={(e) => setValue(e.target.value)} />
+      <Input.Range
+        value={value}
+        min={0}
+        max={20}
+        name="range-input"
+        disabled
+        onChange={(e) => setValue(e.target.value)}
+      />
       <br />
       {`current value is: ${value}`}
     </Template>

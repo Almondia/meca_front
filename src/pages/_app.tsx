@@ -9,7 +9,6 @@ import { RecoilRoot } from 'recoil';
 
 import PageLayout from '@/components/@common/templates/PageLayout';
 import FontProvider from '@/components/@util/FontProvider';
-import useSSRInterception from '@/hooks/useSSRInterception';
 import { generateQueryClient } from '@/query/queryClient';
 import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
@@ -31,7 +30,6 @@ const errorPage = {
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => generateQueryClient());
-  const { props: cachedProps } = useSSRInterception();
   const { errorStatus, errorMessage }: ErrorProps = pageProps;
   const ErrorPage = errorStatus && errorPage[errorStatus];
   return (
@@ -41,9 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <FontProvider />
           <ThemeProvider theme={commonTheme}>
             <ToastProvider />
-            <PageLayout>
-              {ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...cachedProps} {...pageProps} />}
-            </PageLayout>
+            <PageLayout>{ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...pageProps} />}</PageLayout>
             <div id="modal-root" />
             <div id="image-crop-root" />
             <GlobalLoadingSpinner />
