@@ -78,8 +78,9 @@ const QuizStartDialog = ({ categoryId, title, visible, onClose }: QuizStartDialo
                 <InputGroup.Input.Range
                   name="quiz-count"
                   value={quizCountInput}
-                  min={1}
+                  min={currentMaxCount === 1 ? 0 : 1}
                   max={currentMaxCount}
+                  disabled={currentMaxCount === 1}
                   onChange={onQuizCountChange}
                   ariaLabel="input-quizcount-range"
                 />
