@@ -53,12 +53,20 @@ const RangeInput = styled.input`
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
-
+  :disabled {
+    cursor: default;
+    &::-webkit-slider-thumb {
+      background-color: var(--color-subbrand);
+    }
+    &::-moz-range-thumb {
+      background-color: var(--color-subbrand);
+    }
+  }
   &::-webkit-slider-thumb {
     position: relative;
     margin-top: -1px;
-    height: 24px;
-    width: 24px;
+    height: 22px;
+    width: 22px;
     border-radius: 50%;
     -webkit-appearance: none;
     background-color: var(--color-brand);
@@ -68,11 +76,16 @@ const RangeInput = styled.input`
   }
 
   &::-moz-range-thumb {
-    height: 24px;
-    width: 24px;
+    position: relative;
+    margin-top: -1px;
+    height: 22px;
+    width: 22px;
     border-radius: 50%;
-    -moz-appearance: none;
+    -webkit-appearance: none;
     background-color: var(--color-brand);
+    :hover {
+      opacity: 0.92;
+    }
   }
 `;
 
@@ -98,7 +111,7 @@ export interface RangeProps extends InputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Range = ({ width = '100%', min, max, step = 1, value, name, onChange }: RangeProps) => {
+const Range = ({ width = '100%', min, max, step = 1, disabled, value, name, onChange }: RangeProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const [bubbleLeft, setBubbleLeft] = useState<string>('0%');
   const thumbWidth = 20;
@@ -139,6 +152,7 @@ const Range = ({ width = '100%', min, max, step = 1, value, name, onChange }: Ra
           min={min}
           max={max}
           value={value}
+          disabled={disabled}
           onChange={onChange}
         />
       </RangeWrapper>

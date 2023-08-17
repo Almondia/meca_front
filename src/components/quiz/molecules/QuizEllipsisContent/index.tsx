@@ -50,11 +50,9 @@ const QuizEllipsisContent = memo(({ title, content }: QuizEllipsisContentProps) 
       <ST.ContentBox ref={contentRef} ellipsis={isEllipsisActive}>
         {content}
       </ST.ContentBox>
-      {isEllipsisActive && (
-        <ST.MoreLinkBox>
-          <LinkButton onClick={handleMoreButtonClick}>더보기</LinkButton>
-        </ST.MoreLinkBox>
-      )}
+      <ST.MoreLinkBox>
+        {isEllipsisActive && <LinkButton onClick={handleMoreButtonClick}>더보기</LinkButton>}
+      </ST.MoreLinkBox>
     </ST.Wrapper>
   );
 });

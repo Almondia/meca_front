@@ -46,18 +46,27 @@ const MOCK_QUIZS: Quiz[] = [
   },
 ];
 
-jest.mock('@/components/@common/molecules/Chart', () => ({
-  WordCloud: ({ words }: { words: { text: string; value: number }[] }) => (
+jest.mock('@/components/@common/molecules/Chart/WordCloud', () => {
+  return ({ words }: { words: { text: string; value: number }[] }) => (
     <div data-testid="id-wordcloud">{words.map((word) => `${word.text}-${word.value}`)}</div>
-  ),
-  DoughnutChart: ({ values }: { values: number[] }) => <div data-testid="id-dchart">{values[0]}%</div>,
-  GroupBarChart: () => <div data-testid="id-gchart">GroupBarChart</div>,
-  RadialChart: ({ value, maxValue }: { value: number; maxValue: number }) => (
+  );
+});
+
+jest.mock('@/components/@common/molecules/Chart/DonutChart', () => {
+  return ({ values }: { values: number[] }) => <div data-testid="id-dchart">{values[0]}%</div>;
+});
+
+jest.mock('@/components/@common/molecules/Chart/GroupBarChart', () => {
+  return () => <div data-testid="id-gchart">GroupBarChart</div>;
+});
+
+jest.mock('@/components/@common/molecules/Chart/RadialChart', () => {
+  return ({ value, maxValue }: { value: number; maxValue: number }) => (
     <div data-testid="id-rchart">
       {value}-{maxValue}
     </div>
-  ),
-}));
+  );
+});
 
 describe('QuizResult', () => {
   it('퀴즈 결과 UI가 식별된다.', async () => {
@@ -71,11 +80,11 @@ describe('QuizResult', () => {
     expect(screen.getByRole('heading', { name: '전체 정답률' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '평균 소요 시간' })).toBeInTheDocument();
 
-    const mockedDChart = screen.queryByTestId('id-dchart');
-    const mockedRChart = screen.queryByTestId('id-rchart');
-    expect(mockedDChart).toHaveTextContent('0.5%');
+    const mockedDonutChart = await screen.findByTestId('id-dchart');
+    const mockedRadialChart = await screen.findByTestId('id-rchart');
+    expect(mockedDonutChart).toHaveTextContent('0.5%');
     // case 2 : [5, 10]
-    expect(mockedRChart).toHaveTextContent('7.5-20');
+    expect(mockedRadialChart).toHaveTextContent('7.5-20');
     await waitFor(() => expect(screen.queryByTestId('id-wordcloud')).toHaveTextContent(/hello-25/i));
     expect(spyApplyQuizKeywordFn).toHaveBeenCalledWith(expect.any(String));
     spyApplyQuizKeywordFn.mockClear();

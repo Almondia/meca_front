@@ -1,4 +1,5 @@
 import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
+import DeferredComponent from '@/components/@util/DeferredComponent';
 import useIntersect from '@/hooks/useIntersect';
 
 import GridList from './listType/GridList';
@@ -25,7 +26,7 @@ const InfiniteList = ({ children, loader, loadMore, hasNext, type }: ListInfinit
   return (
     <InfiniteListWrapper>
       {ListByType[type]({ children })}
-      {hasNext && (loader || <LoadSpinner width="100%" height="100px" />)}
+      {hasNext && <DeferredComponent>{loader || <LoadSpinner width="100%" height="100px" />}</DeferredComponent>}
       <InfiniteListIntersectionBox ref={ref} />
     </InfiniteListWrapper>
   );

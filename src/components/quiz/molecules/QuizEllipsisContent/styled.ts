@@ -2,7 +2,9 @@ import styled, { css } from 'styled-components';
 
 import { TextBodySubtitle, TextSubBody } from '@/styles/common';
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  margin-bottom: -4px;
+`;
 
 const Ellipsis = css`
   display: -webkit-box;
@@ -31,9 +33,9 @@ export const MoreLinkBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-right: 4px;
+  min-height: 16px;
   button {
     color: var(--color-brand);
     font-weight: ${({ theme }) => theme.fontWeight.bold};
-    padding: 1px;
   }
 `;

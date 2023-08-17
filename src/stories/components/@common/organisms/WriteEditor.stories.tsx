@@ -17,10 +17,15 @@ export default {
 
 const Template: ComponentStory<typeof QuillWriter> = (args) => {
   const [value, setValue] = useState<string>('');
-  return <QuillWriter {...args} contents={value} setContents={setValue} />;
+  return (
+    <div style={{ maxWidth: '864px' }}>
+      <QuillWriter {...args} contents={value} setContents={setValue} />
+    </div>
+  );
 };
 
 export const Default = Template.bind({});
 Default.args = {
   maxHeight: '864px',
+  minHeight: '150px',
 };
