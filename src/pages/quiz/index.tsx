@@ -19,17 +19,15 @@ import PostSection from '@/components/@common/molecules/PostSection';
 import QuizPlayResultDashBoard from '@/components/quiz/organisms/QuizPlayResultDashboard';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
+import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { Devide, PostPageLayout } from '@/styles/layout';
 
 const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
-// TODO: Skeleton UI 적용 고려
 const QuizRetryButtonGroup = dynamic(() => import('@/components/quiz/molecules/QuizRetryButtonGroup'), { ssr: false });
-const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
-  ssr: false,
-  loading: () => <LoadSpinner width="100%" />,
-});
-
 const QuizPlayResultTimeline = dynamic(() => import('@/components/quiz/organisms/QuizPlayResultTimeline'), {
+  ssr: false,
+});
+const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
   ssr: false,
   loading: () => <LoadSpinner width="100%" height="600px" />,
 });
@@ -44,6 +42,7 @@ const QuizPage = () => {
   const { number: round, increaseNumber: setNextRound, resetNumber: resetRound } = useCount(1, 1, quizList.length);
   const [quizPhase, setQuizPhase] = useState<QuizPhase>('progress');
   const quizSpendTimeRef = useRef<number>(0);
+  const [pageTopRef, scrollToTop] = useScrollIntoView<HTMLDivElement>();
   const quizIndex = round - 1;
 
   const nextQuizHandler = () => {
@@ -67,6 +66,12 @@ const QuizPage = () => {
   };
 
   useEffect(() => {
+    if (quizPhase === 'progress') {
+      scrollToTop({ block: 'start', behavior: 'smooth' });
+    }
+    if (quizPhase === 'result') {
+      scrollToTop({ block: 'start', behavior: 'auto' });
+    }
     if (quizPhase !== 'progress') {
       quizSpendTimeRef.current = 0;
       return;
@@ -118,7 +123,7 @@ const QuizPage = () => {
     );
   }
   return (
-    <PostPageLayout>
+    <PostPageLayout ref={pageTopRef}>
       <BetweenSection>
         <BetweenSection.Left>
           <PageTitle>{quizPhase === 'result' ? quizTitle : quizList[quizIndex].title}</PageTitle>
