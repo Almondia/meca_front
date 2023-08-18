@@ -4,36 +4,36 @@ import Button from '@/components/@common/atoms/Button';
 import { FlexCenter } from '@/styles/layout';
 
 const WrapperHidedStyle = css`
-  max-height: 800px;
-  overflow: hidden;
-  :before {
+  ::after {
     position: absolute;
     content: '';
-    bottom: 2rem;
+    bottom: 94px;
     left: 0;
     right: 0;
     margin: 0 auto;
-    width: 98%;
-    height: 200px;
+    width: 100%;
+    height: 160px;
     background: linear-gradient(to bottom, var(--color-background-gradient), var(--color-background));
-    z-index: 2;
+    z-index: 1;
   }
 `;
 
 export const QuizHistoryTimelineWrapper = styled.div<{ hided: boolean }>`
   position: relative;
   padding: 0;
+  margin-top: -30px;
   @media ${({ theme }) => theme.media.mobile} {
     margin-left: -12px;
   }
-  & > div {
-    margin-top: 6px;
-    ${(props) => props.hided && WrapperHidedStyle};
-  }
+  ${(props) => props.hided && WrapperHidedStyle};
 `;
 
 export const QuizHistoryTimelineMoreFetchButton = styled(Button)<{ visible: boolean }>`
   visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
+  transform: translateY(-60px);
+  @media ${({ theme }) => theme.media.mobile} {
+    margin-left: 6px;
+  }
 `;
 
 export const QuizHistoryTimelineEmpty = styled.div`

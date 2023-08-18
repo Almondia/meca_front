@@ -27,9 +27,9 @@ const MecaPost = memo(({ cardType, question, answer, description, createdAt }: M
   const MecaBody = ContentBody[cardType];
   return (
     <MecaPostWrapper>
-      <PostSubInfo>
+      <PostSubInfo columnGutter="12px" rowGutter="6px">
         <PostSubInfo.Content title="문제유형">
-          <IconTag {...MECA_TAGS[cardType]} scale={0.8} />
+          <IconTag {...MECA_TAGS[cardType]} scale={0.7} />
         </PostSubInfo.Content>
         <PostSubInfo.Content title="작성일">
           <TextCaption>

@@ -32,8 +32,6 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
       <ListPageLayout>
         <PageTitle style={{ marginBottom: '8px' }}>{category?.title}</PageTitle>
         <CategoryLikeButton categoryId={categoryId} initialLikeCount={mecaList.categoryLikeCount} />
-        <br />
-        <br />
         <MecaListHeader
           categoryId={categoryId}
           categoryTitle={category?.title ?? 'category'}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { ElementSizeType } from '@/types/common';
 
@@ -44,6 +44,20 @@ const RangeInnerUnfilled = styled(RangeInnerAbsBox)`
   background-color: var(--color-gray);
 `;
 
+const ThumbStyle = css`
+  position: relative;
+  margin-top: -1px;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  margin-left: -2px;
+  -webkit-appearance: none;
+  background-color: var(--color-brand);
+  :hover {
+    opacity: 0.92;
+  }
+`;
+
 const RangeInput = styled.input`
   position: absolute;
   top: 0;
@@ -63,29 +77,10 @@ const RangeInput = styled.input`
     }
   }
   &::-webkit-slider-thumb {
-    position: relative;
-    margin-top: -1px;
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    -webkit-appearance: none;
-    background-color: var(--color-brand);
-    :hover {
-      opacity: 0.92;
-    }
+    ${ThumbStyle};
   }
-
   &::-moz-range-thumb {
-    position: relative;
-    margin-top: -1px;
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    -webkit-appearance: none;
-    background-color: var(--color-brand);
-    :hover {
-      opacity: 0.92;
-    }
+    ${ThumbStyle};
   }
 `;
 
@@ -94,11 +89,11 @@ const Bubble = styled.span<{ left: string }>`
   top: 6px;
   right: 0;
   left: ${(props) => props.left};
-  margin-left: -28px;
+  margin-left: -20px;
   text-align: center;
   box-shadow: 0 0 4px var(--color-brand);
   border-radius: ${({ theme }) => theme.border.card};
-  width: 40px;
+  width: 20px;
   padding: 4px 10px;
   font-size: ${({ theme }) => theme.fontSize.caption};
 `;
