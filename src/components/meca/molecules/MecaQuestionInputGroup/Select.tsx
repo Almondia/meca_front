@@ -11,7 +11,7 @@ import useClickAway from '@/hooks/useClickAway';
 import { InputValidations } from '@/utils/constants';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
-export const Select = memo(({ QuestionEditor, minHeight, maxHeight }: QuestionInputGroupProps) => {
+export const Select = memo(({ QuestionEditor }: QuestionInputGroupProps) => {
   const { input: value, setInput: setValue, isValid, message } = useMecaQuestionContext();
   const { number: selectionNum } = useMecaSelectTypeCaseNumberContext();
   const ref = useRef<HTMLDivElement>(null);
@@ -48,8 +48,6 @@ export const Select = memo(({ QuestionEditor, minHeight, maxHeight }: QuestionIn
       <InputGroup.Label>객관식 문제 제목을 작성하세요</InputGroup.Label>
       <div ref={ref}>
         <QuestionEditor
-          minHeight={minHeight}
-          maxHeight={maxHeight}
           contents={sampleValues[0]}
           setContents={setQuestion}
           placeholder={`객관식의 각 문항은 ${InputValidations.MAX_MULTICHOICE_QUESTION}자 이내로 작성하세요`}

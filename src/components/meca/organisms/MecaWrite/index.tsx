@@ -45,7 +45,7 @@ const MecaWrite = ({ cardId, categoryId, title, cardType, answer, question, desc
           onToggle={handleMecaTagToggle}
           onlySelected={!!cardId}
         />
-        <QuestionInputGroup QuestionEditor={QuillWriter} minHeight="150px" maxHeight="780px" />
+        <QuestionInputGroup QuestionEditor={QuillWriter} />
         <AnswerInputGroup />
         <MecaDescriptionInputGroup DescriptionEditor={QuillWriter} />
         <br />
