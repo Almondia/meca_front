@@ -46,8 +46,6 @@ export const TextInputBox = styled.input<{ width?: ElementSizeType }>`
     outline: none;
   }
   ::placeholder {
-    padding-top: 4px;
-    font-style: italic;
     font-size: ${({ theme }) => theme.fontSize.sub};
     color: var(--color-gray);
   }

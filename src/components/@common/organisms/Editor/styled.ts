@@ -152,11 +152,12 @@ export const WriteEditorWrapper = styled(EditorWrapper)<{ minHeight?: ElementSiz
     min-height: ${(props) => props.minHeight ?? '360px'};
     max-height: ${(props) => props.maxHeight ?? '1140px'};
     margin-bottom: 50px;
+    padding: 12px 16px;
   }
 
   .ql-editor.ql-blank::before {
     padding-top: 0px;
-    font-style: italic;
+    font-style: normal;
     font-size: ${({ theme }) => theme.fontSize.sub};
     color: var(--color-gray);
   }
