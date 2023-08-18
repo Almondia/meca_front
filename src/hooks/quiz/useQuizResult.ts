@@ -7,7 +7,7 @@ import type { MecaTag } from '@/types/domain/meca';
 import type { Quiz } from '@/types/domain/quiz';
 
 import cardHistoryApi from '@/apis/cardHistoryApi';
-import { quizTimeState, quizTitleState } from '@/atoms/quiz';
+import { quizPhaseState, quizTimeState, quizTitleState } from '@/atoms/quiz';
 import queryKey from '@/query/queryKey';
 import { MECA_TAGS } from '@/utils/constants';
 import alertToast from '@/utils/toastHandler';
@@ -20,6 +20,7 @@ const useQuizResult = () => {
   const { quizList = fallback } = useQuiz();
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
+  const setQuizPhase = useSetRecoilState(quizPhaseState);
 
   const applyScore = useCallback(async (userAnswer: string, cardId: string) => {
     try {
@@ -87,10 +88,10 @@ const useQuizResult = () => {
     );
     return { avgScore: totalScore / (quizList.length * 100), avgTime: totalSecond / quizList.length };
   };
-
   const clearQuizPhase = useCallback(() => {
     setQuizTime(0);
     setQuizTitle('');
+    setQuizPhase('progress');
     queryClient.removeQueries([queryKey.quiz]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

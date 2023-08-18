@@ -46,8 +46,6 @@ export const TextInputBox = styled.input<{ width?: ElementSizeType }>`
     outline: none;
   }
   ::placeholder {
-    padding-top: 4px;
-    font-style: italic;
     font-size: ${({ theme }) => theme.fontSize.sub};
     color: var(--color-gray);
   }
@@ -68,6 +66,10 @@ export const RadioGroupWrapper = styled.fieldset`
 
 export const RadioBox = styled.label`
   color: var(--color-gray);
+  display: inline-flex;
+  width: fit-content;
+  align-items: flex-end;
+  column-gap: 4px;
   :hover {
     cursor: pointer;
   }

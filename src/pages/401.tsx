@@ -1,9 +1,12 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
+import { useEffect } from 'react';
+
 import Button from '@/components/@common/atoms/Button';
 import MetaHead from '@/components/@util/MetaHead';
 import useModal from '@/hooks/useModal';
+import useLogout from '@/hooks/user/useLogout';
 import { HiddenText, TextBodySubtitle } from '@/styles/common';
 import { ErrorPageLayout } from '@/styles/layout';
 
@@ -15,6 +18,12 @@ interface UnauthorizedProps {
 
 const Unauthorized = ({ message }: UnauthorizedProps) => {
   const { visible, open, close } = useModal();
+  const { logout } = useLogout();
+
+  useEffect(() => {
+    logout();
+  }, [logout]);
+
   return (
     <>
       <MetaHead />

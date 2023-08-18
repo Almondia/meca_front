@@ -11,7 +11,6 @@ export interface RadioProps extends InputProps {
 
 const Radio = ({ children, name, value, onChange, defaultChecked, disabled }: RadioProps) => (
   <RadioBox>
-    {children}
     <input
       type="radio"
       name={name}
@@ -20,6 +19,7 @@ const Radio = ({ children, name, value, onChange, defaultChecked, disabled }: Ra
       defaultChecked={defaultChecked}
       disabled={disabled}
     />
+    <p>{children}</p>
   </RadioBox>
 );
 

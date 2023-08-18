@@ -53,9 +53,11 @@ describe('MecaById', () => {
         renderQuery(<MecaById {...props} />, undefined, undefined, props.dehydratedState);
       });
       const cardTitle = screen.getByRole('heading', { name: 'Small Soft Computer' });
-      const updateLink = screen.queryByRole('link', { name: '수정하기' });
+      const updateLink = screen.queryByRole('button', { name: '수정하기' });
+      const toCategoryLink = screen.getByRole('button', { name: /카테고리 보기/i });
       expect(cardTitle).toBeInTheDocument();
       expect(updateLink).not.toBeInTheDocument();
+      expect(toCategoryLink).toBeInTheDocument();
     });
 
     it('접근 권한이 없는(비공개인) 공개 카드 요청 시 404 페이지가 보여진다.', async () => {
