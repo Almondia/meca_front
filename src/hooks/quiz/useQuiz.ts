@@ -1,19 +1,21 @@
 import { useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 
 import type { Quiz, QuizListRequest } from '@/types/domain/quiz';
 
 import mecaApi from '@/apis/mecaApi';
-import { quizTimeState, quizTitleState } from '@/atoms/quiz';
+import { quizPhaseState, quizTimeState, quizTitleState } from '@/atoms/quiz';
 import queryKey from '@/query/queryKey';
 
 const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
+  const queryClient = useQueryClient();
   const fallback: Quiz[] = [];
   const [quizInfo, setQuizInfo] = useState<QuizListRequest | undefined>(undefined);
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
+  const setQuizPhase = useSetRecoilState(quizPhaseState);
 
   const {
     data: quizList = fallback,
@@ -47,8 +49,10 @@ const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
     title,
     quizTime,
   }: QuizListRequest & { title: string; quizTime: number }) => {
+    queryClient.invalidateQueries([queryKey.quiz]);
     setQuizTitle(title);
     setQuizTime(quizTime);
+    setQuizPhase('progress');
     setQuizInfo({ categoryId, limit, score });
   };
 

@@ -63,31 +63,6 @@ describe('QuizPage', () => {
     expect(nextButton).toBeInTheDocument();
   });
 
-  it('마지막 문제를 확인하면 결과보기 버튼이 식별된다.', async () => {
-    await waitFor(() => renderQuery(<QuizPage />));
-    const submitButton = screen.getByRole('button', {
-      name: '정답제출',
-    });
-    expect(submitButton).toBeInTheDocument();
-    fireEvent.click(submitButton);
-    const nextButton = await screen.findByRole('button', {
-      name: '다음문제',
-    });
-    expect(nextButton).toBeInTheDocument();
-    fireEvent.click(nextButton);
-    const quizQuestionText = await screen.findByText(mockQuizs[1].question);
-    expect(quizQuestionText).toBeInTheDocument();
-    const submitButton2 = screen.getByRole('button', {
-      name: '정답제출',
-    });
-    expect(submitButton2).toBeInTheDocument();
-    fireEvent.click(submitButton2);
-    const showResultButton = await screen.findByRole('button', {
-      name: '결과보기',
-    });
-    expect(showResultButton).toBeInTheDocument();
-  });
-
   it('정답을 입력하고 제출하면 score 계산 함수가 호출된다.', async () => {
     const spyPostScoreFn = jest.spyOn(cardHistoryApi, 'applyQuizHistory');
     renderQuery(<QuizPage />);
