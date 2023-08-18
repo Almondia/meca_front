@@ -10,3 +10,10 @@ export const QuizPostWrapper = styled.div`
 `;
 
 export const QuizContentWrapper = styled(QuizPostWrapper)``;
+
+export const SelectQuizContentWrapper = styled(QuizContentWrapper)`
+  label {
+    display: block;
+    width: 100%;
+  }
+`;

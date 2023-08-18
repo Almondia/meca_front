@@ -8,7 +8,7 @@ import { COLOR } from '@/styles/constants';
 import { FlexColumnCenter } from '@/styles/layout';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 
-import { QuizContentWrapper } from '../styled';
+import { SelectQuizContentWrapper } from '../styled';
 import { QuizContentProps } from '../type';
 
 const SelectGroup = styled(NonVisibleRadioBox)`
@@ -44,7 +44,7 @@ export const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }:
     return value === indexAnswer ? 'var(--color-subbrand)' : 'inherit';
   };
   return (
-    <QuizContentWrapper>
+    <SelectQuizContentWrapper>
       <SelectGroup>
         {questions.slice(1).map((qs, index) => (
           <RadioGroup.Radio
@@ -63,6 +63,6 @@ export const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }:
           </RadioGroup.Radio>
         ))}
       </SelectGroup>
-    </QuizContentWrapper>
+    </SelectQuizContentWrapper>
   );
 };
