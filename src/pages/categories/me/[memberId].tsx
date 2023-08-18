@@ -6,7 +6,6 @@ import { useRecoilValue } from 'recoil';
 import { hasAuthState } from '@/atoms/common';
 import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import Tab from '@/components/@common/molecules/Tab';
-import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
 import CategorySearchBar from '@/components/category/molecules/CategorySearchBar';
 import CategoryList from '@/components/category/organisms/CategoryList';
@@ -31,7 +30,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
     !hasAuth,
   );
   return (
-    <AuthPageProvider>
+    <>
       <MetaHead title="내 카테고리 목록" description="로그인 후 이용할 수 있어요!" />
       <ListPageLayout>
         <CategoryListHeader hasAddButton={!recommended} pageTitle={recommended ? '추천한 카테고리' : '내 카테고리'} />
@@ -57,7 +56,7 @@ const Category = ({ isRecommendedRequest }: CategoryProps) => {
           isEmpty={isEmpty}
         />
       </ListPageLayout>
-    </AuthPageProvider>
+    </>
   );
 };
 

@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 
 import PostSection from '@/components/@common/molecules/PostSection';
-import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
 import UserBasicInfo from '@/components/user/molecules/UserBasicInfo';
 import UserProfileHeader from '@/components/user/organisms/UserProfileHeader';
@@ -22,7 +21,7 @@ export interface UserPageProps {
 const UserPage = ({ memberId }: UserPageProps) => {
   const { user } = useUser();
   return (
-    <AuthPageProvider>
+    <>
       <MetaHead title={`${user?.name ?? 'User'} Page`} />
       {user && (
         <PostPageLayout>
@@ -45,7 +44,7 @@ const UserPage = ({ memberId }: UserPageProps) => {
           </PostSection>
         </PostPageLayout>
       )}
-    </AuthPageProvider>
+    </>
   );
 };
 

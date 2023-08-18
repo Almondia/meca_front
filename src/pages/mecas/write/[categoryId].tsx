@@ -2,7 +2,6 @@
 import { GetServerSideProps } from 'next';
 
 import mecaApi from '@/apis/mecaApi';
-import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaWrite from '@/components/meca/organisms/MecaWrite';
 import useMeca from '@/hooks/meca/useMeca';
@@ -19,12 +18,12 @@ export interface MecaWritePageProps {
 const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
   const { meca } = useMeca(cardId);
   return (
-    <AuthPageProvider>
+    <>
       <MetaHead title="Meca Card 작성하기" />
       <PostPageLayout>
         {cardId ? <MecaWrite {...meca?.card} categoryId={categoryId} /> : <MecaWrite categoryId={categoryId} />}
       </PostPageLayout>
-    </AuthPageProvider>
+    </>
   );
 };
 

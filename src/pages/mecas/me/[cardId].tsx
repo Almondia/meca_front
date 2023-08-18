@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 
 import PageTitle from '@/components/@common/atoms/PageTitle';
 import PostSection from '@/components/@common/molecules/PostSection';
-import AuthPageProvider from '@/components/@util/AuthPageProvider';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaPost from '@/components/meca/organisms/MecaPost';
 import MecaPostHeader from '@/components/meca/organisms/MecaPostHeader';
@@ -25,7 +24,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
   }
   const { card: meca, member: user } = mecaResponse;
   return (
-    <AuthPageProvider reload>
+    <>
       <MetaHead title={`${meca.title}- by ${user?.name}`} ogType="article" />
       <PostPageLayout>
         <PageTitle>{meca.title}</PageTitle>
@@ -40,7 +39,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
           </PostSection.Body>
         </PostSection>
       </PostPageLayout>
-    </AuthPageProvider>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { renderQuery } from '../utils';
+import { RecoilObserver, renderQuery } from '../utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { PAGINATION_NUM, PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import Category, { getServerSideProps } from '@/pages/categories/me/[memberId]';
@@ -13,6 +13,7 @@ import {
   mockedPostCategoryApi,
 } from '@/mock/api';
 import { MOCK_CATEGORIES } from '@/mock/data';
+import { hasAuthState } from '@/atoms/common';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),
@@ -26,7 +27,12 @@ describe('CategoryListPage', () => {
     jest.clearAllMocks();
   });
   it('개인 카테고리 목록 페이지 UI가 식별된다.', async () => {
-    renderQuery(<Category />);
+    renderQuery(
+      <>
+        <RecoilObserver node={hasAuthState} defaultValue={true} />
+        <Category />
+      </>,
+    );
     const categoryListPageHead = await screen.findByRole('heading', {
       name: /내 카테고리/i,
     });
@@ -40,7 +46,12 @@ describe('CategoryListPage', () => {
   });
 
   it('검색어를 입력해 검색하면 개인 카테고리 목록이 필터링되어 식별된다.', async () => {
-    renderQuery(<Category />);
+    renderQuery(
+      <>
+        <RecoilObserver node={hasAuthState} defaultValue={true} />
+        <Category />
+      </>,
+    );
     const searchInput = await screen.findByRole('searchbox', { name: 'input-category-search' });
     const searchButton = screen.getByRole('button', { name: /검색/i });
     expect(searchInput).toBeInTheDocument();
@@ -91,7 +102,12 @@ describe('CategoryListPage', () => {
 
   it('카테고리 하나를 정상적으로 추가하면 카테고리 목록에 새로운 데이터가 추가된다.', async () => {
     implementServer([restHandler(mockedPostCategoryApi)]);
-    renderQuery(<Category />);
+    renderQuery(
+      <>
+        <RecoilObserver node={hasAuthState} defaultValue={true} />
+        <Category />
+      </>,
+    );
     const inputTitleText = 'HELL';
     // 추가하기 버튼을 누르면
     const addButton = await screen.findByRole('button', {
