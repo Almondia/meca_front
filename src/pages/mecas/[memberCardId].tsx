@@ -3,11 +3,10 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 
 import PageTitle from '@/components/@common/atoms/PageTitle';
-import AvatarUser from '@/components/@common/molecules/AvatarUser';
-import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import PostSection from '@/components/@common/molecules/PostSection';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaPost from '@/components/meca/organisms/MecaPost';
+import MecaPostHeader from '@/components/meca/organisms/MecaPostHeader';
 import useMeca from '@/hooks/meca/useMeca';
 import { isrAspect } from '@/libs/renderAspect';
 import NotFound from '@/pages/404';
@@ -26,29 +25,25 @@ export interface MecaByIdProps {
 }
 
 const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProps) => {
-  const { meca } = useMeca(cardId, true, memberId);
-  if (!meca) {
+  const { meca: mecaResponse } = useMeca(cardId, true, memberId);
+  if (!mecaResponse) {
     return <NotFound isMessageVisible message="요청하신 페이지가 없거나 비공개 처리되어있어요!" />;
   }
-  const { card, member } = meca;
+  const { card: meca, member: user } = mecaResponse;
   return (
     <>
       <MetaHead
-        title={`${card.title} - by ${member.name}`}
+        title={`${meca.title} - by ${user.name}`}
         description={questionText}
         image={thumbnailUrl}
         ogType="article"
       />
       <PostPageLayout>
-        <PageTitle>{card.title}</PageTitle>
+        <PageTitle>{meca.title}</PageTitle>
         <br />
-        <BetweenSection>
-          <BetweenSection.Left>
-            <AvatarUser {...member} />
-          </BetweenSection.Left>
-        </BetweenSection>
+        <MecaPostHeader meca={meca} user={user} />
         <Devide />
-        <MecaPost {...card} />
+        <MecaPost {...meca} />
         <PostSection>
           <PostSection.Title>History</PostSection.Title>
           <PostSection.Body indented={false} boxed={false}>
