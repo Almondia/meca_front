@@ -1,3 +1,6 @@
+import { useRecoilValue } from 'recoil';
+
+import { quizTitleState } from '@/atoms/quiz';
 import ButtonGroup from '@/components/@common/molecules/ButtonGroup';
 import Modal from '@/components/@common/molecules/Modal';
 import QuizPlayScoreFilterInputGroup from '@/components/quiz/molecules/QuizPlayScoreFilterInputGroup';
@@ -5,11 +8,11 @@ import useInput from '@/hooks/useInput';
 import useModal from '@/hooks/useModal';
 
 interface QuizRetryControllerProps {
-  title: string;
   onRetry: (optionScore: number) => void;
 }
 
-const QuizRetryController = ({ title, onRetry }: QuizRetryControllerProps) => {
+const QuizRetryController = ({ onRetry }: QuizRetryControllerProps) => {
+  const title = useRecoilValue(quizTitleState);
   const { visible, open, close } = useModal();
   const { input: retryOption, onInputChange: onRetryOptionChange, setInput: setRetryOption } = useInput('100');
   return (

@@ -1,21 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { QuizPhase, QuizSucceedType } from '@/types/domain/quiz';
 
-import { quizTimeState, quizTitleState } from '@/atoms/quiz';
-import CountIndicator from '@/components/@common/atoms/CountIndicator';
-import LinkButton from '@/components/@common/atoms/LinkButton';
+import { quizPhaseState, quizTimeState } from '@/atoms/quiz';
 import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
-import PageTitle from '@/components/@common/atoms/PageTitle';
-import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import PostSection from '@/components/@common/molecules/PostSection';
+import QuizPlayFallback from '@/components/quiz/molecules/QuizPlayFallback';
+import QuizPlayHeader from '@/components/quiz/organisms/QuizPlayHeader';
 import QuizPlayResultDashBoard from '@/components/quiz/organisms/QuizPlayResultDashboard';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useCount from '@/hooks/useCount';
@@ -36,11 +33,10 @@ type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhase, QuizSucceedType>, 'res
 
 const QuizPage = () => {
   const router = useRouter();
-  const quizTitle = useRecoilValue(quizTitleState);
   const quizPhaseTime = useRecoilValue(quizTimeState);
   const { quizList, solveQuiz, clearQuizPhase, currentQuizResult, retryQuiz } = useQuizResult();
   const { number: round, increaseNumber: setNextRound, resetNumber: resetRound } = useCount(1, 1, quizList.length);
-  const [quizPhase, setQuizPhase] = useState<QuizPhase>('progress');
+  const [quizPhase, setQuizPhase] = useRecoilState(quizPhaseState);
   const quizSpendTimeRef = useRef<number>(0);
   const [pageTopRef, scrollToTop] = useScrollIntoView<HTMLDivElement>();
   const quizIndex = round - 1;
@@ -89,12 +85,12 @@ const QuizPage = () => {
     };
   }, [quizPhase]);
 
-  useEffect(
-    () => () => {
-      clearQuizPhase();
-    },
-    [],
-  );
+  useEffect(() => {
+    router.beforePopState(() => {
+      quizPhase !== 'result' && clearQuizPhase();
+      return true;
+    });
+  }, [router, quizPhase]);
 
   const quizPhaseSucceed: QuizPhaseSucceedHandlerType = {
     progress: {
@@ -114,30 +110,16 @@ const QuizPage = () => {
   };
 
   if (quizList.length === 0) {
-    return (
-      <PostPageLayout>
-        {/* TODO: UI 추가할 것 */}
-        <p>퀴즈 정보가 만료되었거나 풀이할 퀴즈가 없어요!</p>
-        <Link href="/">홈으로</Link>
-      </PostPageLayout>
-    );
+    return <QuizPlayFallback />;
   }
   return (
     <PostPageLayout ref={pageTopRef}>
-      <BetweenSection>
-        <BetweenSection.Left>
-          <PageTitle>{quizPhase === 'result' ? quizTitle : quizList[quizIndex].title}</PageTitle>
-        </BetweenSection.Left>
-        <BetweenSection.Right>
-          {quizPhase === 'result' ? (
-            <LinkButton onClick={() => router.back()} textSize="main">
-              목록으로
-            </LinkButton>
-          ) : (
-            <CountIndicator currentCount={round} maxCount={quizList.length} />
-          )}
-        </BetweenSection.Right>
-      </BetweenSection>
+      <QuizPlayHeader
+        quizCardTitle={quizList[quizIndex]?.title}
+        quizCount={round}
+        maxQuizCount={quizList.length}
+        quizPhase={quizPhase}
+      />
       {quizPhase === 'result' ? (
         <>
           <QuizPlayResultDashBoard maxQuizTime={quizPhaseTime} />
@@ -149,7 +131,6 @@ const QuizPage = () => {
             </PostSection.Body>
           </PostSection>
           <QuizRetryButtonGroup
-            title={quizTitle}
             onRetry={(optionScore: number) => {
               retryQuiz(optionScore, () => {
                 setQuizPhase('progress');
@@ -161,8 +142,7 @@ const QuizPage = () => {
       ) : (
         <>
           <TimerBar second={quizPhase === 'progress' ? quizPhaseTime : undefined} />
-          <br />
-          <br />
+          <Devide />
           <QuizPost
             score={currentQuizResult?.score}
             inputAnswer={currentQuizResult?.inputAnswer}
