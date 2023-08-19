@@ -9,41 +9,57 @@ describe('useQueryRouter', () => {
     jest.clearAllMocks();
   });
   it('지정된 쿼리로 replace시 해당 쿼리로 router replace가 동작한다.', async () => {
-    mockRouter.push('/');
-    const { result } = renderHook(() => useQueryRouter<'exam'>({}));
-    expect(result.current.exam).toBeUndefined();
+    window.history.replaceState = jest.fn();
+    const { result } = renderHook(() => useQueryRouter<'exam'>({ exam: '' }));
+    expect(result.current.exam).toEqual('');
     await waitFor(() => result.current.replaceWithQuery({ exam: 'hello' }));
-    expect(mockRouter).toMatchObject({
-      asPath: '/?exam=hello',
-      pathname: '/',
-      query: { exam: 'hello' },
-    });
+    expect(window.history.replaceState).toHaveBeenCalledWith(
+      { as: '/?exam=hello', url: '/?exam=hello' },
+      '',
+      '/?exam=hello',
+    );
     expect(result.current.exam).toEqual('hello');
     await waitFor(() => result.current.replaceWithQuery({ exam: 'hell world!' }));
-    expect(mockRouter).toMatchObject({
-      asPath: '/?exam=hell%20world!',
-      pathname: '/',
-      query: { exam: 'hell world!' },
-    });
+    expect(window.history.replaceState).toHaveBeenCalledWith(
+      { as: '/?exam=hell+world%21', url: '/?exam=hell+world%21' },
+      '',
+      '/?exam=hell+world%21',
+    );
     expect(result.current.exam).toEqual('hell world!');
-    await waitFor(() => result.current.replaceWithQuery({}));
-    expect(mockRouter).toMatchObject({
-      asPath: '/',
-      pathname: '/',
-      query: {},
-    });
   });
 
   it('지정된 여러 쿼리로 replace시 해당 쿼리들로 router replace가 동작한다. ', async () => {
-    mockRouter.push('/abc');
-    const { result } = renderHook(() => useQueryRouter<'a' | 'b' | 'c'>({ a: 'a-val' }));
+    mockRouter.push('/?a=a-val');
+    window.history.replaceState = jest.fn();
+    const { result } = renderHook(() => useQueryRouter<'a' | 'b' | 'c'>({ a: 'a-val', b: '', c: '' }));
     expect(result.current.a).toEqual('a-val');
+    expect(result.current.b).toEqual('');
     const inputQueries = { a: 'a-value', b: 'b-value', c: 'c-value' };
     await waitFor(() => result.current.replaceWithQuery(inputQueries));
+    expect(window.history.replaceState).toHaveBeenCalledWith(
+      { as: '/?a=a-value&b=b-value&c=c-value', url: '/?a=a-value&b=b-value&c=c-value' },
+      '',
+      '/?a=a-value&b=b-value&c=c-value',
+    );
+  });
+
+  it('이전과 동일한 쿼리 정보를 가졌을 경우 router replace가 호출되지 않는다.', async () => {
+    mockRouter.push('/abc?a=a-val&b=b-val&kkkk=123');
+    window.history.replaceState = jest.fn();
+    const { result } = renderHook(() => useQueryRouter<'a' | 'b' | 'c'>({ a: 'a-val', b: 'b-val', c: '' }));
     expect(mockRouter).toMatchObject({
-      asPath: '/abc?a=a-value&b=b-value&c=c-value',
+      asPath: '/abc?a=a-val&b=b-val&kkkk=123',
       pathname: '/abc',
-      query: inputQueries,
+      query: { a: 'a-val', b: 'b-val' },
+    });
+    const inputQueries = { b: 'b-val', a: 'a-val' };
+    await waitFor(() => result.current.replaceWithQuery(inputQueries));
+    await waitFor(() => result.current.replaceWithQuery(inputQueries));
+    expect(window.history.replaceState).not.toHaveBeenCalled();
+    expect(mockRouter).toMatchObject({
+      asPath: '/abc?a=a-val&b=b-val&kkkk=123',
+      pathname: '/abc',
+      query: { a: 'a-val', b: 'b-val' },
     });
   });
 });
