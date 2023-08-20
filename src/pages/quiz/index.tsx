@@ -90,6 +90,9 @@ const QuizPage = () => {
       quizPhase !== 'result' && clearQuizPhase();
       return true;
     });
+    return () => {
+      router.beforePopState(() => true);
+    };
   }, [router, quizPhase]);
 
   const quizPhaseSucceed: QuizPhaseSucceedHandlerType = {
