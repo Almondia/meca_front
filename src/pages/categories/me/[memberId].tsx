@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-throw-literal */
 import { GetServerSideProps } from 'next';
 
 import { useRecoilValue } from 'recoil';
@@ -12,7 +11,6 @@ import useCategoryList, { CategoryListFetcherKey } from '@/hooks/category/useCat
 import useQueryRouter from '@/hooks/useQueryRouter';
 import { ssrAspect } from '@/libs/renderAspect';
 import { Devide, ListPageLayout } from '@/styles/layout';
-import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 interface CategoryProps {
   recommended: string;
@@ -65,9 +63,11 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   const isRecommendedRequest = recommended === 'true';
   const queryKey: CategoryListFetcherKey = isRecommendedRequest ? 'recommended' : 'me';
   await useCategoryList.prefetchInfiniteQuery(queryKey, searchQuery, queryClient);
-  !useCategoryList.isEmpty(queryKey, queryClient) &&
-    context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
-  return { recommended: isRecommendedRequest ? 'true' : '', searchQuery };
+  return {
+    recommended: isRecommendedRequest ? 'true' : '',
+    searchQuery,
+    cached: !useCategoryList.isEmpty(queryKey, queryClient),
+  };
 });
 
 export default Category;

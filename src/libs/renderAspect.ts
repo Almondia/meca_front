@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
-/* eslint-disable import/prefer-default-export */
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -15,6 +14,7 @@ import nookies from 'nookies';
 import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
 import useUser from '@/hooks/user/useUser';
 import { generateQueryClient } from '@/query/queryClient';
+import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 import { getJWTPayload } from '@/utils/jwtHandler';
 
 import logger, { responseTimeLoggerWrapper } from './logger';
@@ -24,7 +24,7 @@ function serverSideRenderAuthorizedAspect(
     context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
     queryClient: QueryClient,
     memberId?: string,
-  ) => Promise<object | void>,
+  ) => Promise<(object & { cached?: boolean }) | void>,
   skipAuth?: boolean,
 ): GetServerSideProps {
   const ssrFn = async (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
@@ -51,9 +51,13 @@ function serverSideRenderAuthorizedAspect(
       if (propsAspect.status === 'rejected') {
         throw { ...propsAspect.reason };
       }
+      const ssrPageProps = propsAspect.value;
+      typeof ssrPageProps === 'object' &&
+        ssrPageProps?.cached &&
+        context.res?.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
       return {
         props: {
-          ...(propsAspect.status === 'fulfilled' ? propsAspect.value : undefined),
+          ...ssrPageProps,
           hasAuth: !!(member?.status === 'fulfilled'),
           dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
         },

@@ -7,7 +7,7 @@ export const THUMBNAIL_BLUR_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAQAAAAnOwc2AAAAEUlEQVR42mO8/Z8BAzAOZUEAQ+ESj6kXXm0AAAAASUVORK5CYII=';
 export const IMAGE_EXTENTIONS: ImageExtension[] = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-export const PRIVATE_SSR_CDN_CACHE_VALUE = 'max-age=10, stale-while-revalidate=60';
+export const PRIVATE_SSR_CDN_CACHE_VALUE = 'max-age=30, stale-while-revalidate=120';
 
 export const UUID_PATTERN = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
 
