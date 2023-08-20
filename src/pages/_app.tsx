@@ -9,6 +9,7 @@ import { RecoilRoot } from 'recoil';
 
 import PageLayout from '@/components/@common/templates/PageLayout';
 import FontProvider from '@/components/@util/FontProvider';
+import GA from '@/components/@util/GA';
 import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { generateQueryClient } from '@/query/queryClient';
 import commonTheme from '@/styles/theme';
@@ -35,20 +36,23 @@ export default function App({ Component, pageProps }: AppProps) {
   const ErrorPage = errorStatus && errorPage[errorStatus];
   useScrollRestoration();
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <RecoilRoot>
-          <FontProvider />
-          <ThemeProvider theme={commonTheme}>
-            <ToastProvider />
-            <PageLayout>{ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...pageProps} />}</PageLayout>
-            <div id="modal-root" />
-            <div id="image-crop-root" />
-            <GlobalLoadingSpinner />
-          </ThemeProvider>
-        </RecoilRoot>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </Hydrate>
-    </QueryClientProvider>
+    <>
+      {!process.env.NEXT_PUBLIC_DEV && <GA />}
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <RecoilRoot>
+            <FontProvider />
+            <ThemeProvider theme={commonTheme}>
+              <ToastProvider />
+              <PageLayout>{ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...pageProps} />}</PageLayout>
+              <div id="modal-root" />
+              <div id="image-crop-root" />
+              <GlobalLoadingSpinner />
+            </ThemeProvider>
+          </RecoilRoot>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Hydrate>
+      </QueryClientProvider>
+    </>
   );
 }

@@ -18,7 +18,7 @@ COPY . .
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
+RUN yarn build:prod
 
 EXPOSE 3000
 
