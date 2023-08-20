@@ -1,6 +1,7 @@
 import BetweenSection from '@/components/@common/molecules/BetweenSection';
 import Tab from '@/components/@common/molecules/Tab';
 import CategorySearchBar from '@/components/category/molecules/CategorySearchBar';
+import { CategoryListSearchGroupWrapper } from '@/components/category/organisms/CategoryListSearchGroup/styled';
 import { CategoryListFetcherKey } from '@/hooks/category/useCategoryList';
 
 interface CategoryListSearchGroupProps {
@@ -24,34 +25,36 @@ const CategoryListSearchGroup = ({
     onReplaceWithSearchQuery({ ...defaultQueryStringByCategoryType[categoryType], q: input });
   };
   return (
-    <BetweenSection>
-      <BetweenSection.Left>
-        {categoryType !== 'shared' && (
-          <Tab
-            forceSelectedIndex={categoryType === 'recommended' ? 1 : 0}
-            initialSelectedIndex={categoryType === 'recommended' ? 1 : 0}
-            tabButtonProps={[
-              {
-                name: '작성 목록',
-                onClick: () =>
-                  onReplaceWithSearchQuery({ ...defaultQueryStringByCategoryType.me, q: searchQueries.me }),
-              },
-              {
-                name: '추천 목록',
-                onClick: () =>
-                  onReplaceWithSearchQuery({
-                    ...defaultQueryStringByCategoryType.recommended,
-                    q: searchQueries.recommended,
-                  }),
-              },
-            ]}
-          />
-        )}
-      </BetweenSection.Left>
-      <BetweenSection.Right>
-        <CategorySearchBar query={searchQueries[categoryType]} onChangeQuery={handleChangeSearchQuery} />
-      </BetweenSection.Right>
-    </BetweenSection>
+    <CategoryListSearchGroupWrapper>
+      <BetweenSection>
+        <BetweenSection.Left>
+          {categoryType !== 'shared' && (
+            <Tab
+              forceSelectedIndex={categoryType === 'recommended' ? 1 : 0}
+              initialSelectedIndex={categoryType === 'recommended' ? 1 : 0}
+              tabButtonProps={[
+                {
+                  name: '작성 목록',
+                  onClick: () =>
+                    onReplaceWithSearchQuery({ ...defaultQueryStringByCategoryType.me, q: searchQueries.me }),
+                },
+                {
+                  name: '추천 목록',
+                  onClick: () =>
+                    onReplaceWithSearchQuery({
+                      ...defaultQueryStringByCategoryType.recommended,
+                      q: searchQueries.recommended,
+                    }),
+                },
+              ]}
+            />
+          )}
+        </BetweenSection.Left>
+        <BetweenSection.Right>
+          <CategorySearchBar query={searchQueries[categoryType]} onChangeQuery={handleChangeSearchQuery} />
+        </BetweenSection.Right>
+      </BetweenSection>
+    </CategoryListSearchGroupWrapper>
   );
 };
 
