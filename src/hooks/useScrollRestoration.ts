@@ -1,11 +1,20 @@
 import { useEffect } from 'react';
 
-/* XXX: 앞으로가기-뒤로가기 nextjs experimental scroll restoriation 사용하지 않고 커스텀 고려
+/* XXX: 앞으로가기-뒤로가기 nextjs experimental scroll restoriation 동작이 잘 안될 경우 커스텀을 고려
  */
 const useScrollRestoration = () => {
   useEffect(() => {
-    if ('scrollRestoration' in window.history && window.history.scrollRestoration !== 'auto') {
+    if (!('scrollRestoration' in window.history)) {
+      return;
+    }
+    const entries = performance.getEntriesByType('navigation')[0];
+    const entriesNavigationTiming = entries as PerformanceNavigationTiming;
+    console.log(entriesNavigationTiming.type);
+    if (entriesNavigationTiming.type === 'reload') {
       window.history.scrollRestoration = 'auto';
+      setTimeout(() => {
+        window.history.scrollRestoration = 'manual';
+      }, 1000);
     }
   }, []);
 };
