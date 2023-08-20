@@ -14,6 +14,7 @@ import {
 } from '@/mock/api';
 import { MOCK_CATEGORIES } from '@/mock/data';
 import { hasAuthState } from '@/atoms/common';
+import mockRouter from 'next-router-mock';
 
 jest.mock('nookies', () => ({
   get: jest.fn(),
@@ -30,7 +31,7 @@ describe('CategoryListPage', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <Category />
+        <Category recommended="" searchQuery="" />
       </>,
     );
     const categoryListPageHead = await screen.findByRole('heading', {
@@ -49,7 +50,7 @@ describe('CategoryListPage', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <Category />
+        <Category recommended="" searchQuery="" />
       </>,
     );
     const searchInput = await screen.findByRole('searchbox', { name: 'input-category-search' });
@@ -75,7 +76,7 @@ describe('CategoryListPage', () => {
         sortOrder: 'ASC',
       }),
     ]);
-    renderQuery(<Category />);
+    renderQuery(<Category recommended="" searchQuery="" />);
     const listPageHead = await screen.findByRole('heading', {
       name: /내 카테고리/i,
     });
@@ -105,7 +106,7 @@ describe('CategoryListPage', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <Category />
+        <Category recommended="" searchQuery="" />
       </>,
     );
     const inputTitleText = 'HELL';
@@ -142,7 +143,7 @@ describe('CategoryListPage', () => {
 
   it('카테고리 추가 실패 시 카테고리 추가가 되지 않고 toast가 식별된다.', async () => {
     implementServer([restHandler(mockedPostCategoryApi, { status: 400, message: '제목 오류' })]);
-    renderQuery(<Category />);
+    renderQuery(<Category recommended="" searchQuery="" />);
     const inputTitleText = 'geaighalgiahglaghalgah';
     const addButton = await screen.findByRole('button', {
       name: /추가하기/i,
@@ -185,6 +186,7 @@ describe('CategoryListPage', () => {
     });
 
     it('본인이 추천한 category 목록이 식별된다.', async () => {
+      mockRouter.push('/categories?recommended=true');
       implementServer([
         restOverridedResponseHandler(mockedGetAuthUserCategoryListApi, {
           contents: [
@@ -228,18 +230,47 @@ describe('CategoryListPage', () => {
         accessToken: 'token',
       });
       const mockedContext = {
+        req: {
+          url: '/categories?recommended=true',
+        },
         query: { recommended: 'true' },
         res: {
           setHeader: mockedSetHeader,
         },
       } as unknown as GetServerSidePropsContext;
       const { props } = (await getServerSideProps(mockedContext)) as any;
-      expect(props).toHaveProperty('isRecommendedRequest', true);
+      expect(props).toHaveProperty('recommended', 'true');
       await waitFor(() => renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState));
       const categoryListPageHead = screen.getByRole('heading', { name: /추천한 카테고리/i });
-      const cardUserAvatar = screen.getByRole('img', { name: 'member-name-avatar' });
       expect(categoryListPageHead).toBeInTheDocument();
-      expect(cardUserAvatar).toBeInTheDocument();
+      expect(screen.getAllByRole('article')).toHaveLength(1);
+      expect(screen.getByRole('img', { name: 'member-name-avatar' })).toBeInTheDocument();
+    });
+
+    it('query 상태대로 필터링 되어 보여진다.', async () => {
+      mockRouter.push('/categories?recommended=true&q=title9');
+      const mockedSetHeader = jest.fn();
+      (nookies.get as jest.Mock).mockReturnValue({
+        accessToken: 'token',
+      });
+      const mockedContext = {
+        req: {
+          url: '/categories?recommended=true&q=title9',
+        },
+        query: { recommended: 'true', q: 'title9' },
+        res: {
+          setHeader: mockedSetHeader,
+        },
+      } as unknown as GetServerSidePropsContext;
+      const { props } = (await getServerSideProps(mockedContext)) as any;
+      expect(props).toHaveProperty('recommended', 'true');
+      expect(props).toHaveProperty('searchQuery', 'title9');
+      await waitFor(() => renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState));
+      const categoryListPageHead = screen.getByRole('heading', { name: /추천한 카테고리/i });
+      expect(categoryListPageHead).toBeInTheDocument();
+      expect(screen.getAllByRole('article')).toHaveLength(
+        MOCK_CATEGORIES.filter((v) => v.title.indexOf('title9') !== -1).length,
+      );
     });
 
     it('회원 category 목록 조회에 실패하면 빈 목록이 식별된다.', async () => {
@@ -256,7 +287,7 @@ describe('CategoryListPage', () => {
       const { props } = (await getServerSideProps(mockedContext)) as any;
       expect(props).toHaveProperty('dehydratedState');
       expect(mockedSetHeader).not.toHaveBeenCalled();
-      renderQuery(<Category />, undefined, undefined, props.dehydratedState);
+      renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState);
       const emptyListText = await screen.findByText('목록이 존재하지 않습니다');
       expect(emptyListText).toBeInTheDocument();
     });

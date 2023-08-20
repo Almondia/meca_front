@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { QueryClient } from '@tanstack/react-query';
 
@@ -29,14 +29,24 @@ const categoryListStrategy = {
   },
 } as const;
 
-const useCategoryList = (key: CategoryListFetcherKey, disable?: boolean) => {
+const initialSearchQuries = {
+  me: '',
+  recommended: '',
+  shared: '',
+} as const;
+
+const useCategoryList = (key: CategoryListFetcherKey, disable?: boolean, q = '') => {
   const [searchQuries, setSearchQueries] = useState<Record<CategoryListFetcherKey, string>>({
-    me: '',
-    recommended: '',
-    shared: '',
+    ...initialSearchQuries,
+    [key]: q,
   });
-  const currentSearchQuery = useMemo(() => searchQuries[key], [key, searchQuries]);
-  const currentQueryKey = useMemo(() => getQueryKey(currentSearchQuery, key), [currentSearchQuery, key]);
+
+  useEffect(() => {
+    setSearchQueries((prev) => ({ ...prev, [key]: q }));
+  }, [q, key]);
+
+  const currentSearchQuery = searchQuries[key];
+  const currentQueryKey = getQueryKey(currentSearchQuery, key);
   const {
     data: categoryList,
     isEmpty,
@@ -51,17 +61,14 @@ const useCategoryList = (key: CategoryListFetcherKey, disable?: boolean) => {
     },
   );
 
-  const changeSearchQuery = useCallback(
-    (newQuery: string) => {
-      if (currentSearchQuery === newQuery) {
-        return;
-      }
-      setSearchQueries((prev) => ({ ...prev, [key]: newQuery }));
-    },
-    [currentSearchQuery, key],
-  );
-
-  return { categoryList, fetchNextPage, hasNextPage, query: currentSearchQuery, changeSearchQuery, isEmpty };
+  return {
+    categoryList,
+    fetchNextPage,
+    hasNextPage,
+    query: currentSearchQuery,
+    isEmpty,
+    searchQuries,
+  };
 };
 
 const genContentsWithPlaceholder = (categoryList: CategoryListPaginationResponse, blurFn: BlurFn) =>
@@ -75,10 +82,10 @@ const genContentsWithPlaceholder = (categoryList: CategoryListPaginationResponse
     return { ...content, category: { ...content.category, blurThumbnail: { ...img, blurDataURL } } };
   });
 
-useCategoryList.prefetchInfiniteQuery = (key: CategoryListFetcherKey, queryClient: QueryClient) =>
+useCategoryList.prefetchInfiniteQuery = (key: CategoryListFetcherKey, query: string, queryClient: QueryClient) =>
   queryClient.prefetchInfiniteQuery(
-    categoryListStrategy[key].queryKey(''),
-    async () => categoryListStrategy[key].queryFn({}),
+    categoryListStrategy[key].queryKey(query),
+    async () => categoryListStrategy[key].queryFn({ containTitle: query }),
     {
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
     },

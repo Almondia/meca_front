@@ -13,7 +13,6 @@ const useMeca = (cardId: string, shared?: boolean, memberId?: string) => {
     async () => (shared ? mecaApi.getSharedCardById(cardId, memberId) : mecaApi.getMyCardById(cardId)),
     {
       enabled: !!cardId && (shared ? true : hasAuth),
-      staleTime: 5,
       onError: () => {
         if (shared) {
           queryClient.setQueryData([queryKey.meca, cardId], undefined);
