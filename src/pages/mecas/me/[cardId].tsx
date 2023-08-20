@@ -10,7 +10,6 @@ import MecaPostHeader from '@/components/meca/organisms/MecaPostHeader';
 import useMeca from '@/hooks/meca/useMeca';
 import { ssrAspect } from '@/libs/renderAspect';
 import { Devide, PostPageLayout } from '@/styles/layout';
-import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const QuizHistoryTimeline = dynamic(() => import('@/components/quiz/organisms/QuizHistoryTimeline'));
 export interface MecaPageProps {
@@ -49,10 +48,10 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     throw { message: '잘못된 요청' };
   }
   const { card } = await useMeca.fetchQuery(false, cardId, queryClient);
-  context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   return {
     cardId,
     categoryId: card.categoryId,
+    cached: true,
   };
 });
 

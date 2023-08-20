@@ -26,8 +26,8 @@ const useUser = () => {
     },
     {
       enabled: true,
-      staleTime: 1500000,
-      cacheTime: 3000000,
+      staleTime: 600000,
+      cacheTime: Infinity,
       onError: () => {
         queryClient.setQueryData([queryKey.me], null);
         router.replace('/');

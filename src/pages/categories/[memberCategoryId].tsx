@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   const { uuid1: memberId, uuid2: categoryId } = extractCombinedUUID(memberCategoryId);
   const isMine: boolean = memberId === currentMemberId ?? false;
   await useMecaList.fetchInfiniteQuery(categoryId, isMine, queryClient);
-  return { categoryId, isMine };
+  return { categoryId, isMine, cached: true };
 }, true);
 
 export default CategoryById;
