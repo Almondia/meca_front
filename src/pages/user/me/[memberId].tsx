@@ -10,7 +10,6 @@ import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import { Devide, PostPageLayout } from '@/styles/layout';
-import { PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
 
 const QuizHistoryTimeline = dynamic(() => import('@/components/quiz/organisms/QuizHistoryTimeline'));
 
@@ -53,9 +52,9 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
     throw { message: '회원정보가 존재하지 않음' };
   }
   await useMecaHistory.prefetchInfiniteQuery('members', memberId, queryClient);
-  context.res.setHeader('Cache-Control', PRIVATE_SSR_CDN_CACHE_VALUE);
   return {
     memberId,
+    cached: true,
   };
 });
 

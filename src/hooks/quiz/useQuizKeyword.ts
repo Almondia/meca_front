@@ -30,8 +30,6 @@ const useQuizKeyword = () => {
     },
     {
       enabled: false,
-      staleTime: 3,
-      cacheTime: 3,
       retry: 1,
       onError: undefined,
     },

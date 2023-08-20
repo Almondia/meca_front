@@ -32,7 +32,7 @@ const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
     },
     {
       enabled: !!quizInfo,
-      staleTime: 3000000,
+      staleTime: 1200000,
       onSuccess: () => {
         successHandler?.();
       },
