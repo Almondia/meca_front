@@ -15,7 +15,7 @@
     "es2021": true,
     "jest": true
   },
-  "ignorePatterns": ["node_modules/", "public", ".next", "next.config.js", "jest**", "__tests__"],
+  "ignorePatterns": ["node_modules/", "public", ".next", "**.config.js", "jest**", "__tests__"],
   "extends": [
     "next/core-web-vitals",
     "airbnb",
