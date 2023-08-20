@@ -3,7 +3,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:prod": "next build && next-sitemap --config next-sitemap.config.js",
     "build:anz": "ANALYZE=true next build",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start": "next start",
     "test": "jest --watch",
     "test:ci": "jest --ci --silent",
