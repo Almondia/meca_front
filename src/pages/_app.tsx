@@ -9,6 +9,7 @@ import { RecoilRoot } from 'recoil';
 
 import PageLayout from '@/components/@common/templates/PageLayout';
 import FontProvider from '@/components/@util/FontProvider';
+import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { generateQueryClient } from '@/query/queryClient';
 import commonTheme from '@/styles/theme';
 import ThemeProvider from '@/styles/ThemeProvider';
@@ -32,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => generateQueryClient());
   const { errorStatus, errorMessage }: ErrorProps = pageProps;
   const ErrorPage = errorStatus && errorPage[errorStatus];
+  useScrollRestoration();
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
