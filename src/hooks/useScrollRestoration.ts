@@ -9,7 +9,6 @@ const useScrollRestoration = () => {
     }
     const entries = performance.getEntriesByType('navigation')[0];
     const entriesNavigationTiming = entries as PerformanceNavigationTiming;
-    console.log(entriesNavigationTiming.type);
     if (entriesNavigationTiming.type === 'reload') {
       window.history.scrollRestoration = 'auto';
       setTimeout(() => {

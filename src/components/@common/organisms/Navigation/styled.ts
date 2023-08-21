@@ -42,10 +42,14 @@ export const ProfileDivButton = styled.div.attrs({ as: 'button' })`
       opacity: 0.8;
     }
   }
+  @media ${({ theme }) => theme.media.mobile} {
+    margin-right: -12px;
+  }
 `;
 
 export const LoginButton = styled.button`
   padding: 6px 14px;
+  margin-top: -4px;
   border-radius: 20px;
   font-size: ${({ theme }) => theme.fontSize.sub};
   color: var(--color-background);
