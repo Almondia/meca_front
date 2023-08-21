@@ -1,43 +1,35 @@
 import { useRouter } from 'next/router';
 
-import { useCallback } from 'react';
+import { memo } from 'react';
 
 import ButtonGroup from '@/components/@common/molecules/ButtonGroup';
 import Modal from '@/components/@common/molecules/Modal';
+import useQuizResult from '@/hooks/quiz/useQuizResult';
 import useModal from '@/hooks/useModal';
+import useRouteChangeBlocking from '@/hooks/useRouteChangeBlocking';
 
 interface QuizPlayButtonGroupProps {
   succeedText: string;
   onSucceed: () => void;
 }
 
-const QuizPlayButtonGroup = ({ succeedText, onSucceed }: QuizPlayButtonGroupProps) => {
-  const { visible, open, close } = useModal();
+const QuizPlayButtonGroup = memo(({ succeedText, onSucceed }: QuizPlayButtonGroupProps) => {
+  const { visible: isConfirmModalVisible, open: openConfirmModal, close: closeConfirmModal } = useModal();
   const router = useRouter();
-
-  const handleOpenConfirmModalClick = useCallback(() => {
-    !visible && open();
-  }, [visible, open]);
-
-  const handleCancelClick = useCallback(() => {
-    router.back();
-  }, [router]);
-
+  const { clearQuizPhase } = useQuizResult();
+  const { offRouteChangeBlocking } = useRouteChangeBlocking(openConfirmModal);
   return (
     <>
-      <ButtonGroup
-        onSuccess={onSucceed}
-        onCancel={handleOpenConfirmModalClick}
-        successText={succeedText}
-        cancelText="나가기"
-      />
-      <Modal visible={visible} onClose={close} hasCloseIcon={false}>
-        <Modal.Body>현재 페이지로 다시 돌아올 수 없습니다?</Modal.Body>
-        <Modal.ConfirmButton onClick={handleCancelClick}>나가기</Modal.ConfirmButton>
-        <Modal.CloseButton onClick={close}>취소</Modal.CloseButton>
-      </Modal>
+      <ButtonGroup onSuccess={onSucceed} onCancel={router.back} successText={succeedText} cancelText="나가기" />
+      {isConfirmModalVisible && (
+        <Modal visible={isConfirmModalVisible} onClose={closeConfirmModal} hasCloseIcon={false}>
+          <Modal.Body>현재 페이지로 다시 돌아올 수 없습니다?</Modal.Body>
+          <Modal.ConfirmButton onClick={() => offRouteChangeBlocking(clearQuizPhase)}>나가기</Modal.ConfirmButton>
+          <Modal.CloseButton onClick={closeConfirmModal}>취소</Modal.CloseButton>
+        </Modal>
+      )}
     </>
   );
-};
+});
 
 export default QuizPlayButtonGroup;

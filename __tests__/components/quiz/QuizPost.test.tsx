@@ -1,9 +1,10 @@
-import { render } from '../../utils';
+import { renderQuery } from '../../utils';
 import { stringToJsonStringArrayConverter } from '@/utils/jsonHandler';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { useState } from 'react';
 
 import QuizPost, { QuizPostProps } from '@/components/quiz/organisms/QuizPost';
+import mockRouter from 'next-router-mock';
 
 const OX_QUIZ: QuizPostProps = {
   question: '박동석의 MBTI는 ENFP이다.',
@@ -26,9 +27,10 @@ const SELECT_QUIZ: QuizPostProps = {
 } as const;
 
 describe('QuizPost', () => {
-  it('정답을 보지 않은 상태의 객관식 QuizPost UI가 식별된다.', () => {
+  it('정답을 보지 않은 상태의 객관식 QuizPost UI가 식별된다.', async () => {
     const props = SELECT_QUIZ;
-    render(<QuizPost {...props} />);
+    mockRouter.back = jest.fn();
+    renderQuery(<QuizPost {...props} />);
     const questions = stringToJsonStringArrayConverter(props.question);
     questions.forEach((q) => {
       expect(screen.queryByText(q)).toBeInTheDocument();
@@ -42,13 +44,12 @@ describe('QuizPost', () => {
     fireEvent.click(answerRadio);
     expect(answerRadio).toBeChecked();
     fireEvent.click(cancelButton);
-    const modalText = screen.queryByText(/현재 페이지로 다시 돌아올 수 없습니다/i);
-    expect(modalText).toBeInTheDocument();
+    expect(mockRouter.back).toHaveBeenCalled();
   });
 
   it('정답을 본 상태의 OX QuizPost UI가 식별된다.', async () => {
     const props = OX_QUIZ;
-    await waitFor(() => render(<QuizPost {...props} isAnswerState={true} />));
+    await waitFor(() => renderQuery(<QuizPost {...props} isAnswerState={true} />));
     const questionText = screen.queryByText(props.question);
     const editor = screen.queryByTestId('id-quizpost-editor');
     const editorSmapleImage = screen.queryByRole('img', { name: 'img-alt' });
@@ -73,7 +74,7 @@ describe('QuizPost', () => {
         </div>
       );
     };
-    render(<QuizWrapper />);
+    renderQuery(<QuizWrapper />);
     const xRadio = screen.getByRole('radio', { name: 'Ax' });
     expect(xRadio).not.toBeChecked();
     expect(screen.queryByTestId('id-quizpost-editor')).not.toBeInTheDocument();

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -32,9 +31,8 @@ const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
 type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhase, QuizSucceedType>, 'result'>;
 
 const QuizPage = () => {
-  const router = useRouter();
   const quizPhaseTime = useRecoilValue(quizTimeState);
-  const { quizList, solveQuiz, clearQuizPhase, currentQuizResult, retryQuiz } = useQuizResult();
+  const { quizList, solveQuiz, currentQuizResult, retryQuiz } = useQuizResult();
   const { number: round, increaseNumber: setNextRound, resetNumber: resetRound } = useCount(1, 1, quizList.length);
   const [quizPhase, setQuizPhase] = useRecoilState(quizPhaseState);
   const quizSpendTimeRef = useRef<number>(0);
@@ -84,16 +82,6 @@ const QuizPage = () => {
       clearInterval(intervalId);
     };
   }, [quizPhase]);
-
-  useEffect(() => {
-    router.beforePopState(() => {
-      quizPhase !== 'result' && clearQuizPhase();
-      return true;
-    });
-    return () => {
-      router.beforePopState(() => true);
-    };
-  }, [router, quizPhase]);
 
   const quizPhaseSucceed: QuizPhaseSucceedHandlerType = {
     progress: {
