@@ -19,7 +19,7 @@ const Radio = ({ children, name, value, onChange, defaultChecked, disabled }: Ra
       defaultChecked={defaultChecked}
       disabled={disabled}
     />
-    <p>{children}</p>
+    <div>{children}</div>
   </RadioBox>
 );
 

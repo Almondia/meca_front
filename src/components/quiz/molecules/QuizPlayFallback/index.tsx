@@ -13,7 +13,7 @@ const QuizPlayFallback = () => {
   const router = useRouter();
   return (
     <PostPageLayout>
-      <DeferredComponent>
+      <DeferredComponent delay={500}>
         <QuizPlayFallbackWrapper>
           <h4>퀴즈 정보가 만료되었어요</h4>
           <TextBody>풀다가 나오셨죠..??</TextBody>
