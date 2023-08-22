@@ -19,14 +19,12 @@ describe('CategoryList', () => {
     const pageListText = await screen.findAllByRole('article');
     expect(pageListText.length).toBe(2);
     expect(mockFetchNextPage).not.toHaveBeenCalled();
-    // 다음 데이터가 없기 때문에 로딩 컴포넌트는 보여지지 않아야 한다.
-    await waitFor(() => expect(screen.queryByTestId('id-scroll-load-spinner')).not.toBeInTheDocument());
   });
 
   it('다음 페이지 데이터가 있다면 다음 페이지를 가져오기를 기다리는 컴포넌트가 보여진다.', async () => {
     const mockFetchNextPage = jest.fn();
     render(<CategoryList hasNextPage={true} fetchNextPage={mockFetchNextPage} categoryList={mockedCategoryList} />);
-    const loadComponent = await screen.findByTestId('id-scroll-load-spinner');
-    expect(loadComponent).toBeInTheDocument();
+    const loadComponents = await screen.findAllByTestId('id-skeleton-card');
+    expect(loadComponents).not.toHaveLength(0);
   });
 });

@@ -50,6 +50,7 @@ const Category = ({ recommended = '', searchQuery = '' }: CategoryProps) => {
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
           isEmpty={isEmpty}
+          isMine={categoryListQueryKey === 'me'}
         />
       </ListPageLayout>
     </>

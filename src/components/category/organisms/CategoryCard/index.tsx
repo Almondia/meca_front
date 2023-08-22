@@ -23,7 +23,6 @@ interface CategoryCardProps extends CategoryListContent {
 const CategoryCard = memo(({ category, member, statistics, likeCount, isMine }: CategoryCardProps) => {
   const { categoryId, memberId, title, thumbnail, blurThumbnail, shared } = category;
   const srcImage = thumbnail ? getRemoteImageUrl(thumbnail) : '/images/noimage.png';
-  console.log('RERENDER', category.title);
   return (
     <Card data-testid="id-category-card">
       <Card.Thumbnail

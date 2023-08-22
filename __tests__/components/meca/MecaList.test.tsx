@@ -2,17 +2,16 @@ import { render } from '../../utils';
 import { screen, waitFor } from '@testing-library/react';
 import { MOCK_MEMBER, MOCK_MEMBER_ID } from '@/mock/data';
 
-import type { MecaListResponse } from '@/apis/mecaApi';
+import type { MecaListPaginationResponse } from '@/types/domain/meca';
 import MecaList from '@/components/meca/organisms/MecaList';
 
-const mockMecaList: MecaListResponse = {
+const mockMecaList: MecaListPaginationResponse = {
   contents: [
     {
       card: {
         cardId: '1',
         title: 'title1',
         question: 'question1',
-        answer: 'a1',
         cardType: 'OX_QUIZ',
         createdAt: 'c1',
         description: '',
@@ -29,7 +28,6 @@ const mockMecaList: MecaListResponse = {
         cardId: '2',
         title: 'title2',
         question: 'question2',
-        answer: 'a2',
         cardType: 'OX_QUIZ',
         createdAt: 'c2',
         description: '',
@@ -46,7 +44,6 @@ const mockMecaList: MecaListResponse = {
         cardId: '3',
         title: 'title3',
         question: 'question3',
-        answer: 'a3',
         cardType: 'OX_QUIZ',
         createdAt: 'c3',
         description: '',
@@ -67,7 +64,7 @@ const mockMecaList: MecaListResponse = {
     memberId: MOCK_MEMBER_ID,
     shared: true,
     thumbnail: '',
-    likeCount: 0,
+    createdAt: '',
   },
   member: MOCK_MEMBER,
   categoryLikeCount: 0,
@@ -93,7 +90,7 @@ describe('MecaList', () => {
   it('다음 페이지 데이터가 있다면 다음 페이지를 가져오기를 기다리는 컴포넌트가 보여진다.', async () => {
     const mockFetchNextPage = jest.fn();
     render(<MecaList fetchNextPage={mockFetchNextPage} mecaList={mockMecaList} hasNextPage={true} />);
-    const loadComponent = await screen.findByTestId('id-scroll-load-spinner');
-    expect(loadComponent).toBeInTheDocument();
+    const loadComponent = await screen.findAllByTestId('id-skeleton-card');
+    expect(loadComponent).not.toHaveLength(0);
   });
 });
