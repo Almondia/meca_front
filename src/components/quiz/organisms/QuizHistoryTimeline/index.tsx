@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import InfiniteList from '@/components/@common/molecules/InfiniteList';
+import DeferredComponent from '@/components/@util/DeferredComponent';
 import QuizTimelineItem from '@/components/quiz/organisms/QuizTimelineItem';
 import QuizTimelineItemSkeleton from '@/components/quiz/organisms/QuizTimelineItem/QuizTimelineItemSkeleton';
 import useMecaHistory from '@/hooks/meca/useMecaHistory';
@@ -56,10 +57,10 @@ const QuizHistoryTimeline = ({ resourceId, resourceType }: QuizHistoryTimelinePr
           );
         })}
         {!moreButtonVisible && (
-          <>
+          <DeferredComponent delay={requestedNextPage ? 0 : 200}>
             <QuizTimelineItemSkeleton unindented={requestedNextPage} left={historyList.contents.length % 2 === 0} />
             <QuizTimelineItemSkeleton unindented left={historyList.contents.length % 2 !== 0} />
-          </>
+          </DeferredComponent>
         )}
       </InfiniteList>
       {moreButtonVisible && (
