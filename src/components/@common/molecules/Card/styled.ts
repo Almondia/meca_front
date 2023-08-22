@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { TextBodyTitle } from '@/styles/common';
 import { FlexColumn } from '@/styles/layout';
@@ -14,11 +14,15 @@ export const CardWrapper = styled.article`
   }
 `;
 
-export const CardThumbnailWrapper = styled.div<{ ratioWidth: number; ratioHeight: number }>`
+const CardThumbnailDefaultStyle = css`
   position: relative;
   overflow: hidden;
   margin-bottom: -8px;
   max-width: 100%;
+`;
+
+export const CardThumbnailWrapper = styled.div<{ ratioWidth: number; ratioHeight: number }>`
+  ${CardThumbnailDefaultStyle};
   aspect-ratio: ${(props) => `calc(${props.ratioWidth} / ${props.ratioHeight})`};
   & > img {
     object-fit: cover;
@@ -62,5 +66,39 @@ export const CardBodyWrapper = styled.div`
   padding: 24px 16px 16px 24px;
   @media ${({ theme }) => theme.media.mobile} {
     row-gap: 4px;
+  }
+`;
+
+export const CardThumbnailSkeletonWrapper = styled.div<{ ratio: number }>`
+  ${CardThumbnailDefaultStyle};
+  aspect-ratio: ${(props) => props.ratio};
+  .skeleton-item {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+`;
+
+export const CardSkeletonWrapper = styled(CardWrapper).attrs({ as: 'div' })<{ idx: number }>`
+  @media ${({ theme }) => theme.media.tablet} {
+    display: ${(props) => (props.idx > 5 ? 'none' : 'block')};
+  }
+  @media ${({ theme }) => theme.media.mobile} {
+    display: ${(props) => (props.idx > 1 ? 'none' : 'block')};
+  }
+  .skeleton-item {
+    border-radius: ${({ theme }) => theme.border.card};
+  }
+`;
+
+export const CardContentSkeletonWrapper = styled.div<{ height: string }>`
+  ${FlexColumn};
+  justify-content: center;
+  row-gap: 4px;
+  height: ${(props) => props.height};
+  overflow: hidden;
+  & > div {
+    display: flex;
+    height: 14px;
+    column-gap: 8px;
   }
 `;
