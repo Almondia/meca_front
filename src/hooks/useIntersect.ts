@@ -20,16 +20,14 @@ const useIntersect = <T extends HTMLElement>(
 
   useEffect(() => {
     if (!ref.current || !isIntersecting) {
-      return;
+      return () => {};
     }
     const observer = new IntersectionObserver(handleIntersect, options);
     observer.observe(ref.current);
-    // eslint-disable-next-line consistent-return
     return () => {
       observer.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref, options, isIntersecting]);
+  }, [ref, options, isIntersecting, handleIntersect]);
 
   return ref;
 };
