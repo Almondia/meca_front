@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import type { CategoryListContent } from '@/types/domain/category';
 
 import Icon from '@/components/@common/atoms/Icon';
@@ -18,10 +20,10 @@ interface CategoryCardProps extends CategoryListContent {
   isMine?: boolean;
 }
 
-const CategoryCard = ({ category, member, statistics, likeCount, isMine }: CategoryCardProps) => {
+const CategoryCard = memo(({ category, member, statistics, likeCount, isMine }: CategoryCardProps) => {
   const { categoryId, memberId, title, thumbnail, blurThumbnail, shared } = category;
   const srcImage = thumbnail ? getRemoteImageUrl(thumbnail) : '/images/noimage.png';
-
+  console.log('RERENDER', category.title);
   return (
     <Card data-testid="id-category-card">
       <Card.Thumbnail
@@ -71,6 +73,6 @@ const CategoryCard = ({ category, member, statistics, likeCount, isMine }: Categ
       </Card.Body>
     </Card>
   );
-};
+});
 
 export default CategoryCard;
