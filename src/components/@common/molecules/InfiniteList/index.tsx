@@ -21,8 +21,10 @@ const ListByType = {
   wide: WideList,
 } as const;
 
+const intersectionOptions = { rootMargin: '100% 0px' } as const;
+
 const InfiniteList = ({ children, loader, loadMore, hasNext, type }: ListInfiniteScrollerProps) => {
-  const ref = useIntersect<HTMLDivElement>(loadMore, { rootMargin: '100% 0px' }, hasNext);
+  const ref = useIntersect<HTMLDivElement>(loadMore, intersectionOptions, hasNext);
   return (
     <InfiniteListWrapper>
       {ListByType[type]({ children })}
