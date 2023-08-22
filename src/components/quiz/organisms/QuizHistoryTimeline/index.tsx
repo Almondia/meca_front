@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import InfiniteList from '@/components/@common/molecules/InfiniteList';
 import QuizTimelineItem from '@/components/quiz/organisms/QuizTimelineItem';
+import QuizTimelineItemSkeleton from '@/components/quiz/organisms/QuizTimelineItem/QuizTimelineItemSkeleton';
 import useMecaHistory from '@/hooks/meca/useMecaHistory';
 import { combineUUID } from '@/utils/uuidHandler';
 
@@ -45,8 +46,8 @@ const QuizHistoryTimeline = ({ resourceId, resourceType }: QuizHistoryTimelinePr
           return (
             <QuizTimelineItem
               key={cardHistory.cardHistoryId}
-              isUnindented={idx !== 0}
-              isLeft={idx % 2 === 0}
+              unindented={idx !== 0}
+              left={idx % 2 === 0}
               cardLink={`/mecas/${combineUUID(card.memberId, card.cardId)}`}
               {...card}
               {...cardHistory}
@@ -54,6 +55,12 @@ const QuizHistoryTimeline = ({ resourceId, resourceType }: QuizHistoryTimelinePr
             />
           );
         })}
+        {!moreButtonVisible && (
+          <>
+            <QuizTimelineItemSkeleton unindented={requestedNextPage} left={historyList.contents.length % 2 === 0} />
+            <QuizTimelineItemSkeleton unindented left={historyList.contents.length % 2 !== 0} />
+          </>
+        )}
       </InfiniteList>
       {moreButtonVisible && (
         <QuizHistoryTimelineMoreFetchButton

@@ -115,7 +115,7 @@ describe('QuizHistoryTimeline', () => {
     const nextButton = screen.getByRole('button', { name: /계속보기/i });
     expect(nextButton).toBeInTheDocument();
     fireEvent.click(nextButton);
-    expect(screen.getByTestId('id-scroll-load-spinner')).toBeInTheDocument();
+    expect(screen.getAllByTestId('id-skeleton-timeline-item')).not.toHaveLength(0);
     expect(nextButton).not.toBeInTheDocument();
   });
 
