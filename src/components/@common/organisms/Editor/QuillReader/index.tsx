@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable import/prefer-default-export */
 /* eslint-disable react/no-danger */
 import dynamic from 'next/dynamic';
 
@@ -22,6 +21,7 @@ const QuillReader = memo(({ content }: { content: string }) => {
           const CodeBlot = await getCodeHighlightBlot(QuillComponent);
           QuillComponent.Quill.register(ImageBlot);
           QuillComponent.Quill.register(CodeBlot);
+          QuillComponent.Quill.register('blots/scroll', null);
           return () => (
             <ReadEditorWrapper className="quill-readonly">
               <QuillComponent theme="bubble" readOnly value={content.replaceAll('</span>\n ', '</span>\n&nbsp;')} />
