@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
+    "@babel/preset-typescript": "^7.22.5",
     "@mdx-js/react": "^1.6.22",
     "@next/bundle-analyzer": "^13.4.1",
     "@next/eslint-plugin-next": "^13.2.1",
