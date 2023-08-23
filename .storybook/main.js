@@ -10,10 +10,6 @@ module.exports = {
     '@storybook/addon-interactions',
     'storybook-addon-next-router',
   ],
-  babel: async (options) => ({
-    ...options,
-    plugins: ['babel-plugin-styled-components'],
-  }),
   framework: '@storybook/react',
   core: {
     builder: '@storybook/builder-webpack5',
@@ -47,6 +43,25 @@ module.exports = {
       test: /\.svg$/,
       enforce: 'pre',
       use: ['@svgr/webpack'],
+    });
+    config.module.rules.push({
+      test: /\.(ts?|tsx?)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-typescript'],
+          plugins: [
+            [
+              'babel-plugin-styled-components',
+              {
+                displayName: false,
+                ssr: false,
+              },
+            ],
+          ],
+        },
+      },
     });
     return config;
   },
