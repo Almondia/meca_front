@@ -17,9 +17,9 @@ const DeferredComponent = ({ children, delay = 200, keepLayout = false }: Deferr
     debouncedSetDeffered();
   }, []);
   if (!isDeferred) {
-    return null;
+    return keepLayout ? <div style={{ opacity: 0 }}>{children}</div> : null;
   }
-  return keepLayout ? <div style={{ opacity: 0 }}>{children}</div> : <>{children}</>;
+  return <>{children}</>;
 };
 
 export default DeferredComponent;
