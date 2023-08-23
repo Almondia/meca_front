@@ -7,9 +7,10 @@ import useDebounce from '@/hooks/useDebounce';
 interface DeferredComponentProps {
   children: React.ReactNode;
   delay?: number;
+  keepLayout?: boolean;
 }
 
-const DeferredComponent = ({ children, delay = 200 }: DeferredComponentProps) => {
+const DeferredComponent = ({ children, delay = 200, keepLayout = false }: DeferredComponentProps) => {
   const [isDeferred, setIsDeferred] = useState<boolean>(false);
   const debouncedSetDeffered = useDebounce(() => setIsDeferred(true), delay);
   useEffect(() => {
@@ -18,7 +19,7 @@ const DeferredComponent = ({ children, delay = 200 }: DeferredComponentProps) =>
   if (!isDeferred) {
     return null;
   }
-  return <>{children}</>;
+  return keepLayout ? <div style={{ opacity: 0 }}>{children}</div> : <>{children}</>;
 };
 
 export default DeferredComponent;
