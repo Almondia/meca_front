@@ -42,7 +42,7 @@ const UserAvatarEditor = ({ memberId, profile, updateProfileImage, deleteProfile
 
   return (
     <UserAvatarEditorWrapper>
-      <Avatar imgSrc={urlImage} imgName={memberId} imgSize={120} />
+      <Avatar imgSrc={urlImage} imgName={memberId} imgSize={120} priority />
       <div>
         <LinkButton onClick={onUploadLocalImage}>등록</LinkButton>
         {profile && <LinkButton onClick={handleProfileImageDelete}>제거</LinkButton>}
