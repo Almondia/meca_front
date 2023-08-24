@@ -90,6 +90,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:13.2.1"],\
             ["next-router-mock", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.9.3"],\
             ["next-sitemap", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.2.2"],\
+            ["node-mocks-http", "npm:1.13.0"],\
             ["nookies", "npm:2.5.2"],\
             ["plaiceholder", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.5.0"],\
             ["prettier", "npm:2.8.4"],\
@@ -20172,6 +20173,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["node-mocks-http", [\
+        ["npm:1.13.0", {\
+          "packageLocation": "./.yarn/cache/node-mocks-http-npm-1.13.0-86567cf4ca-ee03dbb81d.zip/node_modules/node-mocks-http/",\
+          "packageDependencies": [\
+            ["node-mocks-http", "npm:1.13.0"],\
+            ["accepts", "npm:1.3.8"],\
+            ["content-disposition", "npm:0.5.4"],\
+            ["depd", "npm:1.1.2"],\
+            ["fresh", "npm:0.5.2"],\
+            ["merge-descriptors", "npm:1.0.1"],\
+            ["methods", "npm:1.1.2"],\
+            ["mime", "npm:1.6.0"],\
+            ["parseurl", "npm:1.3.3"],\
+            ["range-parser", "npm:1.2.1"],\
+            ["type-is", "npm:1.6.18"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["node-releases", [\
         ["npm:2.0.10", {\
           "packageLocation": "./.yarn/cache/node-releases-npm-2.0.10-f8e2d9a776-d784ecde25.zip/node_modules/node-releases/",\
@@ -22994,6 +23014,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:13.2.1"],\
             ["next-router-mock", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.9.3"],\
             ["next-sitemap", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.2.2"],\
+            ["node-mocks-http", "npm:1.13.0"],\
             ["nookies", "npm:2.5.2"],\
             ["plaiceholder", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.5.0"],\
             ["prettier", "npm:2.8.4"],\
