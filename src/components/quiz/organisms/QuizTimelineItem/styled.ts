@@ -9,12 +9,18 @@ const RightGrid = css`
   grid-template-areas: 'subinfo vertical-box card';
 `;
 
-export const Wrapper = styled.div<{ left?: boolean; unindented?: boolean }>`
+export interface DefaultStyleProps {
+  left?: boolean;
+  unindented?: boolean;
+}
+
+export const Wrapper = styled.div<DefaultStyleProps>`
   position: relative;
   display: grid;
   grid-template-columns: 1fr 30px 1fr;
   ${(props) => (props.left ? LeftGrid : RightGrid)};
   column-gap: 8px;
+  max-width: 864px;
   margin-bottom: 1.25rem;
   ${(props) => props.unindented && 'margin-top: -70px;'};
   @media ${({ theme }) => theme.media.mobile} {
@@ -25,7 +31,9 @@ export const Wrapper = styled.div<{ left?: boolean; unindented?: boolean }>`
       'vertical-box subinfo';
     column-gap: 4px;
   }
-  max-width: 864px;
+  .skeleton-item {
+    border-radius: ${({ theme }) => theme.border.card};
+  }
 `;
 
 export const TimelineCard = styled.div<{ left?: boolean }>`
@@ -149,4 +157,13 @@ export const TagContainer = styled.div`
   width: 50%;
   margin-top: -14px;
   margin-bottom: -4px;
+`;
+
+export const SkeletonContentWrapper = styled.div`
+  ${FlexColumn};
+  row-gap: 1rem;
+  & > div {
+    ${FlexColumn};
+    row-gap: 4px;
+  }
 `;

@@ -3,6 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import type { MecaHistoryListContent } from '@/types/domain/mecaHistory';
 
 import QuizTimelineItem from '@/components/quiz/organisms/QuizTimelineItem';
+import QuizTimelineItemSkeleton from '@/components/quiz/organisms/QuizTimelineItem/QuizTimelineItemSkeleton';
 
 export default {
   title: 'components/quiz/QuizTimelineItem',
@@ -36,19 +37,13 @@ const historyContent: MecaHistoryListContent = {
 const Template: ComponentStory<typeof QuizTimelineItem> = (args) => <QuizTimelineItem {...args} />;
 
 export const LeftTimelineItem = () => (
-  <Template
-    isLeft
-    {...historyContent.card}
-    {...historyContent.cardHistory}
-    scorePostfixText="12초 "
-    isUnindented={false}
-  />
+  <Template left {...historyContent.card} {...historyContent.cardHistory} scorePostfixText="12초 " unindented={false} />
 );
 
 export const RightTimelineItem = () => (
   <Template
     cardLink="/hello"
-    isLeft={false}
+    left={false}
     {...historyContent.card}
     {...historyContent.cardHistory}
     score={20}
@@ -56,6 +51,8 @@ export const RightTimelineItem = () => (
     createdAt="2023-06-16T14:24:57.2667251"
     title="hello title!"
     question="hello question"
-    isUnindented={false}
+    unindented={false}
   />
 );
+
+export const Skeleton = () => <QuizTimelineItemSkeleton left unindented={false} />;

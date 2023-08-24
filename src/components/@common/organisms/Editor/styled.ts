@@ -195,6 +195,9 @@ export const ReadEditorWrapper = styled(EditorWrapper)`
   .ql-bubble > .ql-editor {
     padding: 0;
   }
+  a.ql-close {
+    display: none;
+  }
 `;
 
 export const WriteEditorImageUploadButton = styled.button`

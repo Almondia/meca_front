@@ -24,7 +24,7 @@ const QuizPlayResultTimeline = ({ quizList }: QuizResultTimelineProps) => {
   }
   return (
     <QuizPlayResultTimelineWrapper>
-      <InfiniteList type="wide" hasNext={currentQuizList.length < quizList.length} loadMore={loadMore} loader=".">
+      <InfiniteList type="wide" hasNext={currentQuizList.length < quizList.length} loadMore={loadMore}>
         {currentQuizList.map((quiz, idx) => {
           const quizResult = quiz.result;
           if (!quizResult) {
@@ -33,8 +33,8 @@ const QuizPlayResultTimeline = ({ quizList }: QuizResultTimelineProps) => {
           return (
             <QuizTimelineItem
               key={quiz.cardId}
-              isUnindented={idx !== 0}
-              isLeft={idx % 2 === 0}
+              unindented={idx !== 0}
+              left={idx % 2 === 0}
               {...quiz}
               question={extractTextFromHTML(quiz.question)}
               createdAt={undefined}

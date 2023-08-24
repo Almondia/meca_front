@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable import/prefer-default-export */
 /* eslint-disable react/no-danger */
 import dynamic from 'next/dynamic';
 
@@ -18,10 +17,11 @@ const QuillReader = memo(({ content }: { content: string }) => {
         async () => {
           const { default: QuillComponent } = await import('react-quill');
           QuillComponent.Quill.debug('error');
-          const ImageBlot = await getCustomImageBlot(QuillComponent, true);
-          const CodeBlot = await getCodeHighlightBlot(QuillComponent);
-          QuillComponent.Quill.register(ImageBlot);
-          QuillComponent.Quill.register(CodeBlot);
+          await Promise.all([
+            getCustomImageBlot(QuillComponent, true).then((ImageBlot) => QuillComponent.Quill.register(ImageBlot)),
+            getCodeHighlightBlot(QuillComponent).then((CodeBlot) => QuillComponent.Quill.register(CodeBlot)),
+          ]);
+          QuillComponent.Quill.register('blots/scroll', null);
           return () => (
             <ReadEditorWrapper className="quill-readonly">
               <QuillComponent theme="bubble" readOnly value={content.replaceAll('</span>\n ', '</span>\n&nbsp;')} />

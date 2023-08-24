@@ -8,7 +8,6 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/addon-docs',
     'storybook-addon-next-router',
   ],
   framework: '@storybook/react',
@@ -44,6 +43,25 @@ module.exports = {
       test: /\.svg$/,
       enforce: 'pre',
       use: ['@svgr/webpack'],
+    });
+    config.module.rules.push({
+      test: /\.(ts?|tsx?)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-typescript'],
+          plugins: [
+            [
+              'babel-plugin-styled-components',
+              {
+                displayName: false,
+                ssr: false,
+              },
+            ],
+          ],
+        },
+      },
     });
     return config;
   },

@@ -1,6 +1,7 @@
 import { ComponentMeta } from '@storybook/react';
 
 import Card from '@/components/@common/molecules/Card';
+import CardSkeleton from '@/components/@common/molecules/Card/CardSkeleton';
 import { THUMBNAIL_BLUR_URL } from '@/utils/constants';
 
 export default {
@@ -65,5 +66,11 @@ export const WithThumbnailHasLongSize = () => (
         <p>real-width: 190, real-height: 960</p>
       </Card.Body>
     </Card>
+  </div>
+);
+
+export const Skeleton = () => (
+  <div style={{ maxWidth: '360px' }}>
+    <CardSkeleton thumbnailRatio={2} />
   </div>
 );

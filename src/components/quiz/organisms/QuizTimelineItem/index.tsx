@@ -11,9 +11,7 @@ import { getQuestionAnswerByCardType } from '@/utils/questionAnswerHandler';
 
 import * as ST from './styled';
 
-export interface QuizTimelineItemProps {
-  isLeft?: boolean;
-  isUnindented?: boolean;
+export interface QuizTimelineItemProps extends ST.DefaultStyleProps {
   title: string;
   cardLink?: string;
   question: string;
@@ -26,8 +24,8 @@ export interface QuizTimelineItemProps {
 }
 
 const QuizTimelineItem = ({
-  isLeft = true,
-  isUnindented = true,
+  left = true,
+  unindented = true,
   title,
   cardLink,
   question,
@@ -42,8 +40,8 @@ const QuizTimelineItem = ({
   const { question: questionText, answer: answerText } = getQuestionAnswerByCardType({ question, answer, cardType });
   const { answer: userAnswerText } = getQuestionAnswerByCardType({ question, answer: userAnswer, cardType });
   return (
-    <ST.Wrapper data-testid="id-timeline-item" left={isLeft} unindented={isUnindented}>
-      <ST.TimelineCard left={isLeft}>
+    <ST.Wrapper data-testid="id-timeline-item" left={left} unindented={unindented}>
+      <ST.TimelineCard left={left}>
         <Card>
           <Card.Title link={cardLink}>{title}</Card.Title>
           <Card.Body>
@@ -56,12 +54,12 @@ const QuizTimelineItem = ({
           </Card.Body>
         </Card>
         <ST.TimelineCardBubbleArea />
-        <ST.TimelineCardBubble left={isLeft} />
+        <ST.TimelineCardBubble left={left} />
       </ST.TimelineCard>
       <ST.VerticallineBox>
         <ST.VerticalLinePoint color={answerColor} />
       </ST.VerticallineBox>
-      <ST.TimelineSubInfoBox left={isLeft}>
+      <ST.TimelineSubInfoBox left={left}>
         <div>
           <ColorizedScore score={score} size="large" />
           <span style={{ fontSize: '0.875rem' }}>점 {scorePostfixText && `· ${scorePostfixText}`}</span>
