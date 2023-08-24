@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 
+import DeferredComponent from '@/components/@util/DeferredComponent';
+
 import WriterImageUploadButton from './WriterImageUploadButton';
 import WriterSkeleton from './WriterSkeleton';
 
@@ -23,19 +25,20 @@ export const WriterComponent = dynamic(
     const { default: QuillComponent } = await import('react-quill');
     QuillComponent.Quill.debug('error');
     await Promise.all([
-      await import('quill-image-compress').then(({ default: ImageCompress }) => {
+      import('quill-image-compress').then(({ default: ImageCompress }) => {
         QuillComponent.Quill.register('modules/imageCompress', ImageCompress);
       }),
-      await import('quill-image-resize').then(({ default: ImageResize }) => {
+      import('quill-image-resize').then(({ default: ImageResize }) => {
         QuillComponent.Quill.register('modules/imageResize', ImageResize);
       }),
-      await getMarkdownActivity().then((MarkdownActivity) => {
+      getMarkdownActivity().then((MarkdownActivity) => {
         QuillComponent.Quill.register('modules/QuillMarkdown', MarkdownActivity);
+      }),
+      getCustomImageBlot(QuillComponent).then((ImageBlot) => {
+        QuillComponent.Quill.register(ImageBlot);
       }),
       await initHighlight(),
     ]);
-    const ImageBlot = await getCustomImageBlot(QuillComponent);
-    QuillComponent.Quill.register(ImageBlot);
     const Quill = ({ forwardedRef, onImageUpload, ...props }: ForwardedQuillComponent) => (
       <>
         <QuillComponent ref={forwardedRef} {...props} />
@@ -44,5 +47,12 @@ export const WriterComponent = dynamic(
     );
     return Quill;
   },
-  { loading: () => <WriterSkeleton />, ssr: false },
+  {
+    loading: () => (
+      <DeferredComponent delay={150} keepLayout>
+        <WriterSkeleton />
+      </DeferredComponent>
+    ),
+    ssr: false,
+  },
 );

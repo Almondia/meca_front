@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import Skeleton from '@/components/@common/atoms/Skeleton';
-import DeferredComponent from '@/components/@util/DeferredComponent';
 import { FlexColumn } from '@/styles/layout';
 
 const WriterSkeletonToolbar = styled.div`
@@ -33,19 +32,17 @@ const WriterSkeletonContent = styled.div`
 `;
 
 const WriterSkeleton = () => (
-  <DeferredComponent delay={20} keepLayout>
-    <Skeleton>
-      <WriterSkeletonToolbar>
-        <Skeleton.Content style={{ height: '24px', width: '278px' }} />
-        <Skeleton.Content style={{ height: '24px', width: '84px' }} />
-        <Skeleton.Content style={{ height: '24px', width: '84px' }} />
-      </WriterSkeletonToolbar>
-      <WriterSkeletonContent>
-        <Skeleton.Content style={{ height: '120px' }} />
-        <Skeleton.Content style={{ height: '30px', padding: '8px 0' }} />
-      </WriterSkeletonContent>
-    </Skeleton>
-  </DeferredComponent>
+  <Skeleton>
+    <WriterSkeletonToolbar>
+      <Skeleton.Content style={{ height: '24px', width: '278px' }} />
+      <Skeleton.Content style={{ height: '24px', width: '84px' }} />
+      <Skeleton.Content style={{ height: '24px', width: '84px' }} />
+    </WriterSkeletonToolbar>
+    <WriterSkeletonContent>
+      <Skeleton.Content style={{ height: '120px' }} />
+      <Skeleton.Content style={{ height: '30px', padding: '8px 0' }} />
+    </WriterSkeletonContent>
+  </Skeleton>
 );
 
 export default WriterSkeleton;

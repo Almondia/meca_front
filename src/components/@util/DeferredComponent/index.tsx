@@ -2,6 +2,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useEffect, useState } from 'react';
 
+import styled from 'styled-components';
+
 import useDebounce from '@/hooks/useDebounce';
 
 interface DeferredComponentProps {
@@ -10,6 +12,13 @@ interface DeferredComponentProps {
   keepLayout?: boolean;
 }
 
+const DefferedComponentWrapper = styled.div`
+  opacity: 0;
+  .skeleton-item::before {
+    display: none;
+  }
+`;
+
 const DeferredComponent = ({ children, delay = 200, keepLayout = false }: DeferredComponentProps) => {
   const [isDeferred, setIsDeferred] = useState<boolean>(false);
   const debouncedSetDeffered = useDebounce(() => setIsDeferred(true), delay);
@@ -17,7 +26,7 @@ const DeferredComponent = ({ children, delay = 200, keepLayout = false }: Deferr
     debouncedSetDeffered();
   }, []);
   if (!isDeferred) {
-    return keepLayout ? <div style={{ opacity: 0 }}>{children}</div> : null;
+    return keepLayout ? <DefferedComponentWrapper>{children}</DefferedComponentWrapper> : null;
   }
   return <>{children}</>;
 };
