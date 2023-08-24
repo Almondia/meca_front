@@ -56,7 +56,7 @@ const QuizHistoryTimeline = ({ resourceId, resourceType }: QuizHistoryTimelinePr
             />
           );
         })}
-        {!moreButtonVisible && (
+        {!moreButtonVisible && hasNextPage && (
           <DeferredComponent delay={requestedNextPage ? 0 : 200}>
             <QuizTimelineItemSkeleton unindented={requestedNextPage} left={historyList.contents.length % 2 === 0} />
             <QuizTimelineItemSkeleton unindented left={historyList.contents.length % 2 !== 0} />
