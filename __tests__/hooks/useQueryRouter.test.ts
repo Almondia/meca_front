@@ -25,7 +25,7 @@ describe('useQueryRouter', () => {
       '',
       '/?exam=hell+world%21',
     );
-    expect(result.current.exam).toEqual('hell world!');
+    await waitFor(() => expect(result.current.exam).toEqual('hell world!'));
   });
 
   it('지정된 여러 쿼리로 replace시 해당 쿼리들로 router replace가 동작한다. ', async () => {

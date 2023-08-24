@@ -48,7 +48,7 @@ describe('useRouteChangeBlock', () => {
       expect(e).toEqual('OK, This is Not Error');
     }
     await waitFor(() => expect(mockedBlockingCallback).toHaveBeenCalledTimes(1));
-    expect(mockRouter.asPath).toEqual('/abc');
+    await waitFor(() => expect(mockRouter.asPath).toEqual('/abc'));
 
     const { offRouteChangeBlocking } = result.current;
     await waitFor(() => offRouteChangeBlocking(mockedOffCallback));
