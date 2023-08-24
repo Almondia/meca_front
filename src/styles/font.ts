@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import localFont from '@next/font/local';
 
 export const sahitya = localFont({

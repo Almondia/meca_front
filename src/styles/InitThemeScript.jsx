@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 function setTheme() {
   const currentTheme = localStorage.getItem('theme');
   if (currentTheme === '"light"' || currentTheme === '"dark"') {

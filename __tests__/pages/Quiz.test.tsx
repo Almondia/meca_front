@@ -1,5 +1,3 @@
-import type { MecaTag as MecaTagType } from '@/types/domain/meca';
-
 import { renderQuery } from '../utils';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { MOCK_QUIZS } from '@/mock/data';
@@ -10,6 +8,7 @@ import { mockedPostQuizResultApi } from '@/mock/api';
 import cardHistoryApi from '@/apis/cardHistoryApi';
 
 import QuizPage from '@/pages/quiz';
+import mockRouter from 'next-router-mock';
 
 const mockQuizs = MOCK_QUIZS;
 
@@ -30,6 +29,16 @@ describe('QuizPage', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
+  it('퀴즈 정보가 없는경우 만료 UI가 식별된다.', () => {
+    (useQuiz as jest.Mock).mockReturnValue({ quizList: [] });
+    renderQuery(<QuizPage />);
+    expect(screen.getByRole('heading', { name: '퀴즈 정보가 만료되었어요' }));
+    expect(screen.getByRole('button', { name: '뒤로가기' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: '홈으로' }));
+    expect(mockRouter.pathname).toEqual('/');
+  });
+
   it('첫 퀴즈페이지 접근 시 주어진 문제 수와 question, input, 정답 제출 버튼이 식별된다.', async () => {
     renderQuery(<QuizPage />);
     const maxCountText = screen.getByTestId('id-count-indicator-maxcount');

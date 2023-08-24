@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { useEffect } from 'react';
 
 /* XXX: 앞으로가기-뒤로가기 nextjs experimental scroll restoriation 동작이 잘 안될 경우 커스텀을 고려

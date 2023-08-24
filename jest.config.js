@@ -8,6 +8,17 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
+  collectCoverageFrom: [
+    './src/**/*.[jt]s?(x)',
+    '!./src/components/@util/**',
+    '!./src/components/**/Icon/**',
+    '!./src/components/**/Editor/**',
+    '!./src/components/**/ImageCropper/**',
+    '!./src/components/**/Chart/**',
+    '!./src/pages/[_4]*.tsx',
+    '!**/*.stories.[jt]s?(x)',
+  ],
+  coverageReporters: ['text', 'cobertura'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js', 'jest-styled-components'],
   testRegex: '\\.test\\.[jt]sx?$',
   moduleNameMapper: {
