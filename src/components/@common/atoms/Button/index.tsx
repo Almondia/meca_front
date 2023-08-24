@@ -8,13 +8,7 @@ interface ButtonProps extends ButtonStyleProp {
 }
 
 const Button = ({ children, colorTheme = 'primary', width, disabled = false, onClick, ...props }: ButtonProps) => (
-  <ButtonWrapper
-    colorTheme={colorTheme}
-    width={width}
-    disabled={disabled ?? false}
-    onClick={() => onClick?.()}
-    {...props}
-  >
+  <ButtonWrapper colorTheme={colorTheme} width={width} disabled={disabled} onClick={() => onClick?.()} {...props}>
     <TextBodyTitle>{children}</TextBodyTitle>
   </ButtonWrapper>
 );
