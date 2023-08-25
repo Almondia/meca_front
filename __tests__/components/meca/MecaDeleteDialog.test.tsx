@@ -3,12 +3,7 @@ import { screen, fireEvent } from '@testing-library/react';
 import { MOCK_MECAS } from '@/mock/data';
 import { restHandler } from '@/mock/handlers';
 import { implementServer } from '@/mock/server';
-import {
-  mockedDeleteMecaApi,
-  mockedGetMecaCountApi,
-  mockedGetUserWithServerApi,
-  mockedPostRevalidateApi,
-} from '@/mock/api';
+import { mockedDeleteMecaApi, mockedGetUserWithServerApi } from '@/mock/api';
 
 import MecaDeleteDialog from '@/components/meca/organisms/MecaDeleteDialog';
 
@@ -17,12 +12,7 @@ describe('MecaDeleteDialog', () => {
     jest.resetAllMocks();
   });
   it('존재하는 카드 하나를 삭제하면 삭제 성공 toast가 식별된다.', async () => {
-    implementServer([
-      restHandler(mockedGetUserWithServerApi),
-      restHandler(mockedDeleteMecaApi),
-      restHandler(mockedGetMecaCountApi),
-      restHandler(mockedPostRevalidateApi),
-    ]);
+    implementServer([restHandler(mockedGetUserWithServerApi), restHandler(mockedDeleteMecaApi)]);
     const { cardId, categoryId } = MOCK_MECAS[0];
     renderQuery(
       <MecaDeleteDialog visible={true} onClose={jest.fn()} cardId={cardId} categoryId={categoryId} cardTitle="title" />,

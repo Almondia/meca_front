@@ -10,12 +10,7 @@ import { hasAuthState } from '@/atoms/common';
 import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import CategoryCard from '@/components/category/organisms/CategoryCard';
 import useCategoryList from '@/hooks/category/useCategoryList';
-import {
-  mockedDeleteCategoryApi,
-  mockedGetAuthUserCategoryListApi,
-  mockedPostRevalidateApi,
-  mockedPutCategoryApi,
-} from '@/mock/api';
+import { mockedDeleteCategoryApi, mockedGetAuthUserCategoryListApi, mockedPutCategoryApi } from '@/mock/api';
 import { MOCK_CATEGORY_CONTENT, MOCK_CATEGORY_STATISTICS, MOCK_RESPONSE_MEMBER } from '@/mock/data';
 import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
 import { implementWorker } from '@/mock/worker';
@@ -61,7 +56,6 @@ const categoryPagenationListResponse: CategoryListPaginationResponse = {
 export const Private = () => {
   const setHasAuth = useSetRecoilState(hasAuthState);
   implementWorker([
-    restHandler(mockedPostRevalidateApi),
     restHandler(mockedPutCategoryApi),
     restHandler(mockedDeleteCategoryApi, { status: 400, message: '삭제!' }),
     restOverridedResponseHandler(mockedGetAuthUserCategoryListApi, categoryPagenationListResponse),

@@ -114,7 +114,7 @@ export const mockedGetMecaCountApi = (count: number, shared = false) => {
 };
 
 export const mockedGetSharedMecaApi = (body = MOCK_MECA) => {
-  const [uri, method] = [`${ENDPOINT}/cards/:cardId/share`, 'get'];
+  const [uri, method] = [`/api/cards/:cardId/share`, 'get'];
   const response: MecaByIdResponse = { card: body, member: MOCK_MEMBER };
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const { cardId } = req.params;

@@ -73,9 +73,9 @@ const mecaApi = {
     return { ...response, contents: getConvertedMecaListContents(response) };
   },
   getSharedCardById: (cardId: string, memberId?: string): Promise<MecaByIdResponse> =>
-    unauthInstance.get<never, MecaByIdResponse>(`/api/v1/cards/${cardId}/share`, {
-      headers: {
-        'X-USER': memberId,
+    serverInstance.get<never, MecaByIdResponse>(`/api/cards/${cardId}/share`, {
+      params: {
+        memberId: memberId ?? '',
       },
     }),
   getMyCardById: (cardId: string) => authInstance.get<never, MecaByIdResponse>(`/api/v1/cards/${cardId}/me`),
@@ -86,10 +86,8 @@ const mecaApi = {
         score,
       },
     }),
-  // TODO: api URI 바뀔 가능성 높음
   getCountByCategoryId: (categoryId: string) =>
     authInstance.get<never, { count: number; shared: boolean }>(`/api/v1/cards/categories/${categoryId}/me/count`),
-  // TODO: api URI 바뀔 가능성 높음
   getQuizCardsSimulationStateByCategoryId: (categoryId: string) =>
     authInstance.get<never, QuizSimulationStateResponse[]>(
       `/api/v1/cards/categories/${categoryId}/simulation/before/count`,

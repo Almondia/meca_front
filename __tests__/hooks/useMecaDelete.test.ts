@@ -6,7 +6,7 @@ import { implementServer, resetServer } from '@/mock/server';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
 import useUser from '@/hooks/user/useUser';
-import { mockedDeleteMecaApi, mockedGetMecaCountApi } from '@/mock/api';
+import { mockedDeleteMecaApi } from '@/mock/api';
 
 import mockRouter from 'next-router-mock';
 
@@ -30,7 +30,6 @@ describe('useMecaDelete', () => {
 
   it('Meca 삭제 후 해당 카테고리 페이지가 아니였다면 이동한다.', async () => {
     await mockRouter.push('/mecas/write');
-    implementServer([restHandler(() => mockedGetMecaCountApi(55, true))]);
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     await waitFor(() => deleteMeca({ cardId, categoryId }));

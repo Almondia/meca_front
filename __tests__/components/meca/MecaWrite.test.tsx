@@ -4,7 +4,7 @@ import { MOCK_CATEGORIES, MOCK_MECAS } from '@/mock/data';
 import { useRouter } from 'next/router';
 import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
-import { mockedGetMecaCountApi, mockedPostMecaApi, mockedPostRevalidateApi, mockedPutMecaUpdateApi } from '@/mock/api';
+import { mockedPostMecaApi, mockedPutMecaUpdateApi } from '@/mock/api';
 
 import MecaWrite from '@/components/meca/organisms/MecaWrite';
 
@@ -16,12 +16,7 @@ jest.mock('next/router', () => ({
 
 describe('MecaWrite', () => {
   beforeEach(() => {
-    implementServer([
-      restHandler(mockedPostMecaApi),
-      restHandler(mockedPutMecaUpdateApi),
-      restHandler(() => mockedGetMecaCountApi(1)),
-      restHandler(() => mockedPostRevalidateApi(true)),
-    ]);
+    implementServer([restHandler(mockedPostMecaApi), restHandler(mockedPutMecaUpdateApi)]);
   });
 
   it('카드 등록이면(카드 정보가 없다면) 최초에 OX퀴즈 등록 UI가 식별된다,', async () => {
