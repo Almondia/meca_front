@@ -1,9 +1,15 @@
 import { QueryClient } from '@tanstack/react-query';
 
-import axiosErrorHandler from '@/apis/config/errorHandler';
+import ApiError from '@/apis/error/ApiError';
+import alertToast from '@/utils/toastHandler';
 
-function queryErrorHandler(error: unknown): void {
-  axiosErrorHandler(error);
+function mutationErrorHandler(error: unknown): void {
+  if (!(error instanceof ApiError)) {
+    alertToast('알 수 없는 오류 발생', 'warning');
+    return;
+  }
+  alertToast(error.message, 'warning');
+  error.status === 403 && window.location.assign('/');
 }
 
 export function generateQueryClient(): QueryClient {
@@ -19,7 +25,7 @@ export function generateQueryClient(): QueryClient {
         onError: undefined,
       },
       mutations: {
-        onError: queryErrorHandler,
+        onError: mutationErrorHandler,
         mutationKey: ['default'],
         cacheTime: 0,
       },
