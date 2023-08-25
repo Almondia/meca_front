@@ -24,29 +24,4 @@ const useMecaCheckValid = (categoryId: string) => {
 useMecaCheckValid.checkValid = (categoryId: string, queryClient: QueryClient) =>
   queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () => mecaApi.getCountByCategoryId(categoryId));
 
-useMecaCheckValid.checkNeedRevalidate = async (categoryId: string, findVal: number, queryClient: QueryClient) => {
-  const mecaCount = queryClient.getQueryData<MecaCheckValidType>([queryKey.mecas, categoryId, 'count']);
-  if (mecaCount === undefined) {
-    try {
-      const { count, shared } = await queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () =>
-        mecaApi.getCountByCategoryId(categoryId),
-      );
-      return { needRevalidation: shared && findVal === count, cached: false };
-    } catch {
-      return { needRevalidation: false, cached: false };
-    }
-  }
-  const { shared, count } = mecaCount;
-  return { needRevalidation: shared && count <= 1, cached: true };
-};
-
-useMecaCheckValid.updateQuery = (categoryId: string, value: number, queryClient: QueryClient) => {
-  queryClient.setQueryData<MecaCheckValidType>([queryKey.mecas, categoryId, 'count'], (prev) => {
-    if (!prev) {
-      return prev;
-    }
-    return { ...prev, count: prev.count + value };
-  });
-};
-
 export default useMecaCheckValid;

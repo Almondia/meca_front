@@ -14,7 +14,7 @@ import {
 import { ENDPOINT, ResponseResolver } from '../handlers';
 
 export const mockedPostMecaApi = () => {
-  const [uri, method] = [`${ENDPOINT}/cards`, 'post'];
+  const [uri, method] = [`/api/cards`, 'post'];
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const { title, question, categoryId, cardType, answer, description } = await req.json();
     const createMeca: MecaCreateRequest = {
@@ -35,7 +35,7 @@ export const mockedPostMecaApi = () => {
 };
 
 export const mockedPutMecaUpdateApi = () => {
-  const [uri, method] = [`${ENDPOINT}/cards/:id`, 'put'];
+  const [uri, method] = [`/api/cards/:id`, 'put'];
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const { id } = req.params;
     const request = await req.json();
@@ -49,7 +49,7 @@ export const mockedPutMecaUpdateApi = () => {
 };
 
 export const mockedDeleteMecaApi = () => {
-  const [uri, method] = [`${ENDPOINT}/cards/:id`, 'delete'];
+  const [uri, method] = [`/api/cards/:id`, 'delete'];
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const { id } = req.params;
     const idx = MOCK_MECAS.findIndex((v) => v.cardId === id);
