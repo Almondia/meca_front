@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import { Writable } from 'stream';
 

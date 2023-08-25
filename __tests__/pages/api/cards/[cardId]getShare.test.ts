@@ -14,7 +14,7 @@ jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
 
-describe('/api/cards/[cardId]', () => {
+describe('/api/cards/[cardId]/share', () => {
   beforeEach(() => {
     (nookies.get as jest.Mock).mockReturnValue({
       accessToken: 'token',
