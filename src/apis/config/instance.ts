@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { AxiosResponse } from 'axios';
 
+import ApiError from '@/apis/error/ApiError';
 import { hasBrowser } from '@/utils/common';
 
 import axios from './baseAxios';
@@ -30,7 +31,7 @@ function genErrorResponse(error: any) {
     ...error.response?.data,
     status: error.response?.status,
   };
-  return Promise.reject(errorResponse);
+  throw new ApiError(errorResponse);
 }
 
 serverInstance.interceptors.request.use((config) => {
