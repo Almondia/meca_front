@@ -24,6 +24,7 @@ export interface CategoryCreateRequest {
 export interface CategoryUpdateRequest extends CategoryCreateRequest {
   categoryId: string;
   shared: boolean;
+  prevShared?: boolean;
 }
 
 export interface CategoryListContent {

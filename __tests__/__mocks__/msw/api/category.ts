@@ -73,7 +73,7 @@ export const mockedPostCategoryApi = () => {
 };
 
 export const mockedDeleteCategoryApi = () => {
-  const [uri, method] = [`${ENDPOINT}/categories/:id`, 'delete'];
+  const [uri, method] = [`/api/categories/:id`, 'delete'];
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const { id } = req.params;
     const idx = MOCK_CATEGORIES.findIndex((v) => v.categoryId === id);
@@ -84,7 +84,7 @@ export const mockedDeleteCategoryApi = () => {
 };
 
 export const mockedPutCategoryApi = () => {
-  const [uri, method] = [`${ENDPOINT}/categories/:id`, 'put'];
+  const [uri, method] = [`/api/categories/:id`, 'put'];
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
     const { id } = req.params;
     let { title, thumbnail, shared } = await req.json();
