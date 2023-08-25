@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nookies from 'nookies';
 
 import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
+import withHandleError from '@/apis/nextApiWrapper/withHandleError';
 import userApi from '@/apis/userApi';
 import logger from '@/libs/logger';
 import { UUID_PATTERN } from '@/utils/constants';
@@ -41,31 +42,10 @@ const validRevalidationStrategy: Record<'public' | 'private', (urls: string[], s
 };
 
 const revalidate = async (url: string, res: NextApiResponse) => {
-  await res
-    .revalidate(url, { unstable_onlyGenerated: true })
-    .then(() => {
-      logger.info({
-        requestType: 'API',
-        location: '/api/revalidate',
-        tag: 'SUCCESS',
-        message: `${url} page is revalidated!`,
-      });
-    })
-    .catch((e) => {
-      logger.error({
-        requestType: 'API',
-        location: '/api/revalidate',
-        tag: 'ERROR',
-        message: `${url} page is not revalidated! with causes - ${JSON.stringify(e)}`,
-      });
-    });
+  await res.revalidate(url, { unstable_onlyGenerated: true });
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method } = req;
-  if (method?.toUpperCase() !== 'POST') {
-    return res.status(405).json({ message: 'not allowed method' });
-  }
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { accessToken } = nookies.get({ req });
   setAccessTokenFromServerRequest(accessToken);
   const { urls, type }: { urls: string[]; type: 'private' | 'public' | undefined } = await req.body;
@@ -76,4 +56,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const revalidatePromise = urls.map((url) => revalidate(url, res));
   await Promise.all(revalidatePromise);
   return res.status(200).json({ revalidated: true });
-}
+};
+
+export default withHandleError(handler);

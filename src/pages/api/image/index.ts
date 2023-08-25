@@ -3,14 +3,14 @@ import { Writable } from 'stream';
 
 import axios from 'axios';
 import formidable from 'formidable';
-import nookies from 'nookies';
 import sharp from 'sharp';
 
 import { ImageUploadRequest } from '@/types/domain';
 
-import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
 import imageApi from '@/apis/imageApi';
-import { getJWTPayload } from '@/utils/jwtHandler';
+import withAllowedMethod from '@/apis/nextApiWrapper/withAllowedMethod';
+import withAuthentication from '@/apis/nextApiWrapper/withAuthentication';
+import withHandleError from '@/apis/nextApiWrapper/withHandleError';
 
 const MAX_IMAGE_WIDTH = 1080;
 
@@ -62,14 +62,7 @@ const resize = async ({ buffer }: { buffer: Buffer }) => {
   return resizedBuffer;
 };
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: '잘못된 http method 요청', status: 405 });
-  }
-  const { accessToken } = nookies.get({ req });
-  if (!accessToken && !getJWTPayload(accessToken, 'id')) {
-    return res.status(401).json({ message: '로그인이 필요합니다.' });
-  }
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const chunks: never[] = [];
     const { fields } = await formidablePromise(req, {
@@ -83,23 +76,18 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       fileName: fileNames[0],
     } as ImageUploadRequest;
     const buffer = Buffer.concat(chunks);
-    setAccessTokenFromServerRequest(accessToken);
     const { url, objectKey } = await imageApi.getPresignedUrl({ purpose, extension, fileName });
     const resizedBuffer = await resize({ buffer });
-    try {
-      await axios.put(url, resizedBuffer, {
-        headers: {
-          'Content-Type': 'application/octet-stream',
-        },
-      });
-    } catch {
-      return res.status(500).json({ message: '이미지 업로드 실패', status: 500 });
-    }
+    await axios.put(url, resizedBuffer, {
+      headers: {
+        'Content-Type': 'application/octet-stream',
+      },
+    });
     return res.status(200).json({ uploadedImageUrl: objectKey });
   } catch (err) {
     return res.status(400).json({ message: '이미지 정보가 올바르지 않거나 너무 큽니다', status: 400 });
   }
-}
+};
 
 export const config: PageConfig = {
   api: {
@@ -107,4 +95,4 @@ export const config: PageConfig = {
   },
 };
 
-export default handler;
+export default withAllowedMethod(['POST'], withHandleError(withAuthentication(handler)));

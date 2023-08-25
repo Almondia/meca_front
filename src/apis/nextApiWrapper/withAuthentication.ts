@@ -1,11 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-
 import nookies from 'nookies';
 
 import { NextApiHandler, NextPartialQueryApiRequest } from '@/types/nextApi';
 
 import { setAccessTokenFromServerRequest } from '@/apis/config/instance';
-import ApiError from '@/apis/error/ApiError';
 import { NOT_AUTHORIZED } from '@/apis/error/constants';
 
 const withAuthentication: <ReqType extends NextPartialQueryApiRequest>(
@@ -20,7 +17,7 @@ const withAuthentication: <ReqType extends NextPartialQueryApiRequest>(
       return nextApiHandler(req, res);
     }
     if (isThrowable) {
-      throw new ApiError(NOT_AUTHORIZED);
+      return res.status(401).json(NOT_AUTHORIZED);
     }
     return res.status(200).json(null);
   };
