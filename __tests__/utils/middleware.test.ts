@@ -97,38 +97,4 @@ describe('middleware', () => {
     expect(response.headers.get('x-middleware-next')).toBeFalsy();
     expect(response.headers.get('x-middleware-rewrite')).toBe('http://localhost:3000/404');
   });
-
-  it('meca 상세 조회 api 호출을 가로채 요청하고 응답 성공 시 리턴한다.', async () => {
-    const memberId = '01893fe7-8924-bf6d-c795-2bcabe746db6';
-    const cardId = '01879d27-361b-cbfb-c192-96fa68bc369b';
-    const mockResponse = new Response(JSON.stringify({ body: 'body' }), {
-      status: 200,
-      headers: { 'content-type': 'application/json' },
-    });
-    global.fetch = jest.fn().mockResolvedValue(mockResponse);
-    mockNextRequest.nextUrl.pathname = `/api/v1/cards/${cardId}/share`;
-    const response = await middleware(mockNextRequest);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(response).toHaveProperty('status', mockResponse.status);
-    expect(response).toHaveProperty('headers', mockResponse.headers);
-  });
-
-  it('meca 상세 조회 api 호출을 가로채 요청하고 실패 시 revalidate api를 호출하고 응답한다.', async () => {
-    const cardId = '01879d27-361b-cbfb-c192-96fa68bc369b';
-    const mockMecaApiResponse = new Response(JSON.stringify({ message: 'error' }), {
-      status: 403,
-    });
-    const mockRevalidateApiResponse = new Response('', {
-      status: 200,
-    });
-    global.fetch = jest
-      .fn()
-      .mockResolvedValueOnce(mockMecaApiResponse)
-      .mockResolvedValueOnce(mockRevalidateApiResponse);
-    (mockNextRequest.headers.get as jest.Mock).mockReturnValue(cardId);
-    mockNextRequest.nextUrl.pathname = `/api/v1/cards/${cardId}/share`;
-    const response = await middleware(mockNextRequest);
-    expect(global.fetch).toHaveBeenCalledTimes(2);
-    expect(response).toHaveProperty('status', 400);
-  });
 });

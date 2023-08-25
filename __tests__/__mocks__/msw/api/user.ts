@@ -3,7 +3,7 @@ import { MOCK_MEMBER } from '../data';
 import { ENDPOINT, ResponseResolver } from '../handlers';
 
 export const mockedGetUserWithServerApi = (body?: MyProfile | null) => {
-  const [uri, method] = ['/api/user', 'get'];
+  const [uri, method] = ['/api/users', 'get'];
   const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(ctx.status(200), ctx.json(body === undefined ? MOCK_MEMBER : body));
   };
@@ -31,7 +31,7 @@ export const mockedPostKakaoLoginApi = () => {
 };
 
 export const mockedPostLogoutApi = () => {
-  const [uri, method] = [`/api/logout`, 'post'];
+  const [uri, method] = [`/api/users/logout`, 'post'];
   const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(
       ctx.json({

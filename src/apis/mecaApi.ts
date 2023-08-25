@@ -12,7 +12,7 @@ import { PAGINATION_NUM } from '@/utils/constants';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { extractFirstImageFromHTML } from '@/utils/imageHandler';
 
-import { authInstance, unauthInstance } from './config/instance';
+import { authInstance, serverInstance, unauthInstance } from './config/instance';
 
 const getConvertedMecaListContents = (mecaList: MecaListPaginationResponse) =>
   mecaList.contents.map((v) => {
@@ -32,18 +32,18 @@ const getConvertedMecaListContents = (mecaList: MecaListPaginationResponse) =>
 
 const mecaApi = {
   addMeca: (props: MecaCreateRequest) =>
-    authInstance.post<never, Meca>('/api/v1/cards', {
+    serverInstance.post<never, Meca>('/api/cards', {
       ...props,
     }),
   updateMeca: ({ cardId, categoryId, description, question, title, answer }: MecaUpdateRequest) =>
-    authInstance.put<never, Meca>(`/api/v1/cards/${cardId}`, {
+    serverInstance.put<never, Meca>(`/api/cards/${cardId}`, {
       categoryId,
       description,
       question,
       title,
       answer,
     }),
-  deleteMeca: (cardId: string) => authInstance.delete<never, never>(`/api/v1/cards/${cardId}`),
+  deleteMeca: (cardId: string) => serverInstance.delete<never, never>(`/api/cards/${cardId}`),
   getMyMecaList: async (
     props: CursorPaginationRequest & { categoryId: string },
   ): Promise<MecaListPaginationResponse> => {
@@ -73,9 +73,9 @@ const mecaApi = {
     return { ...response, contents: getConvertedMecaListContents(response) };
   },
   getSharedCardById: (cardId: string, memberId?: string): Promise<MecaByIdResponse> =>
-    unauthInstance.get<never, MecaByIdResponse>(`/api/v1/cards/${cardId}/share`, {
-      headers: {
-        'X-USER': memberId,
+    serverInstance.get<never, MecaByIdResponse>(`/api/cards/${cardId}/share`, {
+      params: {
+        memberId: memberId ?? '',
       },
     }),
   getMyCardById: (cardId: string) => authInstance.get<never, MecaByIdResponse>(`/api/v1/cards/${cardId}/me`),
@@ -86,10 +86,8 @@ const mecaApi = {
         score,
       },
     }),
-  // TODO: api URI 바뀔 가능성 높음
   getCountByCategoryId: (categoryId: string) =>
     authInstance.get<never, { count: number; shared: boolean }>(`/api/v1/cards/categories/${categoryId}/me/count`),
-  // TODO: api URI 바뀔 가능성 높음
   getQuizCardsSimulationStateByCategoryId: (categoryId: string) =>
     authInstance.get<never, QuizSimulationStateResponse[]>(
       `/api/v1/cards/categories/${categoryId}/simulation/before/count`,

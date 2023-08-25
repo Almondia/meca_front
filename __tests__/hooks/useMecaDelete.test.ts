@@ -1,4 +1,3 @@
-import utilApi from '@/apis/utilApi';
 import useMecaDelete from '@/hooks/meca/useMecaDelete';
 import { renderHook, waitFor } from '@testing-library/react';
 import { createQueryClientWrapper } from '../utils';
@@ -7,13 +6,11 @@ import { implementServer, resetServer } from '@/mock/server';
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
 import useUser from '@/hooks/user/useUser';
-import { mockedDeleteMecaApi, mockedGetMecaCountApi } from '@/mock/api';
+import { mockedDeleteMecaApi } from '@/mock/api';
 
-jest.mock('next/router', () => require('next-router-mock'));
+import mockRouter from 'next-router-mock';
 
-jest.mock('@/apis/utilApi', () => ({
-  revalidate: jest.fn(),
-}));
+jest.mock('next/router', () => jest.requireActual('next-router-mock'));
 
 jest.mock('@/hooks/user/useUser', () => ({
   __esModule: true,
@@ -25,52 +22,28 @@ describe('useMecaDelete', () => {
   const categoryId = 'categoryId01';
   beforeEach(() => {
     implementServer([restHandler(mockedDeleteMecaApi)]);
-    (utilApi.revalidate as jest.Mock).mockReturnValueOnce(true);
     (useUser as unknown as jest.Mock).mockReturnValue({ user: { memberId: 'member01' } });
   });
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it('Meca 삭제 후 해당 공유 카테고리에 카드가 0개라면 [shared category, meca] revalidate가 동작한다', async () => {
-    implementServer([restHandler(() => mockedGetMecaCountApi(0, true))]);
+
+  it('Meca 삭제 후 해당 카테고리 페이지가 아니였다면 이동한다.', async () => {
+    await mockRouter.push('/mecas/write');
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
-    deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-cardId01', '/']));
+    await waitFor(() => deleteMeca({ cardId, categoryId }));
+    expect(mockRouter.pathname).toEqual('/categories/member01-categoryId01');
   });
 
-  it('Meca 삭제 후 해당 공유 카테고리에 카드가 0개가 아니라면 [meca] revalidate가 동작한다.', async () => {
-    implementServer([restHandler(() => mockedGetMecaCountApi(55, true))]);
-    const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
-    const { deleteMeca } = result.current;
-    deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-cardId01']));
-  });
-
-  it('Meca 삭제 전 해당 카테고리에 카드가 1개라면 [shared category, meca] revalidate가 동작한다.', async () => {
-    const queryClient = new QueryClient();
-    queryClient.setQueryData([queryKey.mecas, categoryId, 'count'], { count: 1, shared: true, cached: true });
-    const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper(queryClient) });
-    const { deleteMeca } = result.current;
-    deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).toHaveBeenCalledWith(['/mecas/member01-cardId01', '/']));
-  });
-
-  it('Meca 삭제 실패 시 revalidate가 동작하지 않는다.', async () => {
+  it('Meca 삭제 실패 시 route 이동이 없다.', async () => {
+    mockRouter.push = jest.fn();
     const queryClient = new QueryClient();
     queryClient.setQueryData([queryKey.mecas, categoryId, 'count'], { count: 1, shared: true, cached: true });
     resetServer([restHandler(mockedDeleteMecaApi, { status: 500, message: 'server error' })]);
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper(queryClient) });
     const { deleteMeca } = result.current;
-    deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalled());
-  });
-
-  it('Meca 삭제 시 공유 카테고리가 아니라면 revalidate가 동작하지 않는다.', async () => {
-    implementServer([restHandler(() => mockedGetMecaCountApi(55, false))]);
-    const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
-    const { deleteMeca } = result.current;
-    deleteMeca({ cardId, categoryId });
-    await waitFor(() => expect(utilApi.revalidate).not.toHaveBeenCalled());
+    await waitFor(() => deleteMeca({ cardId, categoryId }));
+    expect(mockRouter.push).not.toHaveBeenCalled();
   });
 });

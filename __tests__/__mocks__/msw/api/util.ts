@@ -1,18 +1,5 @@
 import { ENDPOINT, ResponseResolver } from '../handlers';
 
-export const mockedPostRevalidateApi = (revalidated = true) => {
-  const [uri, method] = [`/api/revalidate`, 'post'];
-  const responseResolver: ResponseResolver = async (_, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        revalidated,
-      }),
-    );
-  };
-  return { uri, method, responseResolver };
-};
-
 export const mockedGetPresignImageUrlApi = () => {
   const [uri, method] = [`${ENDPOINT}/presign/images/upload`, 'get'];
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
@@ -47,7 +34,7 @@ export const mockedPutImageUploadApi = () => {
 };
 
 export const mockedPostKeywords = (body: { [key: string]: number }) => {
-  const [uri, method] = ['/api/keyword', 'post'];
+  const [uri, method] = ['/api/keywords', 'post'];
   const responseResolver: ResponseResolver = async (_, res, ctx) => {
     return res(ctx.status(200), ctx.json({ keywords: { ...body } }));
   };

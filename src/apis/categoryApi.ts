@@ -9,7 +9,7 @@ import type {
 
 import { PAGINATION_NUM } from '@/utils/constants';
 
-import { authInstance, unauthInstance } from './config/instance';
+import { authInstance, serverInstance, unauthInstance } from './config/instance';
 
 const categoryApi = {
   getMyCategoryList: (props: CursorPaginationRequest): Promise<CategoryListPaginationResponse> =>
@@ -27,13 +27,10 @@ const categoryApi = {
       title,
       thumbnail,
     }),
-  deleteCategory: (id: string) => authInstance.delete<never, never>(`/api/v1/categories/${id}`),
-  updateCategory: ({ categoryId, title, thumbnail, shared }: CategoryUpdateRequest) =>
-    authInstance.put<never, Category>(`/api/v1/categories/${categoryId}`, {
-      title,
-      thumbnail,
-      shared,
-    }),
+  deleteCategory: (id: string, shared?: boolean) =>
+    serverInstance.delete<never, never>(`/api/categories/${id}`, { params: { shared } }),
+  updateCategory: (request: CategoryUpdateRequest) =>
+    serverInstance.put<never, Category>(`/api/categories/${request.categoryId}`, request),
   getMyRecommendedCategoryList: async (props: CursorPaginationRequest) => {
     const response = await authInstance.get<never, CategoryListPaginationResponse>('/api/v1/categories/me', {
       params: {

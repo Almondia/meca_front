@@ -104,6 +104,7 @@
     "msw": "^1.1.0",
     "next-router-mock": "^0.9.3",
     "next-sitemap": "^4.2.2",
+    "node-mocks-http": "^1.13.0",
     "prettier": "^2.8.4",
     "storybook-addon-next-router": "^4.0.2",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
