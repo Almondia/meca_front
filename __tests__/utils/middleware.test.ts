@@ -26,7 +26,7 @@ describe('middleware', () => {
   });
 
   const jwt =
-    'eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjAxODc5YzMzLWViZjMtNjA1Ni05NTJmLWQ2ZDgzMWQ0YjBiYiIsImV4cCI6MTY4MjAzOTI2MX0.5h4MeDu94mJIfNU3wvCODZYw1dWxJgrruFAkFdjNiYJlpwOm7WPBawo3Y76crwfrKXuo8D1LiDrc90Ys12l2Qg';
+    'eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjBERDZQS1dISEVTNjkiLCJleHAiOjE2OTMxMzgyNzJ9.D7ryHgIdVQWCPLLeqcqnVN2IkyTJVIoGsDCtYbWH1I5wTobmHtftNCzBa6pk4BP54QjtXGEQab-ca8V99BmZfg';
 
   it.each([['/category/123/write-card', '/quiz', '/category', '/me']])(
     '특정한 경로(인가가 필요한 페이지)[%s]로 요청했을 때 쿠키에 토큰이 없으면 401page로 rewrite 되어야 한다.',
@@ -53,8 +53,8 @@ describe('middleware', () => {
   );
 
   it('인증되지 않은 사용자가 카드 상세 조회를 요청한다면 해당 카드 상세 조회 페이지로 그대로 응답한다..', async () => {
-    const memberId = '01879c33-ebf3-6056-952f-d6d831d4b0bb';
-    const cardId = '01879d27-361b-cbfb-c192-96fa68bc369b';
+    const memberId = '0DD6PKWHHES69';
+    const cardId = '0DD6PKWHHES64';
     const combinedUUID = combineUUID(memberId, cardId);
     (mockNextRequest.cookies.get as jest.Mock).mockReturnValue('');
     mockNextRequest.nextUrl.pathname = '/meca/' + combinedUUID;
@@ -66,8 +66,8 @@ describe('middleware', () => {
   });
 
   it('본인의 카드 상세 조회를 요청한다면 본인 카드 상세 조회 페이지로 rewrite 되어야 한다.', async () => {
-    const memberId = '01879c33-ebf3-6056-952f-d6d831d4b0bb';
-    const cardId = '01879d27-361b-cbfb-c192-96fa68bc369b';
+    const memberId = '0DD6PKWHHES69';
+    const cardId = '0DD6PKWHHES64';
     const combinedUUID = combineUUID(memberId, cardId);
     (mockNextRequest.cookies.get as jest.Mock).mockReturnValue({ value: jwt });
     mockNextRequest.nextUrl.pathname = '/meca/' + combinedUUID;
