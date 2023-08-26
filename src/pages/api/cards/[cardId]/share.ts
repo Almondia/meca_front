@@ -23,7 +23,7 @@ const handler = async (req: GetRequest, res: NextApiResponse) => {
     const response = await unauthInstance.get<never, MecaByIdResponse>(`/api/v1/cards/${cardId}/share`);
     return res.status(200).json(response);
   } catch (e) {
-    res.revalidate(`/mecas/${combineUUID(memberId, cardId)}`, {
+    res.revalidate(`/meca/${combineUUID(memberId, cardId)}`, {
       unstable_onlyGenerated: true,
     });
     if (e instanceof ApiError) {

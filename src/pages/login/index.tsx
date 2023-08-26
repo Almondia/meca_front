@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } catch (e) {
     return {
       props: {
-        message: (e as Error).message ?? '로그인 실패',
+        message: '로그인 실패',
       },
     };
   }

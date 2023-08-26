@@ -59,7 +59,7 @@ describe('/api/cards/[cardId]/share', () => {
     expect(res).toHaveProperty('statusCode', 403);
     expect(res._getJSONData()).toEqual({ status: 403, message: 'access denied' });
     expect(spyGetSharedCard).toHaveBeenCalledTimes(1);
-    expect(spyRevalidate).toHaveBeenCalledWith(`/mecas/${combineUUID(MOCK_MEMBER_ID, MOCK_MECA_ID)}`, {
+    expect(spyRevalidate).toHaveBeenCalledWith(`/meca/${combineUUID(MOCK_MEMBER_ID, MOCK_MECA_ID)}`, {
       unstable_onlyGenerated: true,
     });
     spyGetSharedCard.mockClear();

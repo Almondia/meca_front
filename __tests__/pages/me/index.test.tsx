@@ -1,10 +1,10 @@
-import { renderQuery } from '../utils';
+import { renderQuery } from '../../utils';
 import { screen, waitFor } from '@testing-library/react';
 import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import UserPage, { getServerSideProps } from '@/pages/user/me/[memberId]';
+import MyPage, { getServerSideProps } from '@/pages/me';
 import { mockedGetMecaHistoryByMemberApi, mockedGetUserApi } from '@/mock/api';
 import { MOCK_MEMBER } from '@/mock/data';
 
@@ -12,7 +12,7 @@ jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
 
-describe('User MyPage', () => {
+describe('MyPage', () => {
   const { memberId, name, email, oauthType } = MOCK_MEMBER;
   beforeEach(() => {
     implementServer([restHandler(mockedGetUserApi), restHandler(mockedGetMecaHistoryByMemberApi)]);
@@ -35,9 +35,7 @@ describe('User MyPage', () => {
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('memberId');
     expect(props).toHaveProperty('dehydratedState');
-    await waitFor(() =>
-      renderQuery(<UserPage memberId={props.memberId} />, undefined, undefined, props.dehydratedState),
-    );
+    await waitFor(() => renderQuery(<MyPage memberId={props.memberId} />, undefined, undefined, props.dehydratedState));
     const username = screen.getByRole('heading', { name: name });
     const profileImage = screen.getByRole('img', { name: `${memberId}-avatar` });
     expect(username).toBeInTheDocument();
@@ -86,9 +84,7 @@ describe('User MyPage', () => {
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('memberId');
     expect(props).toHaveProperty('dehydratedState');
-    await waitFor(() =>
-      renderQuery(<UserPage memberId={props.memberId} />, undefined, undefined, props.dehydratedState),
-    );
+    await waitFor(() => renderQuery(<MyPage memberId={props.memberId} />, undefined, undefined, props.dehydratedState));
     expect(screen.queryByTestId('id-history-list')).not.toBeInTheDocument();
     expect(await screen.findByText(/아직 기록이 없습니다/i));
   });

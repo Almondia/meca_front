@@ -44,7 +44,7 @@ const MecaControl = memo(({ categoryId, categoryTitle, isMine, name, profile, ha
       </BetweenSection.Left>
       <BetweenSection.Right>
         {isMine && (
-          <Button colorTheme="primary" onClick={() => router.push(`/mecas/write/${categoryId}`)} size="small">
+          <Button colorTheme="primary" onClick={() => router.push(`/category/${categoryId}/write-card/`)} size="small">
             추가하기 +
           </Button>
         )}

@@ -27,7 +27,7 @@ const CategoryCard = memo(({ category, member, statistics, likeCount, isMine }: 
     <Card data-testid="id-category-card">
       <Card.Thumbnail
         src={srcImage}
-        href={`/categories/${combineUUID(memberId, categoryId)}`}
+        href={`/category/${combineUUID(memberId, categoryId)}`}
         altText={`${title}-category-thumbnail`}
         preloadedInfo={{
           blurDataURL: blurThumbnail?.blurDataURL,
@@ -35,7 +35,7 @@ const CategoryCard = memo(({ category, member, statistics, likeCount, isMine }: 
           height: 160,
         }}
       />
-      <Card.Title link={`/categories/${combineUUID(memberId, categoryId)}`}>{title}</Card.Title>
+      <Card.Title link={`/category/${combineUUID(memberId, categoryId)}`}>{title}</Card.Title>
       <Card.Body>
         <ST.Between>
           <ST.BodyLeft>

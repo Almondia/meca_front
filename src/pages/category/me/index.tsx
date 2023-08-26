@@ -17,7 +17,7 @@ interface CategoryProps {
   searchQuery: string;
 }
 
-const Category = ({ recommended = '', searchQuery = '' }: CategoryProps) => {
+const OwnedCategoryPage = ({ recommended = '', searchQuery = '' }: CategoryProps) => {
   const hasAuth = useRecoilValue(hasAuthState);
   const {
     recommended: recommendedQuery,
@@ -71,4 +71,4 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   };
 });
 
-export default Category;
+export default OwnedCategoryPage;

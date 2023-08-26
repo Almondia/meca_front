@@ -1,5 +1,5 @@
-import { renderQuery } from '../utils';
-import MecaWritePage, { getServerSideProps } from '@/pages/mecas/write/[categoryId]';
+import { renderQuery } from '../../../utils';
+import WriteCardByCategoryIdPage, { getServerSideProps } from '@/pages/category/[categoryId]/write-card';
 import { GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';
 import { MOCK_CATEGORY_ID, MOCK_MECA } from '@/mock/data';
@@ -17,7 +17,7 @@ jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
 
-describe('MecaWritePage with SSR', () => {
+describe('WriteCardByCategoryIdPage', () => {
   beforeEach(() => {
     implementServer([
       restHandler(mockedGetUserApi),
@@ -66,7 +66,12 @@ describe('MecaWritePage with SSR', () => {
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('categoryId', categoryId);
     expect(props).toHaveProperty('dehydratedState');
-    renderQuery(<MecaWritePage categoryId={props.categoryId} />, undefined, undefined, props.dehydratedState);
+    renderQuery(
+      <WriteCardByCategoryIdPage categoryId={props.categoryId} />,
+      undefined,
+      undefined,
+      props.dehydratedState,
+    );
     const inputTitle = await screen.findByRole('textbox', {
       name: 'input-meca-title',
     });
@@ -98,7 +103,7 @@ describe('MecaWritePage with SSR', () => {
     expect(props).toHaveProperty('cardId', cardId);
     expect(props).toHaveProperty('dehydratedState');
     renderQuery(
-      <MecaWritePage categoryId={props.categoryId} cardId={props.cardId} />,
+      <WriteCardByCategoryIdPage categoryId={props.categoryId} cardId={props.cardId} />,
       undefined,
       undefined,
       props.dehydratedState,
@@ -133,7 +138,7 @@ describe('MecaWritePage with SSR', () => {
     expect(props).toHaveProperty('categoryId', categoryId);
     expect(props).not.toHaveProperty('cardId');
     expect(props).toHaveProperty('dehydratedState');
-    renderQuery(<MecaWritePage {...props} />, undefined, undefined, props.dehydratedState);
+    renderQuery(<WriteCardByCategoryIdPage {...props} />, undefined, undefined, props.dehydratedState);
     const inputTitle = await screen.findByRole('textbox', {
       name: 'input-meca-title',
     });

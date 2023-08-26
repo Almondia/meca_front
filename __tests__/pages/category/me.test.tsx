@@ -1,7 +1,7 @@
-import { RecoilObserver, renderQuery } from '../utils';
+import { RecoilObserver, renderQuery } from '../../utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { PAGINATION_NUM, PRIVATE_SSR_CDN_CACHE_VALUE } from '@/utils/constants';
-import Category, { getServerSideProps } from '@/pages/categories/me/[memberId]';
+import OwnedCategoryPage, { getServerSideProps } from '@/pages/category/me';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { implementServer } from '@/mock/server';
@@ -20,7 +20,7 @@ jest.mock('nookies', () => ({
   get: jest.fn(),
 }));
 
-describe('CategoryListPage', () => {
+describe('OwnedCategoryPage', () => {
   beforeEach(() => {
     implementServer([restHandler(mockedGetAuthUserCategoryListApi), restHandler(mockedGetUserWithServerApi)]);
   });
@@ -31,7 +31,7 @@ describe('CategoryListPage', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <Category recommended="" searchQuery="" />
+        <OwnedCategoryPage recommended="" searchQuery="" />
       </>,
     );
     const categoryListPageHead = await screen.findByRole('heading', {
@@ -50,7 +50,7 @@ describe('CategoryListPage', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <Category recommended="" searchQuery="" />
+        <OwnedCategoryPage recommended="" searchQuery="" />
       </>,
     );
     const searchInput = await screen.findByRole('searchbox', { name: 'input-category-search' });
@@ -76,7 +76,7 @@ describe('CategoryListPage', () => {
         sortOrder: 'ASC',
       }),
     ]);
-    renderQuery(<Category recommended="" searchQuery="" />);
+    renderQuery(<OwnedCategoryPage recommended="" searchQuery="" />);
     const listPageHead = await screen.findByRole('heading', {
       name: /내 카테고리/i,
     });
@@ -106,7 +106,7 @@ describe('CategoryListPage', () => {
     renderQuery(
       <>
         <RecoilObserver node={hasAuthState} defaultValue={true} />
-        <Category recommended="" searchQuery="" />
+        <OwnedCategoryPage recommended="" searchQuery="" />
       </>,
     );
     const inputTitleText = 'HELL';
@@ -143,7 +143,7 @@ describe('CategoryListPage', () => {
 
   it('카테고리 추가 실패 시 카테고리 추가가 되지 않고 toast가 식별된다.', async () => {
     implementServer([restHandler(mockedPostCategoryApi, { status: 400, message: '제목 오류' })]);
-    renderQuery(<Category recommended="" searchQuery="" />);
+    renderQuery(<OwnedCategoryPage recommended="" searchQuery="" />);
     const inputTitleText = 'geaighalgiahglaghalgah';
     const addButton = await screen.findByRole('button', {
       name: /추가하기/i,
@@ -186,7 +186,7 @@ describe('CategoryListPage', () => {
     });
 
     it('본인이 추천한 category 목록이 식별된다.', async () => {
-      mockRouter.push('/categories?recommended=true');
+      mockRouter.push('/category?recommended=true');
       implementServer([
         restOverridedResponseHandler(mockedGetAuthUserCategoryListApi, {
           contents: [
@@ -231,7 +231,7 @@ describe('CategoryListPage', () => {
       });
       const mockedContext = {
         req: {
-          url: '/categories?recommended=true',
+          url: '/category?recommended=true',
         },
         query: { recommended: 'true' },
         res: {
@@ -240,7 +240,7 @@ describe('CategoryListPage', () => {
       } as unknown as GetServerSidePropsContext;
       const { props } = (await getServerSideProps(mockedContext)) as any;
       expect(props).toHaveProperty('recommended', 'true');
-      await waitFor(() => renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState));
+      await waitFor(() => renderQuery(<OwnedCategoryPage {...props} />, undefined, undefined, props.dehydratedState));
       const categoryListPageHead = screen.getByRole('heading', { name: /추천한 카테고리/i });
       expect(categoryListPageHead).toBeInTheDocument();
       expect(screen.getAllByRole('article')).toHaveLength(1);
@@ -248,14 +248,14 @@ describe('CategoryListPage', () => {
     });
 
     it('query 상태대로 필터링 되어 보여진다.', async () => {
-      mockRouter.push('/categories?recommended=true&q=title9');
+      mockRouter.push('/category?recommended=true&q=title9');
       const mockedSetHeader = jest.fn();
       (nookies.get as jest.Mock).mockReturnValue({
         accessToken: 'token',
       });
       const mockedContext = {
         req: {
-          url: '/categories?recommended=true&q=title9',
+          url: '/category?recommended=true&q=title9',
         },
         query: { recommended: 'true', q: 'title9' },
         res: {
@@ -265,7 +265,7 @@ describe('CategoryListPage', () => {
       const { props } = (await getServerSideProps(mockedContext)) as any;
       expect(props).toHaveProperty('recommended', 'true');
       expect(props).toHaveProperty('searchQuery', 'title9');
-      await waitFor(() => renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState));
+      await waitFor(() => renderQuery(<OwnedCategoryPage {...props} />, undefined, undefined, props.dehydratedState));
       const categoryListPageHead = screen.getByRole('heading', { name: /추천한 카테고리/i });
       expect(categoryListPageHead).toBeInTheDocument();
       expect(screen.getAllByRole('article')).toHaveLength(
@@ -287,7 +287,7 @@ describe('CategoryListPage', () => {
       const { props } = (await getServerSideProps(mockedContext)) as any;
       expect(props).toHaveProperty('dehydratedState');
       expect(mockedSetHeader).not.toHaveBeenCalled();
-      renderQuery(<Category {...props} />, undefined, undefined, props.dehydratedState);
+      renderQuery(<OwnedCategoryPage {...props} />, undefined, undefined, props.dehydratedState);
       const emptyListText = await screen.findByText('목록이 존재하지 않습니다');
       expect(emptyListText).toBeInTheDocument();
     });

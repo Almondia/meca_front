@@ -60,7 +60,7 @@ describe('Navigation', () => {
       name: /내 정보/i,
     });
     fireEvent.click(mypageLink);
-    await waitFor(() => expect(mockRouter.pathname).toEqual('/mypage'));
+    await waitFor(() => expect(mockRouter.pathname).toEqual('/me'));
   });
 
   it('로그인 된 사용자가 navigation 프로필을 클릭해 logout하면 메인페이지로 이동한다.', async () => {

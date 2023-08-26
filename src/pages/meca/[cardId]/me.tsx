@@ -16,7 +16,7 @@ export interface MecaPageProps {
   cardId: string;
 }
 
-const MecaById = ({ cardId }: MecaPageProps) => {
+const OwnedMecaDetailPage = ({ cardId }: MecaPageProps) => {
   const { meca: mecaResponse } = useMeca(cardId);
   if (!mecaResponse) {
     return null;
@@ -45,7 +45,7 @@ const MecaById = ({ cardId }: MecaPageProps) => {
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   const cardId = context.params?.cardId;
   if (!cardId || typeof cardId !== 'string') {
-    throw { message: '잘못된 요청' };
+    throw { message: '잘못된 경로 요청' };
   }
   const { card } = await useMeca.fetchQuery(false, cardId, queryClient);
   return {
@@ -55,4 +55,4 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   };
 });
 
-export default MecaById;
+export default OwnedMecaDetailPage;

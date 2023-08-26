@@ -39,7 +39,7 @@ describe('/api/cards/[cardId]', () => {
     expect(res).toHaveProperty('statusCode', 200);
     expect(res._getJSONData()).toEqual(MOCK_MECA);
     expect(spyPutCard).toHaveBeenCalledTimes(1);
-    expect(spyRevalidate).toHaveBeenCalledWith(`/mecas/${combineUUID(MOCK_MECA.memberId, MOCK_MECA.cardId)}`, {
+    expect(spyRevalidate).toHaveBeenCalledWith(`/meca/${combineUUID(MOCK_MECA.memberId, MOCK_MECA.cardId)}`, {
       unstable_onlyGenerated: true,
     });
     spyPutCard.mockClear();

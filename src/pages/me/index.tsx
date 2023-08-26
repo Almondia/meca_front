@@ -17,11 +17,11 @@ export interface UserPageProps {
   memberId: string;
 }
 
-const UserPage = ({ memberId }: UserPageProps) => {
+const MyPage = ({ memberId }: UserPageProps) => {
   const { user } = useUser();
   return (
     <>
-      <MetaHead title={`${user?.name ?? 'User'} Page`} />
+      <MetaHead title={`${user?.name} Page`} />
       {user && (
         <PostPageLayout>
           <UserProfileHeader {...user} />
@@ -48,14 +48,11 @@ const UserPage = ({ memberId }: UserPageProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, memberId) => {
-  if (!memberId) {
-    throw { message: '회원정보가 존재하지 않음' };
-  }
-  await useMecaHistory.prefetchInfiniteQuery('members', memberId, queryClient);
+  await useMecaHistory.prefetchInfiniteQuery('members', memberId as string, queryClient);
   return {
     memberId,
     cached: true,
   };
 });
 
-export default UserPage;
+export default MyPage;

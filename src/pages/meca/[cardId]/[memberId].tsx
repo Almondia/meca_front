@@ -13,7 +13,6 @@ import NotFound from '@/pages/404';
 import { Devide, PostPageLayout } from '@/styles/layout';
 import { extractTextFromHTML } from '@/utils/htmlTextHandler';
 import { extractFirstImageFromHTML } from '@/utils/imageHandler';
-import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 const QuizHistoryTimeline = dynamic(() => import('@/components/quiz/organisms/QuizHistoryTimeline'));
 
@@ -24,7 +23,7 @@ export interface MecaByIdProps {
   questionText: string;
 }
 
-const MecaById = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProps) => {
+const MecaDetailByMemberIdPage = ({ cardId, memberId, thumbnailUrl, questionText }: MecaByIdProps) => {
   const { meca: mecaResponse } = useMeca(cardId, true, memberId);
   if (!mecaResponse) {
     return <NotFound isMessageVisible message="요청하신 페이지가 없거나 비공개 처리되어있어요!" />;
@@ -61,16 +60,10 @@ export const getStaticPaths: GetStaticPaths = () => ({
 });
 
 export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, queryClient) => {
-  if (!params) {
-    throw { message: '잘못된 요청' };
-  }
-  const { memberCardId } = params;
-  if (typeof memberCardId !== 'string') {
-    throw { message: '잘못된 요청' };
-  }
-  const { uuid1: memberId, uuid2: cardId } = extractCombinedUUID(memberCardId);
-  if (!memberId || !cardId) {
-    throw { message: '잘못된 요청' };
+  const memberId = params?.memberId;
+  const cardId = params?.cardId;
+  if (typeof memberId !== 'string' || typeof cardId !== 'string') {
+    throw { message: '잘못된 경로 요청' };
   }
   try {
     const { card } = await useMeca.fetchQuery(true, cardId, queryClient);
@@ -96,4 +89,4 @@ export const getStaticProps: GetStaticProps = isrAspect(async ({ params }, query
   }
 });
 
-export default MecaById;
+export default MecaDetailByMemberIdPage;

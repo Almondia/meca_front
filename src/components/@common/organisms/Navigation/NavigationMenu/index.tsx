@@ -26,8 +26,8 @@ const NavigationMenu = ({ profile, username }: NavigationMenuProps) => {
         width="90px"
         wrapperComponent={({ onClick }) => ProfileButton({ profile, username, onClick })}
       >
-        <DropdownMenu.Menu href="/categories">내 카테고리</DropdownMenu.Menu>
-        <DropdownMenu.Menu href="/mypage">내 정보</DropdownMenu.Menu>
+        <DropdownMenu.Menu href="/category">내 카테고리</DropdownMenu.Menu>
+        <DropdownMenu.Menu href="/me">내 정보</DropdownMenu.Menu>
         <DropdownMenu.Menu onClick={() => logout('/')}>로그아웃</DropdownMenu.Menu>
       </DropdownMenu>
     </NavigationMenuWrapper>

@@ -22,10 +22,10 @@ const MecaPostHeader = ({ meca, user, isMine }: MecaPostHeaderProps) => {
   const router = useRouter();
   const { visible: isDeleteModalVisible, open: deleteModalOpen, close: deleteModalClose } = useModal();
   const handleUpdateButtonClick = () => {
-    router.push(`/mecas/write/${meca.categoryId}?cardId=${meca.cardId}`);
+    router.push(`/category/${meca.categoryId}/write-card/?cardId=${meca.cardId}`);
   };
   const handleShowCategoryButtonClick = () => {
-    router.push(`/categories/${combineUUID(user.memberId, meca.categoryId)}`);
+    router.push(`/category/${combineUUID(user.memberId, meca.categoryId)}`);
   };
 
   return (
