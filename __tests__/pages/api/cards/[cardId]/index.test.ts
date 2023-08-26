@@ -3,7 +3,7 @@
  */
 import handler from '@/pages/api/cards/[cardId]/index';
 import nookies from 'nookies';
-import { mockedNextApiRequestResponse } from '@/mock/handlers';
+import { mockedNextApiRequestResponse } from '@/mock/nodeMockHttpHandler';
 import { NOT_ALLOWED_METHOD, NOT_FOUND } from '@/apis/error/constants';
 import { authInstance } from '@/apis/config/instance';
 import { MOCK_MECA } from '@/mock/data';
@@ -39,7 +39,7 @@ describe('/api/cards/[cardId]', () => {
     expect(res).toHaveProperty('statusCode', 200);
     expect(res._getJSONData()).toEqual(MOCK_MECA);
     expect(spyPutCard).toHaveBeenCalledTimes(1);
-    expect(spyRevalidate).toHaveBeenCalledWith(`/mecas/${combineUUID(MOCK_MECA.memberId, MOCK_MECA.cardId)}`, {
+    expect(spyRevalidate).toHaveBeenCalledWith(`/meca/${combineUUID(MOCK_MECA.memberId, MOCK_MECA.cardId)}`, {
       unstable_onlyGenerated: true,
     });
     spyPutCard.mockClear();

@@ -3,7 +3,7 @@
  */
 import logoutHandler from '@/pages/api/users/logout';
 import nookies from 'nookies';
-import { mockedNextApiRequestResponse } from '@/mock/handlers';
+import { mockedNextApiRequestResponse } from '@/mock/nodeMockHttpHandler';
 import { NOT_ALLOWED_METHOD, NOT_AUTHORIZED } from '@/apis/error/constants';
 import { NextApiRequest } from 'next';
 

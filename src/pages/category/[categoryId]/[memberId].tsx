@@ -11,14 +11,13 @@ import useUser from '@/hooks/user/useUser';
 import { ssrAspect } from '@/libs/renderAspect';
 import { Devide, ListPageLayout } from '@/styles/layout';
 import { getRemoteImageUrl } from '@/utils/imageHandler';
-import { extractCombinedUUID } from '@/utils/uuidHandler';
 
 export interface CategoryByIdProps {
   categoryId: string;
   isMine: boolean;
 }
 
-const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
+const CategoryDetailByMemberId = ({ categoryId, isMine }: CategoryByIdProps) => {
   const { mecaList, hasNextPage, fetchNextPage, isEmpty } = useMecaList(categoryId, isMine);
   const { category, member: writerInfo } = mecaList;
   const { user } = useUser();
@@ -30,12 +29,12 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
         image={category?.thumbnail && getRemoteImageUrl(category.thumbnail)}
       />
       <ListPageLayout>
-        <PageTitle style={{ marginBottom: '8px' }}>{category?.title}</PageTitle>
+        <PageTitle style={{ marginBottom: '8px' }}>{category.title}</PageTitle>
         <CategoryLikeButton categoryId={categoryId} initialLikeCount={mecaList.categoryLikeCount} />
         <MecaListHeader
           categoryId={categoryId}
-          categoryTitle={category?.title ?? 'category'}
-          name={writerInfo?.name ?? 'writer name'}
+          categoryTitle={category.title}
+          name={writerInfo.name}
           profile={writerInfo?.profile || '/images/noprofile.png'}
           isMine={isMine}
           hasAuth={!!user}
@@ -54,14 +53,14 @@ const CategoryById = ({ categoryId, isMine }: CategoryByIdProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient, currentMemberId) => {
-  const memberCategoryId = context.params?.memberCategoryId;
-  if (!memberCategoryId || typeof memberCategoryId !== 'string') {
+  const memberId = context.params?.memberId;
+  const categoryId = context.params?.categoryId;
+  if (typeof memberId !== 'string' || typeof categoryId !== 'string') {
     throw { message: '잘못된 페이지 요청' };
   }
-  const { uuid1: memberId, uuid2: categoryId } = extractCombinedUUID(memberCategoryId);
   const isMine: boolean = memberId === currentMemberId ?? false;
   await useMecaList.fetchInfiniteQuery(categoryId, isMine, queryClient);
   return { categoryId, isMine, cached: true };
 }, true);
 
-export default CategoryById;
+export default CategoryDetailByMemberId;

@@ -15,7 +15,7 @@ export interface MecaWritePageProps {
   cardId?: string;
 }
 
-const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
+const WriteCardByCategoryIdPage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
   const { meca } = useMeca(cardId);
   return (
     <>
@@ -29,7 +29,7 @@ const MecaWritePage = ({ categoryId, cardId = '' }: MecaWritePageProps) => {
 
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   const categoryId = context.params?.categoryId;
-  if (!categoryId || typeof categoryId !== 'string') {
+  if (typeof categoryId !== 'string') {
     throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
   }
   const cardId = context.query?.cardId;
@@ -50,4 +50,4 @@ export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, 
   };
 });
 
-export default MecaWritePage;
+export default WriteCardByCategoryIdPage;

@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import type { DefaultModalOptions } from '@/types/common';
 
+import Toggle from '@/components/@common/atoms/Toggle';
 import InputGroup from '@/components/@common/molecules/InputGroup';
 import Modal from '@/components/@common/molecules/Modal';
-import Toggle from '@/components/@common/molecules/Toggle';
 import ThumbnailUploader from '@/components/@common/organisms/ThumbnailUploader';
 import useCategoryUpdate from '@/hooks/category/useCategoryUpdate';
 import useGlobalLoading from '@/hooks/useGlobalLoading';

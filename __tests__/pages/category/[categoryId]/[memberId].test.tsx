@@ -1,8 +1,8 @@
-import { renderQuery } from '../utils';
+import { renderQuery } from '../../../utils';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { MOCK_CATEGORY_ID, MOCK_MEMBER_ID } from '@/mock/data';
-import CategoryById, { getServerSideProps } from '@/pages/categories/[memberCategoryId]';
+import CategoryDetailByMemberId, { getServerSideProps } from '@/pages/category/[categoryId]/[memberId]';
 import { screen, waitFor } from '@testing-library/react';
 import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
@@ -19,7 +19,7 @@ jest.mock('@/hooks/category/useCategoryLike', () => ({
   default: jest.fn(),
 }));
 
-describe('MecaListPage', () => {
+describe('CategoryDetailByMemberId', () => {
   const mockedPostLike = jest.fn();
   beforeEach(() => {
     (useCategoryLike as jest.Mock).mockReturnValue({ hasLike: false, likeCount: 5, postLike: mockedPostLike });
@@ -27,6 +27,7 @@ describe('MecaListPage', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   it('회원 본인의 카드 목록 요청에 대해 카드 목록이 보여진다.', async () => {
     implementServer([restHandler(mockedGetAuthUserMecaListApi), restHandler(mockedGetUserApi)]);
     const combinedUUID = combineUUID(MOCK_MEMBER_ID, MOCK_CATEGORY_ID);
@@ -34,18 +35,18 @@ describe('MecaListPage', () => {
       accessToken: 'token',
     });
     const mockedContext = {
-      req: {
-        url: '/categories/' + combinedUUID,
-      },
       params: {
-        memberCategoryId: combinedUUID,
+        memberId: MOCK_MEMBER_ID,
+        categoryId: MOCK_CATEGORY_ID,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', true);
     expect(props).toHaveProperty('dehydratedState');
-    await waitFor(() => renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState));
+    await waitFor(() =>
+      renderQuery(<CategoryDetailByMemberId {...props} />, undefined, undefined, props.dehydratedState),
+    );
     const addButton = screen.getByRole('button', { name: /추가하기/i });
     const dotButtons = screen.getAllByRole('button', { name: /카테고리 수정 삭제 메뉴 열기 버튼/i });
     const noListText = screen.queryByText(/목록이 존재하지 않습니다/i);
@@ -66,7 +67,7 @@ describe('MecaListPage', () => {
     const categoryId = ['5'];
     const mockedContext = {
       req: {
-        url: '/categories/' + categoryId,
+        url: '/category/' + categoryId,
       },
       params: {
         memberCategoryId: categoryId,
@@ -81,13 +82,10 @@ describe('MecaListPage', () => {
     (nookies.get as jest.Mock).mockReturnValue({
       accessToken: undefined,
     });
-    const combinedUUID = combineUUID(MOCK_MEMBER_ID, MOCK_CATEGORY_ID);
     const mockedContext = {
-      req: {
-        url: '/categories/' + combinedUUID,
-      },
       params: {
-        memberCategoryId: combinedUUID,
+        memberId: MOCK_MEMBER_ID,
+        categoryId: MOCK_CATEGORY_ID,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
@@ -99,20 +97,17 @@ describe('MecaListPage', () => {
     (nookies.get as jest.Mock).mockReturnValue({
       accessToken: undefined,
     });
-    const combinedUUID = combineUUID(MOCK_MEMBER_ID, MOCK_CATEGORY_ID);
     const mockedContext = {
-      req: {
-        url: '/categories/' + combinedUUID,
-      },
       params: {
-        memberCategoryId: combinedUUID,
+        memberId: MOCK_MEMBER_ID,
+        categoryId: MOCK_CATEGORY_ID,
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
     expect(props).toHaveProperty('categoryId', MOCK_CATEGORY_ID);
     expect(props).toHaveProperty('isMine', false);
     expect(props).toHaveProperty('dehydratedState');
-    renderQuery(<CategoryById {...props} />, undefined, undefined, props.dehydratedState);
+    renderQuery(<CategoryDetailByMemberId {...props} />, undefined, undefined, props.dehydratedState);
     const addButton = screen.queryByRole('button', { name: /추가하기/i });
     const playButton = screen.queryByRole('button', { name: /플레이/i });
     const dotButton = screen.queryByRole('button', { name: /카드 수정 삭제 메뉴 열기 버튼/i });

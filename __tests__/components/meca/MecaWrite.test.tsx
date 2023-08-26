@@ -113,7 +113,7 @@ describe('MecaWrite', () => {
     const successToastText = await screen.findByText(/카드 수정 성공/i);
     expect(successToastText).toBeInTheDocument();
     expect(mockReplace).toHaveBeenCalledTimes(1);
-    expect(mockReplace).toHaveBeenCalledWith(`/mecas/${card.memberId}-${card.cardId}`);
+    expect(mockReplace).toHaveBeenCalledWith(`/meca/${card.cardId}/${card.memberId}`);
   });
 
   it('항목을 입력하지 않고 등록을 시도하면 등록되지 않고 invalid text가 식별된다.', async () => {

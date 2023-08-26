@@ -1,12 +1,11 @@
 import { renderQuery } from '../../utils';
 import { implementServer } from '@/mock/server';
 import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
-import { mockedGetMecaCountApi, mockedGetQuizCardsSimulationStateByCategoryIdApi } from '@/mock/api';
+import { mockedGetQuizCardsSimulationStateByCategoryIdApi } from '@/mock/api';
 import { screen, fireEvent } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 
 import MecaListHeader from '@/components/meca/organisms/MecaListHeader';
-import { MOCK_QUIZ_SIMULATION_INFO_LIST } from '@/mock/data';
 import { QuizSimulationStateResponse } from '@/types/domain/quiz';
 
 describe('MecaListHeader', () => {
@@ -33,7 +32,7 @@ describe('MecaListHeader', () => {
     renderQuery(<MecaListHeader {...props} isMine />);
     const addButton = screen.getByRole('button', { name: /추가하기 /i });
     fireEvent.click(addButton);
-    expect(mockRouter.pathname).toEqual(`/mecas/write/${props.categoryId}`);
+    expect(mockRouter.pathname).toEqual(`/category/${props.categoryId}/write-card`);
   });
 
   it('다른사람의 MecaListHeader UI가 식별된다.', () => {

@@ -49,7 +49,7 @@ const QuizHistoryTimeline = ({ resourceId, resourceType }: QuizHistoryTimelinePr
               key={cardHistory.cardHistoryId}
               unindented={idx !== 0}
               left={idx % 2 === 0}
-              cardLink={`/mecas/${combineUUID(card.memberId, card.cardId)}`}
+              cardLink={`/meca/${combineUUID(card.memberId, card.cardId)}`}
               {...card}
               {...cardHistory}
               scorePostfixText={resourceType === 'cards' ? `by ${solvedMember.solvedMemberName}` : ''}

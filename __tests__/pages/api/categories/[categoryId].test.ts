@@ -3,7 +3,7 @@
  */
 import categoryHandler from '@/pages/api/categories/[categoryId]';
 import nookies from 'nookies';
-import { mockedNextApiRequestResponse } from '@/mock/handlers';
+import { mockedNextApiRequestResponse } from '@/mock/nodeMockHttpHandler';
 import { NOT_ALLOWED_METHOD } from '@/apis/error/constants';
 import { authInstance } from '@/apis/config/instance';
 import { MOCK_CATEGORY, MOCK_CATEGORY_ID } from '@/mock/data';

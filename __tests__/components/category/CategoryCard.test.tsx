@@ -26,7 +26,7 @@ describe('CategoryCard', () => {
     const cardTitle = screen.getByText('title1');
     expect(cardTitle).toBeInTheDocument();
     fireEvent.click(cardTitle);
-    expect(mockRouter.pathname).toEqual(`/categories/${memberId}-${categoryId}`);
+    expect(mockRouter.pathname).toEqual(`/category/${categoryId}/${memberId}`);
   });
 
   it('Category Card Thumbnail을 클릭하면 해당 카테고리의 카드 목록 페이지로 이동한다.', () => {
@@ -36,7 +36,7 @@ describe('CategoryCard', () => {
       name: /title1-category-thumbnail/i,
     });
     fireEvent.click(thumbnail);
-    expect(mockRouter.pathname).toEqual(`/categories/${memberId}-${categoryId}`);
+    expect(mockRouter.pathname).toEqual(`/category/${categoryId}/${memberId}`);
   });
 
   it('본인의 카테고리 카드 UI가 식별된다.', async () => {

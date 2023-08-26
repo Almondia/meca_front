@@ -3,7 +3,7 @@
  */
 import handler from '@/pages/api/cards/[cardId]/share';
 import nookies from 'nookies';
-import { mockedNextApiRequestResponse } from '@/mock/handlers';
+import { mockedNextApiRequestResponse } from '@/mock/nodeMockHttpHandler';
 import { NOT_ALLOWED_METHOD } from '@/apis/error/constants';
 import { unauthInstance } from '@/apis/config/instance';
 import { MOCK_MECA, MOCK_MECA_ID, MOCK_MEMBER_ID } from '@/mock/data';
@@ -59,7 +59,7 @@ describe('/api/cards/[cardId]/share', () => {
     expect(res).toHaveProperty('statusCode', 403);
     expect(res._getJSONData()).toEqual({ status: 403, message: 'access denied' });
     expect(spyGetSharedCard).toHaveBeenCalledTimes(1);
-    expect(spyRevalidate).toHaveBeenCalledWith(`/mecas/${combineUUID(MOCK_MEMBER_ID, MOCK_MECA_ID)}`, {
+    expect(spyRevalidate).toHaveBeenCalledWith(`/meca/${combineUUID(MOCK_MEMBER_ID, MOCK_MECA_ID)}`, {
       unstable_onlyGenerated: true,
     });
     spyGetSharedCard.mockClear();

@@ -29,11 +29,11 @@ describe('useMecaDelete', () => {
   });
 
   it('Meca 삭제 후 해당 카테고리 페이지가 아니였다면 이동한다.', async () => {
-    await mockRouter.push('/mecas/write');
+    await mockRouter.push('/category/categoryId01/write-card');
     const { result } = renderHook(() => useMecaDelete(), { wrapper: createQueryClientWrapper() });
     const { deleteMeca } = result.current;
     await waitFor(() => deleteMeca({ cardId, categoryId }));
-    expect(mockRouter.pathname).toEqual('/categories/member01-categoryId01');
+    expect(mockRouter.pathname).toEqual('/category/categoryId01/member01');
   });
 
   it('Meca 삭제 실패 시 route 이동이 없다.', async () => {

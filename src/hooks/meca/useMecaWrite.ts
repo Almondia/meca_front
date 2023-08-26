@@ -19,7 +19,7 @@ const useMecaWrite = () => {
     queryClient.invalidateQueries([queryKey.mecas, categoryId]);
     queryClient.invalidateQueries([queryKey.meca, cardId]);
     alertToast(message, 'success');
-    router.replace(`/mecas/${combineUUID(memberId, cardId)}`);
+    router.replace(`/meca/${combineUUID(memberId, cardId)}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

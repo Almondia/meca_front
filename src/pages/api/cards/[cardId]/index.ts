@@ -29,7 +29,7 @@ const handlePutById = async (req: PutRequest, res: NextApiResponse) => {
   const { cardId } = req.query;
   const requestBody = req.body;
   const response = await authInstance.put<never, Meca>(`/api/v1/cards/${cardId}`, requestBody);
-  res.revalidate(`/mecas/${combineUUID(response.memberId, cardId)}`, { unstable_onlyGenerated: true });
+  res.revalidate(`/meca/${combineUUID(response.memberId, cardId)}`, { unstable_onlyGenerated: true });
   return res.status(200).json(response);
 };
 

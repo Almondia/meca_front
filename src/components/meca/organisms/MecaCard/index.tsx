@@ -24,12 +24,12 @@ const MecaCard = memo(({ card, statistics, isMine }: MecaCardProps) => {
       {thumbnail && (
         <Card.Thumbnail
           src={thumbnail}
-          href={`/mecas/${combineUUID(memberId, cardId)}`}
+          href={`/meca/${combineUUID(memberId, cardId)}`}
           altText={`${title}-meca-thumbnail`}
           preloadedInfo={blurThumbnail}
         />
       )}
-      <Card.Title link={`/mecas/${combineUUID(memberId, cardId)}`}>{title}</Card.Title>
+      <Card.Title link={`/meca/${combineUUID(memberId, cardId)}`}>{title}</Card.Title>
       <Card.Body>
         <ST.BodyMain>{getQuestionAnswerByCardType({ question, cardType }).question}</ST.BodyMain>
         <ST.BodySub>
@@ -40,7 +40,7 @@ const MecaCard = memo(({ card, statistics, isMine }: MecaCardProps) => {
           <ST.PrivateMenu>
             <MecaCardUpdateMenu
               title={title}
-              updateLinkUrl={`/mecas/write/${categoryId}?cardId=${cardId}`}
+              updateLinkUrl={`/category/${categoryId}/write-card?cardId=${cardId}`}
               deleteModalComponent={(props) => MecaDeleteDialog({ ...props, cardId, categoryId, cardTitle: title })}
             />
           </ST.PrivateMenu>
