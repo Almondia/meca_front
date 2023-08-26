@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Toggle from '@/components/@common/molecules/Toggle';
+import Toggle from '@/components/@common/atoms/Toggle';
 
 export default {
-  title: 'components/@common/molecules/Toggle',
+  title: 'components/@common/atoms/Toggle',
   component: Toggle,
   parameters: {
     controls: {
