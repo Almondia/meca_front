@@ -3,7 +3,7 @@
  */
 import handler from '@/pages/api/users/index';
 import nookies from 'nookies';
-import { mockedNextApiRequestResponse } from '@/mock/handlers';
+import { mockedNextApiRequestResponse } from '@/mock/nodeMockHttpHandler';
 import { NOT_ALLOWED_METHOD, NOT_AUTHORIZED } from '@/apis/error/constants';
 import { NextApiRequest } from 'next';
 import userApi from '@/apis/userApi';

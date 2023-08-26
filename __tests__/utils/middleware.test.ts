@@ -71,7 +71,6 @@ describe('middleware', () => {
     const combinedUUID = combineUUID(memberId, cardId);
     (mockNextRequest.cookies.get as jest.Mock).mockReturnValue({ value: jwt });
     mockNextRequest.nextUrl.pathname = '/meca/' + combinedUUID;
-    console.log(mockNextRequest.nextUrl.pathname);
     const response = await middleware(mockNextRequest);
     expect(response).toBeInstanceOf(NextResponse);
     expect(response.status).toBe(200);

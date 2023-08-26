@@ -3,7 +3,7 @@
  */
 import handler from '@/pages/api/cards/[cardId]/share';
 import nookies from 'nookies';
-import { mockedNextApiRequestResponse } from '@/mock/handlers';
+import { mockedNextApiRequestResponse } from '@/mock/nodeMockHttpHandler';
 import { NOT_ALLOWED_METHOD } from '@/apis/error/constants';
 import { unauthInstance } from '@/apis/config/instance';
 import { MOCK_MECA, MOCK_MECA_ID, MOCK_MEMBER_ID } from '@/mock/data';
