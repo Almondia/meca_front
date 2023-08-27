@@ -43,7 +43,12 @@ const mecaApi = {
       title,
       answer,
     }),
-  deleteMeca: (cardId: string) => serverInstance.delete<never, never>(`/api/cards/${cardId}`),
+  deleteMeca: (cardId: string, categoryId: string) =>
+    serverInstance.delete<never, never>(`/api/cards/${cardId}`, {
+      params: {
+        categoryId,
+      },
+    }),
   getMyMecaList: async (
     props: CursorPaginationRequest & { categoryId: string },
   ): Promise<MecaListPaginationResponse> => {

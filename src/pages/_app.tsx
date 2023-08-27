@@ -17,7 +17,7 @@ import ThemeProvider from '@/styles/ThemeProvider';
 
 const Unauthorized = dynamic(() => import('./401'), { ssr: false });
 const NotFound = dynamic(() => import('./404'), { ssr: false });
-const GlobalLoadingSpinner = dynamic(() => import('@/components/@util/GlobalLoadingSpinner'));
+const GlobalLoadSpinner = dynamic(() => import('@/components/@util/GlobalLoadSpinner'));
 const ToastProvider = dynamic(() => import('@/components/@util/ToastProvider'));
 
 interface ErrorProps {
@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <PageLayout>{ErrorPage ? <ErrorPage message={errorMessage} /> : <Component {...pageProps} />}</PageLayout>
               <div id="modal-root" />
               <div id="image-crop-root" />
-              <GlobalLoadingSpinner />
+              <GlobalLoadSpinner />
             </ThemeProvider>
           </RecoilRoot>
           <ReactQueryDevtools initialIsOpen={false} />

@@ -11,12 +11,13 @@ import alertToast from '@/utils/toastHandler';
 const useQuizInfoBeforePlay = (categoryId: string) => {
   const fallback: QuizSimulationStateResponse[] = [];
   const { data: simulationBaseScoreList = fallback, isLoading } = useQuery(
-    [queryKey.quiz, 'before', categoryId],
+    [queryKey.mecas, categoryId, 'before'],
     () => mecaApi.getQuizCardsSimulationStateByCategoryId(categoryId),
     {
       onError: () => {
         alertToast('퀴즈 정보를 불러올 수 없습니다!', 'warning');
       },
+      staleTime: 600000,
     },
   );
 
@@ -46,7 +47,7 @@ useQuizInfoBeforePlay.fetchOrGetQuery = async (categoryId: string, queryClient: 
   ]);
   return (
     prevSimulationBaseScoreList ||
-    queryClient.fetchQuery<QuizSimulationStateResponse[]>([queryKey.quiz, 'before', categoryId], () =>
+    queryClient.fetchQuery<QuizSimulationStateResponse[]>([queryKey.mecas, categoryId, 'before'], () =>
       mecaApi.getQuizCardsSimulationStateByCategoryId(categoryId).catch(() => [] as QuizSimulationStateResponse[]),
     )
   );
