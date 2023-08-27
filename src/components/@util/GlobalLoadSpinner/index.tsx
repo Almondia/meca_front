@@ -7,9 +7,9 @@ import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import useDebounce from '@/hooks/useDebounce';
 import useGlobalLoading from '@/hooks/useGlobalLoading';
 
-import { GlobalLoadingSpinnerWrapper } from './styled';
+import { GlobalLoadSpinnerWrapper } from './styled';
 
-const GlobalLoadingSpinner = () => {
+const GlobalLoadSpinner = () => {
   const { isGlobalLoading } = useGlobalLoading();
   const isMutating = useIsMutating({ mutationKey: ['default'], exact: true });
   const isLoading = !!(isMutating || isGlobalLoading);
@@ -25,10 +25,10 @@ const GlobalLoadingSpinner = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
   return (
-    <GlobalLoadingSpinnerWrapper isDeferred={isDeferred} isVisible={isLoading}>
+    <GlobalLoadSpinnerWrapper isDeferred={isDeferred} isVisible={isLoading}>
       <LoadSpinner width="100%" height="100%" />
-    </GlobalLoadingSpinnerWrapper>
+    </GlobalLoadSpinnerWrapper>
   );
 };
 
-export default GlobalLoadingSpinner;
+export default GlobalLoadSpinner;

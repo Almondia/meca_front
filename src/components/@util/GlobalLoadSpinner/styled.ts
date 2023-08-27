@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { FlexCenter } from '@/styles/layout';
 
-export const GlobalLoadingSpinnerWrapper = styled.div<{ isVisible: boolean; isDeferred: boolean }>`
+export const GlobalLoadSpinnerWrapper = styled.div<{ isVisible: boolean; isDeferred: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
