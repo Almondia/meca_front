@@ -14,7 +14,7 @@ const useMecaDelete = () => {
   const { user } = useUser();
 
   const { mutate: deleteMeca } = useMutation<never, unknown, { cardId: string; categoryId: string }>(
-    ({ cardId }) => mecaApi.deleteMeca(cardId),
+    ({ cardId, categoryId }) => mecaApi.deleteMeca(cardId, categoryId),
     {
       onSuccess: async (_, { cardId, categoryId }) => {
         queryClient.invalidateQueries([queryKey.mecas, categoryId]);
