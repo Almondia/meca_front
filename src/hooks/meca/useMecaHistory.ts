@@ -17,6 +17,7 @@ const useMecaHistory = (resourceType: 'cards' | 'members', id: string) => {
     {
       getNextPageParam: (lastPage) => lastPage.hasNext ?? undefined,
       enabled: !!id,
+      refetchOnMount: false,
     },
   );
   return { cardHistoryList, isEmpty, isFetching, hasNextPage, fetchNextPage };

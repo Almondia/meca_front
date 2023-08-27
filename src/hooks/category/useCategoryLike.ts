@@ -25,6 +25,7 @@ const useCategoryLike = (categoryId: string, initialLikeCount: number) => {
       };
     },
     {
+      refetchOnMount: false,
       onError: () => {
         queryClient.setQueryData<LikeQueryType>([queryKey.categories, categoryId, 'like'], fallbackLikeQueryData);
       },

@@ -15,7 +15,7 @@ const useQuizKeyword = () => {
     isLoading: isQuizPhaseKeywordsLoading,
     refetch: fetchQuizPhaseKeywords,
   } = useQuery(
-    [queryKey.keyword, 'quiz'],
+    [queryKey.quiz, queryKey.keyword],
     async () => {
       const quizList = queryClient.getQueryData<Quiz[]>([queryKey.quiz]);
       if (!quizList) {
@@ -29,6 +29,7 @@ const useQuizKeyword = () => {
       return response;
     },
     {
+      refetchOnMount: false,
       enabled: false,
       retry: 1,
       onError: undefined,
