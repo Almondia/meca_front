@@ -45,7 +45,7 @@ const MecaWrite = ({ cardId, categoryId, title, cardType, answer, question, desc
           onToggle={handleMecaTagToggle}
           onlySelected={!!cardId}
         />
-        <QuestionInputGroup QuestionEditor={QuillWriter} />
+        <QuestionInputGroup QuestionEditor={(props) => QuillWriter({ ...props, isUpdateMode: !!cardId })} />
         <AnswerInputGroup />
         <MecaDescriptionInputGroup DescriptionEditor={QuillWriter} />
         <br />

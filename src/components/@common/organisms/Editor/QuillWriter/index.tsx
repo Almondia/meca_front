@@ -19,6 +19,7 @@ export interface EditorComponentProps {
   minHeight?: ElementSizeType;
   maxHeight?: ElementSizeType;
   placeholder?: string;
+  isUpdateMode?: boolean;
 }
 
 const IMAGE_UPLOAD_TEXT = '[이미지 업로드중...]' as const;
@@ -29,6 +30,7 @@ const QuillWriter = ({
   placeholder = '내용을 입력하세요',
   minHeight,
   maxHeight,
+  isUpdateMode,
 }: EditorComponentProps) => {
   const editorElementRef = useRef<HTMLDivElement>(null);
   const quillInstance = useRef<ReactQuill>(null);
@@ -44,6 +46,12 @@ const QuillWriter = ({
       }
     })();
   }, []);
+  useEffect(() => {
+    if (quillInstance.current && isUpdateMode) {
+      const quill = quillInstance.current.getEditor();
+      (quill as any).history.clear();
+    }
+  }, [quillInstance.current]);
 
   const handleImageUploadButtonClick = useCallback(() => {
     // TODO: Editor의 원래 image upload event를 직접 발생시켜 커스텀 imageHandler까지로 연결할 수 없을까
@@ -100,9 +108,8 @@ const QuillWriter = ({
         highlight: (text: string) => hljs.highlightAuto(text).value,
       },
       history: {
-        delay: 2000,
+        delay: 1000,
         maxStack: 2000,
-        userOnly: true,
       },
       toolbar: {
         container: [
