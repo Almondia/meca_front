@@ -21,7 +21,6 @@ const QuillReader = memo(({ content }: { content: string }) => {
             getCustomImageBlot(QuillComponent, true).then((ImageBlot) => QuillComponent.Quill.register(ImageBlot)),
             getCodeHighlightBlot(QuillComponent).then((CodeBlot) => QuillComponent.Quill.register(CodeBlot)),
           ]);
-          QuillComponent.Quill.register('blots/scroll', null);
           return () => (
             <ReadEditorWrapper className="quill-readonly">
               <QuillComponent theme="bubble" readOnly value={content.replaceAll('</span>\n ', '</span>\n&nbsp;')} />
