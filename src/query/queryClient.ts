@@ -9,7 +9,7 @@ function mutationErrorHandler(error: unknown): void {
     return;
   }
   alertToast(error.message, 'warning');
-  error.status === 403 && window.location.assign('/');
+  error.status === 401 && window.location.assign('/');
 }
 
 export function generateQueryClient(): QueryClient {
