@@ -9,6 +9,9 @@ const EditorWrapper = styled.div`
     padding: 1rem;
     font-size: 1rem;
     line-height: 1.5;
+    code {
+      background-color: var(--color-lightgray);
+    }
     li {
       margin-left: -2.2rem;
     }
