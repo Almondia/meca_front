@@ -92,9 +92,7 @@ const QuizPost = ({
         invalidAnswerMessage={inputsValidState[0].isValid ? undefined : inputsValidState[0].message}
       />
       {isAnswerState && description && (
-        <div data-testid="id-quizpost-editor">
-          <BoxedSection header="Commentary." isColumn body={<QuillReader content={description} />} />
-        </div>
+        <BoxedSection header="Commentary." isColumn body={<QuillReader content={description} />} />
       )}
       <QuizInstruction />
       <QuizPlayButtonGroup succeedText={handleSucceed.succeedText} onSucceed={handleSucceedClick} />
