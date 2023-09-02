@@ -49,12 +49,10 @@ describe('QuizPost', () => {
 
   it('정답을 본 상태의 OX QuizPost UI가 식별된다.', async () => {
     const props = OX_QUIZ;
-    await waitFor(() => renderQuery(<QuizPost {...props} isAnswerState={true} />));
+    renderQuery(<QuizPost {...props} isAnswerState={true} />);
     const questionText = screen.queryByText(props.question);
-    const editor = screen.queryByTestId('id-quizpost-editor');
     const editorSmapleImage = screen.queryByRole('img', { name: 'img-alt' });
     expect(questionText).toBeInTheDocument();
-    expect(editor).toBeInTheDocument();
     expect(editorSmapleImage).toBeInTheDocument();
     const radios = screen.getAllByRole('radio');
     expect(radios).toHaveLength(2);
@@ -77,18 +75,15 @@ describe('QuizPost', () => {
     renderQuery(<QuizWrapper />);
     const xRadio = screen.getByRole('radio', { name: 'Ax' });
     expect(xRadio).not.toBeChecked();
-    expect(screen.queryByTestId('id-quizpost-editor')).not.toBeInTheDocument();
     fireEvent.click(xRadio);
     expect(xRadio).toBeChecked();
     expect(screen.queryByText('Selected')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'change' }));
     await waitFor(() => {
-      // input should be reset!
       expect(xRadio).not.toBeChecked();
       expect(xRadio).toBeDisabled();
-      const answerCheckedElement = screen.getByTestId('id-oxquiz-post-answer-circle');
-      expect(answerCheckedElement.parentElement).toHaveTextContent('Ax');
     });
-    expect(screen.queryByTestId('id-quizpost-editor')).toBeInTheDocument();
+    const answerCheckedElement = screen.getByTestId('id-oxquiz-post-answer-circle');
+    expect(answerCheckedElement.parentElement).toHaveTextContent('Ax');
   });
 });

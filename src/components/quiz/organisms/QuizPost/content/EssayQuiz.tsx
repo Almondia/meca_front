@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
+import ColorizedScore from '@/components/@common/atoms/ColorizedScore';
 import BoxedSection from '@/components/@common/molecules/BoxedSection';
 import InputGroup from '@/components/@common/molecules/InputGroup';
-import { TextCaption } from '@/styles/common';
 
 import { QuizContentWrapper } from '../styled';
 import { QuizContentProps } from '../type';
@@ -20,8 +20,8 @@ const AnswerBetweenHeader = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   .score {
-    font-size: ${({ theme }) => theme.fontSize.large};
-    color: var(--color-brand);
+    font-size: ${({ theme }) => theme.fontSize.sub};
+    font-family: ${({ theme }) => theme.fontFamily.pretendard};
   }
 `;
 
@@ -42,9 +42,9 @@ export const EssayQuiz = ({
             <AnswerBetweenHeader>
               <p>Your Answer.</p>
               {isAnswerState && (
-                <TextCaption>
-                  Score: <span className="score">{score}</span>
-                </TextCaption>
+                <p className="score">
+                  score: <ColorizedScore score={score ?? 0} size="sub" />
+                </p>
               )}
             </AnswerBetweenHeader>
           }

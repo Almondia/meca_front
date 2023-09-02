@@ -28,7 +28,7 @@ const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
         return [];
       }
       const response = await mecaApi.getQuizCards(quizInfo);
-      return response;
+      return response.sort(() => Math.random() - 0.5);
     },
     {
       enabled: !!quizInfo,
