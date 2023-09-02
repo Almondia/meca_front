@@ -20,6 +20,10 @@ describe('QuizStartDialog', () => {
     implementServer([restHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi)]);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Quiz Simulation Info 목록이 존재한다면 내부 input 컨텐츠들이 식별된다.', async () => {
     renderQuery(<QuizStartDialog {...props} />);
     expect(screen.getByText(props.title)).toBeInTheDocument();

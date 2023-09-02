@@ -9,6 +9,7 @@ import {
   MOCK_MECA_PAGINATION_LIST,
   MOCK_MEMBER,
   MOCK_MEMBER_ID,
+  MOCK_QUIZS,
   MOCK_QUIZ_SIMULATION_INFO_LIST,
 } from '../data';
 import { ENDPOINT, ResponseResolver } from '../handlers';
@@ -136,7 +137,7 @@ export const mockedGetAuthUserdMecaApi = (body = MOCK_MECA) => {
 export const mockedGetSimulationMecasApi = () => {
   const [uri, method] = [`${ENDPOINT}/cards/categories/:id/simulation`, 'get'];
   const responseResolver: ResponseResolver = async (req, res, ctx) => {
-    return res(ctx.status(200));
+    return res(ctx.status(200), ctx.json(MOCK_QUIZS));
   };
   return { uri, method, responseResolver };
 };
