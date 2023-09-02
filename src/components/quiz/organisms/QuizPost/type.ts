@@ -1,4 +1,5 @@
 export interface QuizContentProps {
+  cardId?: string;
   question: string;
   answer: string;
   isAnswerState: boolean;

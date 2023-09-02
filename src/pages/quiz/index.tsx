@@ -138,11 +138,9 @@ const QuizPage = () => {
             score={currentQuizResult?.score}
             inputAnswer={currentQuizResult?.inputAnswer}
             isAnswerState={quizPhase !== 'progress'}
-            question={quizList[quizIndex].question}
-            answer={quizList[quizIndex].answer}
-            description={quizList[quizIndex].description}
             handleSucceed={quizPhaseSucceed[quizPhase]}
             quizType={quizList[quizIndex].cardType}
+            {...quizList[quizIndex]}
           />
         </>
       )}

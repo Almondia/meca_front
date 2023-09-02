@@ -29,7 +29,7 @@ const SelectBox = styled.div<{ bgColor: string; isNotAnswer?: boolean }>`
   opacity: ${(props) => (props.isNotAnswer ? 0.5 : 1)};
 `;
 
-export const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }: QuizContentProps) => {
+export const SelectQuiz = ({ cardId, question, answer, isAnswerState, value, onChange }: QuizContentProps) => {
   const questions = stringToJsonStringArrayConverter(question);
   const setBoxBackgroundColor = (index: number) => {
     const indexAnswer = (index + 1).toString();
@@ -46,9 +46,9 @@ export const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }:
   return (
     <SelectQuizContentWrapper>
       <SelectGroup>
-        {questions.slice(1).map((qs, index) => (
+        {questions.slice(1).map((q, index) => (
           <RadioGroup.Radio
-            key={index}
+            key={`${cardId}-${index}`}
             name="quiz"
             value={(index + 1).toString()}
             onChange={onChange}
@@ -58,7 +58,7 @@ export const SelectQuiz = ({ question, answer, isAnswerState, value, onChange }:
               bgColor={setBoxBackgroundColor(index)}
               isNotAnswer={isAnswerState && answer !== (index + 1).toString()}
             >
-              <BoxedSection header={`(${index + 1})`} body={<strong>{qs}</strong>} />
+              <BoxedSection header={`(${index + 1})`} body={q} />
             </SelectBox>
           </RadioGroup.Radio>
         ))}

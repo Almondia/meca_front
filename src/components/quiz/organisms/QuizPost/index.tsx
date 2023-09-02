@@ -18,6 +18,7 @@ import { QuizPostWrapper } from './styled';
 import { QuizContentComponentType } from './type';
 
 export interface QuizPostProps {
+  cardId?: string;
   question: string;
   answer: string;
   description: string;
@@ -36,6 +37,7 @@ const QUIZ_CONTENTS: Record<MecaTagType, QuizContentComponentType> = {
 };
 
 const QuizPost = ({
+  cardId,
   question,
   answer,
   description,
@@ -80,6 +82,7 @@ const QuizPost = ({
     <QuizPostWrapper>
       <BoxedSection header="Question." isColumn body={<QuillReader content={normalizedQuestionText} />} />
       <QuizContent
+        cardId={cardId}
         value={isAnswerState ? inputAnswer ?? answerInput : answerInput}
         score={score}
         onChange={handleChange}

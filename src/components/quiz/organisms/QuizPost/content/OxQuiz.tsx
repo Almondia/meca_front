@@ -43,7 +43,7 @@ const AnswerCircle = styled.div`
   content: '';
 `;
 
-export const OxQuiz = ({  answer, isAnswerState, value, onChange }: QuizContentProps) => {
+export const OxQuiz = ({ cardId, answer, isAnswerState, value, onChange }: QuizContentProps) => {
   const fieldsetRef = useRef<HTMLFieldSetElement>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === 'O' || e.target.value === 'X') {
@@ -69,7 +69,13 @@ export const OxQuiz = ({  answer, isAnswerState, value, onChange }: QuizContentP
         body={
           <SelectGroup ref={fieldsetRef}>
             {['O', 'X'].map((ox) => (
-              <RadioGroup.Radio key={ox} name="quiz" value={ox} onChange={handleChange} disabled={isAnswerState}>
+              <RadioGroup.Radio
+                key={`${cardId}-${ox}`}
+                name="quiz"
+                value={ox}
+                onChange={handleChange}
+                disabled={isAnswerState}
+              >
                 <OxIconContainer>
                   {isAnswerState && ox === answer && <AnswerCircle data-testid="id-oxquiz-post-answer-circle" />}
                   <Icon icon={ox === 'X' ? 'Ax' : 'O'} />
