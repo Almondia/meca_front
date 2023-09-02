@@ -88,4 +88,5 @@ export const BORDER = {
 
 export const FONT_FAMILY = {
   sahitya: 'Sahitya',
+  pretendard: 'Pretendard',
 };
