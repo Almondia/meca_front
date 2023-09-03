@@ -1,13 +1,11 @@
 import { useCallback } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
 
 import type { MecaTag } from '@/types/domain/meca';
 import type { Quiz } from '@/types/domain/quiz';
 
 import cardHistoryApi from '@/apis/cardHistoryApi';
-import { quizPhaseState, quizTimeState, quizTitleState } from '@/atoms/quiz';
 import queryKey from '@/query/queryKey';
 import { MECA_TAGS } from '@/utils/constants';
 import alertToast from '@/utils/toastHandler';
@@ -18,9 +16,6 @@ const useQuizResult = () => {
   const queryClient = useQueryClient();
   const fallback: Quiz[] = [];
   const { quizList = fallback } = useQuiz();
-  const setQuizTime = useSetRecoilState(quizTimeState);
-  const setQuizTitle = useSetRecoilState(quizTitleState);
-  const setQuizPhase = useSetRecoilState(quizPhaseState);
 
   const applyScore = useCallback(async (userAnswer: string, cardId: string) => {
     try {
@@ -32,15 +27,16 @@ const useQuizResult = () => {
     }
   }, []);
 
-  const { mutate: solveQuiz, data: currentQuizList } = useMutation<
+  const { mutate: applyQuizResult, data: currentQuizList } = useMutation<
     { solvedQuizList: Quiz[]; currentQuizResult?: { score: number; inputAnswer: string } },
     never,
-    { cardId: string; spendTime: number; answer: string }
+    { round: number; spendTime: number; answer: string }
   >(
-    async ({ cardId, spendTime, answer }) => {
-      if (!quizList) {
-        return quizList;
+    async ({ round, spendTime, answer }) => {
+      if (!quizList[round - 1]) {
+        return { solvedQuizList: quizList };
       }
+      const { cardId } = quizList[round - 1];
       const currentScore = await applyScore(answer, cardId);
       const solvedQuizList: Quiz[] = quizList.map((quiz) =>
         quiz.cardId === cardId
@@ -88,15 +84,8 @@ const useQuizResult = () => {
     );
     return { avgScore: totalScore / (quizList.length * 100), avgTime: totalSecond / quizList.length };
   };
-  const clearQuizPhase = useCallback(() => {
-    setQuizTime(0);
-    setQuizTitle('');
-    setQuizPhase('progress');
-    queryClient.removeQueries([queryKey.quiz]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  const retryQuiz = (optionScore: number, retryCallback: () => void) => {
+  const refreshQuizResult = (optionScore: number, retryCallback: () => void) => {
     const scoreLimit = Math.max(0, Math.min(optionScore, 100));
     const filteredQuizList = quizList
       .filter((quiz) => (quiz?.result?.score ?? 0) <= scoreLimit)
@@ -111,11 +100,10 @@ const useQuizResult = () => {
 
   return {
     quizList,
-    solveQuiz,
+    applyQuizResult,
     getQuizTypeRateResult,
     getAnswerRateResult,
-    clearQuizPhase,
-    retryQuiz,
+    refreshQuizResult,
     currentQuizResult: currentQuizList?.currentQuizResult,
   };
 };
