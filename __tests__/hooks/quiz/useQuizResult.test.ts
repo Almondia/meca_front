@@ -1,16 +1,18 @@
-import { createQueryClientWrapper } from '../utils';
+import { createQueryClientWrapper } from '../../utils';
 
-import useQuizResult from '@/hooks/quiz/useQuizResult';
 import { MOCK_QUIZS, MOCK_QUIZ_RESULTS } from '@/mock/data';
 import { renderHook, waitFor } from '@testing-library/react';
 import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import { mockedPostQuizResultApi } from '@/mock/api';
+
 import { QueryClient } from '@tanstack/react-query';
 import queryKey from '@/query/queryKey';
 import alertToast from '@/utils/toastHandler';
 import { MECA_TAGS } from '@/utils/constants';
+
 import cardHistoryApi from '@/apis/cardHistoryApi';
+import useQuizResult from '@/hooks/quiz/useQuizResult';
 
 jest.mock('@/utils/toastHandler', () => {
   return jest.fn();

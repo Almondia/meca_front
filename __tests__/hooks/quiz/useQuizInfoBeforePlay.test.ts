@@ -1,10 +1,12 @@
-import useQuizInfoBeforePlay from '@/hooks/quiz/useQuizInfoBeforePlay';
+import { createQueryClientWrapper } from '../../utils';
+import { renderHook, waitFor } from '@testing-library/react';
+
 import { mockedGetQuizCardsSimulationStateByCategoryIdApi } from '@/mock/api';
 import { MOCK_QUIZ_SIMULATION_INFO_LIST } from '@/mock/data';
-import { restHandler } from '@/mock/handlers';
+import { restHandler, restOverridedResponseHandler } from '@/mock/handlers';
 import { implementServer, resetServer } from '@/mock/server';
-import { renderHook, waitFor } from '@testing-library/react';
-import { createQueryClientWrapper } from '../utils';
+
+import useQuizInfoBeforePlay from '@/hooks/quiz/useQuizInfoBeforePlay';
 
 const mockedQuizInfoList = MOCK_QUIZ_SIMULATION_INFO_LIST;
 
@@ -29,11 +31,25 @@ describe('useQuizInfoBeforePlay', () => {
     expect(result.current.isEmpty).toBeTruthy();
   });
 
-  it('요청한 점수로 퀴즈 정보 목록을 필터링하면 요청한 점수 이하만큼의 갯수가 리턴된다.', async () => {
+  it('요청한 점수로 퀴즈 정보 목록 갯수 필터링 시 요청한 점수 이하만큼의 갯수가 리턴된다.', async () => {
     const { result } = renderHook(() => useQuizInfoBeforePlay('categoryId'), { wrapper: createQueryClientWrapper() });
     await waitFor(() => expect(result.current.simulationBaseScoreList).toHaveLength(mockedQuizInfoList.length));
     expect(result.current.getQuizCountByFilteredScore(50)).toEqual(9);
     expect(result.current.getQuizCountByFilteredScore(0)).toEqual(4);
     expect(result.current.getQuizCountByFilteredScore(-1)).toEqual(0);
+  });
+
+  it('요청한 점수로 퀴즈 정보 목록 갯수 필터링 시 30문제보다 많다면 30개가 리턴된다.', async () => {
+    implementServer([
+      restOverridedResponseHandler(mockedGetQuizCardsSimulationStateByCategoryIdApi, [
+        {
+          score: 12.5,
+          count: 99,
+        },
+      ]),
+    ]);
+    const { result } = renderHook(() => useQuizInfoBeforePlay('categoryId'), { wrapper: createQueryClientWrapper() });
+    await waitFor(() => expect(result.current.simulationBaseScoreList).toHaveLength(1));
+    expect(result.current.getQuizCountByFilteredScore(50)).toEqual(30);
   });
 });

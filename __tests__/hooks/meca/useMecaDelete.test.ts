@@ -1,6 +1,7 @@
+import { createQueryClientWrapper } from '../../utils';
+
 import useMecaDelete from '@/hooks/meca/useMecaDelete';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createQueryClientWrapper } from '../utils';
 import { restHandler } from '@/mock/handlers';
 import { implementServer, resetServer } from '@/mock/server';
 import { QueryClient } from '@tanstack/react-query';

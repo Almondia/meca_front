@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { createQueryClientWrapper } from '../utils';
+import { createQueryClientWrapper } from '../../utils';
 import { mockedGetCategoryLikeState, mockedPostCategoryLike, mockedPostCategoryUnlike } from '@/mock/api';
 import { restHandler } from '@/mock/handlers';
 import { implementServer } from '@/mock/server';
@@ -31,6 +31,18 @@ describe('useCategoryLike', () => {
     });
     await waitFor(() => {
       expect(result.current.hasLike).toBeTruthy();
+      expect(result.current.likeCount).toEqual(INITIAL_COUNT);
+    });
+  });
+
+  it('사용자에 대한 해당 카테고리 추천 정보 조회 실패 시 기본값이 리턴된다.', async () => {
+    implementServer([restHandler(() => mockedGetCategoryLikeState(true), { status: 400 })]);
+    (useRecoilValue as jest.Mock).mockReturnValue(true);
+    const { result } = renderHook(() => useCategoryLike(CATEGORY_ID, INITIAL_COUNT), {
+      wrapper: createQueryClientWrapper(),
+    });
+    await waitFor(() => {
+      expect(result.current.hasLike).toBeFalsy();
       expect(result.current.likeCount).toEqual(INITIAL_COUNT);
     });
   });

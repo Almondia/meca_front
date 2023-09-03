@@ -1,8 +1,10 @@
-import useQuizPhase from '@/hooks/quiz/useQuizPhase';
-import { QuizPhase } from '@/types/domain/quiz';
 import { renderHook, waitFor } from '@testing-library/react';
+
+import type { QuizPhase } from '@/types/domain/quiz';
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+
+import useQuizPhase from '@/hooks/quiz/useQuizPhase';
 
 jest.mock('recoil', () => ({
   useRecoilValue: jest.fn(),
