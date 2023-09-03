@@ -1,110 +1,61 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from 'next/dynamic';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useMemo } from 'react';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import type { QuizPhase, QuizSucceedType } from '@/types/domain/quiz';
 
-import { QuizPhase, QuizSucceedType } from '@/types/domain/quiz';
-
-import { quizPhaseState, quizTimeState } from '@/atoms/quiz';
-import LoadSpinner from '@/components/@common/atoms/LoadSpinner';
 import PostSection from '@/components/@common/molecules/PostSection';
 import QuizPlayFallback from '@/components/quiz/molecules/QuizPlayFallback';
 import QuizPlayHeader from '@/components/quiz/organisms/QuizPlayHeader';
 import QuizPlayResultDashBoard from '@/components/quiz/organisms/QuizPlayResultDashboard';
+import useQuizPhase from '@/hooks/quiz/useQuizPhase';
+import useQuizPhaseScrollControl from '@/hooks/quiz/useQuizPhaseScrollControl';
 import useQuizResult from '@/hooks/quiz/useQuizResult';
-import useCount from '@/hooks/useCount';
-import useScrollIntoView from '@/hooks/useScrollIntoView';
 import { Devide, PostPageLayout } from '@/styles/layout';
 
 const TimerBar = dynamic(() => import('@/components/@common/molecules/TimerBar'), { ssr: false });
 const QuizRetryButtonGroup = dynamic(() => import('@/components/quiz/molecules/QuizRetryButtonGroup'), { ssr: false });
+const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), { ssr: false });
 const QuizPlayResultTimeline = dynamic(() => import('@/components/quiz/organisms/QuizPlayResultTimeline'), {
   ssr: false,
-});
-const QuizPost = dynamic(() => import('@/components/quiz/organisms/QuizPost'), {
-  ssr: false,
-  loading: () => <LoadSpinner width="100%" height="600px" />,
 });
 
 type QuizPhaseSucceedHandlerType = Omit<Record<QuizPhase, QuizSucceedType>, 'result'>;
 
 const QuizPage = () => {
-  const quizPhaseTime = useRecoilValue(quizTimeState);
-  const { quizList, solveQuiz, currentQuizResult, retryQuiz } = useQuizResult();
-  const { number: round, increaseNumber: setNextRound, resetNumber: resetRound } = useCount(1, 1, quizList.length);
-  const [quizPhase, setQuizPhase] = useRecoilState(quizPhaseState);
-  const quizSpendTimeRef = useRef<number>(0);
-  const [pageTopRef, scrollToTop] = useScrollIntoView<HTMLDivElement>();
+  const { quizList, applyQuizResult, currentQuizResult, refreshQuizResult } = useQuizResult();
+  const { round, quizPhase, maxQuizTime, progressNextQuiz, solveQuiz, endQuiz, retryQuiz } = useQuizPhase(
+    quizList.length,
+    applyQuizResult,
+  );
+  const scrollToTopTargetRef = useQuizPhaseScrollControl();
   const quizIndex = round - 1;
 
-  const nextQuizHandler = () => {
-    setNextRound(true);
-    setQuizPhase('progress');
-  };
-
-  const solveQuizHandler = useCallback(
-    (answer?: string) => {
-      if (!quizList[quizIndex]) {
-        return;
-      }
-      setQuizPhase(round === quizList.length ? 'end' : 'done');
-      solveQuiz({ cardId: quizList[quizIndex].cardId, spendTime: quizSpendTimeRef.current, answer: answer ?? '' });
-    },
-    [round, quizIndex],
-  );
-
-  const showQuizResultHandler = () => {
-    setQuizPhase('result');
-  };
-
-  useEffect(() => {
-    if (quizPhase === 'progress') {
-      scrollToTop({ block: 'start', behavior: 'smooth' });
-    }
-    if (quizPhase === 'result') {
-      scrollToTop({ block: 'start', behavior: 'auto' });
-    }
-    if (quizPhase !== 'progress') {
-      quizSpendTimeRef.current = 0;
-      return;
-    }
-    const timeoutId = setTimeout(() => {
-      solveQuizHandler('');
-    }, quizPhaseTime * 1000);
-    const intervalId = setInterval(() => {
-      quizSpendTimeRef.current += 1;
-    }, 1000);
-    // eslint-disable-next-line consistent-return
-    return () => {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
-    };
-  }, [quizPhase]);
-
-  const quizPhaseSucceed: QuizPhaseSucceedHandlerType = {
-    progress: {
-      succeedText: '정답제출',
-      succeedHandler: (answer?: string) => {
-        solveQuizHandler(answer);
+  const quizPhaseSucceed: QuizPhaseSucceedHandlerType = useMemo(
+    () => ({
+      progress: {
+        succeedText: '정답제출',
+        succeedHandler: (answer = '') => {
+          solveQuiz(answer);
+        },
       },
-    },
-    done: {
-      succeedText: '다음문제',
-      succeedHandler: nextQuizHandler,
-    },
-    end: {
-      succeedText: '결과보기',
-      succeedHandler: showQuizResultHandler,
-    },
-  };
+      done: {
+        succeedText: '다음문제',
+        succeedHandler: progressNextQuiz,
+      },
+      end: {
+        succeedText: '결과보기',
+        succeedHandler: endQuiz,
+      },
+    }),
+    [progressNextQuiz, endQuiz, solveQuiz],
+  );
 
   if (quizList.length === 0) {
     return <QuizPlayFallback />;
   }
   return (
-    <PostPageLayout ref={pageTopRef}>
+    <PostPageLayout ref={scrollToTopTargetRef}>
       <QuizPlayHeader
         quizCardTitle={quizList[quizIndex]?.title}
         quizCount={round}
@@ -113,7 +64,7 @@ const QuizPage = () => {
       />
       {quizPhase === 'result' ? (
         <>
-          <QuizPlayResultDashBoard maxQuizTime={quizPhaseTime} />
+          <QuizPlayResultDashBoard maxQuizTime={maxQuizTime} />
           <Devide />
           <PostSection>
             <PostSection.Title>Play Timeline</PostSection.Title>
@@ -123,16 +74,13 @@ const QuizPage = () => {
           </PostSection>
           <QuizRetryButtonGroup
             onRetry={(optionScore: number) => {
-              retryQuiz(optionScore, () => {
-                setQuizPhase('progress');
-                resetRound();
-              });
+              refreshQuizResult(optionScore, retryQuiz);
             }}
           />
         </>
       ) : (
         <>
-          <TimerBar second={quizPhase === 'progress' ? quizPhaseTime : undefined} />
+          <TimerBar second={quizPhase === 'progress' ? maxQuizTime : undefined} />
           <Devide />
           <QuizPost
             score={currentQuizResult?.score}
