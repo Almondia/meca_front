@@ -39,7 +39,7 @@ describe('WriteCardByCategoryIdPage', () => {
       },
     } as unknown as GetServerSidePropsContext;
     const { props } = (await getServerSideProps(mockedContext)) as any;
-    expect(props).toHaveProperty('errorMessage', '적절하지 않은 Meca Category로의 수정 페이지 접근');
+    expect(props).toHaveProperty('errorMessage', '잘못된 페이지 요청');
   });
 
   it('존재하지 않는 categoryId path로 접근하면 not found 처리된다.', async () => {

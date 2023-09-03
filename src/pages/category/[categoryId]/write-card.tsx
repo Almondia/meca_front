@@ -5,7 +5,6 @@ import mecaApi from '@/apis/mecaApi';
 import MetaHead from '@/components/@util/MetaHead';
 import MecaWrite from '@/components/meca/organisms/MecaWrite';
 import useMeca from '@/hooks/meca/useMeca';
-import useMecaCheckValid from '@/hooks/meca/useMecaCheckValid';
 import { ssrAspect } from '@/libs/renderAspect';
 import queryKey from '@/query/queryKey';
 import { PostPageLayout } from '@/styles/layout';
@@ -30,11 +29,11 @@ const WriteCardByCategoryIdPage = ({ categoryId, cardId = '' }: MecaWritePagePro
 export const getServerSideProps: GetServerSideProps = ssrAspect(async (context, queryClient) => {
   const categoryId = context.params?.categoryId;
   if (typeof categoryId !== 'string') {
-    throw { message: '적절하지 않은 Meca Category로의 수정 페이지 접근' };
+    throw { message: '잘못된 페이지 요청' };
   }
   const cardId = context.query?.cardId;
   await Promise.all([
-    useMecaCheckValid.checkValid(categoryId, queryClient),
+    queryClient.fetchQuery([queryKey.mecas, categoryId, 'count'], () => mecaApi.getCountByCategoryId(categoryId)),
     cardId &&
       typeof cardId === 'string' &&
       queryClient.prefetchQuery([queryKey.meca, cardId], () => mecaApi.getMyCardById(cardId)),
