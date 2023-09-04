@@ -34,7 +34,7 @@
 
 - [배포링크](https://app.mecastudy.com/)
 - [API Docs](https://mecastudy.com/docs/index.html)
-- [스토리북](https://www.chromatic.com/library?appId=6413033b2479feb7701e7dea)
+- [스토리북](https://6413033b2479feb7701e7dea-etusuklqhy.chromatic.com/?path=/story/components-common-atoms-avatar--default)
 - [Test Report](https://app.codecov.io/gh/Almondia/meca_front)
 - [개발기록](https://github.com/Almondia/meca_front/wiki/%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80)
 - [Figma 초안](https://www.figma.com/file/K5DFt69C1jpUrUVCa1CfZ4/Untitled?type=design&node-id=19-2127&mode=design)
