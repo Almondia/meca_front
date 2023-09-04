@@ -24,10 +24,7 @@ const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
   } = useQuery(
     [queryKey.quiz],
     async () => {
-      if (!quizInfo) {
-        return [];
-      }
-      const response = await mecaApi.getQuizCards(quizInfo);
+      const response = await mecaApi.getQuizCards(quizInfo as QuizListRequest);
       return response.sort(() => Math.random() - 0.5);
     },
     {
@@ -38,6 +35,7 @@ const useQuiz = (successHandler?: () => void, errorHandler?: () => void) => {
       },
       onError: () => {
         errorHandler?.();
+        setQuizInfo(undefined);
       },
     },
   );
