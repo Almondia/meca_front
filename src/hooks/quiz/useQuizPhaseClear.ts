@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { quizPhaseState, quizTimeState, quizTitleState } from '@/atoms/quiz';
 import queryKey from '@/query/queryKey';
 
-const useQuizHistoryClear = () => {
+const useQuizPhaseClear = () => {
   const queryClient = useQueryClient();
   const setQuizTime = useSetRecoilState(quizTimeState);
   const setQuizTitle = useSetRecoilState(quizTitleState);
@@ -18,4 +18,4 @@ const useQuizHistoryClear = () => {
   return clearQuizResult;
 };
 
-export default useQuizHistoryClear;
+export default useQuizPhaseClear;

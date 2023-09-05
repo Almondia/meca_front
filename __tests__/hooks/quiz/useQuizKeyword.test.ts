@@ -1,13 +1,16 @@
-import useQuizKeyword from '@/hooks/quiz/useQuizKeyword';
+import { createQueryClientWrapper } from '../../utils';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createQueryClientWrapper } from '../utils';
-import { QueryClient } from '@tanstack/react-query';
-import queryKey from '@/query/queryKey';
-import { Quiz } from '@/types/domain/quiz';
+
 import { implementServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import { mockedPostKeywords } from '@/mock/api';
+
+import { QueryClient } from '@tanstack/react-query';
+import queryKey from '@/query/queryKey';
+import { Quiz } from '@/types/domain/quiz';
+
 import statisticsApi from '@/apis/statisticsApi';
+import useQuizKeyword from '@/hooks/quiz/useQuizKeyword';
 
 describe('useQuizKeyword', () => {
   const MOCKED_QUIZLIST: Quiz[] = [
@@ -39,6 +42,14 @@ describe('useQuizKeyword', () => {
     await waitFor(() => result.current.fetchQuizPhaseKeywords());
     const { keywords } = result.current.quizPhaseKeywords;
     expect(keywords).toEqual(MOCKED_KEYWORDS);
+  });
+
+  it('fetchQuizPhaseKeyword 호출 시 quizList 상태가 없다면 fallback 키워드가 리턴된다.', async () => {
+    implementServer([restHandler(() => mockedPostKeywords(MOCKED_KEYWORDS))]);
+    const { result } = renderHook(() => useQuizKeyword(), { wrapper: createQueryClientWrapper() });
+    await waitFor(() => result.current.fetchQuizPhaseKeywords());
+    const { keywords } = result.current.quizPhaseKeywords;
+    expect(keywords).toEqual({});
   });
 
   it('quiz keyword api 호출 실패 시 fallback 키워드가 리턴된다.', async () => {

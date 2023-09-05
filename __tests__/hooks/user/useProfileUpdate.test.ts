@@ -1,13 +1,15 @@
+import { createQueryClientWrapper } from '../../utils';
+
 import type { MyProfile } from '@/types/domain/user';
 
 import { renderHook, waitFor } from '@testing-library/react';
-import { createQueryClientWrapper } from '../utils';
-import { QueryClient } from '@tanstack/react-query';
-import queryKey from '@/query/queryKey';
-import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 import { implementServer, resetServer } from '@/mock/server';
 import { restHandler } from '@/mock/handlers';
 import { mockedPutImageUploadApi, mockedPutUserApi } from '@/mock/api';
+
+import { QueryClient } from '@tanstack/react-query';
+import queryKey from '@/query/queryKey';
+import useProfileUpdate from '@/hooks/user/useProfileUpdate';
 
 describe('useProfileUpdate', () => {
   const USER: MyProfile = {
