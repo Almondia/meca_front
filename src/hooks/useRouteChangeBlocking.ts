@@ -34,9 +34,9 @@ const useRouteChangeBlocking = (blockingCallback: () => void) => {
   );
 
   const offRouteChangeBlocking = useCallback(
-    (offBlockingCallback?: () => void) => {
+    async (offBlockingCallback?: () => void) => {
       router.events.off('routeChangeStart', handleRouterChangeStart);
-      router.replace(requestedUrl);
+      await router.replace(requestedUrl);
       offBlockingCallback?.();
     },
     [handleRouterChangeStart, requestedUrl, router],
