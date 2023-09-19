@@ -3,6 +3,9 @@ import Image from 'next/image';
 
 import { useEffect } from 'react';
 
+import { useRecoilValue } from 'recoil';
+
+import { hasAuthState } from '@/atoms/common';
 import Button from '@/components/@common/atoms/Button';
 import MetaHead from '@/components/@util/MetaHead';
 import useModal from '@/hooks/useModal';
@@ -19,10 +22,11 @@ interface UnauthorizedProps {
 const Unauthorized = ({ message }: UnauthorizedProps) => {
   const { visible, open, close } = useModal();
   const { logout } = useLogout();
+  const hasAuth = useRecoilValue(hasAuthState);
 
   useEffect(() => {
-    logout();
-  }, [logout]);
+    hasAuth && logout();
+  }, [hasAuth, logout]);
 
   return (
     <>
