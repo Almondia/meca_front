@@ -68,6 +68,17 @@ describe('imageHandler', () => {
       const result = extractFirstImageFromHTML(tags, 'https://my-meca.s3.ap1111111');
       expect(result).toBeUndefined();
     });
+
+    it('이스케이프 처리 된 html 태그 문자열에서 첫 img 태그의 정보를 추출할 수 있다.', () => {
+      const tags =
+        '["<p><img loading=\\"lazy\\" alt=\\"1693900037205\\" src=\\"https://my-meca.s3.ap-northeast-2.amazonaws.com/0ddgcmzyjqsgr/card/1693900037205.png\\" width=\\"585\\" height=\\"358\\" srcset=\\" /_next/image?url=https%3A%2F%2Fmy-meca.s3.ap-northeast-2.amazonaws.com%2F0ddgcmzyjqsgr%2Fcard%2F1693900037205.png&amp;w=384&amp;q=75 450w, /_next/image?url=https%3A%2F%2Fmy-meca.s3.ap-northeast-2.amazonaws.com%2F0ddgcmzyjqsgr%2Fcard%2F1693900037205.png&amp;w=576&amp;q=75 700w, /_next/image?url=https%3A%2F%2Fmy-meca.s3.ap-northeast-2.amazonaws.com%2F0ddgcmzyjqsgr%2Fcard%2F1693900037205.png&amp;w=732&amp;q=75 1000w,\\" temp-width=\\"585\\"></p><p>이 선수의 이름은?</p>","모하메드 살라","버질 반다이크","루이스 디아즈","로버트슨"]';
+      const result = extractFirstImageFromHTML(tags, 'https://my-meca.s3.ap-northeast-2.amazonaws.com');
+      expect(result?.src).toEqual(
+        'https://my-meca.s3.ap-northeast-2.amazonaws.com/0ddgcmzyjqsgr/card/1693900037205.png',
+      );
+      expect(result?.width).toEqual(585);
+      expect(result?.height).toEqual(358);
+    });
   });
 
   describe('validImageFile', () => {

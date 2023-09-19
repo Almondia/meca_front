@@ -27,7 +27,7 @@ export const extractFirstImageFromHTML = (htmlString: string, remoteUrl?: string
     `<img\\s+[^>]*src\\s*=\\s*['"](?=.*${remoteUrl ?? REMOTE_IMAGE_URL})([^'"]*)['"][^>]*>`,
     'gi',
   );
-  const match = regex.exec(htmlString);
+  const match = regex.exec(htmlString.replaceAll('\\', ''));
   if (!match) {
     return undefined;
   }

@@ -18,7 +18,7 @@ const useQuizPhase = (
   const progressNextQuiz = useCallback(() => {
     setNextRound(true);
     setQuizPhase('progress');
-  }, []);
+  }, [setNextRound]);
 
   const solveQuiz = useCallback(
     (answer: string) => {
@@ -31,7 +31,7 @@ const useQuizPhase = (
   const retryQuiz = useCallback(() => {
     setQuizPhase('progress');
     resetRound();
-  }, []);
+  }, [resetRound]);
 
   const endQuiz = useCallback(() => {
     setQuizPhase('result');
